@@ -1,0 +1,162 @@
+
+/* dashboard-content */
+.dashboard-content{
+  
+  margin-left: 260px;
+  transition: margin 0.3s ease;
+  padding-left: 30px;
+  padding-top: 90px;
+}
+
+.dashboard-content.content-minimized {
+  margin-left: 105px;
+}
+
+.welcome{
+  color: #0174CF;
+}
+
+
+.summary {
+  display: flex;
+  width: 100%;
+}
+
+.summary-item {
+  width: 150px;
+  background-color: #fff;
+  padding:  10px 20px;
+  margin: 0px 7px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.summary-title{
+  font-size: 12px;
+  font-weight: 500;
+  color: rgb(80, 80, 80);
+}
+
+.summary-value{
+  color: #0174CF;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.time-date-container{
+  width: 300px;
+  background-color: #fff;
+  padding: 20px;
+  margin: 0px 7px;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.time{
+  font-size: 28px;
+  font-weight: bold;
+
+}
+.date{
+  font-weight: 600;
+}
+
+/* second content */
+
+.second-content{
+  display: flex;
+  width: 100%;
+}
+
+.left-content{
+  margin-bottom: 20px;
+}
+
+.delivery {
+  background-color: #fff;
+  padding: 13px 20px;
+  margin: 10px 7px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.delivery-text{
+  margin: 0;
+  color: #0174CF;
+  margin-left: 10px;
+}
+
+.delivery-item-container{
+  display: flex;
+  justify-content: space-between;
+}
+
+.delivery-item {
+  display: flex;
+  align-items: center;
+  width:193px;
+  background-color: #fff;
+  padding: 15px 20px;
+  margin: 10px;
+  border-radius: 8px;
+  border: 1px solid #C4E5FF;
+}
+
+.delivery-image{
+  width: 43px;
+  margin-right: 10px;
+}
+
+.delivery-title{
+  font-size: 14px;
+  font-weight: 500;
+  color: #0174CF;
+}
+
+.delivery-value{
+  font-weight: 500;
+  font-size: 22px;
+  color: #0174CF;
+}
+
+/* graph */
+.graph-container{
+  height: 200px;
+  background-color: #fff;
+  padding: 20px;
+  margin: 10px;
+  margin-right: 7px;
+  margin-left: 5px;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.graph-container p {
+  margin: 0;
+  font-weight: bold;
+  color: #0174CF;
+}
+
+/* --- */
+
+.returned-gallon-container{
+  width: 300px;
+  height: 200px;
+  background-color: #fff;
+  padding: 20px;
+  margin: 10px;
+  margin-left: 5px;
+  text-align: center;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.returned-gallon-container p{
+  margin: 0;
+  font-weight: bold;
+
+}

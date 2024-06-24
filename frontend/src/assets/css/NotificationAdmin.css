@@ -1,0 +1,60 @@
+
+ /* notification content */
+
+ .notification-container{
+  background-color: white;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 10px 30px;
+ }
+
+ .notification-title{
+  color: #0174CF;
+ }
+
+ .notification-earlier{
+  margin-bottom: 7px;
+ }
+ 
+ .notification-details {
+  padding: 10px 80px;
+  border-radius: 4px;
+  margin-bottom: 7px;
+  position: relative;
+  cursor: pointer;
+}
+
+.new-notification{
+  background: rgba(193, 193, 193,0.2);
+}
+.new-notification .blue-circle {
+  width: 10px;
+  height: 10px;
+  background-color: rgb(22, 115, 237);
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+ .notification-subject{
+  color: #0174CF;
+  font-weight: bold;
+  font-size: 14px;
+  margin: 0;
+ }
+ 
+ .notification-description{
+  font-weight: 500;
+  font-size: 12px;
+  margin: 0;
+  margin-top: 3px;
+ }
+
+ .notification-time{
+  font-size: 10px;
+  font-weight: 500;
+  color: #a3a3a3;
+  margin-top: 6px;
+}
+
+

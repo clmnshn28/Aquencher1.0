@@ -1,0 +1,195 @@
+
+/* account content */
+.bgaccount-container{
+  background-color:#EEF7FF;
+  min-height: 120vh; 
+  padding-bottom: 20px;
+}
+
+
+.account-settings-container{
+  background-color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+  margin:0 250px 20px 180px;
+  border-radius: 5px;
+  padding: 10px 0px;
+  height: 130px;
+  position: relative;
+}
+
+.account-settings-header-text{
+  font-size: 30px;
+  padding-left: 45px;
+  color: #007bff;
+}
+
+.account-settings-profile-text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 600;
+  top: 64%;
+  left:6%;
+  padding-bottom: 15px;
+  color: #007bff;
+  border-bottom: 4px solid #007bff;
+}
+
+.account-settings-password-text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 500;
+  top: 64%;
+  left:18%;
+  padding-bottom: 15px;
+  color: #626262;
+}
+
+.account-settings-archive-text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 500;
+  top: 64%;
+  right: 6%;
+  padding-bottom: 15px;
+  color: #FF0303;
+}
+
+
+/* edit details */
+.admin-account-edit-container{
+  background-color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+  margin:0 250px 0px 180px;
+  border-radius: 5px;
+  padding: 40px;
+}
+
+
+.edit-account-container{
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 15px 30px;
+  margin-bottom: 25px;
+  border-radius: 15px;
+  border: 2px solid rgba(160, 160, 160,0.3);
+}
+
+.edit-profile-image{
+  width: 100px;
+  border-radius: 50%;
+}
+
+.name-username-container{
+  margin-left: 20px;
+}
+
+.name-admin-account{
+  margin: 0;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.username-admin-account{
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #555252;
+}
+
+
+.button-edit-profile-image{
+  position: absolute;
+  right: 3%;
+  top: 40%;
+  padding: 5px 15px;
+  border-radius: 30px;
+  border: 2px solid  rgba(0, 0, 0, 0.3);
+  background-color: #FFFFFF;
+  color: #454343;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: "poppins";
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+.edit-profile-button-icon{
+  width: 20px;
+  margin-left: 5px;
+}
+
+.button-edit-profile-image:hover{
+  background-color: #f5f5f5;
+}
+
+.button-edit-profile-image:active{
+  opacity: 0.5;
+}
+
+/* personal info */
+.edit-header-info{
+  margin-top: 3px;
+}
+
+.personal-info, .address-info{
+  width: 100%;
+}
+
+.info-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.info-item {
+  flex: 1 1 48%;
+  margin: 10px 0;
+}
+
+.info-detail-name {
+  display: block;
+  font-size: 14px;
+  color: #626262;
+  margin-bottom: 0;
+}
+
+.info-details-editable{
+  font-size: 16px;
+  font-weight: bold;
+  color: #5e5e5e;
+  margin: 0;
+}
+
+.button-edit-personal-info{
+  position: absolute;
+  right: 3%;
+  top: 8%;
+  padding: 5px 15px;
+  border-radius: 30px;
+  border: 2px solid  rgba(0, 0, 0, 0.3);
+  background-color: #FFFFFF;
+  color: #454343;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: "poppins";
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+.edit-profile-button-icon{
+  width: 20px;
+  margin-left: 5px;
+}
+
+.button-edit-personal-info:hover{
+  background-color: #f5f5f5;
+}
+
+.button-edit-personal-info:active{
+  opacity: 0.5;
+}

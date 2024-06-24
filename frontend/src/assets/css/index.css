@@ -1,0 +1,387 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+}
+
+.dashboard-container{
+  background-color: #EEF7FF;
+  min-height: 100vh; 
+}
+
+.dashboard-header{
+  background-color: #fff;
+  display: flex;
+  height: 70px;
+  left: 0;
+  right: 0;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid rgba(128, 128, 128, 0.2);
+  position: fixed;
+  z-index: 2; 
+}
+
+.Aquencher-Logo{
+  width: 100px;
+  margin-left: 100px;
+}
+
+.admin-profile{
+  margin-right: 100px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+
+
+.Notification{
+  margin-right: 25px;
+  width: 40px;
+  cursor: pointer;
+}
+
+.notifications-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.see-all-button {
+  color: #007bff;
+  cursor: pointer;
+  font-size: 13px;
+  text-decoration: underline;
+}
+
+.notifications-view {
+  position: absolute;
+  top: 75%;
+  right: 230px;
+  width: 350px;
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 15px;
+  z-index: 1000;
+}
+
+.notification-title-header{
+  color: #0174CF;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0;
+ }
+
+ .notification-earlier-header{
+  margin: 0;
+  margin-top: 5px;
+  font-size: 15px;
+  font-weight: bold;
+ }
+ 
+ .notification-details-header {
+  padding: 10px 10px 10px 50px;
+  border-radius: 4px;
+  margin-bottom: 7px;
+  position: relative;
+  cursor: pointer;
+}
+
+.notification-details-header:hover {
+  background-color: rgba(200, 200, 200,0.3);
+}
+
+.new-notification{
+  background: rgba(193, 193, 193,0.2);
+}
+
+.new-notification .blue-circle {
+  width: 10px;
+  height: 10px;
+  background-color: rgb(22, 115, 237);
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+ .notification-subject-header{
+  color: #0174CF;
+  font-weight: bold;
+  font-size: 13px;
+  margin: 0;
+ }
+ 
+ .notification-description-header{
+  font-weight: 500;
+  font-size: 11px;
+  margin: 0;
+  margin-top: 3px;
+ }
+
+ .notification-time-header{
+  font-size: 10px;
+  font-weight: 500;
+  color: #a3a3a3;
+  margin-top: 6px;
+}
+
+
+.user-profile-container{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.profile{
+  margin-right: 8px;
+  border-radius: 50px;
+  width: 43px;
+}
+
+.name{
+  font-weight: 500;  
+  color: #626262;
+}
+
+.dropArrow{
+  width: 15px;
+  background-color: rgba(213, 213, 213,0.3);
+  padding: 6px 3px;
+  border-radius: 50px;
+  margin-left: 5px;
+}
+
+.profile-dropdown {
+  position: absolute;
+  right: 10px;
+  top: 75%;
+  background: white;
+  border: 1px solid #ccc;
+  z-index: 1000;
+  width: 280px;
+  border-radius: 5px;
+  padding: 10px 10px;
+}
+
+
+.profile-dropdown a {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  text-decoration: none;
+  color: #2d2d2d;
+  padding-left: 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.profile-dropdown a:hover {
+  background-color: #f5f5f5;
+}
+.profile-name {
+  color: #3a3a3a; 
+  font-weight: 600;
+  font-size: 16px;
+  margin-left: 5px;
+}
+.link{
+  margin-bottom: 6px;
+  background-color: rgba(98, 98, 98,0.07);
+}
+
+.image-dropdown{
+  width: 43px;
+  border-radius: 50px;
+  margin-right: 10px;
+  
+}
+
+.setting-dropdown,.logout-dropdown{
+  width: 35px;
+  margin-right: 15px;
+  margin-left: 5px;
+}
+
+.side-bar {
+  background-color: #0A74DA;
+  width: 230px;
+  padding: 20px;
+  color: white;
+  margin-top: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  transition: width 0.3s ease;
+}
+
+.side-bar.minimized {
+  width: 65px; 
+  padding-top: 117px;
+}
+
+.sidebar-minimized .adminlogo,
+.sidebar-minimized .sidebar-text,
+.sidebar-minimized .sidebar-dropdown {
+  display: none; 
+}
+
+
+
+.side-bar ul{
+  list-style: none;
+  padding: 0; 
+}
+
+.side-bar li{
+  display: flex;
+  align-items: center;
+ }
+ 
+.link-sidebar{
+  margin: 10px 0;
+  padding: 8px 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease; 
+}
+
+.link-sidebar:not(.highlighted):hover {
+  background-color: rgba(77, 77, 77, 0.1);
+  border-radius: 5px;
+  padding: 8px 10px;
+}
+
+.side-bar a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.adminlogo{
+  width: 60px;
+  margin-left: 80px;
+  margin-top: 30px;
+}
+
+.sidebaricon{
+  width: 25px;
+  margin-right: 20px;
+  margin-left: 10px;
+}
+
+.sidebar-dropdown{
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  margin-left: 70px;
+}
+
+.highlighted{
+  background-color: #EEF7FF;
+  border-radius: 5px;
+  padding: 8px 10px;
+  padding-left: 10px;
+}
+
+.sub-highlighted-delivery{
+  background-color: rgba(77, 77, 77, 0.1);
+  border-radius: 5px;
+  padding: 8px 10px;
+  padding-left: 10px;
+}
+
+.link-sidebar.highlighted .sidebar-text {
+  color: #0A74DA;
+  font-weight: 600;
+}
+.sub-delivery{
+  margin-bottom: 0;
+  
+}
+/* sub sudebar */
+
+.sub-sidebar{
+  border-left: 4px solid #EEF7FF;
+  margin-left: 30px;
+}
+
+.sub-sidebar.selected{
+  border-left: 4px solid #0094FF;
+}
+
+/* sub highlight */
+.sub-highlighted{
+  background-color: #EEF7FF;
+}
+
+.task-container {
+  display: flex;
+  align-items: center;
+  width: 170px;
+  margin-top: 5px;
+  margin-left: 5px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.task-container:hover{
+  background-color: rgba(77, 77, 77, 0.1);
+  border-radius: 5px;
+
+}
+
+.sub-highlighted .sidebar-text {
+  color: #0A74DA;
+  font-weight: 600;
+}
+
+.sub-sidebaricon{
+  width: 25px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.account-settings-icon{
+  width: 20px;
+}
+
+.account-settings-text{
+  font-size: 13px;
+}
+
+/* toggle sidebar */
+
+.sidebar-toggle-button{
+ width: 30px;
+ height: 40px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ position: absolute;
+ top:62px;
+ right: 0;
+ border-bottom-right-radius:0;
+ border-top-right-radius:0;
+ border-bottom-left-radius:10px;
+ border-top-left-radius:10px;
+ background-color: rgba(158, 203, 255,0.7);
+ border: none;
+ cursor: pointer;
+}
+
+.sidebar-toggle-button img{
+  width: 25px;
+}
+
+
+
+

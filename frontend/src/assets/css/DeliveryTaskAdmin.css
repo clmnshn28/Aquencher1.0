@@ -1,0 +1,113 @@
+
+ /*-- delivery task content --*/
+
+ .delivery-header {
+  background-color: #FFFFFF;
+  margin:0 40px 20px 10px;
+  height: 130px;
+  padding: 5px 30px;
+  font-size: 20px;
+  border-radius: 5px;
+  color: #007bff;
+  position: relative;
+}
+
+.delivery-header-text{
+  padding-left: 15px;
+}
+
+.delivery-queue-link{
+  color: inherit;
+  text-decoration: none;
+}
+
+.delivery-queue-text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 600;
+  top: 66%;
+  left:4%;
+  padding-bottom: 10px;
+  border-bottom: 4px solid #007bff;
+}
+
+.delivery-request-link{
+  color: inherit;
+  text-decoration: none;
+}
+
+.delivery-request-text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 500;
+  top: 66%;
+  left:17%;
+  padding-bottom: 10px;
+  color: #626262;
+}
+
+/* table */
+
+.queue-container{
+  background-color: #FFFFFF;
+  margin: 0 40px 20px 10px;
+  border-radius: 5px;
+  padding: 20px 10px;
+}
+
+.queue-table-header{
+  background-color: #0174CF;
+  color: white;
+  padding: 5px 30px;
+}
+
+.queue-table {
+  width: 90%;
+  border-collapse: collapse;
+  background-color: #FFFFFF;
+  margin-left: 10px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.queue-table th{
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+ .queue-table td {
+  padding: 5px 10px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+
+.queue-date-time div {
+  display: block;
+  font-size: 12px;
+}
+
+.status-complete {
+  color: white;
+  background-color: #0174CF;
+  padding: 5px;
+  border: 2px solid #C4E5FF;
+  border-radius: 50px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+.status-complete:hover{
+  background-color: #0068bd;
+}
+
+.status-complete:active{
+  opacity:0.2;
+}
+
+.status-completed {
+  color: #ccc;
+  text-align: center;
+}

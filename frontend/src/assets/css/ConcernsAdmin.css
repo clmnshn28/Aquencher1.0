@@ -1,0 +1,111 @@
+
+/* concerns content */
+
+
+.concerns-container{
+  background-color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+  margin:0 40px 20px 10px;
+  border-radius: 5px;
+  padding: 5px 0px;
+}
+
+.concerns-header{
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  border-bottom: 1px solid #D1D1D1;
+}
+
+.concerns-header-text{
+  font-size: 30px;
+  padding-left: 45px;
+  color: #007bff;
+}
+
+/* filter concern */
+.concerns-filter-dropdown{
+  background-color: #ffffff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 2px solid #D3D9DA;
+  position: relative;
+  cursor: pointer;
+  width: 90px;
+}
+
+.final-concern-filter{
+  color: #626262;
+}
+
+.concern-filter-open{
+  width: 10px;
+  position: absolute;
+  top: 13px;
+  right: 13px;
+}
+
+.filter-options {
+  position: absolute;
+  left: 0px;
+  top: 26px;
+  width: 107px;
+  background-color: white;
+  border: 2px solid #D3D9DA;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 8px;
+  z-index: 1;
+}
+
+.selected-concern-list{
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.selected-concern {
+  background-color: #dfdfdf;
+}
+
+.selected-concern-list:not(.selected-concern):hover{
+  background-color: #f1f1f1;
+}
+
+/* Concerns List content */
+.concerns-list {
+  margin-top: 20px;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.concern-item {
+  display: flex;
+  align-items: start;
+  padding: 20px 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.concern-avatar {
+  width: 50px;
+  height: 50px;
+  background-color: #ddd;
+  border-radius: 50%;
+  margin-right: 15px;
+}
+
+.concern-name {
+  font-weight: bold;
+  margin: 0;
+  color: #333;
+}
+
+
+.concern-message {
+  font-size: 14px;
+  margin: 5px 0;
+  color: #666;
+}
+
+.concern-time {
+  font-size: 11px;
+  color: #888888;
+}

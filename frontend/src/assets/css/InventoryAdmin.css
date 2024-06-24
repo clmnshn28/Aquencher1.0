@@ -1,0 +1,174 @@
+
+/* --Inventory content-- */
+
+.inventory-header{
+  background-color: #FFFFFF;
+  margin-right: 40px;
+  margin-left: 10px;
+  /* height: 260px; */
+  padding: 5px 0px;
+  font-size: 20px;
+  border-radius: 5px;
+  color: #007bff;
+}
+
+.inventory-header-text{
+  padding-left: 45px;
+}
+
+.total-gallon-container{
+  background-color: #FFFFFF;
+  border-top: 1px solid #D1D1D1;
+  padding: 25px 50px;
+}
+
+/* slim */
+.slim-gallon-container{
+  width: 35em;
+  background-color: #C4E5FF;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.final-total-slim{
+  width: 200px;
+  border-right: 1px solid #0174CF;
+  padding: 0px 8px;
+}
+
+.final-total-slim-text{
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+.final-total-slim-value{
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* slim content */
+
+.slim-content{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.final-total-container{
+  background-color: #FFFFFF;
+  width: 7em;
+  border: 2px solid #0174CF;
+  border-radius: 5px;
+  padding: 3px 5px;
+}
+
+.final-total-text{
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: #626262;
+}
+
+.final-total-value{
+  margin: 0;
+  margin-top: 2px;
+  font-size: 19px;
+  font-weight: 500;
+}
+
+/* round */
+
+.round-gallon-container{
+  width: 35em;
+  background-color: #C4E5FF;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.final-total-round{
+  width: 200px;
+  padding: 0px 8px;
+  border-right: 1px solid #0174CF;
+}
+
+.final-total-round-text{
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+
+.final-total-round-value{
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* round content */
+
+.round-content{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+
+/* inventory table content */
+
+.inventory-table-container{
+  background-color: #FFFFFF;
+  margin: 20px 40px 20px 10px;
+  border-radius: 5px;
+  padding: 20px 30px;
+}
+
+.inventory-table{
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #FFFFFF;
+  border: 1px solid #009BBD;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.inventory-table-header{
+  background-color: #0174CF;
+  color: white;
+  padding: 5px 30px;
+}
+
+.inventory-table th{
+  padding: 10px 30px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.inventory-table td {
+  padding: 25px 30px;
+  text-align: left;
+  border-bottom: 1px solid #009BBD;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.name-gallon{
+  color: #626262;
+}
+
+.inventoryDots{
+  width: 30px;
+}
