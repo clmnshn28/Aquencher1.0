@@ -333,10 +333,9 @@ body {
   border-radius: 5px;
 }
 
-.task-container:hover{
+.task-container:not(.sub-highlighted):hover{
   background-color: rgba(77, 77, 77, 0.1);
   border-radius: 5px;
-
 }
 
 .sub-highlighted .sidebar-text {
@@ -383,5 +382,14 @@ body {
 }
 
 
+.dashboard-content{
+  
+  margin-left: 260px;
+  transition: margin 0.3s ease;
+  padding-left: 30px;
+  padding-top: 90px;
+}
 
-
+.dashboard-content.content-minimized {
+  margin-left: 105px;
+}

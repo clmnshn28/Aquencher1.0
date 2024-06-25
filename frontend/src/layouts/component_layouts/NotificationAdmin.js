@@ -1,11 +1,13 @@
-import "../../assets/css/index.css"
+import "../../assets/css/NotificationAdmin.css"
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import loginLogo from '../../assets/images/loginLogo.png';
 import notificationClose from '../../assets/images/notificationClose.png';
+import notificationIconOpen from '../../assets/images/notification-open.png';
 import defaultAvatar from '../../assets/images/default-avatar.jpg';
 import dashboardIconOpen from '../../assets/images/dashboard-open.png';
+import dashboardIconClose from '../../assets/images/dashboard.png';
 import notificationIcon from '../../assets/images/notification.png';
 import usersIcon from '../../assets/images/users.png';
 import deliveryIcon from '../../assets/images/delivery.png';
@@ -31,7 +33,7 @@ import editProfile from '../../assets/images/edit-profile.png';
 import sidebarDropdownClose from '../../assets/images/close-sub-sidebar.png';
 import sidebarDropdownOpen from '../../assets/images/open-sub-sidebar.png';
 
-const DashboardAdmin = () => {
+const NotificationAdmin = () => {
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -127,7 +129,7 @@ const DashboardAdmin = () => {
     <div className="dashboard-header">
       <img className="Aquencher-Logo" src={loginLogo} alt="Aquencher Logo" />
       <div className="admin-profile">
-        <img className="Notification" src={notificationClose} alt="Notification"  onClick={toggleNotifications}  />
+         <img className="Notification" src={notificationClose} alt="Notification"  onClick={toggleNotifications}  />
         {notificationsVisible && (
         <div className="notifications-view">
           <div className="notifications-header">
@@ -175,15 +177,15 @@ const DashboardAdmin = () => {
       </button>
       <img className="adminlogo" src={adminLogo} alt="AdminLogo" />
       <ul>
-        <Link to="/Dashboard" className='link-sidebar highlighted'>
+        <Link to="/Dashboard" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={dashboardIconOpen} alt="Dashboard" />
+            <img className="sidebaricon" src={dashboardIconClose} alt="Dashboard" />
             <span className="sidebar-text">Dashboard</span>
           </li>
         </Link>
-        <Link to="/Notifications" className='link-sidebar'>
+        <Link to="/Notifications" className='link-sidebar highlighted'>
           <li>
-            <img className="sidebaricon" src={notificationIcon} alt="Notifications" />
+            <img className="sidebaricon" src={notificationIconOpen} alt="Notifications" />
             <span className="sidebar-text">Notifications</span>
           </li>
         </Link>
@@ -272,11 +274,22 @@ const DashboardAdmin = () => {
       </ul>
     </div>
     <div className={`dashboard-content ${sidebarMinimized ? 'content-minimized' : ''}`}>
-    
+      <div className="notification-container">
+        <h2 className="notification-title">Notifications</h2>
+        <h3 className="notification-earlier">Earlier</h3>
+        {notifications.map((notification, index) => (
+          <div key={index} className={`notification-details ${notification.isNew ? 'new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
+            <p className="notification-subject">{notification.subject}</p>
+            <p className="notification-description">{notification.description}</p>
+            <p className="notification-time">{notification.time}</p>
+            {notification.isNew && <div className="blue-circle"></div>}
+          </div>
+        ))}
+      </div>
     </div>
 
   </div>
   );
 };
 
-export default DashboardAdmin;
+export default NotificationAdmin;

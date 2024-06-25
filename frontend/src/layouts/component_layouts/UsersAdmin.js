@@ -1,19 +1,23 @@
-import "../../assets/css/index.css"
+import "../../assets/css/UsersAdmin.css"
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import NewUserModal from '../modal_layouts/NewUserModal'; 
+import DeactivationModal from '../modal_layouts/DeactivationModal';
 
 import loginLogo from '../../assets/images/loginLogo.png';
 import notificationClose from '../../assets/images/notificationClose.png';
 import defaultAvatar from '../../assets/images/default-avatar.jpg';
 import dashboardIconOpen from '../../assets/images/dashboard-open.png';
-import notificationIcon from '../../assets/images/notification.png';
+import dashboardIconClose from '../../assets/images/dashboard.png';
+import notificationIconClose from '../../assets/images/notification.png';
 import usersIcon from '../../assets/images/users.png';
-import deliveryIcon from '../../assets/images/delivery.png';
-import transactionIcon from '../../assets/images/transactions.png';
-import inventoryIcon from '../../assets/images/inventory.png';
-import announcementsIcon from '../../assets/images/announcement.png';
-import concernsIcon from '../../assets/images/concerns.png';
-import accountIcon from '../../assets/images/account.png';
+import usersIconOpen from '../../assets/images/users-open.png';
+import deliveryIconClose from '../../assets/images/delivery.png';
+import transactionIconClose from '../../assets/images/transactions.png';
+import inventoryIconClose from '../../assets/images/inventory.png';
+import announcementsIconClose from '../../assets/images/announcement.png';
+import concernsIconClose from '../../assets/images/concerns.png';
+import accountIconClose from '../../assets/images/account.png';
 import adminLogo from '../../assets/images/AdminLogo.png';
 import sidebarButton from '../../assets/images/sidebar-button.png';
 import sidebarButtonOpen from '../../assets/images/sidebar-button-open.png';
@@ -22,16 +26,20 @@ import queue from '../../assets/images/queue.png';
 import dropArrow from '../../assets/images/dropArrow.png';
 import logoutDropdown from '../../assets/images/logout-dropdown.png';
 import accountSettingDropdown from '../../assets/images/account-dropdown.png';
-import deliveryTaskOpen from '../../assets/images/task-open.png'; 
-import deliveryTaskClose from '../../assets/images/task.png'; 
-import deliveryRequestClose from '../../assets/images/concerns.png';
-import accountSettingIconOpen from '../../assets/images/settings-open.png';
-import accountSettingIconClose from '../../assets/images/settings.png';
-import editProfile from '../../assets/images/edit-profile.png';
+import searchIcon from '../../assets/images/search-icon.png';
+import filterIcon from '../../assets/images/filter-icon.png';
+import searchBlackIcon from '../../assets/images/black-search-icon.png';
+import userDots from '../../assets/images/user-dots.png';
+
+import deliveryIcon from '../../assets/images/delivery.png';
 import sidebarDropdownClose from '../../assets/images/close-sub-sidebar.png';
 import sidebarDropdownOpen from '../../assets/images/open-sub-sidebar.png';
+import deliveryTaskClose from '../../assets/images/task.png'; 
+import deliveryRequestClose from '../../assets/images/concerns.png';
+import accountIcon from '../../assets/images/account.png';
+import accountSettingIconClose from '../../assets/images/settings.png';
 
-const DashboardAdmin = () => {
+const UsersAdmin = () => {
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -42,11 +50,27 @@ const DashboardAdmin = () => {
     { subject: 'Borrow Request', description: 'John Smith requested to borrow 2 gallons of Po\'s Purified Dispenser Bottle Refill 18.9L', time: '12 minutes ago', isNew: false },
     { subject: 'System Update', description: 'System will be offline temporarily. Update is scheduled for tomorrow at 10:00 AM. Please plan your tasks accordingly.', time: '12 minutes ago', isNew: false },
   ]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [selectAll, setSelectAll] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const users = [
+    { fullName: 'Karen Joyce Joson', username: '@karenjoycrjoson', phone: '09123892012', address: '12 Everlasting St. Bulihan', dateRegistered: 'January 5, 2024', status: 'Active', avatar: defaultAvatar },
+    { fullName: 'Celmin Shane Quizon', username: '@clmnshn', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: defaultAvatar },
+    { fullName: 'Miguel Angelo Barruga', username: '@barrugs', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: defaultAvatar },
+    { fullName: 'Francis Harvey Soriano', username: '@harvey', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: defaultAvatar },
+  ];
+  const [filteredUsers, setFilteredUsers] = useState(users);
+  const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
+  const [searchNotFound, setSearchNotFound] = useState(false);
+  const [activeDropdownIndex, setActiveDropdownIndex] = useState(null);
+  const [isDeactivationModalOpen, setIsDeactivationModalOpen] = useState(false); 
+
   const [subDeliverySidebarVisible, setSubDeliverySidebarVisible] = useState(false);
   const [highlightedDeliveryTab, setHighlightedDeliveryTab] = useState('');
   const [subAccountSidebarVisible, setSubAccountSidebarVisible] = useState(false);
   const [highlightedAccountTab, setHighlightedAccountTab] = useState('');
   const [lastOpenedDropdown, setLastOpenedDropdown] = useState(null);
+
 
   const toggleSidebar = () => {
 
@@ -121,8 +145,54 @@ const DashboardAdmin = () => {
     }
   };
 
-  return (
 
+  const handleSelectAll = () => {
+    setSelectAll(!selectAll);
+    if (!selectAll) {
+      setSelectedUsers(users.map((_, index) => index));
+    } else {
+      setSelectedUsers([]);
+    }
+  };
+  
+  const handleCheckboxChange = (index) => {
+    if (selectedUsers.includes(index)) {
+      setSelectedUsers(selectedUsers.filter((i) => i !== index));
+    } else {
+      setSelectedUsers([...selectedUsers, index]);
+    }
+  };
+
+  //filtering search
+  const handleSearchClick = () => {
+    setFilteredUsers(users.filter((user) =>
+      user.fullName.toLowerCase().includes(searchQuery.toLowerCase()) 
+    ));
+    
+  };
+
+  const handleAddUser = (newUser) => {
+    setFilteredUsers([...filteredUsers, { ...newUser }]);
+  };
+
+  const handleUserDotsClick = (index) => {
+    setActiveDropdownIndex(activeDropdownIndex === index ? null : index);
+  };
+
+    // Function to handle deactivation modal open
+    const handleDeactivateUser = (index) => {
+      setActiveDropdownIndex(null); // Close dropdown when opening modal
+      setIsDeactivationModalOpen(true);
+    };
+  
+    // Function to confirm deactivation
+    const confirmDeactivation = () => {
+      // Perform deactivation logic here (e.g., update user status to 'Inactive', etc.)
+      console.log('User deactivated'); // Placeholder logic
+      setIsDeactivationModalOpen(false); // Close modal after deactivation
+    };
+
+  return (
   <div className={`dashboard-container ${sidebarMinimized ? 'sidebar-minimized' : ''}`}>
     <div className="dashboard-header">
       <img className="Aquencher-Logo" src={loginLogo} alt="Aquencher Logo" />
@@ -132,7 +202,7 @@ const DashboardAdmin = () => {
         <div className="notifications-view">
           <div className="notifications-header">
             <p className="notification-title-header">Notifications</p>
-            <Link to="/Notifications" className="see-all-button">See all</Link>
+            <Link to="/notifications" className="see-all-button">See all</Link>
           </div>
           <p className="notification-earlier-header">Earlier</p>
           {notifications.map((notification, index) => (
@@ -175,21 +245,21 @@ const DashboardAdmin = () => {
       </button>
       <img className="adminlogo" src={adminLogo} alt="AdminLogo" />
       <ul>
-        <Link to="/Dashboard" className='link-sidebar highlighted'>
+        <Link to="/Dashboard" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={dashboardIconOpen} alt="Dashboard" />
+            <img className="sidebaricon" src={dashboardIconClose} alt="Dashboard" />
             <span className="sidebar-text">Dashboard</span>
           </li>
         </Link>
         <Link to="/Notifications" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={notificationIcon} alt="Notifications" />
+            <img className="sidebaricon" src={notificationIconClose} alt="Notifications" />
             <span className="sidebar-text">Notifications</span>
           </li>
         </Link>
-        <Link to="/Users" className='link-sidebar'>
+        <Link to="/Users" className='link-sidebar highlighted'>
           <li>
-            <img className="sidebaricon" src={usersIcon} alt="Users" />
+            <img className="sidebaricon" src={usersIconOpen} alt="Users" />
             <span className="sidebar-text">Users</span>
           </li>
         </Link>
@@ -225,25 +295,25 @@ const DashboardAdmin = () => {
         )}
         <Link to="/Transactions" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={transactionIcon} alt="Transactions" />
+            <img className="sidebaricon" src={transactionIconClose} alt="Transactions" />
             <span className="sidebar-text">Transactions</span>
           </li>
         </Link>
         <Link to="/Inventory" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={inventoryIcon} alt="Inventory" />
+            <img className="sidebaricon" src={inventoryIconClose} alt="Inventory" />
             <span className="sidebar-text">Inventory</span>
           </li>
         </Link>
         <Link to="/Announcements" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={announcementsIcon} alt="Announcements" />
+            <img className="sidebaricon" src={announcementsIconClose} alt="Announcements" />
             <span className="sidebar-text">Announcements</span>
           </li>
         </Link>
         <Link to="/Concerns" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={concernsIcon} alt="Concerns" />
+            <img className="sidebaricon" src={concernsIconClose} alt="Concerns" />
             <span className="sidebar-text">Concerns</span>
           </li>
         </Link>
@@ -272,11 +342,120 @@ const DashboardAdmin = () => {
       </ul>
     </div>
     <div className={`dashboard-content ${sidebarMinimized ? 'content-minimized' : ''}`}>
+        <div className="users-header">
+          <h2 className="users-header-text">Users</h2>
+          <p className="customer-name-text">Customers</p>
+        </div>
+        <div className="user-controls">
+          <div className="search-bar-container">
+            <div className="search-bar">
+              <input 
+                type="text" 
+                placeholder="Search" 
+                value={searchQuery} 
+                onChange={(e) => setSearchQuery(e.target.value)} 
+              />
+              <img src={searchBlackIcon} alt="Search" />
+            </div>
+            <button className="search-button" onClick={handleSearchClick}>
+              <img src={searchIcon} alt="Search Icon" />
+            </button>
+            <button className="filter-button">
+              <img src={filterIcon} alt="Filter" />
+            </button>
+          </div>
+          <button className="new-user-button" onClick={() => setIsNewUserModalOpen(true)}>+ New User</button>
+        </div>
+        <div className="users-table-container">
+        <table className="users-table">
+              <thead className="users-table-header">
+                <tr>
+                  <th>
+                    <input
+                      className="custom-checkbox"
+                      type="checkbox"
+                      checked={selectAll}
+                      onChange={handleSelectAll}
+                    />
+                  </th>
+                  <th>Full Name</th>
+                  <th>Username</th>
+                  <th>Phone</th>
+                  <th>Address</th>
+                  <th>Date Registered</th>
+                  <th>Status</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredUsers.length === 0 ? (
+                  <tr>
+                    <td colSpan="8" style={{ textAlign: 'center' }}>
+                      No users found.
+                    </td>
+                  </tr>
+                ) :
+                 (filteredUsers.map((user, index) => (
+                  <tr key={index}>
+                    <td>
+                      <input
+                        className="custom-checkbox"
+                        type="checkbox"
+                         checked={selectedUsers.includes(index)}
+                        onChange={() => handleCheckboxChange(index)}
+                      />
+                    </td>
+                    <td>
+                      <div className="user-info">
+                        <img className="user-avatar" src={user.avatar} alt={`${user.fullName}'s avatar`} />
+                        <span>{user.fullName}</span>
+                      </div>
+                    </td>
+                    <td>{user.username}</td>
+                    <td>{user.phone}</td>
+                    <td>{user.address}</td>
+                    <td>{user.dateRegistered}</td>
+                    <td className={`user-status ${user.status.toLowerCase() === 'inactive' ? 'inactive' : ''}`}>
+                      {user.status}
+                    </td>
+                    <td>
+                        <div className="user-actions">
+                          <img
+                            src={userDots}
+                            alt="Actions"
+                            onClick={() => handleUserDotsClick(index)}
+                            className="userDots"
+                          />
+                          {activeDropdownIndex === index && (
+                            <div className="user-dropdown">
+                              <Link to={`/Users/${user.username}/Edit`}>Edit</Link>
+                              <Link to={`/Users/${user.username}/View Details`}>View Details</Link>
+                              <button onClick={() => handleDeactivateUser(index)}>Deactivate</button>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                  </tr>
+                )))}
+              </tbody>
+            </table>
+        </div>
     
     </div>
-
+     {/* NewUserModal component */}
+    <NewUserModal
+      isOpen={isNewUserModalOpen}
+      onClose={() => setIsNewUserModalOpen(false)}
+      onAddUser={handleAddUser}
+    />
+    {/* DeactivationModal component */}
+    <DeactivationModal
+        isOpen={isDeactivationModalOpen}
+        onClose={() => setIsDeactivationModalOpen(false)}
+        onConfirm={confirmDeactivation}
+      />
   </div>
   );
 };
 
-export default DashboardAdmin;
+export default UsersAdmin;

@@ -1,4 +1,4 @@
-import "../../assets/css/index.css"
+import "../../assets/css/TransactionAdmin.css"
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -6,14 +6,17 @@ import loginLogo from '../../assets/images/loginLogo.png';
 import notificationClose from '../../assets/images/notificationClose.png';
 import defaultAvatar from '../../assets/images/default-avatar.jpg';
 import dashboardIconOpen from '../../assets/images/dashboard-open.png';
-import notificationIcon from '../../assets/images/notification.png';
-import usersIcon from '../../assets/images/users.png';
-import deliveryIcon from '../../assets/images/delivery.png';
-import transactionIcon from '../../assets/images/transactions.png';
-import inventoryIcon from '../../assets/images/inventory.png';
-import announcementsIcon from '../../assets/images/announcement.png';
-import concernsIcon from '../../assets/images/concerns.png';
-import accountIcon from '../../assets/images/account.png';
+import dashboardIconClose from '../../assets/images/dashboard.png';
+import notificationIconClose from '../../assets/images/notification.png';
+import usersIconClose from '../../assets/images/users.png';
+import usersIconOpen from '../../assets/images/users-open.png';
+import deliveryIconClose from '../../assets/images/delivery.png';
+import transactionIconClose from '../../assets/images/transactions.png';
+import transactionIconOpen from '../../assets/images/transactions-open.png';
+import inventoryIconClose from '../../assets/images/inventory.png';
+import announcementsIconClose from '../../assets/images/announcement.png';
+import concernsIconClose from '../../assets/images/concerns.png';
+import accountIconClose from '../../assets/images/account.png';
 import adminLogo from '../../assets/images/AdminLogo.png';
 import sidebarButton from '../../assets/images/sidebar-button.png';
 import sidebarButtonOpen from '../../assets/images/sidebar-button-open.png';
@@ -22,16 +25,20 @@ import queue from '../../assets/images/queue.png';
 import dropArrow from '../../assets/images/dropArrow.png';
 import logoutDropdown from '../../assets/images/logout-dropdown.png';
 import accountSettingDropdown from '../../assets/images/account-dropdown.png';
-import deliveryTaskOpen from '../../assets/images/task-open.png'; 
-import deliveryTaskClose from '../../assets/images/task.png'; 
-import deliveryRequestClose from '../../assets/images/concerns.png';
-import accountSettingIconOpen from '../../assets/images/settings-open.png';
-import accountSettingIconClose from '../../assets/images/settings.png';
-import editProfile from '../../assets/images/edit-profile.png';
+import searchIcon from '../../assets/images/search-icon.png';
+import filterIcon from '../../assets/images/filter-icon.png';
+import searchBlackIcon from '../../assets/images/black-search-icon.png';
+import userDots from '../../assets/images/user-dots.png';
+
+import deliveryIcon from '../../assets/images/delivery.png';
 import sidebarDropdownClose from '../../assets/images/close-sub-sidebar.png';
 import sidebarDropdownOpen from '../../assets/images/open-sub-sidebar.png';
+import deliveryTaskClose from '../../assets/images/task.png'; 
+import deliveryRequestClose from '../../assets/images/concerns.png';
+import accountIcon from '../../assets/images/account.png';
+import accountSettingIconClose from '../../assets/images/settings.png';
 
-const DashboardAdmin = () => {
+const TransactionAdmin = () => {
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -42,11 +49,24 @@ const DashboardAdmin = () => {
     { subject: 'Borrow Request', description: 'John Smith requested to borrow 2 gallons of Po\'s Purified Dispenser Bottle Refill 18.9L', time: '12 minutes ago', isNew: false },
     { subject: 'System Update', description: 'System will be offline temporarily. Update is scheduled for tomorrow at 10:00 AM. Please plan your tasks accordingly.', time: '12 minutes ago', isNew: false },
   ]);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const transactionLogs = [
+    { avatar: defaultAvatar, fullName: 'Karen Joyce Joson', transactionType: 'Sale', gallonType: 'Purified Blue Slim Gallon', quantity: '3 gallons', status: 'Complete', date: '2024-01-05', time: '10:30 AM'  },
+    { avatar: defaultAvatar, fullName: 'Celmin Shane Quizon', transactionType: 'Purchase', gallonType: 'Dispenser Bottle Refill', quantity: '2 gallons', status: 'Pending', date: '2024-01-15', time: '11:45 AM' },
+    { avatar: defaultAvatar, fullName: 'Miguel Angelo Barruga', transactionType: 'Sale', gallonType: 'Purified Blue Slim Gallon', quantity: '1 gallon', status: 'Complete', date: '2024-01-15', time: '02:20 PM' },
+    { avatar: defaultAvatar, fullName: 'Francis Harvey Soriano', transactionType: 'Purchase', gallonType: 'Purified Blue Slim Gallon', quantity: '5 gallons', status: 'Queue', date: '2024-01-20', time: '09:00 AM' },
+  ];
+
+  const [filteredUsers, setFilteredUsers] = useState(transactionLogs);
+  const [searchNotFound, setSearchNotFound] = useState(false);
+
   const [subDeliverySidebarVisible, setSubDeliverySidebarVisible] = useState(false);
   const [highlightedDeliveryTab, setHighlightedDeliveryTab] = useState('');
   const [subAccountSidebarVisible, setSubAccountSidebarVisible] = useState(false);
   const [highlightedAccountTab, setHighlightedAccountTab] = useState('');
   const [lastOpenedDropdown, setLastOpenedDropdown] = useState(null);
+
 
   const toggleSidebar = () => {
 
@@ -72,7 +92,6 @@ const DashboardAdmin = () => {
       }
     }
   };
-
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
@@ -121,8 +140,16 @@ const DashboardAdmin = () => {
     }
   };
 
-  return (
 
+  //filtering search
+  const handleSearchClick = () => {
+    setFilteredUsers(transactionLogs.filter((log) =>
+      log.fullName.toLowerCase().includes(searchQuery.toLowerCase()) 
+    ));
+   
+  };
+
+  return (
   <div className={`dashboard-container ${sidebarMinimized ? 'sidebar-minimized' : ''}`}>
     <div className="dashboard-header">
       <img className="Aquencher-Logo" src={loginLogo} alt="Aquencher Logo" />
@@ -132,7 +159,7 @@ const DashboardAdmin = () => {
         <div className="notifications-view">
           <div className="notifications-header">
             <p className="notification-title-header">Notifications</p>
-            <Link to="/Notifications" className="see-all-button">See all</Link>
+            <Link to="/notifications" className="see-all-button">See all</Link>
           </div>
           <p className="notification-earlier-header">Earlier</p>
           {notifications.map((notification, index) => (
@@ -175,21 +202,21 @@ const DashboardAdmin = () => {
       </button>
       <img className="adminlogo" src={adminLogo} alt="AdminLogo" />
       <ul>
-        <Link to="/Dashboard" className='link-sidebar highlighted'>
+        <Link to="/Dashboard" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={dashboardIconOpen} alt="Dashboard" />
+            <img className="sidebaricon" src={dashboardIconClose} alt="Dashboard" />
             <span className="sidebar-text">Dashboard</span>
           </li>
         </Link>
         <Link to="/Notifications" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={notificationIcon} alt="Notifications" />
+            <img className="sidebaricon" src={notificationIconClose} alt="Notifications" />
             <span className="sidebar-text">Notifications</span>
           </li>
         </Link>
-        <Link to="/Users" className='link-sidebar'>
+        <Link to="/Users" className='link-sidebar '>
           <li>
-            <img className="sidebaricon" src={usersIcon} alt="Users" />
+            <img className="sidebaricon" src={usersIconClose} alt="Users" />
             <span className="sidebar-text">Users</span>
           </li>
         </Link>
@@ -223,27 +250,27 @@ const DashboardAdmin = () => {
             </Link>
           </ul>
         )}
-        <Link to="/Transactions" className='link-sidebar'>
+        <Link to="/Transactions" className='link-sidebar highlighted'>
           <li>
-            <img className="sidebaricon" src={transactionIcon} alt="Transactions" />
+            <img className="sidebaricon" src={transactionIconOpen} alt="Transactions" />
             <span className="sidebar-text">Transactions</span>
           </li>
         </Link>
         <Link to="/Inventory" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={inventoryIcon} alt="Inventory" />
+            <img className="sidebaricon" src={inventoryIconClose} alt="Inventory" />
             <span className="sidebar-text">Inventory</span>
           </li>
         </Link>
         <Link to="/Announcements" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={announcementsIcon} alt="Announcements" />
+            <img className="sidebaricon" src={announcementsIconClose} alt="Announcements" />
             <span className="sidebar-text">Announcements</span>
           </li>
         </Link>
         <Link to="/Concerns" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={concernsIcon} alt="Concerns" />
+            <img className="sidebaricon" src={concernsIconClose} alt="Concerns" />
             <span className="sidebar-text">Concerns</span>
           </li>
         </Link>
@@ -272,11 +299,73 @@ const DashboardAdmin = () => {
       </ul>
     </div>
     <div className={`dashboard-content ${sidebarMinimized ? 'content-minimized' : ''}`}>
-    
+      <div className="transactions-header">
+        <h2 className="transactions-header-text">Transactions</h2>
+      </div>
+      <div className="user-controls">
+        <div className="search-bar-container">
+          <div className="search-bar">
+            <input 
+              type="text" 
+              placeholder="Search" 
+              value={searchQuery} 
+              onChange={(e) => setSearchQuery(e.target.value)} 
+            />
+            <img src={searchBlackIcon} alt="Search" />
+          </div>
+          <button className="search-button" onClick={handleSearchClick}>
+            <img src={searchIcon} alt="Search Icon" />
+          </button>
+          <button className="filter-button">
+            <img src={filterIcon} alt="Filter" />
+          </button>
+        </div>
+      </div>
+      <div className="users-table-container">
+        <table className="transactions-table">
+          <thead className="transactions-table-header">
+            <tr>
+              <th>Customer Name</th>
+              <th>Transaction Type</th>
+              <th>Gallon Type</th>
+              <th>Quantity</th>
+              <th>Status</th>
+              <th>Date/Time</th>
+            </tr>
+          </thead>
+          <tbody>
+          {filteredUsers.length === 0 ? (
+              <tr>
+                <td colSpan="8" style={{ textAlign: 'center' }}>
+                  No transaction found.
+                </td>
+              </tr>
+            ) :
+              ( filteredUsers.map((log, index) => (
+                <tr key={index}>
+                  <td className="customer-name">
+                    <div className="transaction-info">
+                      <img className="user-avatar" src={log.avatar} alt={`${log.fullName}'s avatar`} />
+                      {log.fullName}
+                    </div>
+                  </td>
+                  <td>{log.transactionType}</td>
+                  <td>{log.gallonType}</td>
+                  <td>{log.quantity}</td>
+                  <td>{log.status}</td>
+                  <td className='transaction-date-time'>
+                    <div>{log.date}</div>
+                    <div>{log.time}</div>
+                  </td>
+                </tr>
+              )))}
+          </tbody>
+        </table>
+      </div>
     </div>
 
   </div>
   );
 };
 
-export default DashboardAdmin;
+export default TransactionAdmin;
