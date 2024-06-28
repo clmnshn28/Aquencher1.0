@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "../../assets/css/SignUp.css"
 import { Link } from 'react-router-dom';
 
-const SignUp = () =>{
+export const SignUp = () =>{
  
   // for label of input field 
   const [username, setUsername] = useState('');
@@ -153,5 +153,3 @@ const SignUp = () =>{
   );
 
 }
-
-export default SignUp;

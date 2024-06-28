@@ -1,4 +1,4 @@
-import "../../../assets/css/AccountSettingsAdmin.css"
+import "../../../assets/css/ChangePasswordAdmin.css"
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -42,15 +42,12 @@ import inventoryDots from '../../../assets/images/user-dots.png';
 import deliveryIcon from '../../../assets/images/delivery.png';
 import sidebarDropdownClose from '../../../assets/images/close-sub-sidebar.png';
 import sidebarDropdownOpen from '../../../assets/images/open-sub-sidebar.png';
-import blueSidebarDropdownClose from '../../../assets/images/selected-close-sub.png';
-import blueSidebarDropdownOpen from '../../../assets/images/selected-open-sub.png';
 import deliveryTaskClose from '../../../assets/images/task.png'; 
 import deliveryRequestClose from '../../../assets/images/concerns.png';
 import accountIcon from '../../../assets/images/account.png';
 import accountSettingIconClose from '../../../assets/images/settings.png';
 
-
-export const AccountSettingsAdmin = () =>{
+export const ChangePasswordAdmin = () =>{
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -61,9 +58,14 @@ export const AccountSettingsAdmin = () =>{
     { subject: 'Borrow Request', description: 'John Smith requested to borrow 2 gallons of Po\'s Purified Dispenser Bottle Refill 18.9L', time: '12 minutes ago', isNew: false },
     { subject: 'System Update', description: 'System will be offline temporarily. Update is scheduled for tomorrow at 10:00 AM. Please plan your tasks accordingly.', time: '12 minutes ago', isNew: false },
   ]);
+
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+ 
   const [subDeliverySidebarVisible, setSubDeliverySidebarVisible] = useState(false);
   const [highlightedDeliveryTab, setHighlightedDeliveryTab] = useState('');
-  const [subAccountSidebarVisible, setSubAccountSidebarVisible] = useState(true);
+  const [subAccountSidebarVisible, setSubAccountSidebarVisible] = useState(false);
   const [highlightedAccountTab, setHighlightedAccountTab] = useState('');
   const [lastOpenedDropdown, setLastOpenedDropdown] = useState(null);
 
@@ -139,6 +141,45 @@ export const AccountSettingsAdmin = () =>{
       setHighlightedAccountTab(subAccountSidebarVisible ? '' : 'sub-highlighted-delivery');
     }
   };
+  
+  // checking if password match and met the requirement
+  const changePasswordSubmit = (e) => {
+    e.preventDefault();
+    
+    if (!isPasswordRequirementMet('Be 8-100 characters long') ||
+      !isPasswordRequirementMet('Contain at least one uppercase and one lowercase letter') ||
+      !isPasswordRequirementMet('Contain at least one number or special character')) {
+      setError('Password does not meet the requirements');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return; 
+    }
+
+    // Proceed with form submission
+    setError(''); 
+
+    console.log('Form submitted');
+  };
+
+  // checking requirement in password
+  const isPasswordRequirementMet = (requirement) => {
+    switch (requirement) {
+      case 'Be 8-100 characters long':
+        return password.length >= 8 && password.length <= 100;
+      case 'Contain at least one uppercase and one lowercase letter':
+        return /[A-Z]/.test(password) && /[a-z]/.test(password);
+      case 'Contain at least one number or special character':
+        return /\d/.test(password) || /[!@#$%^&*(),.?":{}|<>]/.test(password);
+      default:
+        return false;
+    }
+  };
+  const getRequirementIcon = (requirement) => {
+    return isPasswordRequirementMet(requirement) ? <span className='check'>&#10004;</span> : <span className='ekis'>&#10005;</span>;
+  };
+
 
   return (
     <div className={`bgaccount-container ${sidebarMinimized ? 'sidebar-minimized' : ''}`}>
@@ -265,114 +306,85 @@ export const AccountSettingsAdmin = () =>{
               <span className="sidebar-text">Concerns</span>
             </li>
           </Link>
-            <li className='link-sidebar highlighted sub-delivery'
-            onClick={toggleSubSidebarAccount}>
+          <Link to="/Account/Settings/MyProfile" className='link-sidebar highlighted sub-delivery'>
+            <li>
               <img className="sidebaricon" src={accountIconOpen} alt="Account" />
               <span className="sidebar-text">Account</span>
-              <img
-              className="sidebar-dropdown"
-              src={ subAccountSidebarVisible ? blueSidebarDropdownOpen : blueSidebarDropdownClose}
-              alt="dropdown"
-            />
             </li>
-          {subAccountSidebarVisible && (
-            <ul>
-              <Link to="/Account/Settings/MyProfile" className='link-sub-sidebar'>
-                <li className='sub-sidebar selected'>
-                  <div className="task-container sub-highlighted">
-                    <img className="sub-sidebaricon account-settings-icon" src={accountSettingIconOpen} alt="Tasks" />
-                    <span className="sidebar-text account-settings-text">Account Settings</span>
-                  </div>
-                </li>
-              </Link>
-            </ul>
-          )}
+          </Link>
+          <ul>
+            <Link to="/Account/Settings/MyProfile" className='link-sub-sidebar'>
+              <li className='sub-sidebar selected'>
+                <div className="task-container sub-highlighted">
+                  <img className="sub-sidebaricon account-settings-icon" src={accountSettingIconOpen} alt="Tasks" />
+                  <span className="sidebar-text account-settings-text">Account Settings</span>
+                </div>
+              </li>
+            </Link>
+          </ul>
         </ul>
       </div>
       <div className={`dashboard-content ${sidebarMinimized ? 'content-minimized' : ''}`}>
         <div className="account-settings-container">
           <h1 className="account-settings-header-text">Account Setting</h1>
           <Link to="/Account/Settings/MyProfile">
-            <p className="account-settings-profile-text">My Profile</p>
+            <p className="account-settings-profile-text-change">My Profile</p>
           </Link>
           <Link to="/Account/Settings/ChangePassword">
-            <p className="account-settings-password-text">Change Password</p>
+            <p className="account-settings-password-text-change">Change Password</p>
           </Link>
           <Link to="/Account/Settings/Archive Account">
             <p className="account-settings-archive-text">Archive Account</p>
           </Link>
         </div>
 
-        <div className="admin-account-edit-container">
-          <div className="edit-account-container">
-            <img className="edit-profile-image" src={defaultAvatar} alt="Profile Picture" />
-            <div className="name-username-container">
-              <p className="name-admin-account">Celmin Shane Quizon</p>
-              <p className="username-admin-account">@clmnshn28</p>
-              <button className="button-edit-profile-image">
-                Edit
-                <img className="edit-profile-button-icon" src={editProfile} alt="Edit Profile Icon" />
-              </button>
-            </div>
+        <div className="admin-account-edit-container-change">
+          <form onSubmit={changePasswordSubmit} className="form-changepass">
+          <div className="form-group">
+            <label className="change-pass-text" htmlFor="currentPassword">Current Password</label>
+            <input 
+              type="password" 
+              id="currentPassword" 
+              name="currentPassword" 
+              className="change-pass-input"
+              required 
+            />
           </div>
-
-          <div className="edit-account-container">
-            <div className="personal-info">
-              <h3 className="edit-header-info">Personal Information</h3>
-              <div className="info-row">
-                <div className="info-item">
-                  <span className="info-detail-name">Firstname</span>
-                  <p className="info-details-editable">Celmin Shane</p>
-                </div>
-                <div className="info-item">
-                  <span className="info-detail-name">Lastname</span>
-                  <p className="info-details-editable">Quizon</p>
-                </div>
-                <div className="info-item">
-                  <span className="info-detail-name">Phone</span>
-                  <p className="info-details-editable">09123892012</p>
-                </div>
-              </div>
-            </div>
-            <button className="button-edit-personal-info">
-              Edit
-              <img className="edit-profile-button-icon" src={editProfile} alt="Edit Profile Icon" />
-            </button>
+          <div className="form-group">
+            <label className="change-pass-text" htmlFor="newPassword">New Password</label>
+            <input 
+              type="password" 
+              id="newPassword" 
+              name="newPassword" 
+              className="change-pass-input"
+              required 
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
-          
-          <div className="edit-account-container">
-            <div className="address-info">
-              <h3 className="edit-header-info">Address</h3>
-              <div className="info-row">
-                <div className="info-item">
-                  <span className="info-detail-name">Home number</span>
-                  <p className="info-details-editable">12</p>
-                </div>
-                <div className="info-item">
-                  <span className="info-detail-name">Street Address</span>
-                  <p className="info-details-editable">Everlasting St.</p>
-                </div>
-              </div>
-              <div className="info-row">
-                <div className="info-item">
-                  <span className="info-detail-name">Barangay</span>
-                  <p className="info-details-editable">Bulihan</p>
-                </div>
-                <div className="info-item">
-                  <span className="info-detail-name">City</span>
-                  <p className="info-details-editable">Malolos</p>
-                </div>
-              </div>
-            </div>
-            <button className="button-edit-personal-info">
-              Edit
-              <img className="edit-profile-button-icon" src={editProfile} alt="Edit Profile Icon" />
-            </button>
+          <div className="form-group">
+            <label className="change-pass-text" htmlFor="confirmNewPassword">Confirm New Password</label>
+            <input 
+              type="password" 
+              id="confirmNewPassword" 
+              name="confirmNewPassword" 
+              className="change-pass-input"
+              required 
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+             {error && <span className="changePass-error">{error}</span>}
           </div>
-
+          <div className="change-password-requirements">
+            <p >Your password must include the following:</p>
+            <ul>
+              <li>{getRequirementIcon('Be 8-100 characters long')} Be 8-100 characters long</li>
+              <li>{getRequirementIcon('Contain at least one uppercase and one lowercase letter')}Contain at least one uppercase and one lowercase letter</li>
+              <li>{getRequirementIcon('Contain at least one number or special character')} Contain at least one number or special character</li>
+            </ul>
+          </div>
+          <button className="change-pass-btn" type="submit">Change Password</button>
+          </form>
         </div>
       </div>
     </div>
   );
 }
-

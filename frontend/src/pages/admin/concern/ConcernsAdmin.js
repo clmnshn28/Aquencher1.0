@@ -1,57 +1,37 @@
-import "../../../assets/css/AccountSettingsAdmin.css"
+import "assets/css/ConcernsAdmin.css"
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import loginLogo from '../../../assets/images/loginLogo.png';
-import notificationClose from '../../../assets/images/notificationClose.png';
-import defaultAvatar from '../../../assets/images/default-avatar.jpg';
-import dashboardIconOpen from '../../../assets/images/dashboard-open.png';
-import dashboardIconClose from '../../../assets/images/dashboard.png';
-import notificationIconClose from '../../../assets/images/notification.png';
-import usersIconClose from '../../../assets/images/users.png';
-import usersIconOpen from '../../../assets/images/users-open.png';
-import deliveryIconClose from '../../../assets/images/delivery.png';
-import transactionIconClose from '../../../assets/images/transactions.png';
-import inventoryIconClose from '../../../assets/images/inventory.png';
-import inventoryIconOpen from '../../../assets/images/inventory-open.png';
-import announcementsIconClose from '../../../assets/images/announcement.png';
-import announcementIconOpen from '../../../assets/images/announcement-open.png';
-import createAnnouncement from '../../../assets/images/create-announcement.png';
-import concernsIconClose from '../../../assets/images/concerns.png';
-import concernIconOpen from '../../../assets/images/concerns-open.png';
-import concernFilterOpen from '../../../assets/images/concern-filter-open.png';
-import concernFilterClose from '../../../assets/images/concern-filter-close.png';
-import accountIconClose from '../../../assets/images/account.png';
-import accountIconOpen from '../../../assets/images/account-open.png';
-import accountSettingIconOpen from '../../../assets/images/settings-open.png';
-import editProfile from '../../../assets/images/edit-profile.png';
+import loginLogo from 'assets/images/loginLogo.png';
+import notificationClose from 'assets/images/notificationClose.png';
+import defaultAvatar from 'assets/images/default-avatar.jpg';
+import dashboardIconClose from 'assets/images/dashboard.png';
+import notificationIconClose from 'assets/images/notification.png';
+import usersIconClose from 'assets/images/users.png';
+import transactionIconClose from 'assets/images/transactions.png';
+import inventoryIconClose from 'assets/images/inventory.png';
+import announcementsIconClose from 'assets/images/announcement.png';
+import concernIconOpen from 'assets/images/concerns-open.png';
+import concernFilterOpen from 'assets/images/concern-filter-open.png';
+import concernFilterClose from 'assets/images/concern-filter-close.png';
+import adminLogo from 'assets/images/AdminLogo.png';
+import sidebarButton from 'assets/images/sidebar-button.png';
+import sidebarButtonOpen from 'assets/images/sidebar-button-open.png';
 
-import adminLogo from '../../../assets/images/AdminLogo.png';
-import sidebarButton from '../../../assets/images/sidebar-button.png';
-import sidebarButtonOpen from '../../../assets/images/sidebar-button-open.png';
-import complete from '../../../assets/images/complete.png';
-import queue from '../../../assets/images/queue.png';
-import dropArrow from '../../../assets/images/dropArrow.png';
-import logoutDropdown from '../../../assets/images/logout-dropdown.png';
-import accountSettingDropdown from '../../../assets/images/account-dropdown.png';
-import searchIcon from '../../../assets/images/search-icon.png';
-import filterIcon from '../../../assets/images/filter-icon.png';
-import searchBlackIcon from '../../../assets/images/black-search-icon.png';
-import inventoryDots from '../../../assets/images/user-dots.png';
+import dropArrow from 'assets/images/dropArrow.png';
+import logoutDropdown from 'assets/images/logout-dropdown.png';
+import accountSettingDropdown from 'assets/images/account-dropdown.png';
 
-import deliveryIcon from '../../../assets/images/delivery.png';
-import sidebarDropdownClose from '../../../assets/images/close-sub-sidebar.png';
-import sidebarDropdownOpen from '../../../assets/images/open-sub-sidebar.png';
-import blueSidebarDropdownClose from '../../../assets/images/selected-close-sub.png';
-import blueSidebarDropdownOpen from '../../../assets/images/selected-open-sub.png';
-import deliveryTaskClose from '../../../assets/images/task.png'; 
-import deliveryRequestClose from '../../../assets/images/concerns.png';
-import accountIcon from '../../../assets/images/account.png';
-import accountSettingIconClose from '../../../assets/images/settings.png';
+import deliveryIcon from 'assets/images/delivery.png';
+import sidebarDropdownClose from 'assets/images/close-sub-sidebar.png';
+import sidebarDropdownOpen from 'assets/images/open-sub-sidebar.png';
+import deliveryTaskClose from 'assets/images/task.png'; 
+import deliveryRequestClose from 'assets/images/concerns.png';
+import accountIcon from 'assets/images/account.png';
+import accountSettingIconClose from 'assets/images/settings.png';
 
-
-export const AccountSettingsAdmin = () =>{
-
+export const ConcernsAdmin = () =>{
+  
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [notificationsVisible, setNotificationsVisible] = useState(false);
@@ -61,9 +41,21 @@ export const AccountSettingsAdmin = () =>{
     { subject: 'Borrow Request', description: 'John Smith requested to borrow 2 gallons of Po\'s Purified Dispenser Bottle Refill 18.9L', time: '12 minutes ago', isNew: false },
     { subject: 'System Update', description: 'System will be offline temporarily. Update is scheduled for tomorrow at 10:00 AM. Please plan your tasks accordingly.', time: '12 minutes ago', isNew: false },
   ]);
+  const [concerns, setConcerns] = useState([
+    { name: 'Karen Joyce Joson', message: 'Good day! Your service in refilling our gallons is excellent. The response to our requests is quick and efficient. Thank you for your excellent service!', time: '1 day ago' },
+    { name: 'Celmin Shane', message: 'The system is user-friendly and efficient. No major issues encountered. Keep up the good work!', time: '1 day ago' },
+    { name: 'Hong Hae In', message: 'Good day! Your service in refilling our gallons is excellent. The response to our requests is quick and efficient. Thank you for your excellent service!', time: '1 day ago' },
+    { name: 'Baek Hyun Woo', message: 'Good day! Your service in refilling our gallons is excellent. The response to our requests is quick and efficient. Thank you for your excellent service!', time: '1 day ago' },
+    { name: 'Im Sol', message: 'Good day! Your service in refilling our gallons is excellent. The response to our requests is quick and efficient. Thank you for your excellent service!', time: '1 day ago' },
+    { name: 'Ryu Sun Jae', message: 'Good day! Your service in refilling our gallons is excellent. The response to our requests is quick and efficient. Thank you for your excellent service!', time: '1 day ago' }
+  ]);
+  const [concernDropdownVisible, setConcernDropdownVisible] = useState(false);
+  const [concernSelectedFilter, setConcernSelectedFilter] = useState('All');
+  const [concernFilterIconOpen, setConcernFilterIconOpen] = useState(false); 
+
   const [subDeliverySidebarVisible, setSubDeliverySidebarVisible] = useState(false);
   const [highlightedDeliveryTab, setHighlightedDeliveryTab] = useState('');
-  const [subAccountSidebarVisible, setSubAccountSidebarVisible] = useState(true);
+  const [subAccountSidebarVisible, setSubAccountSidebarVisible] = useState(false);
   const [highlightedAccountTab, setHighlightedAccountTab] = useState('');
   const [lastOpenedDropdown, setLastOpenedDropdown] = useState(null);
 
@@ -91,7 +83,7 @@ export const AccountSettingsAdmin = () =>{
       }
     }
   };
-
+  
   const toggleDropdown = () => {
     setDropdownVisible(!dropdownVisible);
   };
@@ -140,8 +132,19 @@ export const AccountSettingsAdmin = () =>{
     }
   };
 
+// filter concern
+  const toggleFilterDropdown = () => {
+    setConcernDropdownVisible(!concernDropdownVisible);
+    setConcernFilterIconOpen(!concernFilterIconOpen);
+  };
+
+  const handleFilterSelect = (filter) => {
+    setConcernSelectedFilter(filter);
+    setConcernDropdownVisible(false);
+  };
+
   return (
-    <div className={`bgaccount-container ${sidebarMinimized ? 'sidebar-minimized' : ''}`}>
+    <div className={`dashboard-container ${sidebarMinimized ? 'sidebar-minimized' : ''}`}>
       <div className="dashboard-header">
         <img className="Aquencher-Logo" src={loginLogo} alt="Aquencher Logo" />
         <div className="admin-profile">
@@ -259,120 +262,76 @@ export const AccountSettingsAdmin = () =>{
               <span className="sidebar-text">Announcements</span>
             </li>
           </Link>
-          <Link to="/Concerns" className='link-sidebar'>
+          <Link to="/Concerns" className='link-sidebar highlighted'>
             <li>
-              <img className="sidebaricon" src={concernsIconClose} alt="Concerns" />
+              <img className="sidebaricon" src={concernIconOpen} alt="Concerns" />
               <span className="sidebar-text">Concerns</span>
             </li>
           </Link>
-            <li className='link-sidebar highlighted sub-delivery'
+          <li className={`link-sidebar sub-delivery ${highlightedAccountTab}`} 
             onClick={toggleSubSidebarAccount}>
-              <img className="sidebaricon" src={accountIconOpen} alt="Account" />
-              <span className="sidebar-text">Account</span>
-              <img
-              className="sidebar-dropdown"
-              src={ subAccountSidebarVisible ? blueSidebarDropdownOpen : blueSidebarDropdownClose}
-              alt="dropdown"
-            />
-            </li>
+            <img className="sidebaricon" src={accountIcon} alt="Account" />
+            <span className="sidebar-text">Account</span>
+            <img
+                className="sidebar-dropdown"
+                src={subAccountSidebarVisible ? sidebarDropdownClose : sidebarDropdownOpen}
+                alt="dropdown"
+              />
+          </li>
           {subAccountSidebarVisible && (
-            <ul>
-              <Link to="/Account/Settings/MyProfile" className='link-sub-sidebar'>
-                <li className='sub-sidebar selected'>
-                  <div className="task-container sub-highlighted">
-                    <img className="sub-sidebaricon account-settings-icon" src={accountSettingIconOpen} alt="Tasks" />
-                    <span className="sidebar-text account-settings-text">Account Settings</span>
-                  </div>
-                </li>
-              </Link>
-            </ul>
+          <ul>
+            <Link to="/Account/Settings/MyProfile" className='link-sub-sidebar'>
+              <li className='sub-sidebar selected'>
+                <div className="task-container ">
+                  <img className="sub-sidebaricon account-settings-icon" src={accountSettingIconClose} alt="Tasks" />
+                  <span className="sidebar-text account-settings-text">Account Settings</span>
+                </div>
+              </li>
+            </Link>
+          </ul>
           )}
         </ul>
       </div>
       <div className={`dashboard-content ${sidebarMinimized ? 'content-minimized' : ''}`}>
-        <div className="account-settings-container">
-          <h1 className="account-settings-header-text">Account Setting</h1>
-          <Link to="/Account/Settings/MyProfile">
-            <p className="account-settings-profile-text">My Profile</p>
-          </Link>
-          <Link to="/Account/Settings/ChangePassword">
-            <p className="account-settings-password-text">Change Password</p>
-          </Link>
-          <Link to="/Account/Settings/Archive Account">
-            <p className="account-settings-archive-text">Archive Account</p>
-          </Link>
+        <div className="concerns-container">
+          <div className="concerns-header">
+            <h2 className="concerns-header-text">Concerns</h2>
+            <div className="concerns-filter-dropdown" onClick={toggleFilterDropdown}>
+              <span className="final-concern-filter">{concernSelectedFilter}</span>
+              <img
+                className={`concern-filter-open ${concernFilterIconOpen ? 'open' : ''}`} // Apply different class for open state
+                src={`${concernFilterIconOpen ? concernFilterClose : concernFilterOpen}`}
+                alt="Dropdown Arrow"
+              />
+              {concernDropdownVisible && (
+                <div className="filter-options">
+                  {['All', 'New'].map(filter => (
+                    <div 
+                    className={`selected-concern-list ${concernSelectedFilter === filter ? 'selected-concern' : ''}`}
+                    key={filter} 
+                    onClick={() => handleFilterSelect(filter)}
+                    >{filter}</div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="concerns-list">
+            {concerns.map((concern, index) => (
+              <div key={index} className="concern-item">
+                <img className="concern-avatar" src={defaultAvatar} alt="" />
+                <div className="concern-details">
+                  <p className="concern-name">{concern.name}</p>
+                  <p className="concern-message">{concern.message}</p>
+                  <p className="concern-time">{concern.time}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="admin-account-edit-container">
-          <div className="edit-account-container">
-            <img className="edit-profile-image" src={defaultAvatar} alt="Profile Picture" />
-            <div className="name-username-container">
-              <p className="name-admin-account">Celmin Shane Quizon</p>
-              <p className="username-admin-account">@clmnshn28</p>
-              <button className="button-edit-profile-image">
-                Edit
-                <img className="edit-profile-button-icon" src={editProfile} alt="Edit Profile Icon" />
-              </button>
-            </div>
-          </div>
-
-          <div className="edit-account-container">
-            <div className="personal-info">
-              <h3 className="edit-header-info">Personal Information</h3>
-              <div className="info-row">
-                <div className="info-item">
-                  <span className="info-detail-name">Firstname</span>
-                  <p className="info-details-editable">Celmin Shane</p>
-                </div>
-                <div className="info-item">
-                  <span className="info-detail-name">Lastname</span>
-                  <p className="info-details-editable">Quizon</p>
-                </div>
-                <div className="info-item">
-                  <span className="info-detail-name">Phone</span>
-                  <p className="info-details-editable">09123892012</p>
-                </div>
-              </div>
-            </div>
-            <button className="button-edit-personal-info">
-              Edit
-              <img className="edit-profile-button-icon" src={editProfile} alt="Edit Profile Icon" />
-            </button>
-          </div>
-          
-          <div className="edit-account-container">
-            <div className="address-info">
-              <h3 className="edit-header-info">Address</h3>
-              <div className="info-row">
-                <div className="info-item">
-                  <span className="info-detail-name">Home number</span>
-                  <p className="info-details-editable">12</p>
-                </div>
-                <div className="info-item">
-                  <span className="info-detail-name">Street Address</span>
-                  <p className="info-details-editable">Everlasting St.</p>
-                </div>
-              </div>
-              <div className="info-row">
-                <div className="info-item">
-                  <span className="info-detail-name">Barangay</span>
-                  <p className="info-details-editable">Bulihan</p>
-                </div>
-                <div className="info-item">
-                  <span className="info-detail-name">City</span>
-                  <p className="info-details-editable">Malolos</p>
-                </div>
-              </div>
-            </div>
-            <button className="button-edit-personal-info">
-              Edit
-              <img className="edit-profile-button-icon" src={editProfile} alt="Edit Profile Icon" />
-            </button>
-          </div>
-
-        </div>
       </div>
     </div>
   );
 }
-
