@@ -1,50 +1,31 @@
-import '../../assets/css/DeliveryTaskAdmin.css';
+import 'assets/css/DeliveryTaskAdmin.css';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import loginLogo from '../../assets/images/loginLogo.png';
-import notificationClose from '../../assets/images/notificationClose.png';
-import defaultAvatar from '../../assets/images/default-avatar.jpg';
-import dashboardIconOpen from '../../assets/images/dashboard-open.png';
-import dashboardIconClose from '../../assets/images/dashboard.png';
-import notificationIconClose from '../../assets/images/notification.png';
-import usersIconClose from '../../assets/images/users.png';
-import usersIconOpen from '../../assets/images/users-open.png';
-import deliveryIconClose from '../../assets/images/delivery.png';
-import deliveryIconOpen from '../../assets/images/delivery-open.png';
-import transactionIconClose from '../../assets/images/transactions.png';
-import inventoryIconClose from '../../assets/images/inventory.png';
-import inventoryIconOpen from '../../assets/images/inventory-open.png';
-import announcementsIconClose from '../../assets/images/announcement.png';
-import announcementIconOpen from '../../assets/images/announcement-open.png';
-import createAnnouncement from '../../assets/images/create-announcement.png';
-import concernsIconClose from '../../assets/images/concerns.png';
-import accountIconClose from '../../assets/images/account.png';
-import adminLogo from '../../assets/images/AdminLogo.png';
-import sidebarButton from '../../assets/images/sidebar-button.png';
-import sidebarButtonOpen from '../../assets/images/sidebar-button-open.png';
-import complete from '../../assets/images/complete.png';
-import queue from '../../assets/images/queue.png';
-import dropArrow from '../../assets/images/dropArrow.png';
-import logoutDropdown from '../../assets/images/logout-dropdown.png';
-import accountSettingDropdown from '../../assets/images/account-dropdown.png';
-import searchIcon from '../../assets/images/search-icon.png';
-import filterIcon from '../../assets/images/filter-icon.png';
-import searchBlackIcon from '../../assets/images/black-search-icon.png';
-import inventoryDots from '../../assets/images/user-dots.png';
+import loginLogo from 'assets/images/loginLogo.png';
+import notificationClose from 'assets/images/notificationClose.png';
+import defaultAvatar from 'assets/images/default-avatar.jpg';
+import dashboardIconClose from 'assets/images/dashboard.png';
+import notificationIconClose from 'assets/images/notification.png';
+import usersIconClose from 'assets/images/users.png';
+import deliveryIconOpen from 'assets/images/delivery-open.png';
+import transactionIconClose from 'assets/images/transactions.png';
+import inventoryIconClose from 'assets/images/inventory.png';
+import announcementsIconClose from 'assets/images/announcement.png';
+import concernsIconClose from 'assets/images/concerns.png';
+import accountIconClose from 'assets/images/account.png';
+import adminLogo from 'assets/images/AdminLogo.png';
+import sidebarButton from 'assets/images/sidebar-button.png';
+import sidebarButtonOpen from 'assets/images/sidebar-button-open.png';
+import dropArrow from 'assets/images/dropArrow.png';
+import logoutDropdown from 'assets/images/logout-dropdown.png';
+import accountSettingDropdown from 'assets/images/account-dropdown.png';
+import blueSidebarDropdownClose from 'assets/images/selected-close-sub.png';
+import blueSidebarDropdownOpen from 'assets/images/selected-open-sub.png';
+import deliveryTaskOpen from 'assets/images/task-open.png'; 
+import deliveryRequestClose from 'assets/images/concerns.png';
 
-import deliveryIcon from '../../assets/images/delivery.png';
-import sidebarDropdownClose from '../../assets/images/close-sub-sidebar.png';
-import sidebarDropdownOpen from '../../assets/images/open-sub-sidebar.png';
-import blueSidebarDropdownClose from '../../assets/images/selected-close-sub.png';
-import blueSidebarDropdownOpen from '../../assets/images/selected-open-sub.png';
-import deliveryTaskClose from '../../assets/images/task.png'; 
-import deliveryTaskOpen from '../../assets/images/task-open.png'; 
-import deliveryRequestClose from '../../assets/images/concerns.png';
-import accountIcon from '../../assets/images/account.png';
-import accountSettingIconClose from '../../assets/images/settings.png';
-
-const DeliveryTaskAdmin = () =>{
+export const DeliveryTaskAdmin = () =>{
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -157,7 +138,7 @@ const toggleSidebar = () => {
         <div className="notifications-view">
           <div className="notifications-header">
             <p className="notification-title-header">Notifications</p>
-            <Link to="/Notifications" className="see-all-button">See all</Link>
+            <Link to="/Admin/Notifications" className="see-all-button">See all</Link>
           </div>
           <p className="notification-earlier-header">Earlier</p>
           {notifications.map((notification, index) => (
@@ -177,11 +158,11 @@ const toggleSidebar = () => {
         </div>
         {dropdownVisible && (
             <div  className="profile-dropdown">
-              <Link to="/Profile" className="link">
+              <Link to="/Admin/Profile" className="link">
                 <img className="image-dropdown" src={defaultAvatar} alt="Account Profile" />
                 <span className="profile-name">Celmin Shane</span>
               </Link>
-              <Link to="/Settings" >
+              <Link to="/Admin/Account/Settings/MyProfile" >
                 <img className="setting-dropdown" src={accountSettingDropdown} alt="Account Settings" />
                 Account Settings
               </Link>
@@ -200,19 +181,19 @@ const toggleSidebar = () => {
       </button>
       <img className="adminlogo" src={adminLogo} alt="AdminLogo" />
       <ul>
-        <Link to="/Dashboard" className='link-sidebar'>
+        <Link to="/Admin/Dashboard" className='link-sidebar'>
           <li>
             <img className="sidebaricon" src={dashboardIconClose} alt="Dashboard" />
             <span className="sidebar-text">Dashboard</span>
           </li>
         </Link>
-        <Link to="/Notifications" className='link-sidebar'>
+        <Link to="/Admin/Notifications" className='link-sidebar'>
           <li>
             <img className="sidebaricon" src={notificationIconClose} alt="Notifications" />
             <span className="sidebar-text">Notifications</span>
           </li>
         </Link>
-        <Link to="/Users" className='link-sidebar'>
+        <Link to="/Admin/Users" className='link-sidebar'>
           <li>
             <img className="sidebaricon" src={usersIconClose} alt="Users" />
             <span className="sidebar-text">Users</span>
@@ -227,50 +208,51 @@ const toggleSidebar = () => {
               alt="dropdown"
             />
         </li>
-  
-        <ul>
-          <Link to="/Delivery/Task" className='link-sub-sidebar'>
-            <li className='sub-sidebar selected'>
-              <div className="task-container sub-highlighted">
-                <img className="sub-sidebaricon" src={deliveryTaskOpen} alt="Tasks" />
-                <span className="sidebar-text">Tasks</span>
-              </div>
-            </li>
-          </Link>
-          <Link to="/Delivery/Requests" className='link-sub-sidebar'>
-            <li className='sub-sidebar'>
-              <div className="task-container">
-                <img className="sub-sidebaricon" src={deliveryRequestClose} alt="Requests" />
-                <span className="sidebar-text">Requests</span>
+        {subDeliverySidebarVisible && (
+          <ul>
+            <Link to="/Admin/Delivery/Task" className='link-sub-sidebar'>
+              <li className='sub-sidebar'>
+                <div className="task-container sub-highlighted">
+                  <img className="sub-sidebaricon" src={deliveryTaskOpen} alt="Tasks" />
+                  <span className="sidebar-text">Tasks</span>
                 </div>
-            </li>
-          </Link>
-        </ul>
-        <Link to="/Transactions" className='link-sidebar'>
+              </li>
+            </Link>
+            <Link to="/Admin/Delivery/Requests" className='link-sub-sidebar'>
+              <li className='sub-sidebar'>
+                <div className="task-container">
+                  <img className="sub-sidebaricon" src={deliveryRequestClose} alt="Requests" />
+                  <span className="sidebar-text">Requests</span>
+                  </div>
+              </li>
+            </Link>
+          </ul>
+         )}
+        <Link to="/Admin/Transactions" className='link-sidebar'>
           <li>
             <img className="sidebaricon" src={transactionIconClose} alt="Transactions" />
             <span className="sidebar-text">Transactions</span>
           </li>
         </Link>
-        <Link to="/Inventory" className='link-sidebar'>
+        <Link to="/Admin/Inventory" className='link-sidebar'>
           <li>
             <img className="sidebaricon" src={inventoryIconClose} alt="Inventory" />
             <span className="sidebar-text">Inventory</span>
           </li>
         </Link>
-        <Link to="/Announcements" className='link-sidebar'>
+        <Link to="/Admin/Announcements" className='link-sidebar'>
           <li>
             <img className="sidebaricon" src={announcementsIconClose} alt="Announcements" />
             <span className="sidebar-text">Announcements</span>
           </li>
         </Link>
-        <Link to="/Concerns" className='link-sidebar'>
+        <Link to="/Admin/Concerns" className='link-sidebar'>
           <li>
             <img className="sidebaricon" src={concernsIconClose} alt="Concerns" />
             <span className="sidebar-text">Concerns</span>
           </li>
         </Link>
-        <Link to="/Account/Settings/MyProfile" className='link-sidebar'>
+        <Link to="/Admin/Account/Settings/MyProfile" className='link-sidebar'>
           <li>
             <img className="sidebaricon" src={accountIconClose} alt="Account" />
             <span className="sidebar-text">Account</span>
@@ -281,10 +263,10 @@ const toggleSidebar = () => {
     <div className={`dashboard-content ${sidebarMinimized ? 'content-minimized' : ''}`}>
       <div className="delivery-header">
         <h2 className="delivery-header-text">Task</h2>
-        <Link to="/Delivery/Task"  className='delivery-queue-link'>
+        <Link to="/Admin/Delivery/Task"  className='delivery-queue-link'>
           <p className="delivery-queue-text">Delivery Queue</p>
         </Link>
-        <Link to="/Delivery/Requests"  className='delivery-request-link'>
+        <Link to="/Admin/Delivery/Requests"  className='delivery-request-link'>
         <p className="delivery-request-text">Requests</p>
         </Link>
       </div>
@@ -326,5 +308,3 @@ const toggleSidebar = () => {
   </div>
   );
 }
-
-export default DeliveryTaskAdmin;

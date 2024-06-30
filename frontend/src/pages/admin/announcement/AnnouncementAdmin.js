@@ -1,47 +1,35 @@
-import "../../assets/css/AnnouncementAdmin.css"
+import "assets/css/AnnouncementAdmin.css"
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import loginLogo from '../../assets/images/loginLogo.png';
-import notificationClose from '../../assets/images/notificationClose.png';
-import defaultAvatar from '../../assets/images/default-avatar.jpg';
-import dashboardIconOpen from '../../assets/images/dashboard-open.png';
-import dashboardIconClose from '../../assets/images/dashboard.png';
-import notificationIconClose from '../../assets/images/notification.png';
-import usersIconClose from '../../assets/images/users.png';
-import usersIconOpen from '../../assets/images/users-open.png';
-import deliveryIconClose from '../../assets/images/delivery.png';
-import transactionIconClose from '../../assets/images/transactions.png';
-import inventoryIconClose from '../../assets/images/inventory.png';
-import inventoryIconOpen from '../../assets/images/inventory-open.png';
-import announcementsIconClose from '../../assets/images/announcement.png';
-import announcementIconOpen from '../../assets/images/announcement-open.png';
-import createAnnouncement from '../../assets/images/create-announcement.png';
-import concernsIconClose from '../../assets/images/concerns.png';
-import accountIconClose from '../../assets/images/account.png';
-import adminLogo from '../../assets/images/AdminLogo.png';
-import sidebarButton from '../../assets/images/sidebar-button.png';
-import sidebarButtonOpen from '../../assets/images/sidebar-button-open.png';
-import complete from '../../assets/images/complete.png';
-import queue from '../../assets/images/queue.png';
-import dropArrow from '../../assets/images/dropArrow.png';
-import logoutDropdown from '../../assets/images/logout-dropdown.png';
-import accountSettingDropdown from '../../assets/images/account-dropdown.png';
-import searchIcon from '../../assets/images/search-icon.png';
-import filterIcon from '../../assets/images/filter-icon.png';
-import searchBlackIcon from '../../assets/images/black-search-icon.png';
-import inventoryDots from '../../assets/images/user-dots.png';
-
-import deliveryIcon from '../../assets/images/delivery.png';
-import sidebarDropdownClose from '../../assets/images/close-sub-sidebar.png';
-import sidebarDropdownOpen from '../../assets/images/open-sub-sidebar.png';
-import deliveryTaskClose from '../../assets/images/task.png'; 
-import deliveryRequestClose from '../../assets/images/concerns.png';
-import accountIcon from '../../assets/images/account.png';
-import accountSettingIconClose from '../../assets/images/settings.png';
+import loginLogo from 'assets/images/loginLogo.png';
+import notificationClose from 'assets/images/notificationClose.png';
+import defaultAvatar from 'assets/images/default-avatar.jpg';
+import dashboardIconClose from 'assets/images/dashboard.png';
+import notificationIconClose from 'assets/images/notification.png';
+import usersIconClose from 'assets/images/users.png';
+import transactionIconClose from 'assets/images/transactions.png';
+import inventoryIconClose from 'assets/images/inventory.png';
+import announcementIconOpen from 'assets/images/announcement-open.png';
+import createAnnouncement from 'assets/images/create-announcement.png';
+import concernsIconClose from 'assets/images/concerns.png';
+import adminLogo from 'assets/images/AdminLogo.png';
+import sidebarButton from 'assets/images/sidebar-button.png';
+import sidebarButtonOpen from 'assets/images/sidebar-button-open.png';
+import dropArrow from 'assets/images/dropArrow.png';
+import logoutDropdown from 'assets/images/logout-dropdown.png';
+import accountSettingDropdown from 'assets/images/account-dropdown.png';
+import inventoryDots from 'assets/images/user-dots.png';
+import deliveryIcon from 'assets/images/delivery.png';
+import sidebarDropdownClose from 'assets/images/close-sub-sidebar.png';
+import sidebarDropdownOpen from 'assets/images/open-sub-sidebar.png';
+import deliveryTaskClose from 'assets/images/task.png'; 
+import deliveryRequestClose from 'assets/images/concerns.png';
+import accountIcon from 'assets/images/account.png';
+import accountSettingIconClose from 'assets/images/settings.png';
 
 
-const AnnouncementAdmin = () =>{
+export const AnnouncementAdmin = () =>{
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -141,7 +129,7 @@ const AnnouncementAdmin = () =>{
           <div className="notifications-view">
             <div className="notifications-header">
               <p className="notification-title-header">Notifications</p>
-              <Link to="/notifications" className="see-all-button">See all</Link>
+              <Link to="/Admin/Notifications" className="see-all-button">See all</Link>
             </div>
             <p className="notification-earlier-header">Earlier</p>
             {notifications.map((notification, index) => (
@@ -161,11 +149,11 @@ const AnnouncementAdmin = () =>{
           </div>
           {dropdownVisible && (
               <div  className="profile-dropdown">
-                <Link to="/Profile" className="link">
+                <Link to="/Admin/Profile" className="link">
                   <img className="image-dropdown" src={defaultAvatar} alt="Account Profile" />
                   <span className="profile-name">Celmin Shane</span>
                 </Link>
-                <Link to="/Settings" >
+                <Link to="/Admin/Account/Settings/MyProfile" >
                   <img className="setting-dropdown" src={accountSettingDropdown} alt="Account Settings" />
                   Account Settings
                 </Link>
@@ -184,19 +172,19 @@ const AnnouncementAdmin = () =>{
         </button>
         <img className="adminlogo" src={adminLogo} alt="AdminLogo" />
         <ul>
-          <Link to="/Dashboard" className='link-sidebar'>
+          <Link to="/Admin/Dashboard" className='link-sidebar'>
             <li>
               <img className="sidebaricon" src={dashboardIconClose} alt="Dashboard" />
               <span className="sidebar-text">Dashboard</span>
             </li>
           </Link>
-          <Link to="/Notifications" className='link-sidebar'>
+          <Link to="/Admin/Notifications" className='link-sidebar'>
             <li>
               <img className="sidebaricon" src={notificationIconClose} alt="Notifications" />
               <span className="sidebar-text">Notifications</span>
             </li>
           </Link>
-          <Link to="/Users" className='link-sidebar '>
+          <Link to="/Admin/Users" className='link-sidebar '>
             <li>
               <img className="sidebaricon" src={usersIconClose} alt="Users" />
               <span className="sidebar-text">Users</span>
@@ -214,7 +202,7 @@ const AnnouncementAdmin = () =>{
           </li>
           {subDeliverySidebarVisible && (
             <ul className="sub-sidebar">
-              <Link to="/Delivery/Task">
+              <Link to="/Admin/Delivery/Task">
               <li  className='delivery-sub-sidebar'>
                 <div className="task-container ">
                   <img className="sub-sidebaricon" src={deliveryTaskClose} alt="Tasks" />
@@ -222,7 +210,7 @@ const AnnouncementAdmin = () =>{
                 </div>
               </li>
               </Link>
-              <Link to="/Delivery/Queue">
+              <Link to="/Admin/Delivery/Queue">
               <li className='delivery-sub-sidebar'>
                 <div className="task-container">
                   <img className="sub-sidebaricon" src={deliveryRequestClose} alt="Requests" />
@@ -232,25 +220,25 @@ const AnnouncementAdmin = () =>{
               </Link>
             </ul>
           )}
-          <Link to="/Transactions" className='link-sidebar'>
+          <Link to="/Admin/Transactions" className='link-sidebar'>
             <li>
               <img className="sidebaricon" src={transactionIconClose} alt="Transactions" />
               <span className="sidebar-text">Transactions</span>
             </li>
           </Link>
-          <Link to="/Inventory" className='link-sidebar'>
+          <Link to="/Admin/Inventory" className='link-sidebar'>
             <li>
               <img className="sidebaricon" src={inventoryIconClose} alt="Inventory" />
               <span className="sidebar-text">Inventory</span>
             </li>
           </Link>
-          <Link to="/Announcements" className='link-sidebar highlighted'>
+          <Link to="/Admin/Announcements" className='link-sidebar highlighted'>
             <li>
               <img className="sidebaricon" src={announcementIconOpen} alt="Announcements" />
               <span className="sidebar-text">Announcements</span>
             </li>
           </Link>
-          <Link to="/Concerns" className='link-sidebar'>
+          <Link to="/Admin/Concerns" className='link-sidebar'>
             <li>
               <img className="sidebaricon" src={concernsIconClose} alt="Concerns" />
               <span className="sidebar-text">Concerns</span>
@@ -268,7 +256,7 @@ const AnnouncementAdmin = () =>{
           </li>
           {subAccountSidebarVisible && (
           <ul>
-            <Link to="/Account/Settings/MyProfile" className='link-sub-sidebar'>
+            <Link to="/Admin/Account/Settings/MyProfile" className='link-sub-sidebar'>
               <li className='sub-sidebar selected'>
                 <div className="task-container ">
                   <img className="sub-sidebaricon account-settings-icon" src={accountSettingIconClose} alt="Tasks" />
@@ -282,7 +270,7 @@ const AnnouncementAdmin = () =>{
       </div>
       <div className={`dashboard-content ${sidebarMinimized ? 'content-minimized' : ''}`}>
         <div className="announcement-container">
-          <Link to="/Announcements/CreateAnnouncement" >
+          <Link to="/Admin/Announcements/CreateAnnouncement" >
           <button className="create-announcement-button">
             <img className="create-announcement-icon" src={createAnnouncement} alt="Announcement Icon" />
             Create Announcement
@@ -321,5 +309,3 @@ const AnnouncementAdmin = () =>{
     </div>
   );
 }
-
-export default AnnouncementAdmin;
