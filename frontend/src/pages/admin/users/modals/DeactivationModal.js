@@ -1,7 +1,7 @@
 import React from 'react';
-import '../../assets/css/DeactivationModal.css';
+import 'assets/css/DeactivationModal.css';
 
-const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {
+export const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {
   
   if (!isOpen) return null;
 
@@ -21,4 +21,3 @@ const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {
   );
 };
 
-export default DeactivationModal;

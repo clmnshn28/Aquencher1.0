@@ -1,0 +1,43 @@
+
+ /* users edit content */
+
+.users-edit-profile-header {
+  background-color: #FFFFFF;
+  margin-right: 40px;
+  margin-left: 10px;
+  height: 130px;
+  padding: 15px 90px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: 2px solid #C4E5FF;
+  color: #007bff;
+  position: relative;
+  display: flex;
+  align-items: center;
+  
+}
+
+
+.user-edit-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.user-edit-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-edit-name {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.user-edit-username {
+  margin: 0;
+  font-size: 16px;
+  color: #888;
+}

@@ -1,38 +1,40 @@
-import "../../assets/css/index.css"
-import "../../assets/css/DashboardAdmin.css"
+import "assets/css/UsersEditAdmin.css"
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import loginLogo from '../../assets/images/loginLogo.png';
-import notificationClose from '../../assets/images/notificationClose.png';
-import defaultAvatar from '../../assets/images/default-avatar.jpg';
-import dashboardIconOpen from '../../assets/images/dashboard-open.png';
-import notificationIcon from '../../assets/images/notification.png';
-import usersIcon from '../../assets/images/users.png';
-import deliveryIcon from '../../assets/images/delivery.png';
-import transactionIcon from '../../assets/images/transactions.png';
-import inventoryIcon from '../../assets/images/inventory.png';
-import announcementsIcon from '../../assets/images/announcement.png';
-import concernsIcon from '../../assets/images/concerns.png';
-import accountIcon from '../../assets/images/account.png';
-import adminLogo from '../../assets/images/AdminLogo.png';
-import sidebarButton from '../../assets/images/sidebar-button.png';
-import sidebarButtonOpen from '../../assets/images/sidebar-button-open.png';
-import complete from '../../assets/images/complete.png';
-import queue from '../../assets/images/queue.png';
-import dropArrow from '../../assets/images/dropArrow.png';
-import logoutDropdown from '../../assets/images/logout-dropdown.png';
-import accountSettingDropdown from '../../assets/images/account-dropdown.png';
-import deliveryTaskOpen from '../../assets/images/task-open.png'; 
-import deliveryTaskClose from '../../assets/images/task.png'; 
-import deliveryRequestClose from '../../assets/images/concerns.png';
-import accountSettingIconOpen from '../../assets/images/settings-open.png';
-import accountSettingIconClose from '../../assets/images/settings.png';
-import editProfile from '../../assets/images/edit-profile.png';
-import sidebarDropdownClose from '../../assets/images/close-sub-sidebar.png';
-import sidebarDropdownOpen from '../../assets/images/open-sub-sidebar.png';
 
-const DashboardAdmin = () => {
+import loginLogo from 'assets/images/loginLogo.png';
+import notificationClose from 'assets/images/notificationClose.png';
+import defaultAvatar from 'assets/images/default-avatar.jpg';
+import dashboardIconClose from 'assets/images/dashboard.png';
+import notificationIconClose from 'assets/images/notification.png';
+import usersIconOpen from 'assets/images/users-open.png';
+import transactionIconClose from 'assets/images/transactions.png';
+import inventoryIconClose from 'assets/images/inventory.png';
+import announcementsIconClose from 'assets/images/announcement.png';
+import concernsIconClose from 'assets/images/concerns.png';
+
+import adminLogo from 'assets/images/AdminLogo.png';
+import sidebarButton from 'assets/images/sidebar-button.png';
+import sidebarButtonOpen from 'assets/images/sidebar-button-open.png';
+import dropArrow from 'assets/images/dropArrow.png';
+import logoutDropdown from 'assets/images/logout-dropdown.png';
+import accountSettingDropdown from 'assets/images/account-dropdown.png';
+import searchIcon from 'assets/images/search-icon.png';
+import filterIcon from 'assets/images/filter-icon.png';
+import searchBlackIcon from 'assets/images/black-search-icon.png';
+import userDots from 'assets/images/user-dots.png';
+
+import deliveryIcon from 'assets/images/delivery.png';
+import sidebarDropdownClose from 'assets/images/close-sub-sidebar.png';
+import sidebarDropdownOpen from 'assets/images/open-sub-sidebar.png';
+import deliveryTaskClose from 'assets/images/task.png'; 
+import deliveryRequestClose from 'assets/images/concerns.png';
+import accountIcon from 'assets/images/account.png';
+import accountSettingIconClose from 'assets/images/settings.png';
+
+
+export const UsersEditAdmin = () =>{
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -43,11 +45,13 @@ const DashboardAdmin = () => {
     { subject: 'Borrow Request', description: 'John Smith requested to borrow 2 gallons of Po\'s Purified Dispenser Bottle Refill 18.9L', time: '12 minutes ago', isNew: false },
     { subject: 'System Update', description: 'System will be offline temporarily. Update is scheduled for tomorrow at 10:00 AM. Please plan your tasks accordingly.', time: '12 minutes ago', isNew: false },
   ]);
+
   const [subDeliverySidebarVisible, setSubDeliverySidebarVisible] = useState(false);
   const [highlightedDeliveryTab, setHighlightedDeliveryTab] = useState('');
   const [subAccountSidebarVisible, setSubAccountSidebarVisible] = useState(false);
   const [highlightedAccountTab, setHighlightedAccountTab] = useState('');
   const [lastOpenedDropdown, setLastOpenedDropdown] = useState(null);
+
 
   const toggleSidebar = () => {
 
@@ -122,9 +126,25 @@ const DashboardAdmin = () => {
     }
   };
 
+  const user = {
+    firstname: 'Karen Joyce',
+    lastname: 'Joson',
+    phone: '09123892012',
+    address: {
+      homeNumber: '123',
+      streetAddress: 'Sampaguita St.',
+      barangay: 'Bulihan',
+      city: 'Malolos',
+      province: 'Bulacan',
+      postalCode: '2011'
+    },
+    profilePicture: defaultAvatar,
+    username: '@karenjoycejoson'
+  };
+
   return (
 
-  <div className={`dashboard-container ${sidebarMinimized ? 'sidebar-minimized' : ''}`}>
+    <div className={`dashboard-container ${sidebarMinimized ? 'sidebar-minimized' : ''}`}>
     <div className="dashboard-header">
       <img className="Aquencher-Logo" src={loginLogo} alt="Aquencher Logo" />
       <div className="admin-profile">
@@ -133,7 +153,7 @@ const DashboardAdmin = () => {
         <div className="notifications-view">
           <div className="notifications-header">
             <p className="notification-title-header">Notifications</p>
-            <Link to="/Notifications" className="see-all-button">See all</Link>
+            <Link to="/Admin/Notifications" className="see-all-button">See all</Link>
           </div>
           <p className="notification-earlier-header">Earlier</p>
           {notifications.map((notification, index) => (
@@ -153,11 +173,11 @@ const DashboardAdmin = () => {
         </div>
         {dropdownVisible && (
             <div  className="profile-dropdown">
-              <Link to="/Profile" className="link">
+              <Link to="/Admin/Profile" className="link">
                 <img className="image-dropdown" src={defaultAvatar} alt="Account Profile" />
                 <span className="profile-name">Celmin Shane</span>
               </Link>
-              <Link to="/Settings" >
+              <Link to="/Admin/Account/Settings/MyProfile" >
                 <img className="setting-dropdown" src={accountSettingDropdown} alt="Account Settings" />
                 Account Settings
               </Link>
@@ -176,21 +196,21 @@ const DashboardAdmin = () => {
       </button>
       <img className="adminlogo" src={adminLogo} alt="AdminLogo" />
       <ul>
-        <Link to="/Dashboard" className='link-sidebar highlighted'>
+        <Link to="/Admin/Dashboard" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={dashboardIconOpen} alt="Dashboard" />
+            <img className="sidebaricon" src={dashboardIconClose} alt="Dashboard" />
             <span className="sidebar-text">Dashboard</span>
           </li>
         </Link>
-        <Link to="/Notifications" className='link-sidebar'>
+        <Link to="/Admin/Notifications" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={notificationIcon} alt="Notifications" />
+            <img className="sidebaricon" src={notificationIconClose} alt="Notifications" />
             <span className="sidebar-text">Notifications</span>
           </li>
         </Link>
-        <Link to="/Users" className='link-sidebar'>
+        <Link to="/Admin/Users" className='link-sidebar highlighted'>
           <li>
-            <img className="sidebaricon" src={usersIcon} alt="Users" />
+            <img className="sidebaricon" src={usersIconOpen} alt="Users" />
             <span className="sidebar-text">Users</span>
           </li>
         </Link>
@@ -206,7 +226,7 @@ const DashboardAdmin = () => {
         </li>
         {subDeliverySidebarVisible && (
           <ul className="sub-sidebar">
-            <Link to="/Delivery/Task">
+            <Link to="/Admin/Delivery/Task">
             <li  className='delivery-sub-sidebar'>
               <div className="task-container ">
                 <img className="sub-sidebaricon" src={deliveryTaskClose} alt="Tasks" />
@@ -214,7 +234,7 @@ const DashboardAdmin = () => {
               </div>
             </li>
             </Link>
-            <Link to="/Delivery/Queue">
+            <Link to="/Admin/Delivery/Queue">
             <li className='delivery-sub-sidebar'>
               <div className="task-container">
                 <img className="sub-sidebaricon" src={deliveryRequestClose} alt="Requests" />
@@ -224,27 +244,27 @@ const DashboardAdmin = () => {
             </Link>
           </ul>
         )}
-        <Link to="/Transactions" className='link-sidebar'>
+        <Link to="/Admin/Transactions" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={transactionIcon} alt="Transactions" />
+            <img className="sidebaricon" src={transactionIconClose} alt="Transactions" />
             <span className="sidebar-text">Transactions</span>
           </li>
         </Link>
-        <Link to="/Inventory" className='link-sidebar'>
+        <Link to="/Admin/Inventory" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={inventoryIcon} alt="Inventory" />
+            <img className="sidebaricon" src={inventoryIconClose} alt="Inventory" />
             <span className="sidebar-text">Inventory</span>
           </li>
         </Link>
-        <Link to="/Announcements" className='link-sidebar'>
+        <Link to="/Admin/Announcements" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={announcementsIcon} alt="Announcements" />
+            <img className="sidebaricon" src={announcementsIconClose} alt="Announcements" />
             <span className="sidebar-text">Announcements</span>
           </li>
         </Link>
-        <Link to="/Concerns" className='link-sidebar'>
+        <Link to="/Admin/Concerns" className='link-sidebar'>
           <li>
-            <img className="sidebaricon" src={concernsIcon} alt="Concerns" />
+            <img className="sidebaricon" src={concernsIconClose} alt="Concerns" />
             <span className="sidebar-text">Concerns</span>
           </li>
         </Link>
@@ -260,7 +280,7 @@ const DashboardAdmin = () => {
         </li>
         {subAccountSidebarVisible && (
         <ul>
-          <Link to="/Account/Settings/MyProfile" className='link-sub-sidebar'>
+          <Link to="/Admin/Account/Settings/MyProfile" className='link-sub-sidebar'>
             <li className='sub-sidebar selected'>
               <div className="task-container ">
                 <img className="sub-sidebaricon account-settings-icon" src={accountSettingIconClose} alt="Tasks" />
@@ -273,75 +293,17 @@ const DashboardAdmin = () => {
       </ul>
     </div>
     <div className={`dashboard-content ${sidebarMinimized ? 'content-minimized' : ''}`}>
-    <h2 className="welcome">Welcome, Admin!</h2>
-      <div className="first-content">
-        <div className="summary">
-            <div className="summary-item">
-              <div className="summary-title">Employee Total</div>
-              <div className="summary-value">0</div>
-            </div>
-            <div className="summary-item">
-              <div className="summary-title">Available Gallons</div>
-              <div className="summary-value">0</div>
-            </div>
-            <div className="summary-item">
-              <div className="summary-title">Total Refilled Gallons</div>
-              <div className="summary-value">0</div>
-            </div>
-            <div className="summary-item">
-              <div className="summary-title">Borrowed Gallons</div>
-              <div className="summary-value">0</div>
-            </div>
-            <div className="time-date-container">
-              <div className="time">00:00 NN</div>
-              <div className="date">MM / DD / YYYY</div>
-            </div>
-          </div>
-      </div>
-      <div className="second-content">
-        <div className="left-content">
-          <div className="delivery">
-            <h3 className="delivery-text">Delivery</h3>
-            <div className="delivery-item-container">
-              <div className="delivery-item">
-                <img className="delivery-image" src={complete} alt=" Complete Image" />
-                <div className="delivery-info">
-                  <div className="delivery-title">Completed Delivery</div>
-                  <div className="delivery-value">0</div>
-                </div>
-              </div>
-              <div className="delivery-item">
-                <img className="delivery-image" src={queue} alt=" Queue Image" />
-                <div className="delivery-info">
-                  <div className="delivery-title">Queue</div>
-                  <div className="delivery-value">0</div>
-                </div>
-              </div>
-              <div className="delivery-item">
-                <img className="delivery-image" src={complete} alt=" Request Image" />
-                <div className="delivery-info"> 
-                  <div className="delivery-title">Requests</div>
-                  <div className="delivery-value">0</div>
-                </div>
-              </div>
-            </div>
-            
-          </div>
-          <div className="graph-container">
-            <p>REFILLED AND BORROWED GALLON PER MONTH</p>
-          </div>
-        </div>
-        <div className="right-content">
-          <div className="returned-gallon-container">
-            <p>RETURNED GALLONS</p>
-          </div>
+      <div className="users-edit-profile-header">
+        <img className="user-edit-avatar" src={user.profilePicture} alt="User Avatar" />
+        <div className="user-edit-details">
+          <h2 className="user-edit-name">{user.firstname} {user.lastname}</h2>
+          <p className="user-edit-username">{user.username}</p>
         </div>
       </div>
-
+      
+    
     </div>
 
   </div>
   );
-};
-
-export default DashboardAdmin;
+}
