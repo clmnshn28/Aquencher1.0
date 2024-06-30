@@ -68,7 +68,7 @@ const SignUp = () =>{
     }
   };
   const getRequirementIcon = (requirement) => {
-    return isPasswordRequirementMet(requirement) ? <span className='check'>&#10004;</span> : <span className='ekis'>&#10005;</span>;
+    return isPasswordRequirementMet(requirement) ? <span className='check'>&#10004;</span> : <span className='wrong'>&#10005;</span>;
   };
 
   return (
