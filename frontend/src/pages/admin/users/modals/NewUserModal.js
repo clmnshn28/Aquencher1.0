@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import '../../assets/css/NewUserModal.css';
+import 'assets/css/NewUserModal.css';
 
-import defaultAvatar from '../../assets/images/default-avatar.jpg';
-import uploadPhoto from '../../assets/images/uploadPhoto.png';
+import defaultAvatar from 'assets/images/default-avatar.jpg';
+import uploadPhoto from 'assets/images/uploadPhoto.png';
 
-const NewUserModal = ({isOpen, onClose, onAddUser}) => {
+export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
 
   const [firstname, setFirstName] = useState('');
   const [lastname, setLastName] = useState('');
@@ -122,7 +122,7 @@ const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   };
   
   const getRequirementIcon = (requirement) => {
-    return isPasswordRequirementMet(requirement) ? <span className='check'>&#10004;</span> : <span className='ekis'>&#10005;</span>;
+    return isPasswordRequirementMet(requirement) ? <span className='check'>&#10004;</span> : <span className='wrong'>&#10005;</span>;
   };
 
   if (!isOpen) return null;
@@ -212,5 +212,3 @@ const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   );
 
 }
-
-export default NewUserModal;
