@@ -1,6 +1,10 @@
 
 /* concerns content */
 
+.bgConcern-container{
+  background-color:#EEF7FF;
+  padding-bottom: 10px;
+}
 
 .concerns-container{
   background-color: #FFFFFF;

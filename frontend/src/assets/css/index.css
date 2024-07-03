@@ -249,7 +249,7 @@ body {
   padding: 8px 10px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.3s ease; 
+  transition: background-color 0.1s ease; 
 }
 
 .link-sidebar:not(.highlighted):hover {

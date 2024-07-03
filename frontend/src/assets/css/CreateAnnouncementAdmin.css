@@ -1,6 +1,6 @@
 .bgannouncement-container{
   background-color: #EEF7FF;
-  min-height: 108vh; 
+  padding-bottom: 20px;
 }
 
 .create-announcement-container{

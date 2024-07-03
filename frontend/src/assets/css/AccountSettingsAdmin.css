@@ -2,10 +2,8 @@
 /* account content */
 .bgaccount-container{
   background-color:#EEF7FF;
-  min-height: 120vh; 
   padding-bottom: 20px;
 }
-
 
 .account-settings-container{
   background-color: #FFFFFF;

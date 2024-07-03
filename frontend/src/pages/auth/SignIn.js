@@ -5,7 +5,7 @@ import loginLogo from 'assets/images/loginLogo.png';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 import { Link } from 'react-router-dom';
 
-const SignIn = () =>{
+export const SignIn = () =>{
 
   // for label of input field 
   const [username, setUsername] = useState('');
@@ -93,5 +93,3 @@ const SignIn = () =>{
   );
 }
 
-
-export default SignIn;
