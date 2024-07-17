@@ -1,0 +1,204 @@
+
+/* users view content */
+
+.bgUserEdit-container{
+  background-color:#EEF7FF;
+  padding-bottom: 20px;
+  height: 135vh;
+}
+
+.users-view-profile-header {
+  background-color: #FFFFFF;
+  margin-right: 40px;
+  margin-left: 10px;
+  margin-bottom: 20px;
+  height: 140px;
+  padding: 5px 30px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: 10px;
+  position: relative;
+}
+
+.users-view-item {
+  display: flex;
+  align-items: center;
+  width:210px;
+  background-color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  border: 1px solid #C4E5FF;
+  margin-bottom: 20px;
+}
+
+.users-view-image{
+  width: 43px;
+  margin-right: 10px;
+}
+
+.users-view-title{
+  font-size: 14px;
+  font-weight: 500;
+  color: #0174CF;
+}
+
+.users-view-value{
+  font-weight: 500;
+  font-size: 22px;
+  color: #0174CF;
+}
+
+
+/* back */
+
+.user-back-btn-view{
+  position: absolute;
+  width: 60px;
+  top: 15px;
+  left: 12px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+
+.user-back-btn-view:hover{
+  transform: scale(1.07); 
+}
+
+/* body content  */
+.users-view-profile-body {
+  margin-right: 40px;
+  margin-left: 10px;
+  height: 140px;
+}
+
+.customer-view-header-text{
+  color: #0174CF;
+  font-size: 23px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.customer-view-header-text.activity{
+  color: #0174CF;
+  font-size: 23px;
+  font-weight: 600;
+  margin: 10px 0;
+}
+
+.users-view-details-container{
+  display: flex;
+  gap: 20px;
+}
+
+.users-view-left-container{
+  width: 45em;
+}
+
+.users-all-details-content{
+  background-color: #fff;
+  padding: 30px 150px 30px 30px;
+  position: relative;
+}
+/* image  */
+.users-image-cons{
+  position: absolute;
+  top: 25px;
+  right: 25px;
+}
+
+.users-photo{
+  width: 80px;
+  border-radius: 50%;
+  border: 3px solid #169D00;
+}
+
+.user-indicator{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-active-dot {
+  width: 8px;
+  height:8px;
+  border-radius: 100%;
+  background-color: #169D00;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.user-active-name {
+  color: #169D00; 
+  font-size: 15px;
+  font-weight: 500;
+}
+
+
+/*  */
+.users-view-info{
+  margin: 0;
+  font-weight: 500;
+  color: #555252;
+}
+
+.users-view-editable{
+  margin: 0;
+  margin-bottom: 25px;
+  font-weight: bold;
+  color: #3D444A;
+}
+
+/* activity */
+.users-activity-details-content{
+  background-color: #fff;
+  padding: 30px 150px 30px 30px;
+  position: relative;
+  height: 200px;
+  overflow-y: scroll;
+}
+
+/* right content */
+.users-view-right-container{
+  width: 100%;
+  height: 47.7em;
+}
+
+.customer-view-header-text.transaction{
+  color: #0174CF;
+  font-size: 23px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.transaction-tab-container{
+  display: flex;
+  gap: 15px;
+  margin: 5px 0 10px;
+}
+
+.transaction-tab{
+  width: 7em;
+  height: 35px;
+  border: 1px solid #CCCCCC;
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 16px;
+  color: #626262;
+  background-color: #fff;
+}
+
+.transaction-tab.active{
+  background-color: #CCF6FF;
+  border: 2px solid #0174CF;
+  color: #0174CF;
+  font-weight: bold;
+}
+
+.users-transaction-details-content{
+  background-color: #fff;
+  padding: 30px 35px;
+  height: 81%;
+  overflow-y: scroll;
+}

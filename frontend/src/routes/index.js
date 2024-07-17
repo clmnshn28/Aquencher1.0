@@ -6,7 +6,7 @@ import {AdminLayout} from 'layouts/main_layouts';
 
 import {DashboardAdmin} from 'pages/admin/dashboard';
 import {NotificationAdmin} from 'pages/admin/notification';
-import {UsersAdmin, UsersEditAdmin} from 'pages/admin/users';
+import {UsersAdmin, UsersEditAdmin, UsersViewAdmin} from 'pages/admin/users';
 import {DeliveryTaskAdmin} from 'pages/admin/delivery';
 import {TransactionAdmin} from 'pages/admin/transaction';
 import {InventoryAdmin} from 'pages/admin/inventory';
@@ -27,6 +27,7 @@ const MainRoutes = () =>{
           <Route path="Users">
             <Route index element={<UsersAdmin />} />
             <Route path="Customer/Edit" element={<UsersEditAdmin />} />
+            <Route path="Customer/ViewDetails" element={<UsersViewAdmin/>}/>
           </Route>
           <Route path="Delivery/">
             <Route path='Task' element={<DeliveryTaskAdmin/>}/>

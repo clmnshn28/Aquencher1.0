@@ -57,9 +57,7 @@ export const ChangePasswordAdmin = () =>{
         <Link to="/Admin/Account/Settings/ChangePassword">
           <p className="account-settings-password-text-change">Change Password</p>
         </Link>
-        <Link to="/Admin/Account/Settings/Archive Account">
-          <p className="account-settings-archive-text">Archive Account</p>
-        </Link>
+        
       </div>
 
       <div className="admin-account-edit-container-change">
