@@ -153,15 +153,11 @@ export const AdminLayout = () => {
       setHighlightedTab('inventory');
     } else if (currentPath.includes('Announcements')) {
       setHighlightedTab('announcement');
-    } else if (currentPath.includes('Announcements/CreateAnnouncement')) {
-      setHighlightedTab('announcement');
-    } else if (currentPath.includes('Concerns')) {
+    }else if (currentPath.includes('Concerns')) {
       setHighlightedTab('concerns');
-    } else if (currentPath.includes('Account/Settings/MyProfile')) {
+    } else if (currentPath.includes('Account')) {
       setHighlightedTab('account');
-    }  else if (currentPath.includes('Account/Settings/ChangePassword')) {
-      setHighlightedTab('account');
-    } 
+    }
   }, [location]);
 
   return (
@@ -248,7 +244,7 @@ export const AdminLayout = () => {
           <img className="sidebaricon" 
           src={highlightedTab === 'task' || highlightedTab === 'delivery'? deliveryIconOpen :deliveryIconClose} 
           alt="Delivery" />
-          <span className="sidebar-text">Delivery</span>
+          <span className="sidebar-text">Requests</span>
           <img
             className="sidebar-dropdown"
             src={subDeliverySidebarVisible ? 
