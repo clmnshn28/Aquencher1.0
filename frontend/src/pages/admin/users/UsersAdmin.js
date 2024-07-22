@@ -8,6 +8,7 @@ import searchIcon from 'assets/images/search-icon.png';
 import filterIcon from 'assets/images/filter-icon.png';
 import searchBlackIcon from 'assets/images/black-search-icon.png';
 import userDots from 'assets/images/user-dots.png';
+import MainContent from "components/MainContent";
 
 export const UsersAdmin = () => {
 
@@ -74,7 +75,7 @@ export const UsersAdmin = () => {
 
   return (
  
-    <div>
+    <MainContent>
         <div className="users-header">
           <h2 className="users-header-text">Users</h2>
           <p className="customer-name-text">Customers</p>
@@ -185,7 +186,7 @@ export const UsersAdmin = () => {
         onClose={() => setIsDeactivationModalOpen(false)}
         onConfirm={confirmDeactivation}
       />
-    </div>
+    </MainContent>
     
   );
 };

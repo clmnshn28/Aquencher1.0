@@ -1,12 +1,13 @@
 import React from 'react';
 import 'assets/css/DeactivationModal.css';
+import Modal from 'components/Modal';
 
 export const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {
   
   if (!isOpen) return null;
 
   return (
-    <div className="deactivation-modal">
+    <Modal>
       <div className="deactivation-content">
         {/* <span className="deactivation-close" onClick={onClose}>&times;</span> */}
         <h2 className='deactivation-header'>Deactivate Customer Account</h2>
@@ -17,7 +18,7 @@ export const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {
           <button className="deactivation-confirm-btn" onClick={onConfirm}>Deactivate</button>
         </div>
       </div>
-    </div>
+    </Modal>
   );
 };
 

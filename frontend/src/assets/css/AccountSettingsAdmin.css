@@ -1,9 +1,5 @@
 
 /* account content */
-.bgaccount-container{
-  background-color:#EEF7FF;
-  padding-bottom: 20px;
-}
 
 .account-settings-container{
   background-color: #FFFFFF;
@@ -132,7 +128,7 @@
   margin-top: 3px;
 }
 
-.personal-info, .address-info{
+.info-section{
   width: 100%;
 }
 

@@ -1,4 +1,5 @@
 import "assets/css/NotificationAdmin.css"
+import MainContent from "components/MainContent";
 import React, { useState } from 'react';
 
 export const NotificationAdmin = () => {
@@ -18,7 +19,7 @@ export const NotificationAdmin = () => {
 
   return (
 
-    <div>
+    <MainContent>
       <div className="notification-container">
         <h2 className="notification-title">Notifications</h2>
         <h3 className="notification-earlier">Earlier</h3>
@@ -31,6 +32,6 @@ export const NotificationAdmin = () => {
           </div>
         ))}
       </div>
-    </div>
+    </MainContent>
   );
 };

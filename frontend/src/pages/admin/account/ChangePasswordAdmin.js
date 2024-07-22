@@ -1,13 +1,33 @@
 import "assets/css/ChangePasswordAdmin.css"
+import MainContent from "components/MainContent";
+import AccountPasswordField from "components/AccountPasswordField";
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import PasswordRequirements from "components/PasswordRequirements";
 
 export const ChangePasswordAdmin = () =>{
 
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const [error, setError] = useState('');
  
+
+  const handleCurrentPasswordChange = (e) =>{
+    setCurrentPassword(e.target.value);
+  };
+
+  const handleConfirmNewPasswordChange = (e) =>{
+    setConfirmNewPassword(e.target.value);
+    setError('');
+  };
+
+  const handleNewPasswordChange = (e) =>{
+    setNewPassword(e.target.value);
+    setError('');
+  };
+
+
   // checking if password match and met the requirement
   const changePasswordSubmit = (e) => {
     e.preventDefault();
@@ -18,7 +38,7 @@ export const ChangePasswordAdmin = () =>{
       setError('Password does not meet the requirements');
       return;
     }
-    if (password !== confirmPassword) {
+    if (newPassword !== confirmNewPassword) {
       setError('Passwords do not match');
       return; 
     }
@@ -33,22 +53,18 @@ export const ChangePasswordAdmin = () =>{
   const isPasswordRequirementMet = (requirement) => {
     switch (requirement) {
       case 'Be 8-100 characters long':
-        return password.length >= 8 && password.length <= 100;
+        return newPassword.length >= 8 && newPassword.length <= 100;
       case 'Contain at least one uppercase and one lowercase letter':
-        return /[A-Z]/.test(password) && /[a-z]/.test(password);
+        return /[A-Z]/.test(newPassword) && /[a-z]/.test(newPassword);
       case 'Contain at least one number or special character':
-        return /\d/.test(password) || /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        return /\d/.test(newPassword) || /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);
       default:
         return false;
     }
   };
-  const getRequirementIcon = (requirement) => {
-    return isPasswordRequirementMet(requirement) ? <span className='check'>&#10004;</span> : <span className='wrong'>&#10005;</span>;
-  };
-
 
   return (
-    <div className="bgChange-container" >
+    <MainContent >
       <div className="account-settings-container">
         <h1 className="account-settings-header-text">Account Setting</h1>
         <Link to="/Admin/Account/Settings/MyProfile">
@@ -57,56 +73,20 @@ export const ChangePasswordAdmin = () =>{
         <Link to="/Admin/Account/Settings/ChangePassword">
           <p className="account-settings-password-text-change">Change Password</p>
         </Link>
-        
       </div>
-
       <div className="admin-account-edit-container-change">
         <form onSubmit={changePasswordSubmit} className="form-changepass">
-        <div className="form-group">
-          <label className="change-pass-text" htmlFor="currentPassword">Current Password</label>
-          <input 
-            type="password" 
-            id="currentPassword" 
-            name="currentPassword" 
-            className="change-pass-input"
-            required 
-          />
-        </div>
-        <div className="form-group">
-          <label className="change-pass-text" htmlFor="newPassword">New Password</label>
-          <input 
-            type="password" 
-            id="newPassword" 
-            name="newPassword" 
-            className="change-pass-input"
-            required 
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label className="change-pass-text" htmlFor="confirmNewPassword">Confirm New Password</label>
-          <input 
-            type="password" 
-            id="confirmNewPassword" 
-            name="confirmNewPassword" 
-            className="change-pass-input"
-            required 
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-            {error && <span className="changePass-error">{error}</span>}
-        </div>
+        <AccountPasswordField label="Current Password" id="currentPassword" name="currentPassword" value={currentPassword} onChange={handleCurrentPasswordChange} type="password" />
+        <AccountPasswordField label="New Password" id="newPassword" name="newPassword" value={newPassword} onChange={handleNewPasswordChange} type="password" />
+        <AccountPasswordField label="Confirm New Password" id="confirmNewPassword" name="confirmNewPassword" value={confirmNewPassword} onChange={handleConfirmNewPasswordChange} type="password" error={error}/>
+
         <div className="change-password-requirements">
-          <p >Your password must include the following:</p>
-          <ul>
-            <li>{getRequirementIcon('Be 8-100 characters long')} Be 8-100 characters long</li>
-            <li>{getRequirementIcon('Contain at least one uppercase and one lowercase letter')}Contain at least one uppercase and one lowercase letter</li>
-            <li>{getRequirementIcon('Contain at least one number or special character')} Contain at least one number or special character</li>
-          </ul>
+          <PasswordRequirements newPassword={newPassword} />
         </div>
         <button className="change-pass-btn" type="submit">Change Password</button>
         </form>
       </div>
-    </div>
+    </MainContent>
 
   );
 }

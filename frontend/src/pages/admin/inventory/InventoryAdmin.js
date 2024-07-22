@@ -2,12 +2,13 @@ import "assets/css/InventoryAdmin.css"
 import React, { useState } from 'react';
 
 import inventoryDots from 'assets/images/user-dots.png';
+import MainContent from "components/MainContent";
 
 export const InventoryAdmin = () =>{
 
   return (
   
-    <div>
+    <MainContent>
       <div className="inventory-header">
         <h2 className="inventory-header-text">Inventory</h2>
         <div className="total-gallon-container">
@@ -95,7 +96,7 @@ export const InventoryAdmin = () =>{
         </table>
       </div>
 
-    </div>
+    </MainContent>
   );
 }
 

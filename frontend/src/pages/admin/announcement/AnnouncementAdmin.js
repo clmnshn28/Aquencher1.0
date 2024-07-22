@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 
 import createAnnouncement from 'assets/images/create-announcement.png';
 import inventoryDots from 'assets/images/user-dots.png';
+import MainContent from "components/MainContent";
 
 export const AnnouncementAdmin = () =>{
 
 
   return (
-    <div>
+    <MainContent>
       <div className="announcement-container">
         <Link to="/Admin/Announcements/CreateAnnouncement" >
         <button className="create-announcement-button">
@@ -44,8 +45,6 @@ export const AnnouncementAdmin = () =>{
           </tbody>
         </table>
       </div>
-  
-
-    </div>
+    </MainContent>
   );
 }

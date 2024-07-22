@@ -15,15 +15,10 @@
   padding-left: 15px;
 }
 
-
-
-
 .transactions-table-header{
   background-color: #0174CF;
   color: white;
 }
-
-
 
 .transactions-table {
   width: 96%;
@@ -36,8 +31,9 @@
 
 .transactions-table th, .transactions-table td {
   padding: 10px;
-  text-align: center;
   border-bottom: 1px solid #e0e0e0;
+  padding-left: 40px;
+  text-align: start;
 }
 
 .user-status {
@@ -51,7 +47,7 @@
 .transaction-info {
   display: flex;
   align-items: center;
-  justify-content: center;
+
 }
 
 .user-avatar{
