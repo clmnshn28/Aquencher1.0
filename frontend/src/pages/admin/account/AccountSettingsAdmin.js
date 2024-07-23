@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import defaultAvatar from 'assets/images/default-avatar.jpg';
 import editProfile from 'assets/images/edit-profile.png';
-import MainContent from "components/MainContent";
 import AccountInfoSection from "components/AccountInfoSection";
 
 export const AccountSettingsAdmin = () =>{
@@ -29,7 +28,7 @@ export const AccountSettingsAdmin = () =>{
 
   return (
 
-      <MainContent>
+      <div>
         <div className="account-settings-container">
           <h1 className="account-settings-header-text">Account Setting</h1>
           <Link to="/Admin/Account/Settings/MyProfile">
@@ -59,7 +58,7 @@ export const AccountSettingsAdmin = () =>{
           <AccountInfoSection title="Personal Information" infoItems={personalInfoItems} />
           <AccountInfoSection title="Address" infoItems={addressInfoItems} />
         </div>
-      </MainContent>
+      </div>
  
   );
 }

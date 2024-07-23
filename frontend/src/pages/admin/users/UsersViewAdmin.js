@@ -8,7 +8,6 @@ import totalTransaction from 'assets/images/total-transaction.png';
 import totalRefill from 'assets/images/total-refill.png';
 import totalBorrow from 'assets/images/total-borrow.png';
 import totalReturn from 'assets/images/total-return.png';
-import MainContent from 'components/MainContent';
 
 export const UsersViewAdmin = () =>{
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ export const UsersViewAdmin = () =>{
   };
 
   return(
-    <MainContent>
+    <div>
       <div className="users-view-profile-header">
         <div className="users-view-item">
           <img className="users-view-image" src={totalTransaction} alt=" Complete Image" />
@@ -117,6 +116,6 @@ export const UsersViewAdmin = () =>{
         </div>
 
       </div>
-    </MainContent>
+    </div>
   );
 };

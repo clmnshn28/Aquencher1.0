@@ -4,7 +4,7 @@ import 'assets/css/NewUserModal.css';
 import defaultAvatar from 'assets/images/default-avatar.jpg';
 import uploadPhoto from 'assets/images/uploadPhoto.png';
 import Modal from 'components/Modal';
-import NewUserTextField from 'components/NewUserTextField';
+import TextField from 'components/TextField';
 import PasswordRequirements from 'components/PasswordRequirements';
 
 export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
@@ -147,14 +147,14 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
             </div>
             <div className="newUser-input-container">
               <div className="newUser-container">
-                <NewUserTextField label="First Name" value={firstname} onChange={handleFirstnameChange} type="text" isRequired />
-                <NewUserTextField label="Last Name" value={lastname} onChange={handleLastnameChange} type="text" isRequired />
-                <NewUserTextField label="Address" value={address} onChange={handleAddressChange} type="text" isRequired />
-                <NewUserTextField label="Phone" value={phone} onChange={handlePhoneChange} type="text" isRequired />
-                <NewUserTextField label="Username" value={username} onChange={handleUsernameChange} type="text" isRequired />
-                <NewUserTextField label="Password" value={password} onChange={handlePasswordChange} type="password" isRequired />
-                <NewUserTextField label="Confirm Password " value={confirmPassword} onChange={handleConfirmPasswordChange} type="password" isRequired />
-                 {error && <span className="newUser-error">{error}</span>}
+                <TextField label="First Name"  id="firstname" name="firstname" value={firstname} onChange={handleFirstnameChange} type="text" isRequired />
+                <TextField label="Last Name" id="lastname" name="lastname" value={lastname} onChange={handleLastnameChange} type="text" isRequired />
+                <TextField label="Address"  id="address" name="address" value={address} onChange={handleAddressChange} type="text" isRequired />
+                <TextField label="Phone"  id="phone" name="phone" value={phone} onChange={handlePhoneChange} type="text" isRequired />
+                <TextField label="Username"  id="username" name="username" value={username} onChange={handleUsernameChange} type="text" isRequired />
+                <TextField label="Password"  id="password" name="password" value={password} onChange={handlePasswordChange} type="password" isRequired />
+                <TextField label="Confirm Password"  id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} type="password" isRequired />
+                {error && <span className="newUser-error">{error}</span>}
               </div>
             </div>
           </div>

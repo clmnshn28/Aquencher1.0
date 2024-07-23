@@ -1,9 +1,5 @@
 
  /* users edit content */
- .bgEditUser-container{
-  background-color:#EEF7FF;
-  padding-bottom: 20px;
-}
 
 .users-edit-profile-header {
   background-color: #FFFFFF;
@@ -154,9 +150,9 @@
 
 .edit-user-container.password{
   position: relative;
-  padding: 25px 30px;
+  padding: 25px 30px 15px;
   margin-top: 50px;
-  margin-bottom: 25px;
+  margin-bottom: 5px;
   border-radius: 15px;
   border: 2px solid rgba(160, 160, 160,0.3);
 }
@@ -193,33 +189,11 @@
 }
 
 .user-reset-password-form {
-  padding: 0 20px;
-  margin-top: 20px;
+  padding: 20px;
   width: 100%;
-}
-
-/* label and input */
-.reset-input-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-bottom:30px;
-  position: relative;
-}
-
-.reset-label-pass{
-  width: 15em;
-  font-weight: 600;
-  color: rgba(0, 0, 0,59%);
-}
-
-.reset-input-pass {
-  width: 100%;
-  height: 25px;
-  padding: 5px;
-  padding-left: 20px;
-  font-size: 20px;
-  border: 2px solid #ccc;
-  border-radius: 4px;
 }
 
 /* button */
@@ -227,7 +201,7 @@
   display: flex;
   justify-content: center;
   gap: 50px;
-  margin-top: 30px;
+  margin: 20px 0 10px;
 }
 
 .reset-button-pass {
@@ -268,7 +242,9 @@
 .reset-password-requirements{
   background-color: rgba(146, 146, 146,0.15);
   padding: 10px;
-  margin-left: 180px;
+  margin-top: 10px;
+  width: 47%;
+  max-width: 390px;
   border-radius: 5px;
 }
 
@@ -295,9 +271,9 @@
 
 .editUser-error {
   position: absolute;
-  top: -19px; 
+  top: 65px; 
   right: 3px; 
   color: red;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: bold;
 }

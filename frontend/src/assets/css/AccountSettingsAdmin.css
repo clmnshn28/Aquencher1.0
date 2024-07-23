@@ -187,3 +187,30 @@
 .button-edit-personal-info:active{
   opacity: 0.5;
 }
+
+/* Modal */
+
+
+.edit-modal-content {
+  background: #fff;
+  padding: 20px 0px;
+  border-radius: 5px;
+  width: 600px;
+  max-width: 90%;
+  position: relative;
+}
+
+.form-center-container{
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #96E1EC;
+  border-bottom: 1px solid #96E1EC;
+  padding: 40px 0px;
+}
+
+
+.form-edit-container{
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}

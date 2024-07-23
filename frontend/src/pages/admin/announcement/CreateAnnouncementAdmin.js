@@ -1,5 +1,5 @@
 import "assets/css/CreateAnnouncementAdmin.css"
-import MainContent from "components/MainContent";
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -11,8 +11,7 @@ export const CreateAnnouncementAdmin = () =>{
   };
 
   return (
-   
-    <MainContent>
+    <div>
       <div className="create-announcement-container">
         <h1  className="create-announcement-header">Create Announcement</h1>
         <form onSubmit={createhandleSubmit} className="create-form-submit" >
@@ -32,8 +31,7 @@ export const CreateAnnouncementAdmin = () =>{
           </div>
         </form>  
       </div>
-  
-    </MainContent>
+    </div>
   );
 }
  

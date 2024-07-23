@@ -3,13 +3,12 @@ import React, { useState } from 'react';
 
 import complete from 'assets/images/complete.png';
 import queue from 'assets/images/queue.png';
-import MainContent from "components/MainContent";
 
 export const DashboardAdmin = () => {
 
   return (
 
-    <MainContent>
+    <div>
       <h2 className="welcome">Welcome, Admin!</h2>
       <div className="first-content">
         <div className="summary">
@@ -75,7 +74,7 @@ export const DashboardAdmin = () => {
         </div>
       </div>
 
-    </MainContent>
+    </div>
 
   );
 };

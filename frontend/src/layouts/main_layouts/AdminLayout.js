@@ -341,7 +341,9 @@ export const AdminLayout = () => {
       </ul>
     </div>
     <div className={`dashboard-content ${sidebarMinimized ? 'content-minimized' : ''}`}>
-      <Outlet/>
+      <div className="bg-content">
+        <Outlet/>
+      </div>
     </div>
    
   </div>

@@ -3,13 +3,12 @@ import React, { useState } from 'react';
 import {  useNavigate  } from 'react-router-dom';
 
 import defaultAvatar from 'assets/images/default-avatar.jpg';
-import editProfile from 'assets/images/edit-profile.png';
 import backEditButton from 'assets/images/user-edit-back.png';
 import resetPassword from 'assets/images/reset-password.png';
-import MainContent from "components/MainContent";
 import AccountInfoSection from "components/AccountInfoSection";
 import PasswordRequirements from "components/PasswordRequirements";
-import UserPasswordField from "components/UserPasswordField";
+import TextField from "components/TextField";
+import ButtonGroup from "components/ButtonGroup";
 
 export const UsersEditAdmin = () =>{
   const navigate = useNavigate();
@@ -99,7 +98,7 @@ export const UsersEditAdmin = () =>{
 
 
   return (
-    <MainContent>
+    <div>
       <div className="users-edit-profile-header">
         <img className="user-edit-avatar" src={defaultAvatar} alt="User Avatar" />
         <div className="user-edit-details">
@@ -124,21 +123,20 @@ export const UsersEditAdmin = () =>{
           </button>
           {showResetPassword &&(
             <form className="user-reset-password-form" onSubmit={handleSubmitResetPassword}>
-              <UserPasswordField label='Password' type="password" value={newPassword} onChange={handlePasswordChange} isRequired/>
-              <UserPasswordField label="Confirm Password" type="password" value={newConfirmPassword} onChange={handleConfirmPasswordChange} isRequired  error={error}/>
-              
+              <div className="input-change-container">
+                <TextField label='Password' type="password" value={newPassword} onChange={handlePasswordChange} isRequired/>
+                <TextField label="Confirm Password" type="password" value={newConfirmPassword} onChange={handleConfirmPasswordChange} isRequired  error={error}/>
+                {error && <span className="editUser-error">{error}</span>}
+              </div>
               <div className="reset-password-requirements">
                 <PasswordRequirements newPassword={newPassword}/>
               </div>
-              <div className="reset-button-container">
-                <button type="button" className="reset-button-pass cancel" onClick={handleCancel}>Cancel</button>
-                <button type="submit" className="reset-button-pass save">Save</button>
-              </div>
+              <ButtonGroup onCancel={handleCancel} onSave={()=> console.log("Clicked")}/>
             </form>
           )}
         </div>
       </div>
     
-    </MainContent>
+    </div>
   );
 }

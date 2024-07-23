@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import defaultAvatar from 'assets/images/default-avatar.jpg';
 import concernFilterOpen from 'assets/images/concern-filter-open.png';
 import concernFilterClose from 'assets/images/concern-filter-close.png';
-import MainContent from "components/MainContent";
 
 export const ConcernsAdmin = () =>{
   
@@ -33,7 +32,7 @@ export const ConcernsAdmin = () =>{
   };
 
   return (
-    <MainContent>
+    <div>
       <div className="concerns-container">
         <div className="concerns-header">
           <h2 className="concerns-header-text">Concerns</h2>
@@ -72,6 +71,6 @@ export const ConcernsAdmin = () =>{
         </div>
       </div>
 
-    </MainContent>
+    </div>
   );
 }

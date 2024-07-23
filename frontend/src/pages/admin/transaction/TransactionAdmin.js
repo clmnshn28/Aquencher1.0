@@ -5,7 +5,6 @@ import defaultAvatar from 'assets/images/default-avatar.jpg';
 import searchIcon from 'assets/images/search-icon.png';
 import filterIcon from 'assets/images/filter-icon.png';
 import searchBlackIcon from 'assets/images/black-search-icon.png';
-import MainContent from "components/MainContent";
 
 export const TransactionAdmin = () => {
 
@@ -29,7 +28,7 @@ export const TransactionAdmin = () => {
 
   return (
 
-    <MainContent>
+    <div>
       <div className="transactions-header">
         <h2 className="transactions-header-text">Transactions</h2>
       </div>
@@ -93,7 +92,7 @@ export const TransactionAdmin = () => {
           </tbody>
         </table>
       </div>
-    </MainContent>
+    </div>
 
   );
 };
