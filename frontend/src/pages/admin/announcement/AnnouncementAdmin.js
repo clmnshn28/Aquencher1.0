@@ -44,8 +44,6 @@ export const AnnouncementAdmin = () =>{
           </tbody>
         </table>
       </div>
-  
-
     </div>
   );
 }

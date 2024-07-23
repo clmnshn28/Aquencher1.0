@@ -32,7 +32,7 @@ export const ConcernsAdmin = () =>{
   };
 
   return (
-    <div className="bgConcern-container">
+    <div>
       <div className="concerns-container">
         <div className="concerns-header">
           <h2 className="concerns-header-text">Concerns</h2>

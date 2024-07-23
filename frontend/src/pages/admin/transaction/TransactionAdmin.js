@@ -1,35 +1,10 @@
 import "assets/css/TransactionAdmin.css"
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 
-import loginLogo from 'assets/images/loginLogo.png';
-import notificationClose from 'assets/images/notificationClose.png';
 import defaultAvatar from 'assets/images/default-avatar.jpg';
-import dashboardIconClose from 'assets/images/dashboard.png';
-import notificationIconClose from 'assets/images/notification.png';
-import usersIconClose from 'assets/images/users.png';
-import transactionIconOpen from 'assets/images/transactions-open.png';
-import inventoryIconClose from 'assets/images/inventory.png';
-import announcementsIconClose from 'assets/images/announcement.png';
-import concernsIconClose from 'assets/images/concerns.png';
-import adminLogo from 'assets/images/AdminLogo.png';
-import sidebarButton from 'assets/images/sidebar-button.png';
-import sidebarButtonOpen from 'assets/images/sidebar-button-open.png';
-
-import dropArrow from 'assets/images/dropArrow.png';
-import logoutDropdown from 'assets/images/logout-dropdown.png';
-import accountSettingDropdown from 'assets/images/account-dropdown.png';
 import searchIcon from 'assets/images/search-icon.png';
 import filterIcon from 'assets/images/filter-icon.png';
 import searchBlackIcon from 'assets/images/black-search-icon.png';
-
-import deliveryIcon from 'assets/images/delivery.png';
-import sidebarDropdownClose from 'assets/images/close-sub-sidebar.png';
-import sidebarDropdownOpen from 'assets/images/open-sub-sidebar.png';
-import deliveryTaskClose from 'assets/images/task.png'; 
-import deliveryRequestClose from 'assets/images/concerns.png';
-import accountIcon from 'assets/images/account.png';
-import accountSettingIconClose from 'assets/images/settings.png';
 
 export const TransactionAdmin = () => {
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import "assets/css/SignUp.css"
 import { Link } from 'react-router-dom';
 
+import PasswordRequirements from 'components/PasswordRequirements';
+
 export const SignUp = () =>{
  
   // for label of input field 
@@ -130,12 +132,7 @@ export const SignUp = () =>{
               {error && <span className="error">{error}</span>}
             </div>
             <div className="password-instruction">
-              <p>Your password must include the following:</p>
-              <ul>
-                <li>{getRequirementIcon('Be 8-100 characters long')} Be 8-100 characters long</li>
-                <li>{getRequirementIcon('Contain at least one uppercase and one lowercase letter')}Contain at least one uppercase and one lowercase letter</li>
-                <li>{getRequirementIcon('Contain at least one number or special character')} Contain at least one number or special character</li>
-              </ul>
+              <PasswordRequirements newPassword={password}/>
             </div>
           
             <div className="form-footer">

@@ -113,7 +113,7 @@
 
 .newUser-input{
   height: 25px;
-  width: 360px;
+  width: 390px;
   border: 1.5px solid #ADAFB0;
   border-radius: 5px;
   margin-bottom: 5px;
@@ -181,8 +181,8 @@
 
 .newUser-error {
   position: absolute;
-  bottom: 75px; 
-  right: 90px; 
+  bottom: 77px; 
+  right: 60px; 
   color: red;
   font-size: 10px;
   font-weight: bold;

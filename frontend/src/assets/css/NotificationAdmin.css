@@ -4,6 +4,7 @@
  .notification-container{
   background-color: white;
   max-width: 600px;
+  height: 1000px;
   margin: 0 auto;
   padding: 10px 30px;
  }

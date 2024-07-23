@@ -19,7 +19,7 @@ export const UsersViewAdmin = () =>{
   };
 
   return(
-    <div className='bgUserEdit-container'>
+    <div>
       <div className="users-view-profile-header">
         <div className="users-view-item">
           <img className="users-view-image" src={totalTransaction} alt=" Complete Image" />

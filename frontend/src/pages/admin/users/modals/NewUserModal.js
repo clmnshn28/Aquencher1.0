@@ -3,6 +3,9 @@ import 'assets/css/NewUserModal.css';
 
 import defaultAvatar from 'assets/images/default-avatar.jpg';
 import uploadPhoto from 'assets/images/uploadPhoto.png';
+import Modal from 'components/Modal';
+import TextField from 'components/TextField';
+import PasswordRequirements from 'components/PasswordRequirements';
 
 export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
 
@@ -128,7 +131,7 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   if (!isOpen) return null;
 
   return(
-    <div className="modal-overlay">
+    <Modal>
       <div className="modal-content">
         <button className="close-modal" onClick={onClose}>&times;</button>
         <h2 className='add-new-user-header'>New User</h2>
@@ -144,71 +147,25 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
             </div>
             <div className="newUser-input-container">
               <div className="newUser-container">
-                <label className='newUser-label'>First Name <span className="required-field"> * </span>:</label> 
-                <input className='newUser-input'
-                 type="text" 
-                 value={firstname} 
-                 onChange={handleFirstnameChange} 
-                 required />
-
-                <label className='newUser-label'>Last Name <span className="required-field"> * </span>:</label>
-                <input className='newUser-input' 
-                type="text" 
-                value={lastname} 
-                onChange={handleLastnameChange} 
-                required />
-             
-                <label className='newUser-label'>Address <span className="required-field"> * </span>:</label>
-                <input className='newUser-input' 
-                type="text" 
-                value={address} 
-                onChange={handleAddressChange} 
-                required />
-              
-                <label className='newUser-label'>Phone <span className="required-field">* </span>:</label>
-                <input className='newUser-input' 
-                type="text" 
-                value={phone} 
-                onChange={handlePhoneChange} 
-                required />
-               
-                <label className='newUser-label space'>Username <span className="required-field">* </span>:</label>
-                <input className='newUser-input' 
-                type="text" 
-                value={username} 
-                onChange={handleUsernameChange} 
-                required />
-            
-                <label className='newUser-label'>Password <span className="required-field">* </span>:</label>
-                <input className='newUser-input' 
-                type="password" 
-                value={password} 
-                onChange={handlePasswordChange} 
-                required />
-                
-                <label className='newUser-label'>Confirm Password <span className="required-field">* </span>:</label>
-                <input className='newUser-input' 
-                type="password" 
-                value={confirmPassword} 
-                onChange={handleConfirmPasswordChange} 
-                required />
-                 {error && <span className="newUser-error">{error}</span>}
+                <TextField label="First Name"  id="firstname" name="firstname" value={firstname} onChange={handleFirstnameChange} type="text" isRequired />
+                <TextField label="Last Name" id="lastname" name="lastname" value={lastname} onChange={handleLastnameChange} type="text" isRequired />
+                <TextField label="Address"  id="address" name="address" value={address} onChange={handleAddressChange} type="text" isRequired />
+                <TextField label="Phone"  id="phone" name="phone" value={phone} onChange={handlePhoneChange} type="text" isRequired />
+                <TextField label="Username"  id="username" name="username" value={username} onChange={handleUsernameChange} type="text" isRequired />
+                <TextField label="Password"  id="password" name="password" value={password} onChange={handlePasswordChange} type="password" isRequired />
+                <TextField label="Confirm Password"  id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} type="password" isRequired />
+                {error && <span className="newUser-error">{error}</span>}
               </div>
             </div>
           </div>
           <button className='submit-add-user' type="submit">Add User</button>
 
           <div className="password-requirements">
-            <p >Your password must include the following:</p>
-            <ul>
-              <li>{getRequirementIcon('Be 8-100 characters long')} Be 8-100 characters long</li>
-              <li>{getRequirementIcon('Contain at least one uppercase and one lowercase letter')}Contain at least one uppercase and one lowercase letter</li>
-              <li>{getRequirementIcon('Contain at least one number or special character')} Contain at least one number or special character</li>
-            </ul>
+           <PasswordRequirements newPassword={password}/>
           </div>
         </form>
       </div>
-    </div>
+    </Modal>
   );
 
 }
