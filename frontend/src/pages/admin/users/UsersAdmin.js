@@ -73,7 +73,7 @@ export const UsersAdmin = () => {
     };
 
   return (
- 
+
     <div>
         <div className="users-header">
           <h2 className="users-header-text">Users</h2>

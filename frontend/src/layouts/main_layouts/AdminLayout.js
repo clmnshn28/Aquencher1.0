@@ -1,5 +1,4 @@
 import "assets/css/index.css"
-import "assets/css/DashboardAdmin.css"
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation  } from 'react-router-dom';
 
@@ -99,6 +98,20 @@ export const AdminLayout = () => {
     ));
   };
 
+  useEffect(() => {
+    const handleDocumentClick = (event) => {
+      if (!event.target.closest('.user-profile-container') && !event.target.closest('.profile-dropdown')) {
+        setDropdownVisible(false);
+      }
+      if (!event.target.closest('.Notification') && !event.target.closest('.notifications-view')) {
+        setNotificationsVisible(false);
+      }
+    };
+    document.addEventListener('click', handleDocumentClick);
+    return () => document.removeEventListener('click', handleDocumentClick);
+  }, [setDropdownVisible, setNotificationsVisible]);
+  
+
   const toggleSubSidebarDelivery = () => {
     if (sidebarMinimized) {
       setSidebarMinimized(false);
@@ -166,24 +179,26 @@ export const AdminLayout = () => {
     <div className="dashboard-header">
       <img className="Aquencher-Logo" src={loginLogo} alt="Aquencher Logo" />
       <div className="admin-profile">
-        <img className="Notification" src={notificationClose} alt="Notification"  onClick={toggleNotifications}  />
-        {notificationsVisible && (
-        <div className="notifications-view">
-          <div className="notifications-header">
-            <p className="notification-title-header">Notifications</p>
-            <Link to="Notifications" className="see-all-button">See all</Link>
-          </div>
-          <p className="notification-earlier-header">Earlier</p>
-          {notifications.map((notification, index) => (
-            <div key={index} className={`notification-details-header ${notification.isNew ? 'new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
-              <p className="notification-subject-header">{notification.subject}</p>
-              <p className="notification-description-header">{notification.description}</p>
-              <p className="notification-time-header">{notification.time}</p>
-              {notification.isNew && <div className="blue-circle"></div>}
+        <div className="notif-container">
+          <img className="Notification" src={notificationClose} alt="Notification"  onClick={toggleNotifications}  />
+          {notificationsVisible && (
+          <div className="notifications-view">
+            <div className="notifications-header">
+              <p className="notification-title-header">Notifications</p>
+              <Link to="Notifications" className="see-all-button">See all</Link>
             </div>
-          ))}
+            <p className="notification-earlier-header">Earlier</p>
+            {notifications.map((notification, index) => (
+              <div key={index} className={`notification-details-header ${notification.isNew ? 'new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
+                <p className="notification-subject-header">{notification.subject}</p>
+                <p className="notification-description-header">{notification.description}</p>
+                <p className="notification-time-header">{notification.time}</p>
+                {notification.isNew && <div className="blue-circle"></div>}
+              </div>
+            ))}
+          </div>
+          )}
         </div>
-      )}
         <div className="user-profile-container" onClick={toggleDropdown}>
           <img className="profile" src={defaultAvatar} alt="Profile" />
           <span className="name">Celmin Shane</span>
@@ -341,9 +356,7 @@ export const AdminLayout = () => {
       </ul>
     </div>
     <div className={`dashboard-content ${sidebarMinimized ? 'content-minimized' : ''}`}>
-      <div className="bg-content">
-        <Outlet/>
-      </div>
+      <Outlet/>
     </div>
    
   </div>

@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import {SignIn, SignUp} from 'pages/auth';
 
-import {AdminLayout} from 'layouts/main_layouts';
+import {AdminLayout, CustomerLayout} from 'layouts/main_layouts';
 
 import {DashboardAdmin} from 'pages/admin/dashboard';
 import {NotificationAdmin} from 'pages/admin/notification';
@@ -44,6 +44,11 @@ const MainRoutes = () =>{
             <Route path="ChangePassword" element={<ChangePasswordAdmin />} />
           </Route>
         </Route>
+
+        <Route path='/Customer/' element={<CustomerLayout/>}>
+
+        </Route>
+
       </Routes>
   </Router>
   );
