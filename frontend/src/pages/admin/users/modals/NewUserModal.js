@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import 'assets/css/NewUserModal.css';
 
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import uploadPhoto from 'assets/images/uploadPhoto.png';
+import * as images from 'assets/images';
+
 import Modal from 'components/Modal';
 import TextField from 'components/TextField';
 import PasswordRequirements from 'components/PasswordRequirements';
@@ -17,7 +17,7 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [avatar, setAvatar] = useState(defaultAvatar);
+  const [avatar, setAvatar] = useState(images.defaultAvatar);
   
   const [error, setError] = useState('');
   
@@ -100,7 +100,7 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
     setUsername('');
     setPassword('');
     setConfirmPassword('');
-    setAvatar(defaultAvatar);
+    setAvatar(images.defaultAvatar);
   };
 
   const formatDate = (date) => {
@@ -140,7 +140,7 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
             <div className="avatar-container">
               <img className='new-avatar' src={avatar} alt="Avatar Preview" />
               <label htmlFor="file-upload" className='button-upload-photo'>
-                <img className='upload-photo-icon' src={uploadPhoto} alt="upload Photo" />
+                <img className='upload-photo-icon' src={images.uploadPhoto} alt="upload Photo" />
                 Upload Photo
               </label>
               <input id="file-upload" type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />

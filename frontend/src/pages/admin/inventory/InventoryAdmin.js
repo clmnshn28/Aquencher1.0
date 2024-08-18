@@ -1,7 +1,7 @@
 import "assets/css/InventoryAdmin.css"
 import React, { useState } from 'react';
 
-import inventoryDots from 'assets/images/user-dots.png';
+import * as images from 'assets/images';
 
 export const InventoryAdmin = () =>{
 
@@ -75,7 +75,7 @@ export const InventoryAdmin = () =>{
               <td>₱25.00</td>
               <td>
                 <img 
-                src={inventoryDots} 
+                src={images.inventoryDots} 
                 alt="actions"  
                 className="inventoryDots"/>
               </td>
@@ -86,7 +86,7 @@ export const InventoryAdmin = () =>{
               <td>₱25.00</td>
               <td>
                 <img 
-                src={inventoryDots} 
+                src={images.inventoryDots} 
                 alt="actions"  
                 className="inventoryDots"/>
               </td>

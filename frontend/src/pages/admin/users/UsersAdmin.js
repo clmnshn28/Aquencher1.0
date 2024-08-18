@@ -3,11 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {NewUserModal,DeactivationModal} from './modals'; 
 
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import searchIcon from 'assets/images/search-icon.png';
-import filterIcon from 'assets/images/filter-icon.png';
-import searchBlackIcon from 'assets/images/black-search-icon.png';
-import userDots from 'assets/images/user-dots.png';
+import * as images from 'assets/images';
 
 export const UsersAdmin = () => {
 
@@ -15,10 +11,10 @@ export const UsersAdmin = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const users = [
-    { fullName: 'Karen Joyce Joson', username: '@karenjoycrjoson', phone: '09123892012', address: '12 Everlasting St. Bulihan', dateRegistered: 'January 5, 2024', status: 'Active', avatar: defaultAvatar },
-    { fullName: 'Celmin Shane Quizon', username: '@clmnshn', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: defaultAvatar },
-    { fullName: 'Miguel Angelo Barruga', username: '@barrugs', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: defaultAvatar },
-    { fullName: 'Francis Harvey Soriano', username: '@harvey', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: defaultAvatar },
+    { fullName: 'Karen Joyce Joson', username: '@karenjoycrjoson', phone: '09123892012', address: '12 Everlasting St. Bulihan', dateRegistered: 'January 5, 2024', status: 'Active', avatar: images.defaultAvatar },
+    { fullName: 'Celmin Shane Quizon', username: '@clmnshn', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: images.defaultAvatar },
+    { fullName: 'Miguel Angelo Barruga', username: '@barrugs', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: images.defaultAvatar },
+    { fullName: 'Francis Harvey Soriano', username: '@harvey', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: images.defaultAvatar },
   ];
   const [filteredUsers, setFilteredUsers] = useState(users);
   const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
@@ -73,7 +69,7 @@ export const UsersAdmin = () => {
     };
 
   return (
- 
+
     <div>
         <div className="users-header">
           <h2 className="users-header-text">Users</h2>
@@ -88,13 +84,13 @@ export const UsersAdmin = () => {
                 value={searchQuery} 
                 onChange={(e) => setSearchQuery(e.target.value)} 
               />
-              <img src={searchBlackIcon} alt="Search" />
+              <img src={images.searchBlackIcon} alt="Search" />
             </div>
             <button className="search-button" onClick={handleSearchClick}>
-              <img src={searchIcon} alt="Search Icon" />
+              <img src={images.searchIcon} alt="Search Icon" />
             </button>
             <button className="filter-button">
-              <img src={filterIcon} alt="Filter" />
+              <img src={images.filterIcon} alt="Filter" />
             </button>
           </div>
           <button className="new-user-button" onClick={() => setIsNewUserModalOpen(true)}>+ New User</button>
@@ -154,7 +150,7 @@ export const UsersAdmin = () => {
                     <td>
                         <div className="user-actions">
                           <img
-                            src={userDots}
+                            src={images.userDots}
                             alt="Actions"
                             onClick={() => handleUserDotsClick(index)}
                             className="userDots"

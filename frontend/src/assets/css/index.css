@@ -36,10 +36,14 @@ body {
   position: relative;
 }
 
-
+.notif-container{
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-right: 25px;
+}
 
 .Notification{
-  margin-right: 25px;
   width: 40px;
   cursor: pointer;
 }
@@ -60,7 +64,7 @@ body {
 .notifications-view {
   position: absolute;
   top: 75%;
-  right: 230px;
+  right: 13px;
   width: 350px;
   background-color: #fff;
   border-radius: 5px;
@@ -134,6 +138,8 @@ body {
   display: flex;
   align-items: center;
   cursor: pointer;
+  width: 190px;
+
 }
 
 .profile{
@@ -145,6 +151,7 @@ body {
 .name{
   font-weight: 500;  
   color: #626262;
+  flex: 1;
 }
 
 .dropArrow{
@@ -157,7 +164,7 @@ body {
 
 .profile-dropdown {
   position: absolute;
-  right: 10px;
+  right: 0;
   top: 75%;
   background: white;
   border: 1px solid #ccc;
@@ -226,13 +233,19 @@ body {
   padding-top: 117px;
 }
 
+.cons-logo{
+  padding-top: 97px;
+}
+
+.side-bar.minimized .cons-logo {
+  padding-top: 0;
+}
+
 .sidebar-minimized .adminlogo,
 .sidebar-minimized .sidebar-text,
 .sidebar-minimized .sidebar-dropdown {
   display: none; 
 }
-
-
 
 .side-bar ul{
   list-style: none;
@@ -383,7 +396,8 @@ body {
 
 
 .dashboard-content{
-  
+  background-color:#EEF7FF;
+  padding-bottom: 30px;
   margin-left: 260px;
   transition: margin 0.3s ease;
   padding-left: 30px;
@@ -394,11 +408,5 @@ body {
   margin-left: 105px;
 }
 
-
-
-.bg-content{
-  background-color:#EEF7FF;
-  padding-bottom: 30px;
-}
 
 

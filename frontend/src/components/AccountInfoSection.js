@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import editProfile from 'assets/images/edit-profile.png';
+import * as images from 'assets/images';
+
 import Modal from "components/Modal";
 import TextField from 'components/TextField';
 import ButtonGroup from "./ButtonGroup";
@@ -60,7 +61,7 @@ export default function AccountInfoSection({title, infoItems}){
       </div>
       <button className="button-edit-personal-info" onClick={handleOpenModal}>
         Edit
-        <img className="edit-profile-button-icon" src={editProfile} alt="Edit Profile Icon" />
+        <img className="edit-profile-button-icon" src={images.editProfile} alt="Edit Profile Icon" />
       </button>
       
       {isModalOpen && (

@@ -1,9 +1,7 @@
 import "assets/css/ConcernsAdmin.css"
 import React, { useState } from 'react';
 
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import concernFilterOpen from 'assets/images/concern-filter-open.png';
-import concernFilterClose from 'assets/images/concern-filter-close.png';
+import * as images from 'assets/images';
 
 export const ConcernsAdmin = () =>{
   
@@ -40,7 +38,7 @@ export const ConcernsAdmin = () =>{
             <span className="final-concern-filter">{concernSelectedFilter}</span>
             <img
               className={`concern-filter-open ${concernFilterIconOpen ? 'open' : ''}`} // Apply different class for open state
-              src={`${concernFilterIconOpen ? concernFilterClose : concernFilterOpen}`}
+              src={`${concernFilterIconOpen ? images.concernFilterClose : images.concernFilterOpen}`}
               alt="Dropdown Arrow"
             />
             {concernDropdownVisible && (
@@ -60,7 +58,7 @@ export const ConcernsAdmin = () =>{
         <div className="concerns-list">
           {concerns.map((concern, index) => (
             <div key={index} className="concern-item">
-              <img className="concern-avatar" src={defaultAvatar} alt="" />
+              <img className="concern-avatar" src={images.defaultAvatar} alt="" />
               <div className="concern-details">
                 <p className="concern-name">{concern.name}</p>
                 <p className="concern-message">{concern.message}</p>

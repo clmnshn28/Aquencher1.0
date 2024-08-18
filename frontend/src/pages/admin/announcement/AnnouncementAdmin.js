@@ -2,8 +2,7 @@ import "assets/css/AnnouncementAdmin.css"
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import createAnnouncement from 'assets/images/create-announcement.png';
-import inventoryDots from 'assets/images/user-dots.png';
+import * as images from 'assets/images';
 
 export const AnnouncementAdmin = () =>{
 
@@ -13,7 +12,7 @@ export const AnnouncementAdmin = () =>{
       <div className="announcement-container">
         <Link to="/Admin/Announcements/CreateAnnouncement" >
         <button className="create-announcement-button">
-          <img className="create-announcement-icon" src={createAnnouncement} alt="Announcement Icon" />
+          <img className="create-announcement-icon" src={images.createAnnouncement} alt="Announcement Icon" />
           Create Announcement
         </button>
         </Link>
@@ -35,7 +34,7 @@ export const AnnouncementAdmin = () =>{
                 </td>
                 <td>
                   <img 
-                  src={inventoryDots} 
+                  src={images.inventoryDots} 
                   alt="actions"  
                   className="inventoryDots"/>
                 </td>

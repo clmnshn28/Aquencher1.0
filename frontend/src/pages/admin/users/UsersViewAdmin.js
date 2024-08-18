@@ -2,12 +2,7 @@ import 'assets/css/UsersViewAdmin.css';
 import React, { useState } from 'react';
 import {  useNavigate  } from 'react-router-dom';
 
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import backEditButton from 'assets/images/user-edit-back.png';
-import totalTransaction from 'assets/images/total-transaction.png';
-import totalRefill from 'assets/images/total-refill.png';
-import totalBorrow from 'assets/images/total-borrow.png';
-import totalReturn from 'assets/images/total-return.png';
+import * as images from 'assets/images';
 
 export const UsersViewAdmin = () =>{
   const navigate = useNavigate();
@@ -22,34 +17,34 @@ export const UsersViewAdmin = () =>{
     <div>
       <div className="users-view-profile-header">
         <div className="users-view-item">
-          <img className="users-view-image" src={totalTransaction} alt=" Complete Image" />
+          <img className="users-view-image" src={images.totalTransaction} alt=" Complete Image" />
           <div className="users-view-info">
             <div className="users-view-title">Total Transactions</div>
             <div className="users-view-value">0</div>
           </div>
         </div>
         <div className="users-view-item">
-          <img className="users-view-image" src={totalRefill} alt=" Queue Image" />
+          <img className="users-view-image" src={images.totalRefill} alt=" Queue Image" />
           <div className="users-view-info">
             <div className="users-view-title">Total Refilled Gallons</div>
             <div className="users-view-value">0</div>
           </div>
         </div>
         <div className="users-view-item">
-          <img className="users-view-image" src={totalBorrow} alt=" Request Image" />
+          <img className="users-view-image" src={images.totalBorrow} alt=" Request Image" />
           <div className="users-view-info"> 
             <div className="users-view-title">Borrowed Gallons</div>
             <div className="users-view-value">0</div>
           </div>
         </div>
         <div className="users-view-item">
-          <img className="users-view-image" src={totalReturn} alt=" Request Image" />
+          <img className="users-view-image" src={images.totalReturn} alt=" Request Image" />
           <div className="users-view-info"> 
             <div className="users-view-title">Returned Gallons</div>
             <div className="users-view-value">0</div>
           </div>
         </div>
-        <img className="user-back-btn-view" src={backEditButton} alt="Back Button" onClick={() => navigate(-1)}/>
+        <img className="user-back-btn-view" src={images.backEditButton} alt="Back Button" onClick={() => navigate(-1)}/>
       </div>
 
       <div className="users-view-profile-body">
@@ -73,7 +68,7 @@ export const UsersViewAdmin = () =>{
               <p className='users-view-editable'>Sept 23, 2023</p>
 
               <div className='users-image-cons'>
-                <img className='users-photo' src={defaultAvatar}/>
+                <img className='users-photo' src={images.defaultAvatar}/>
                 <div class="user-indicator">
                   <span class="user-active-dot"></span>
                   <span class="user-active-name">Active</span>
