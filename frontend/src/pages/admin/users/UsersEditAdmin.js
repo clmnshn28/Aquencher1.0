@@ -2,9 +2,8 @@ import "assets/css/UsersEditAdmin.css"
 import React, { useState } from 'react';
 import {  useNavigate  } from 'react-router-dom';
 
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import backEditButton from 'assets/images/user-edit-back.png';
-import resetPassword from 'assets/images/reset-password.png';
+import { defaultAvatar,backEditButton, resetPassword } from "assets/images";
+
 import AccountInfoSection from "components/AccountInfoSection";
 import PasswordRequirements from "components/PasswordRequirements";
 import TextField from "components/TextField";

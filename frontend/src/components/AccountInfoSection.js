@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import editProfile from 'assets/images/edit-profile.png';
+import {editProfile} from 'assets/images';
 import Modal from "components/Modal";
 import TextField from 'components/TextField';
 import ButtonGroup from "./ButtonGroup";

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "assets/css/SignIn.css"
-import loginLogo from 'assets/images/loginLogo.png';
+import {loginLogo} from 'assets/images';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 import { Link } from 'react-router-dom';

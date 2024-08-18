@@ -3,11 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {NewUserModal,DeactivationModal} from './modals'; 
 
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import searchIcon from 'assets/images/search-icon.png';
-import filterIcon from 'assets/images/filter-icon.png';
-import searchBlackIcon from 'assets/images/black-search-icon.png';
-import userDots from 'assets/images/user-dots.png';
+import { defaultAvatar, searchIcon, filterIcon, searchBlackIcon, userDots } from "assets/images";
 
 export const UsersAdmin = () => {
 

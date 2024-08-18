@@ -1,7 +1,7 @@
 import "assets/css/InventoryAdmin.css"
 import React, { useState } from 'react';
 
-import inventoryDots from 'assets/images/user-dots.png';
+import {inventoryDots} from 'assets/images';
 
 export const InventoryAdmin = () =>{
 

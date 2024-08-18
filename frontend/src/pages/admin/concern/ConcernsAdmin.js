@@ -1,9 +1,7 @@
 import "assets/css/ConcernsAdmin.css"
 import React, { useState } from 'react';
 
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import concernFilterOpen from 'assets/images/concern-filter-open.png';
-import concernFilterClose from 'assets/images/concern-filter-close.png';
+import { defaultAvatar, concernFilterOpen, concernFilterClose } from "assets/images";
 
 export const ConcernsAdmin = () =>{
   

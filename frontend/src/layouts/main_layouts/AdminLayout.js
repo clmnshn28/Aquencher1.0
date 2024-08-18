@@ -2,45 +2,44 @@ import "assets/css/index.css"
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation  } from 'react-router-dom';
 
-import loginLogo from 'assets/images/loginLogo.png';
-import notificationClose from 'assets/images/notificationClose.png';
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import dashboardIconOpen from 'assets/images/dashboard-open.png';
-import dashboardIconClose from 'assets/images/dashboard.png';
-import notificationIconOpen from 'assets/images/notification-open.png';
-import notificationIconClose from 'assets/images/notification.png';
-import usersIconOpen from 'assets/images/users-open.png';
-import usersIconClose from 'assets/images/users.png';
-import deliveryIconOpen from 'assets/images/delivery-open.png';
-import deliveryIconClose from 'assets/images/delivery.png';
-import deliveryTaskOpen from 'assets/images/task-open.png'; 
-import deliveryTaskClose from 'assets/images/task.png'; 
-import deliveryRequestClose from 'assets/images/concerns.png'; // can be change
-import transactionIconOpen from 'assets/images/transactions-open.png';
-import transactionIconClose from 'assets/images/transactions.png';
-import inventoryIconOpen from 'assets/images/inventory-open.png';
-import inventoryIconClose from 'assets/images/inventory.png';
-import announcementIconOpen from 'assets/images/announcement-open.png';
-import announcementIconClose from 'assets/images/announcement.png';
-import concernIconOpen from 'assets/images/concerns-open.png';
-import concernIconClose from 'assets/images/concerns.png';
-import accountIconOpen from 'assets/images/account-open.png';
-import accountIconClose from 'assets/images/account.png';
-import accountSettingIconClose from 'assets/images/settings.png';
-import accountSettingIconOpen from 'assets/images/settings-open.png';
-
-import adminLogo from 'assets/images/AdminLogo.png';
-import sidebarButton from 'assets/images/sidebar-button.png';
-import sidebarButtonOpen from 'assets/images/sidebar-button-open.png';
-
-import dropArrow from 'assets/images/dropArrow.png';
-import logoutDropdown from 'assets/images/logout-dropdown.png';
-import accountSettingDropdown from 'assets/images/account-dropdown.png';
-
-import sidebarDropdownClose from 'assets/images/close-sub-sidebar.png';
-import sidebarDropdownOpen from 'assets/images/open-sub-sidebar.png';
-import blueSidebarDropdownClose from 'assets/images/selected-close-sub.png';
-import blueSidebarDropdownOpen from 'assets/images/selected-open-sub.png';
+import {
+  loginLogo,
+  adminLogo,
+  notificationClose,
+  defaultAvatar,
+  dropArrow,
+  logoutDropdown,
+  accountSettingDropdown,
+  dashboardIconOpen,
+  dashboardIconClose,
+  notificationIconOpen,
+  notificationIconClose,
+  usersIconOpen,
+  usersIconClose,
+  deliveryIconOpen,
+  deliveryIconClose,
+  deliveryTaskOpen,
+  deliveryTaskClose,
+  deliveryRequestClose,
+  transactionIconOpen,
+  transactionIconClose,
+  inventoryIconOpen,
+  inventoryIconClose,
+  announcementIconOpen,
+  announcementIconClose,
+  concernIconOpen,
+  concernIconClose,
+  accountIconOpen,
+  accountIconClose,
+  accountSettingIconClose,
+  accountSettingIconOpen,
+  sidebarDropdownClose,
+  sidebarDropdownOpen,
+  blueSidebarDropdownClose,
+  blueSidebarDropdownOpen,
+  sidebarButton,
+  sidebarButtonOpen,
+} from 'assets/images';
 
 export const AdminLayout = () => {
 

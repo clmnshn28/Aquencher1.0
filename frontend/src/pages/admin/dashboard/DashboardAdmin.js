@@ -1,8 +1,7 @@
 import "assets/css/DashboardAdmin.css"
 import React, { useState } from 'react';
 
-import complete from 'assets/images/complete.png';
-import queue from 'assets/images/queue.png';
+import { complete, queue } from "assets/images";
 
 export const DashboardAdmin = () => {
 

@@ -2,8 +2,7 @@ import "assets/css/AnnouncementAdmin.css"
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import createAnnouncement from 'assets/images/create-announcement.png';
-import inventoryDots from 'assets/images/user-dots.png';
+import {createAnnouncement, inventoryDots} from 'assets/images';
 
 export const AnnouncementAdmin = () =>{
 

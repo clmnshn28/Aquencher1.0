@@ -2,12 +2,7 @@ import 'assets/css/UsersViewAdmin.css';
 import React, { useState } from 'react';
 import {  useNavigate  } from 'react-router-dom';
 
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import backEditButton from 'assets/images/user-edit-back.png';
-import totalTransaction from 'assets/images/total-transaction.png';
-import totalRefill from 'assets/images/total-refill.png';
-import totalBorrow from 'assets/images/total-borrow.png';
-import totalReturn from 'assets/images/total-return.png';
+import { defaultAvatar, backEditButton, totalTransaction, totalRefill, totalBorrow, totalReturn } from 'assets/images';
 
 export const UsersViewAdmin = () =>{
   const navigate = useNavigate();

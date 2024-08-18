@@ -2,9 +2,8 @@ import "assets/css/AccountSettingsAdmin.css"
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import editProfile from 'assets/images/edit-profile.png';
 import AccountInfoSection from "components/AccountInfoSection";
+import{ defaultAvatar, editProfile} from 'assets/images';
 
 export const AccountSettingsAdmin = () =>{
 

@@ -1,10 +1,7 @@
 import "assets/css/TransactionAdmin.css"
 import React, { useState } from 'react';
 
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import searchIcon from 'assets/images/search-icon.png';
-import filterIcon from 'assets/images/filter-icon.png';
-import searchBlackIcon from 'assets/images/black-search-icon.png';
+import { defaultAvatar, searchIcon, filterIcon, searchBlackIcon } from "assets/images";
 
 export const TransactionAdmin = () => {
 

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import 'assets/css/NewUserModal.css';
 
-import defaultAvatar from 'assets/images/default-avatar.jpg';
-import uploadPhoto from 'assets/images/uploadPhoto.png';
+import { defaultAvatar, uploadPhoto } from 'assets/images';
+
 import Modal from 'components/Modal';
 import TextField from 'components/TextField';
 import PasswordRequirements from 'components/PasswordRequirements';
