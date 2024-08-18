@@ -1,7 +1,7 @@
 import "assets/css/DashboardAdmin.css"
 import React, { useState } from 'react';
 
-import { complete, queue } from "assets/images";
+import * as images from 'assets/images';
 
 export const DashboardAdmin = () => {
 
@@ -39,21 +39,21 @@ export const DashboardAdmin = () => {
             <h3 className="delivery-text">Delivery</h3>
             <div className="delivery-item-container">
               <div className="delivery-item">
-                <img className="delivery-image" src={complete} alt=" Complete Image" />
+                <img className="delivery-image" src={images.complete} alt=" Complete Image" />
                 <div className="delivery-info">
                   <div className="delivery-title">Completed Delivery</div>
                   <div className="delivery-value">0</div>
                 </div>
               </div>
               <div className="delivery-item">
-                <img className="delivery-image" src={queue} alt=" Queue Image" />
+                <img className="delivery-image" src={images.queue} alt=" Queue Image" />
                 <div className="delivery-info">
                   <div className="delivery-title">Queue</div>
                   <div className="delivery-value">0</div>
                 </div>
               </div>
               <div className="delivery-item">
-                <img className="delivery-image" src={complete} alt=" Request Image" />
+                <img className="delivery-image" src={images.complete} alt=" Request Image" />
                 <div className="delivery-info"> 
                   <div className="delivery-title">Requests</div>
                   <div className="delivery-value">0</div>

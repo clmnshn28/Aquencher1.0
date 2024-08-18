@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import AccountInfoSection from "components/AccountInfoSection";
-import{ defaultAvatar, editProfile} from 'assets/images';
+import * as images from 'assets/images';
 
 export const AccountSettingsAdmin = () =>{
 
@@ -40,7 +40,7 @@ export const AccountSettingsAdmin = () =>{
 
         <div className="admin-account-edit-container">
           <div className="edit-account-container">
-            <img className="edit-profile-image" src={defaultAvatar} alt="Profile Picture" />
+            <img className="edit-profile-image" src={images.defaultAvatar} alt="Profile Picture" />
             <div className="name-username-container">
               <p className="name-admin-account">
                 {personalInfoItems[0].find(item => item.label === 'Firstname').value} {personalInfoItems[0].find(item => item.label === 'Lastname').value}
@@ -50,7 +50,7 @@ export const AccountSettingsAdmin = () =>{
               </p>
               <button className="button-edit-profile-image">
                 Edit
-                <img className="edit-profile-button-icon" src={editProfile} alt="Edit Profile Icon" />
+                <img className="edit-profile-button-icon" src={images.editProfile} alt="Edit Profile Icon" />
               </button>
             </div>
           </div>

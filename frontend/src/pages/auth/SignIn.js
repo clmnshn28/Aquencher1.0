@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "assets/css/SignIn.css"
-import {loginLogo} from 'assets/images';
+import * as images from 'assets/images';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 import { Link } from 'react-router-dom';
@@ -46,7 +46,7 @@ export const SignIn = () =>{
   return(
     <div className="signin-wrapper">
       <div className="login-container">
-        <img className="loginlogo" src={loginLogo} alt="AquencherLogo" />
+        <img className="loginlogo" src={images.loginLogo} alt="AquencherLogo" />
         <div className="login-box">
           <div className="input-container">
             <h1 className='login'>Login</h1>

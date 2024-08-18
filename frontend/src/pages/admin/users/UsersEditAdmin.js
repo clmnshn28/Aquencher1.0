@@ -2,7 +2,7 @@ import "assets/css/UsersEditAdmin.css"
 import React, { useState } from 'react';
 import {  useNavigate  } from 'react-router-dom';
 
-import { defaultAvatar,backEditButton, resetPassword } from "assets/images";
+import * as images from 'assets/images';
 
 import AccountInfoSection from "components/AccountInfoSection";
 import PasswordRequirements from "components/PasswordRequirements";
@@ -15,7 +15,7 @@ export const UsersEditAdmin = () =>{
   const user = {
     firstname: 'Karen Joyce',
     lastname: 'Joson',
-    profilePicture: defaultAvatar,
+    profilePicture: images.defaultAvatar,
     username: '@karenjoycejoson'
   };
 
@@ -99,7 +99,7 @@ export const UsersEditAdmin = () =>{
   return (
     <div>
       <div className="users-edit-profile-header">
-        <img className="user-edit-avatar" src={defaultAvatar} alt="User Avatar" />
+        <img className="user-edit-avatar" src={images.defaultAvatar} alt="User Avatar" />
         <div className="user-edit-details">
           <h2 className="user-edit-name">
             {personalInfoItems[0].find(item => item.label === 'Firstname').value} {personalInfoItems[0].find(item => item.label === 'Lastname').value}
@@ -108,7 +108,7 @@ export const UsersEditAdmin = () =>{
             @{personalInfoItems[0].find(item => item.label === 'Username').value}
           </p>
         </div>
-        <img className="user-back-btn" src={backEditButton} alt="Back Button" onClick={() => navigate(-1)}/>
+        <img className="user-back-btn" src={images.backEditButton} alt="Back Button" onClick={() => navigate(-1)}/>
       </div>
       
       <div className="user-account-edit-container">
@@ -117,7 +117,7 @@ export const UsersEditAdmin = () =>{
 
         <div className="edit-user-container password">
           <button className="reset-password-btn" onClick={handleShowResetPassword}>
-            <img className="reset-icon" src={resetPassword} alt="reset Icon"/>
+            <img className="reset-icon" src={images.resetPassword} alt="reset Icon"/>
             Reset Password
           </button>
           {showResetPassword &&(

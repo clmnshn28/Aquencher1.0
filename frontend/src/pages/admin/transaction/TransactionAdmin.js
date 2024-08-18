@@ -1,15 +1,15 @@
 import "assets/css/TransactionAdmin.css"
 import React, { useState } from 'react';
 
-import { defaultAvatar, searchIcon, filterIcon, searchBlackIcon } from "assets/images";
+import * as images from 'assets/images';
 
 export const TransactionAdmin = () => {
 
   const transactionLogs = [
-    { avatar: defaultAvatar, fullName: 'Karen Joyce Joson', transactionType: 'Sale', gallonType: 'Purified Blue Slim Gallon', quantity: '3 gallons', status: 'Complete', date: '2024-01-05', time: '10:30 AM'  },
-    { avatar: defaultAvatar, fullName: 'Celmin Shane Quizon', transactionType: 'Purchase', gallonType: 'Dispenser Bottle Refill', quantity: '2 gallons', status: 'Pending', date: '2024-01-15', time: '11:45 AM' },
-    { avatar: defaultAvatar, fullName: 'Miguel Angelo Barruga', transactionType: 'Sale', gallonType: 'Purified Blue Slim Gallon', quantity: '1 gallon', status: 'Complete', date: '2024-01-15', time: '02:20 PM' },
-    { avatar: defaultAvatar, fullName: 'Francis Harvey Soriano', transactionType: 'Purchase', gallonType: 'Purified Blue Slim Gallon', quantity: '5 gallons', status: 'Queue', date: '2024-01-20', time: '09:00 AM' },
+    { avatar: images.defaultAvatar, fullName: 'Karen Joyce Joson', transactionType: 'Sale', gallonType: 'Purified Blue Slim Gallon', quantity: '3 gallons', status: 'Complete', date: '2024-01-05', time: '10:30 AM'  },
+    { avatar: images.defaultAvatar, fullName: 'Celmin Shane Quizon', transactionType: 'Purchase', gallonType: 'Dispenser Bottle Refill', quantity: '2 gallons', status: 'Pending', date: '2024-01-15', time: '11:45 AM' },
+    { avatar: images.defaultAvatar, fullName: 'Miguel Angelo Barruga', transactionType: 'Sale', gallonType: 'Purified Blue Slim Gallon', quantity: '1 gallon', status: 'Complete', date: '2024-01-15', time: '02:20 PM' },
+    { avatar: images.defaultAvatar, fullName: 'Francis Harvey Soriano', transactionType: 'Purchase', gallonType: 'Purified Blue Slim Gallon', quantity: '5 gallons', status: 'Queue', date: '2024-01-20', time: '09:00 AM' },
   ];
 
   const [filteredUsers, setFilteredUsers] = useState(transactionLogs);
@@ -38,13 +38,13 @@ export const TransactionAdmin = () => {
               value={searchQuery} 
               onChange={(e) => setSearchQuery(e.target.value)} 
             />
-            <img src={searchBlackIcon} alt="Search" />
+            <img src={images.searchBlackIcon} alt="Search" />
           </div>
           <button className="search-button" onClick={handleSearchClick}>
-            <img src={searchIcon} alt="Search Icon" />
+            <img src={images.searchIcon} alt="Search Icon" />
           </button>
           <button className="filter-button">
-            <img src={filterIcon} alt="Filter" />
+            <img src={images.filterIcon} alt="Filter" />
           </button>
         </div>
       </div>

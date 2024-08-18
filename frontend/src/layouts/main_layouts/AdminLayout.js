@@ -2,44 +2,7 @@ import "assets/css/index.css"
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation  } from 'react-router-dom';
 
-import {
-  loginLogo,
-  adminLogo,
-  notificationClose,
-  defaultAvatar,
-  dropArrow,
-  logoutDropdown,
-  accountSettingDropdown,
-  dashboardIconOpen,
-  dashboardIconClose,
-  notificationIconOpen,
-  notificationIconClose,
-  usersIconOpen,
-  usersIconClose,
-  deliveryIconOpen,
-  deliveryIconClose,
-  deliveryTaskOpen,
-  deliveryTaskClose,
-  deliveryRequestClose,
-  transactionIconOpen,
-  transactionIconClose,
-  inventoryIconOpen,
-  inventoryIconClose,
-  announcementIconOpen,
-  announcementIconClose,
-  concernIconOpen,
-  concernIconClose,
-  accountIconOpen,
-  accountIconClose,
-  accountSettingIconClose,
-  accountSettingIconOpen,
-  sidebarDropdownClose,
-  sidebarDropdownOpen,
-  blueSidebarDropdownClose,
-  blueSidebarDropdownOpen,
-  sidebarButton,
-  sidebarButtonOpen,
-} from 'assets/images';
+import * as images from 'assets/images';
 
 export const AdminLayout = () => {
 
@@ -176,10 +139,10 @@ export const AdminLayout = () => {
 
   <div className={`dashboard-container ${sidebarMinimized ? 'sidebar-minimized' : ''}`}>
     <div className="dashboard-header">
-      <img className="Aquencher-Logo" src={loginLogo} alt="Aquencher Logo" />
+      <img className="Aquencher-Logo" src={images.loginLogo} alt="Aquencher Logo" />
       <div className="admin-profile">
         <div className="notif-container">
-          <img className="Notification" src={notificationClose} alt="Notification"  onClick={toggleNotifications}  />
+          <img className="Notification" src={images.notificationClose} alt="Notification"  onClick={toggleNotifications}  />
           {notificationsVisible && (
           <div className="notifications-view">
             <div className="notifications-header">
@@ -199,22 +162,22 @@ export const AdminLayout = () => {
           )}
         </div>
         <div className="user-profile-container" onClick={toggleDropdown}>
-          <img className="profile" src={defaultAvatar} alt="Profile" />
+          <img className="profile" src={images.defaultAvatar} alt="Profile" />
           <span className="name">Celmin Shane</span>
-          <img className="dropArrow" src={dropArrow} alt="drop Arrow" />
+          <img className="dropArrow" src={images.dropArrow} alt="drop Arrow" />
         </div>
         {dropdownVisible && (
             <div  className="profile-dropdown">
               <Link to="Profile" className="link">
-                <img className="image-dropdown" src={defaultAvatar} alt="Account Profile" />
+                <img className="image-dropdown" src={images.defaultAvatar} alt="Account Profile" />
                 <span className="profile-name">Celmin Shane</span>
               </Link>
               <Link to="Account/Settings/MyProfile" >
-                <img className="setting-dropdown" src={accountSettingDropdown} alt="Account Settings" />
+                <img className="setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
                 Account Settings
               </Link>
               <Link to="/" >
-                <img className="logout-dropdown" src={logoutDropdown} alt="Logout Logo" />
+                <img className="logout-dropdown" src={images.logoutDropdown} alt="Logout Logo" />
                 Logout
               </Link>
             </div>
@@ -224,14 +187,14 @@ export const AdminLayout = () => {
 
     <div className={`side-bar ${sidebarMinimized ? 'minimized' : ''}`}>
       <button className="sidebar-toggle-button" onClick={toggleSidebar}>
-        <img src={sidebarMinimized ? sidebarButtonOpen : sidebarButton} alt="button" />
+        <img src={sidebarMinimized ? images.sidebarButtonOpen : images.sidebarButton} alt="button" />
       </button>
-      <img className="adminlogo" src={adminLogo} alt="AdminLogo" />
+      <img className="adminlogo" src={images.adminLogo} alt="AdminLogo" />
       <ul>
         <Link to="Dashboard" className={`link-sidebar ${highlightedTab === 'dashboard'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
-            src={highlightedTab === 'dashboard'? dashboardIconOpen :dashboardIconClose} 
+            src={highlightedTab === 'dashboard'? images.dashboardIconOpen :images.dashboardIconClose} 
             alt="Dashboard" />
             <span className="sidebar-text">Dashboard</span>
           </li>
@@ -239,7 +202,7 @@ export const AdminLayout = () => {
         <Link to="Notifications" className={`link-sidebar ${highlightedTab === 'notifications'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
-            src={highlightedTab === 'notifications'? notificationIconOpen : notificationIconClose} 
+            src={highlightedTab === 'notifications'? images.notificationIconOpen : images.notificationIconClose} 
             alt="Notifications" />
             <span className="sidebar-text">Notifications</span>
           </li>
@@ -247,7 +210,7 @@ export const AdminLayout = () => {
         <Link to="Users" className={`link-sidebar ${highlightedTab === 'users'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
-            src={highlightedTab === 'users'? usersIconOpen : usersIconClose} 
+            src={highlightedTab === 'users'? images.usersIconOpen : images.usersIconClose} 
             alt="Users" />
             <span className="sidebar-text">Users</span>
           </li>
@@ -256,14 +219,14 @@ export const AdminLayout = () => {
           ${highlightedTab === 'task' || highlightedTab === 'delivery'? 'highlighted' : highlightedDeliveryTab}`} 
           onClick={toggleSubSidebarDelivery}>
           <img className="sidebaricon" 
-          src={highlightedTab === 'task' || highlightedTab === 'delivery'? deliveryIconOpen :deliveryIconClose} 
+          src={highlightedTab === 'task' || highlightedTab === 'delivery'? images.deliveryIconOpen :images.deliveryIconClose} 
           alt="Delivery" />
           <span className="sidebar-text">Requests</span>
           <img
             className="sidebar-dropdown"
             src={subDeliverySidebarVisible ? 
-              (highlightedTab === 'task' || highlightedTab === 'delivery' ? blueSidebarDropdownClose : sidebarDropdownClose) : 
-              (highlightedTab === 'task' || highlightedTab === 'delivery' ? blueSidebarDropdownOpen : sidebarDropdownOpen)}
+              (highlightedTab === 'task' || highlightedTab === 'delivery' ? images.blueSidebarDropdownClose : images.sidebarDropdownClose) : 
+              (highlightedTab === 'task' || highlightedTab === 'delivery' ? images.blueSidebarDropdownOpen : images.sidebarDropdownOpen)}
             alt="dropdown"
           />
         </li>
@@ -273,7 +236,7 @@ export const AdminLayout = () => {
             <li className={`sub-sidebar ${highlightedTab === 'task'? 'selected' : ''}`}  >
               <div className={`task-container ${highlightedTab === 'task'? 'sub-highlighted' : ''} `}>
                 <img className="sub-sidebaricon" 
-                src={highlightedTab === 'task'? deliveryTaskOpen :deliveryTaskClose} 
+                src={highlightedTab === 'task'? images.deliveryTaskOpen :images.deliveryTaskClose} 
                 alt="Tasks" />
                 <span className="sidebar-text">Tasks</span>
               </div>
@@ -283,7 +246,7 @@ export const AdminLayout = () => {
             <li className={`sub-sidebar ${highlightedTab === 'request'? 'selected' : ''}`} >
               <div className={`task-container  ${highlightedTab === 'request'? 'sub-highlighted' : ''} `}>
                 <img className="sub-sidebaricon" 
-                src={deliveryRequestClose} 
+                src={images.deliveryRequestClose} 
                 alt="Requests" />
                 <span className="sidebar-text">Requests</span>
                 </div>
@@ -294,7 +257,7 @@ export const AdminLayout = () => {
         <Link to="Transactions" className={`link-sidebar ${highlightedTab === 'transactions'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
-            src={highlightedTab === 'transactions'? transactionIconOpen : transactionIconClose} 
+            src={highlightedTab === 'transactions'? images.transactionIconOpen : images.transactionIconClose} 
             alt="Transactions" />
             <span className="sidebar-text">Transactions</span>
           </li>
@@ -302,7 +265,7 @@ export const AdminLayout = () => {
         <Link to="Inventory" className={`link-sidebar ${highlightedTab === 'inventory'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
-            src={highlightedTab === 'inventory'? inventoryIconOpen :inventoryIconClose} 
+            src={highlightedTab === 'inventory'? images.inventoryIconOpen :images.inventoryIconClose} 
             alt="Inventory" />
             <span className="sidebar-text">Inventory</span>
           </li>
@@ -310,7 +273,7 @@ export const AdminLayout = () => {
         <Link to="Announcements" className={`link-sidebar ${highlightedTab === 'announcement'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
-            src={highlightedTab === 'announcement'? announcementIconOpen :announcementIconClose} 
+            src={highlightedTab === 'announcement'? images.announcementIconOpen :images.announcementIconClose} 
             alt="Announcements" />
             <span className="sidebar-text">Announcements</span>
           </li>
@@ -318,7 +281,7 @@ export const AdminLayout = () => {
         <Link to="Concerns" className={`link-sidebar ${highlightedTab === 'concerns'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
-            src={highlightedTab === 'concerns'? concernIconOpen :concernIconClose} 
+            src={highlightedTab === 'concerns'? images.concernIconOpen :images.concernIconClose} 
             alt="Concerns" />
             <span className="sidebar-text">Concerns</span>
           </li>
@@ -327,14 +290,14 @@ export const AdminLayout = () => {
           ${highlightedTab === 'account'? 'highlighted' : highlightedAccountTab}`} 
           onClick={toggleSubSidebarAccount}>
           <img className="sidebaricon" 
-          src={highlightedTab === 'account'? accountIconOpen : accountIconClose} 
+          src={highlightedTab === 'account'? images.accountIconOpen : images.accountIconClose} 
           alt="Account" />
           <span className="sidebar-text">Account</span>
           <img
               className="sidebar-dropdown"
               src={subAccountSidebarVisible ? 
-              (highlightedTab === 'account' ? blueSidebarDropdownClose : sidebarDropdownClose) : 
-              ( highlightedTab === 'account' ? blueSidebarDropdownOpen : sidebarDropdownOpen)}
+              (highlightedTab === 'account' ? images.blueSidebarDropdownClose : images.sidebarDropdownClose) : 
+              ( highlightedTab === 'account' ? images.blueSidebarDropdownOpen : images.sidebarDropdownOpen)}
               alt="dropdown"
             />
         </li>
@@ -344,7 +307,7 @@ export const AdminLayout = () => {
             <li className={`sub-sidebar ${highlightedTab === 'account'? 'selected' : ''}`}>
               <div className={`task-container  ${highlightedTab === 'account'? 'sub-highlighted' : ''} `}>
                 <img className="sub-sidebaricon account-settings-icon" 
-                src={highlightedTab === 'account'? accountSettingIconOpen : accountSettingIconClose} 
+                src={highlightedTab === 'account'? images.accountSettingIconOpen : images.accountSettingIconClose} 
                 alt="Tasks" />
                 <span className="sidebar-text account-settings-text">Account Settings</span>
               </div>
