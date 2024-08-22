@@ -1,0 +1,113 @@
+
+    /* notification content */
+
+
+    .Notification__container{
+        background-color: white;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 10px 30px;
+    }
+    
+    .Notification__title{
+        color: #0174CF;
+    }
+    
+    .Notification__earlier{
+        margin-bottom: 7px;
+    }
+
+    .Notification__border-bottom{
+        border-bottom: 1px solid rgba(77, 75, 75, 0.2);
+        margin-bottom: 5px;
+    }
+    
+    .Notification__details {
+        padding: 10px 80px;
+        border-radius: 4px;
+        margin-bottom: 5px;
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .Notification__new-notification{
+        background: rgba(88, 233, 255, 0.2);
+    }
+
+    .Notification__new-notification .Notification__blue-circle {
+        width: 10px;
+        height: 10px;
+        background-color: rgb(22, 115, 237);
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .Notification__subject{
+        color: #0174CF;
+        font-weight: bold;
+        font-size: 14px;
+        margin: 0;
+    }
+    
+    .Notification__description{
+        font-weight: 500;
+        font-size: 12px;
+        margin: 0;
+        margin-top: 3px;
+    }
+    
+    .Notification__time{
+        font-size: 10px;
+        font-weight: 500;
+        color: #a3a3a3;
+        margin-top: 6px;
+        margin-bottom: 6px;
+    }
+    
+    
+    
+
+@media only screen and (max-width: 767px) {
+
+    .Notification__container{
+        padding: 1px 30px;
+    }
+
+    .Notification__title{
+        font-size: 18px;
+        margin-bottom: 2px;
+    }
+    .Notification__earlier{
+        margin-top: 0;
+        font-size: 15px;
+    }
+
+    .Notification__border-bottom{
+        margin-bottom: 3px;
+    }
+
+    .Notification__details {
+        padding: 10px 50px 5px;
+        margin-bottom: 3px;
+    }
+
+    .Notification__new-notification .Notification__blue-circle {
+        width: 7px;
+        height: 7px;
+    }
+
+    .Notification__subject{
+        font-size: 12px;
+    }
+
+    .Notification__description{
+        font-size: 9px;
+    }
+
+    .Notification__time{
+        font-size: 8px;
+    }
+
+}

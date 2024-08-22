@@ -88,17 +88,11 @@ export const CustomerLayout = () =>{
       setHighlightedTab('dashboard');
     } else if (currentPath.includes('Notifications')) {
       setHighlightedTab('notifications');
-    } else if (currentPath.includes('Users')) {
-      setHighlightedTab('users');
-    } else if (currentPath.includes('Delivery')) {
-      setHighlightedTab('task');
+    } else if (currentPath.includes('Requests')) {
+      setHighlightedTab('requests');
     } else if (currentPath.includes('Transactions')) {
       setHighlightedTab('transactions');
-    } else if (currentPath.includes('Inventory')) {
-      setHighlightedTab('inventory');
-    } else if (currentPath.includes('Announcements')) {
-      setHighlightedTab('announcement');
-    }else if (currentPath.includes('Concerns')) {
+    } else if (currentPath.includes('Concerns')) {
       setHighlightedTab('concerns');
     } else if (currentPath.includes('Account')) {
       setHighlightedTab('account');
@@ -126,11 +120,13 @@ export const CustomerLayout = () =>{
                 </div>
                 <p className="CustomerLayout__notification-earlier-header">Earlier</p>
                 {notifications.map((notification, index) => (
-                  <div key={index} className={`CustomerLayout__notification-details-header ${notification.isNew ? 'CustomerLayout__new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
-                    <p className="CustomerLayout__notification-subject-header">{notification.subject}</p>
-                    <p className="CustomerLayout__notification-description-header">{notification.description}</p>
-                    <p className="CustomerLayout__notification-time-header">{notification.time}</p>
-                    {notification.isNew && <div className="CustomerLayout__blue-circle"></div>}
+                  <div key={index} className="Notification__border-bottom">
+                    <div key={index} className={`CustomerLayout__notification-details-header ${notification.isNew ? 'CustomerLayout__new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
+                      <p className="CustomerLayout__notification-subject-header">{notification.subject}</p>
+                      <p className="CustomerLayout__notification-description-header">{notification.description}</p>
+                      <p className="CustomerLayout__notification-time-header">{notification.time}</p>
+                      {notification.isNew && <div className="CustomerLayout__blue-circle"></div>}
+                  </div>
                   </div>
                 ))}
               </div>
