@@ -94,7 +94,7 @@
 }
 
 .CustomerLayout__new-notification{
-  background: rgba(193, 193, 193,0.2);
+  background: rgba(88, 233, 255, 0.2);
 }
 
 .CustomerLayout__new-notification .CustomerLayout__blue-circle {
@@ -483,7 +483,7 @@
       padding: 7px 7px 7px 25px;
   }
   .CustomerLayout__new-notification .CustomerLayout__blue-circle {
-      width: 6px;
+      width: 5px;
       height: 5px;
   }
   .CustomerLayout__notification-subject-header{
@@ -578,5 +578,10 @@
       height: 15px;
       margin-left: 100px;
   }
-  
+
+  /* content */
+  .CustomerLayout__dashboard-content{
+    margin-left: 0;
+    padding: 55px 10px 10px 10px;
+  }
 }

@@ -14,6 +14,8 @@ import {AnnouncementAdmin, CreateAnnouncementAdmin} from 'pages/admin/announceme
 import {ConcernsAdmin} from 'pages/admin/concern';
 import {AccountSettingsAdmin , ChangePasswordAdmin } from 'pages/admin/account';
 
+import { Notification } from 'pages/customer/notification';
+
 const MainRoutes = () =>{
   return(
     <Router>
@@ -46,6 +48,7 @@ const MainRoutes = () =>{
         </Route>
 
         <Route path='/Customer/' element={<CustomerLayout/>}>
+          <Route path='Notifications' element={<Notification/>}/>
 
         </Route>
 
