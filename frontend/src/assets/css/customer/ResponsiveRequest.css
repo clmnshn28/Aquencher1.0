@@ -1,0 +1,34 @@
+
+@media only screen and (max-width: 767px){
+
+    .Request__header {
+        margin-right: 1px;
+        margin-left: 1px;
+        padding: 15px;
+        gap: 3px;
+    }
+
+    .Request__header-icon{
+        width: 33px;
+    }
+
+    .Request__header-title{
+        font-size: 17px; 
+    }
+    
+    .Request__header-description{
+        font-size: 8.5px;
+    }
+
+    
+    /* content */
+    .Request__action-box-container{
+        margin-top: 10px;
+        gap: 5px;
+    }
+
+    .Request__box{
+        width: 4.6em;
+        height: 6.5em;
+    }
+}

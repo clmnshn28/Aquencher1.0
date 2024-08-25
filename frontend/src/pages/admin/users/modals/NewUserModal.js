@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import 'assets/css/NewUserModal.css';
+import 'assets/css/admin';
 
 import * as images from 'assets/images';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import 'assets/css/DeactivationModal.css';
+import 'assets/css/admin';
 import Modal from 'components/Modal';
 
 export const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {

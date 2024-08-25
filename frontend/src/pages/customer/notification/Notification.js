@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import "assets/css/Notification.css";
-import "assets/css/ResponsiveNotification.css";
+import "assets/css/customer";
 
 export const Notification = () =>{
 

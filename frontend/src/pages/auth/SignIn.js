@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "assets/css/SignIn.css"
+import "assets/css/auth"
 import * as images from 'assets/images';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 

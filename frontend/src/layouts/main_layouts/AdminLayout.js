@@ -1,4 +1,4 @@
-import "assets/css/index.css"
+import "assets/css/admin";
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation  } from 'react-router-dom';
 
@@ -58,6 +58,14 @@ export const AdminLayout = () => {
     setNotifications(notifications.map((notification, i) => 
       i === index ? { ...notification, isNew: false } : notification
     ));
+  };
+
+  const handleSeeAllClick = () => {
+    setNotificationsVisible(false);
+  };
+
+  const handleAccountSettingsClick = () => {
+    setDropdownVisible(false);
   };
 
   useEffect(() => {
@@ -147,15 +155,17 @@ export const AdminLayout = () => {
           <div className="notifications-view">
             <div className="notifications-header">
               <p className="notification-title-header">Notifications</p>
-              <Link to="Notifications" className="see-all-button">See all</Link>
+              <Link to="Notifications" className="see-all-button"  onClick={handleSeeAllClick}>See all</Link>
             </div>
             <p className="notification-earlier-header">Earlier</p>
             {notifications.map((notification, index) => (
-              <div key={index} className={`notification-details-header ${notification.isNew ? 'new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
-                <p className="notification-subject-header">{notification.subject}</p>
-                <p className="notification-description-header">{notification.description}</p>
-                <p className="notification-time-header">{notification.time}</p>
-                {notification.isNew && <div className="blue-circle"></div>}
+              <div key={index} className="notification-border-bottom">
+                <div className={`notification-details-header ${notification.isNew ? 'new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
+                  <p className="notification-subject-header">{notification.subject}</p>
+                  <p className="notification-description-header">{notification.description}</p>
+                  <p className="notification-time-header">{notification.time}</p>
+                  {notification.isNew && <div className="blue-circle"></div>}
+                </div>
               </div>
             ))}
           </div>
@@ -168,11 +178,11 @@ export const AdminLayout = () => {
         </div>
         {dropdownVisible && (
             <div  className="profile-dropdown">
-              <Link to="Profile" className="link">
+              <Link className="link">
                 <img className="image-dropdown" src={images.defaultAvatar} alt="Account Profile" />
                 <span className="profile-name">Celmin Shane</span>
               </Link>
-              <Link to="Account/Settings/MyProfile" >
+              <Link to="Account/Settings/MyProfile" onClick={handleAccountSettingsClick}>
                 <img className="setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
                 Account Settings
               </Link>

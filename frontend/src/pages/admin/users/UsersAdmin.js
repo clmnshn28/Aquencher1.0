@@ -1,4 +1,4 @@
-import "assets/css/UsersAdmin.css"
+import "assets/css/admin"
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {NewUserModal,DeactivationModal} from './modals'; 

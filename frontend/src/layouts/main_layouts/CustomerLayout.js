@@ -1,4 +1,4 @@
-import "assets/css/CustomerLayout.css";
+import "assets/css/customer";
 import React, {useState, useEffect} from "react";
 import {Link, Outlet, useLocation} from 'react-router-dom';
 
@@ -63,6 +63,14 @@ export const CustomerLayout = () =>{
     ));
   };
 
+  const handleSeeAllClick = () => {
+    setNotificationsVisible(false);
+  };
+
+  const handleAccountSettingsClick = () => {
+    setDropdownVisible(false);
+  };
+
   useEffect(() => {
     const handleDocumentClick = (event) => {
       if (!event.target.closest('.CustomerLayout__user-profile-container') && !event.target.closest('.CustomerLayout__profile-dropdown')) {
@@ -116,17 +124,17 @@ export const CustomerLayout = () =>{
               <div className="CustomerLayout__notifications-view">
                 <div className="CustomerLayout__notifications-header">
                   <p className="CustomerLayout__notification-title-header">Notifications</p>
-                  <Link to="Notifications" className="CustomerLayout__see-all-button">See all</Link>
+                  <Link to="Notifications" className="CustomerLayout__see-all-button" onClick={handleSeeAllClick}>See all</Link>
                 </div>
                 <p className="CustomerLayout__notification-earlier-header">Earlier</p>
                 {notifications.map((notification, index) => (
                   <div key={index} className="Notification__border-bottom">
-                    <div key={index} className={`CustomerLayout__notification-details-header ${notification.isNew ? 'CustomerLayout__new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
+                    <div className={`CustomerLayout__notification-details-header ${notification.isNew ? 'CustomerLayout__new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
                       <p className="CustomerLayout__notification-subject-header">{notification.subject}</p>
                       <p className="CustomerLayout__notification-description-header">{notification.description}</p>
                       <p className="CustomerLayout__notification-time-header">{notification.time}</p>
                       {notification.isNew && <div className="CustomerLayout__blue-circle"></div>}
-                  </div>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -139,11 +147,11 @@ export const CustomerLayout = () =>{
             <img className="CustomerLayout__dropArrow" src={images.dropArrow} alt="drop Arrow" />
             {dropdownVisible && (
                 <div  className="CustomerLayout__profile-dropdown">
-                  <Link to="Profile" className="CustomerLayout__link">
+                  <Link className="CustomerLayout__link">
                     <img className="CustomerLayout__image-dropdown" src={images.defaultAvatar} alt="Account Profile" />
                     <span className="CustomerLayout__profile-name">Beckett</span>
                   </Link>
-                  <Link to="Account/Settings/MyProfile" >
+                  <Link to="Account/Settings/MyProfile" onClick={handleAccountSettingsClick} >
                     <img className="CustomerLayout__setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
                     Account Settings
                   </Link>

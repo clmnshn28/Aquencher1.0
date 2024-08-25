@@ -89,10 +89,6 @@
   cursor: pointer;
 }
 
-.CustomerLayout__notification-details-header:hover {
-  background-color: rgba(200, 200, 200,0.3);
-}
-
 .CustomerLayout__new-notification{
   background: rgba(88, 233, 255, 0.2);
 }

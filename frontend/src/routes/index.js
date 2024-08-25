@@ -15,6 +15,7 @@ import {ConcernsAdmin} from 'pages/admin/concern';
 import {AccountSettingsAdmin , ChangePasswordAdmin } from 'pages/admin/account';
 
 import { Notification } from 'pages/customer/notification';
+import { Request } from 'pages/customer/request';
 
 const MainRoutes = () =>{
   return(
@@ -49,7 +50,7 @@ const MainRoutes = () =>{
 
         <Route path='/Customer/' element={<CustomerLayout/>}>
           <Route path='Notifications' element={<Notification/>}/>
-
+          <Route path='Requests' element={<Request/>}/>
         </Route>
 
       </Routes>
