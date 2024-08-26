@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import PrivateRoute from './PrivateRoute';
 
 import {SignIn, SignUp} from 'pages/auth';
 
@@ -24,10 +25,14 @@ const MainRoutes = () =>{
         <Route exact path="/" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         
-        <Route path='/admin/' element={<AdminLayout />}>
-          <Route path='dashboard' element={<DashboardAdmin />}/>
-          <Route path='notifications' element={<NotificationAdmin />}/>
-          <Route path="users">
+        <Route path='/Admin/' element={
+          <PrivateRoute role="admin">
+            <AdminLayout />
+          </PrivateRoute>
+        }>
+          <Route path='Dashboard' element={<DashboardAdmin />}/>
+          <Route path='Notifications' element={<NotificationAdmin />}/>
+          <Route path="Users">
             <Route index element={<UsersAdmin />} />
             <Route path="customer/edit" element={<UsersEditAdmin />} />
             <Route path="customer/view-details" element={<UsersViewAdmin/>}/>
@@ -48,9 +53,13 @@ const MainRoutes = () =>{
           </Route>
         </Route>
 
-        <Route path='/customer/' element={<CustomerLayout/>}>
-          <Route path='notifications' element={<Notification/>}/>
-          <Route path='requests' element={<Request/>}/>
+        <Route path='/Customer/' role="customer" element={
+          <PrivateRoute role="customer">
+            <CustomerLayout/>
+          </PrivateRoute>
+        }>
+          <Route path='Notifications' element={<Notification/>}/>
+          <Route path='Requests' element={<Request/>}/>
         </Route>
 
       </Routes>

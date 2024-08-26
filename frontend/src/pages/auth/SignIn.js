@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "assets/css/auth"
 import * as images from 'assets/images';
+import { useAuth } from 'context/AuthContext';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const SignIn = () =>{
+  const navigate = useNavigate();
+  const { user, signIn } = useAuth();
 
   // for label of input field 
   const [username, setUsername] = useState('');
@@ -26,22 +29,21 @@ export const SignIn = () =>{
     setShowPassword(!showPassword);
   };
 
-   // Handle form submission
-   const handleSubmit = async (e) => {
+  // Handle form submission
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    await fetch('http://localhost:8000/api/login', {
-    method:'post',
-    headers: {
-      "Content-Type": "application/json",
-      // 'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: JSON.stringify({username:username, password:password}),
-    })
-    .then(x => x.text())
-    // .then(y => myDisplay(y));
-
+    signIn(username, password);
   };
+
+  const navigateToAdmin = () => {
+    if (user && user.token) {
+      navigate('/Admin/Dashboard');
+    }
+  }
+
+  useEffect(() => {
+    navigateToAdmin()
+  }, [ user ])
 
   return(
     <div className="signin-wrapper">
