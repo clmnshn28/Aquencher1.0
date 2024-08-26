@@ -30,10 +30,10 @@ export const AccountSettingsAdmin = () =>{
       <div>
         <div className="account-settings-container">
           <h1 className="account-settings-header-text">Account Setting</h1>
-          <Link to="/Admin/Account/Settings/MyProfile">
+          <Link to="/admin/account/settings/my-profile">
             <p className="account-settings-profile-text">My Profile</p>
           </Link>
-          <Link to="/Admin/Account/Settings/ChangePassword">
+          <Link to="/admin/account/settings/change-password">
             <p className="account-settings-password-text">Change Password</p>
           </Link>
         </div>

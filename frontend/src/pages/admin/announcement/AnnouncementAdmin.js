@@ -10,7 +10,7 @@ export const AnnouncementAdmin = () =>{
   return (
     <div>
       <div className="announcement-container">
-        <Link to="/Admin/Announcements/CreateAnnouncement" >
+        <Link to="/admin/announcements/create-announcement" >
         <button className="create-announcement-button">
           <img className="create-announcement-icon" src={images.createAnnouncement} alt="Announcement Icon" />
           Create Announcement

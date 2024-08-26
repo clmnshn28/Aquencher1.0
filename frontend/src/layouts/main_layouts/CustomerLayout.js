@@ -92,17 +92,17 @@ export const CustomerLayout = () =>{
   useEffect(() => {
     const currentPath = location.pathname;
 
-    if (currentPath.includes('Dashboard')) {
+    if (currentPath.includes('dashboard')) {
       setHighlightedTab('dashboard');
-    } else if (currentPath.includes('Notifications')) {
+    } else if (currentPath.includes('notifications')) {
       setHighlightedTab('notifications');
-    } else if (currentPath.includes('Requests')) {
+    } else if (currentPath.includes('requests')) {
       setHighlightedTab('requests');
-    } else if (currentPath.includes('Transactions')) {
+    } else if (currentPath.includes('transactions')) {
       setHighlightedTab('transactions');
-    } else if (currentPath.includes('Concerns')) {
+    } else if (currentPath.includes('concerns')) {
       setHighlightedTab('concerns');
-    } else if (currentPath.includes('Account')) {
+    } else if (currentPath.includes('account')) {
       setHighlightedTab('account');
     }
   }, [location]);
@@ -124,7 +124,7 @@ export const CustomerLayout = () =>{
               <div className="CustomerLayout__notifications-view">
                 <div className="CustomerLayout__notifications-header">
                   <p className="CustomerLayout__notification-title-header">Notifications</p>
-                  <Link to="Notifications" className="CustomerLayout__see-all-button" onClick={handleSeeAllClick}>See all</Link>
+                  <Link to="notifications" className="CustomerLayout__see-all-button" onClick={handleSeeAllClick}>See all</Link>
                 </div>
                 <p className="CustomerLayout__notification-earlier-header">Earlier</p>
                 {notifications.map((notification, index) => (
@@ -151,7 +151,7 @@ export const CustomerLayout = () =>{
                     <img className="CustomerLayout__image-dropdown" src={images.defaultAvatar} alt="Account Profile" />
                     <span className="CustomerLayout__profile-name">Beckett</span>
                   </Link>
-                  <Link to="Account/Settings/MyProfile" onClick={handleAccountSettingsClick} >
+                  <Link to="account/settings/my-profile" onClick={handleAccountSettingsClick} >
                     <img className="CustomerLayout__setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
                     Account Settings
                   </Link>
@@ -178,7 +178,7 @@ export const CustomerLayout = () =>{
         <img src={images.hamburgerIconOpen} alt="Hamburger Menu"/>  
       </button> 
       <ul>
-        <Link to="Dashboard" className={`CustomerLayout__link-sidebar ${highlightedTab === 'dashboard'? 'CustomerLayout__highlighted' : ''}`}>
+        <Link to="dashboard" className={`CustomerLayout__link-sidebar ${highlightedTab === 'dashboard'? 'CustomerLayout__highlighted' : ''}`}>
           <li>
             <img className="CustomerLayout__sidebaricon" 
             src={highlightedTab === 'dashboard'? images.dashboardIconOpen :images.dashboardIconClose} 
@@ -186,7 +186,7 @@ export const CustomerLayout = () =>{
             <span className="CustomerLayout__sidebar-text">Dashboard</span>
           </li>
         </Link>
-        <Link to="Notifications" className={`CustomerLayout__link-sidebar ${highlightedTab === 'notifications'? 'CustomerLayout__highlighted' : ''}`}>
+        <Link to="notifications" className={`CustomerLayout__link-sidebar ${highlightedTab === 'notifications'? 'CustomerLayout__highlighted' : ''}`}>
           <li>
             <img className="CustomerLayout__sidebaricon" 
             src={highlightedTab === 'notifications'? images.notificationIconOpen : images.notificationIconClose} 
@@ -194,7 +194,7 @@ export const CustomerLayout = () =>{
             <span className="CustomerLayout__sidebar-text">Notifications</span>
           </li>
         </Link>
-        <Link to="Requests" className={`CustomerLayout__link-sidebar ${highlightedTab === 'requests'? 'CustomerLayout__highlighted' : ''}`}>
+        <Link to="requests" className={`CustomerLayout__link-sidebar ${highlightedTab === 'requests'? 'CustomerLayout__highlighted' : ''}`}>
           <li>
             <img className="CustomerLayout__sidebaricon" 
             src={highlightedTab === 'requests'? images.deliveryIconOpen :images.deliveryIconClose} 
@@ -202,7 +202,7 @@ export const CustomerLayout = () =>{
             <span className="CustomerLayout__sidebar-text">Requests</span>
           </li>
         </Link>
-        <Link to="Transactions" className={`link-sidebar ${highlightedTab === 'transactions'? 'CustomerLayout__highlighted' : ''}`}>
+        <Link to="transactions" className={`link-sidebar ${highlightedTab === 'transactions'? 'CustomerLayout__highlighted' : ''}`}>
           <li>
             <img className="CustomerLayout__sidebaricon" 
             src={highlightedTab === 'transactions'? images.transactionIconOpen : images.transactionIconClose} 
@@ -210,7 +210,7 @@ export const CustomerLayout = () =>{
             <span className="CustomerLayout__sidebar-text">Transactions</span>
           </li>
         </Link>
-        <Link to="Concerns" className={`CustomerLayout__link-sidebar ${highlightedTab === 'concerns'? 'CustomerLayout__highlighted' : ''}`}>
+        <Link to="concerns" className={`CustomerLayout__link-sidebar ${highlightedTab === 'concerns'? 'CustomerLayout__highlighted' : ''}`}>
           <li>
             <img className="CustomerLayout__sidebaricon" 
             src={highlightedTab === 'concerns'? images.concernIconOpen :images.concernIconClose} 
@@ -235,7 +235,7 @@ export const CustomerLayout = () =>{
         </li>
         {subAccountSidebarVisible && (
         <ul>
-          <Link to="Account/Settings/MyProfile" className='CustomerLayout__link-sub-sidebar'>
+          <Link to="account/settings/my-profile" className='CustomerLayout__link-sub-sidebar'>
             <li className={`CustomerLayout__sub-sidebar ${highlightedTab === 'account'? 'CustomerLayout__selected' : ''}`}>
               <div className={`CustomerLayout__task-container  ${highlightedTab === 'account'? 'CustomerLayout__sub-highlighted' : ''} `}>
                 <img className="CustomerLayout__sub-sidebaricon CustomerLayout__account-settings-icon" 

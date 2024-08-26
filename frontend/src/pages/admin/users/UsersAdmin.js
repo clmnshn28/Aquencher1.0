@@ -157,8 +157,8 @@ export const UsersAdmin = () => {
                           />
                           {activeDropdownIndex === index && (
                             <div className="user-dropdown">
-                              <Link to={`Customer/Edit`}>Edit</Link>
-                              <Link to={`Customer/ViewDetails`}>View Details</Link>
+                              <Link to={`/admin/users/customer/edit`}>Edit</Link>
+                              <Link to={`/admin/users/customer/view-details`}>View Details</Link>
                               <button onClick={() => handleDeactivateUser(index)}>Deactivate</button>
                             </div>
                           )}

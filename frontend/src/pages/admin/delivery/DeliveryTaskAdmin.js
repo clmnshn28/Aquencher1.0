@@ -20,10 +20,10 @@ export const DeliveryTaskAdmin = () =>{
     <div>
       <div className="delivery-header">
         <h2 className="delivery-header-text">Task</h2>
-        <Link to="/Admin/Delivery/Task"  className='delivery-queue-link'>
+        <Link to="/admin/delivery/task"  className='delivery-queue-link'>
           <p className="delivery-queue-text">Delivery Queue</p>
         </Link>
-        <Link to="/Admin/Delivery/Requests"  className='delivery-request-link'>
+        <Link to="/admin/delivery/requests"  className='delivery-request-link'>
         <p className="delivery-request-text">Requests</p>
         </Link>
       </div>

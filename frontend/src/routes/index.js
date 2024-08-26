@@ -22,35 +22,35 @@ const MainRoutes = () =>{
     <Router>
       <Routes>
         <Route exact path="/" element={<SignIn />} />
-        <Route path="/SignUp" element={<SignUp />} />
+        <Route path="/sign-up" element={<SignUp />} />
         
-        <Route path='/Admin/' element={<AdminLayout />}>
-          <Route path='Dashboard' element={<DashboardAdmin />}/>
-          <Route path='Notifications' element={<NotificationAdmin />}/>
-          <Route path="Users">
+        <Route path='/admin/' element={<AdminLayout />}>
+          <Route path='dashboard' element={<DashboardAdmin />}/>
+          <Route path='notifications' element={<NotificationAdmin />}/>
+          <Route path="users">
             <Route index element={<UsersAdmin />} />
-            <Route path="Customer/Edit" element={<UsersEditAdmin />} />
-            <Route path="Customer/ViewDetails" element={<UsersViewAdmin/>}/>
+            <Route path="customer/edit" element={<UsersEditAdmin />} />
+            <Route path="customer/view-details" element={<UsersViewAdmin/>}/>
           </Route>
-          <Route path="Delivery/">
-            <Route path='Task' element={<DeliveryTaskAdmin/>}/>
+          <Route path="delivery">
+            <Route path='task' element={<DeliveryTaskAdmin/>}/>
           </Route>
-          <Route path='Transactions' element={<TransactionAdmin/>}/>
-          <Route path='Inventory' element={<InventoryAdmin/>}/>
-          <Route path="Announcements">
+          <Route path='transactions' element={<TransactionAdmin/>}/>
+          <Route path='inventory' element={<InventoryAdmin/>}/>
+          <Route path="announcements">
             <Route index element={<AnnouncementAdmin />} />
-            <Route path="CreateAnnouncement" element={<CreateAnnouncementAdmin />} />
+            <Route path="create-announcement" element={<CreateAnnouncementAdmin />} />
           </Route>
-          <Route path='Concerns' element={<ConcernsAdmin/>}/>
-          <Route path="Account/Settings/">
-            <Route path="MyProfile" element={<AccountSettingsAdmin />} />
-            <Route path="ChangePassword" element={<ChangePasswordAdmin />} />
+          <Route path='concerns' element={<ConcernsAdmin/>}/>
+          <Route path="account/settings">
+            <Route path="my-profile" element={<AccountSettingsAdmin />} />
+            <Route path="change-password" element={<ChangePasswordAdmin />} />
           </Route>
         </Route>
 
-        <Route path='/Customer/' element={<CustomerLayout/>}>
-          <Route path='Notifications' element={<Notification/>}/>
-          <Route path='Requests' element={<Request/>}/>
+        <Route path='/customer/' element={<CustomerLayout/>}>
+          <Route path='notifications' element={<Notification/>}/>
+          <Route path='requests' element={<Request/>}/>
         </Route>
 
       </Routes>

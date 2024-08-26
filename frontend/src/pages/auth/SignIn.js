@@ -85,7 +85,7 @@ export const SignIn = () =>{
               </div>
               <button className='signinButton' type="submit">Login</button>
             </form>
-            <p className="signup-text">Don't have an account? <Link to="/signup">Sign Up</Link></p>
+            <p className="signup-text">Don't have an account? <Link to="sign-up">Sign Up</Link></p>
           </div>
         </div>
       </div>
