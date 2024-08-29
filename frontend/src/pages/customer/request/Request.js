@@ -40,7 +40,6 @@ export const Request = () =>{
         },
     ];
 
-    
     const [isRefillModalOpen, setIsRefillModalOpen] = useState(false);
     const [isBorrowModalOpen, setIsBorrowModalOpen] = useState(false);
     const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
@@ -62,85 +61,97 @@ export const Request = () =>{
         {blueRound: 6, blueSlim: 0, status: "Returned"},
         {blueRound: 2, blueSlim: 2, status: "Returned"},
     ]);
-    const [selectedGallonIndex, setSelectedGallonIndex] = useState(null);
 
+    const handleRequestSelection = (requestType) => {
+        setSelectedRequest(requestType);
 
-    // Function refill
-    const confirmRefill = () => {
-
-        setConfirmationDetails({
-            image: images.refillIconOpen,
-            title: "Confirm Refill Request",
-            message: "Note: Once confirmed, the refill request cannot be canceled.",
-            onConfirm: () =>{
-                console.log('Refill :', items); 
-                setItems(initialItems); // Reset items to their initial state
-                setIsRefillModalOpen(false); // Close modal after refill
-                setIsConfirmationModalOpen(false); //close the confirm modal
-                setSelectedRequest(null); // reset the selected request
-        
-            }
-        });
-        setIsConfirmationModalOpen(true);
+        setIsRefillModalOpen(requestType === 'refill');
+        setIsBorrowModalOpen(requestType === 'borrow');
+        setIsReturnModalOpen(requestType === 'return');
+        if (requestType !== 'return') {
+            setItems(initialItems);
+        }
     };
 
-    const handleCloseRefillModal = () => {
-        setItems(initialItems); 
-        setIsRefillModalOpen(false);
-        setSelectedRequest(null); 
-    };
+ // Function refill
+ const confirmRefill = () => {
 
-    //Function borrow
-    const confirmBorrow = () =>{
+    setConfirmationDetails({
+        image: images.refillIconOpen,
+        title: "Confirm Refill Request",
+        message: "Note: Once confirmed, the refill request cannot be canceled.",
+        onConfirm: () =>{
+            console.log('Refill :', items); 
+            setItems(initialItems); // Reset items to their initial state
+            setIsRefillModalOpen(false); // Close modal after refill
+            setIsConfirmationModalOpen(false); //close the confirm modal
+            setSelectedRequest(null); // reset the selected request
 
-        setConfirmationDetails({
-            image: images.borrowIconOpen,
-            title: "Confirm Borrow Request",
-            message: "Note: Once confirmed, the borrow request cannot be canceled.",
-            onConfirm: () =>{
-                console.log('Borrow :', items);
-                setItems(initialItems);
-                setIsBorrowModalOpen(false);
-                setIsConfirmationModalOpen(false);
-                setSelectedRequest(null);
-            }
-        });
-        setIsConfirmationModalOpen(true);
-    };
+        }
+    });
+    setIsConfirmationModalOpen(true);
+};
 
-    const handleCloseBorrowModal = () => {
-        setItems(initialItems);
-        setIsBorrowModalOpen(false);
-        setSelectedRequest(null); 
-    };
+const handleCloseRefillModal = () => {
+    setItems(initialItems); 
+    setIsRefillModalOpen(false);
+    setSelectedRequest(null); 
+};
 
-    //Function return
-    const confirmReturn = () =>{
+//Function borrow
+const confirmBorrow = () =>{
 
-        setConfirmationDetails({
-            image: images.returnIconOpen,
-            title: "Confirm Return Request",
-            message: "Note: Once confirmed, the return request cannot be canceled.",
-            onConfirm: () =>{
-                if (selectedGallonIndex !== null) {
-                    const updatedData = gallonData.map((item, index) => {
-                        if (index === selectedGallonIndex) {
-                            return { ...item, status: 'Pending' };
-                        }
-                        return item;
-                    });
-                    setGallonData(updatedData);
-                }
-                setIsConfirmationModalOpen(false);
-            }
-        });
-        setIsConfirmationModalOpen(true);
-    };
+    setConfirmationDetails({
+        image: images.borrowIconOpen,
+        title: "Confirm Borrow Request",
+        message: "Note: Once confirmed, the borrow request cannot be canceled.",
+        onConfirm: () =>{
+            console.log('Borrow :', items);
+            setItems(initialItems);
+            setIsBorrowModalOpen(false);
+            setIsConfirmationModalOpen(false);
+            setSelectedRequest(null);
+        }
+    });
+    setIsConfirmationModalOpen(true);
+};
 
-    const handleCloseReturnModal = () =>{
-        setIsReturnModalOpen(false);
-        setSelectedRequest(null);
-    };
+const handleCloseBorrowModal = () => {
+    setItems(initialItems);
+    setIsBorrowModalOpen(false);
+    setSelectedRequest(null); 
+};
+
+//Function return
+const confirmReturn = (gallonIndex) =>{
+    console.log('Gallon index:', gallonIndex);
+    setConfirmationDetails({
+        image: images.returnIconOpen,
+        title: "Confirm Return Request",
+        message: "Note: Once confirmed, the return request cannot be canceled.",
+        onConfirm: () =>{
+            if (gallonIndex !== null) {
+                const updatedData = gallonData.map((item, index) => {
+                    if (index === gallonIndex) {
+                        return { ...item, status: 'Pending' };
+                    }
+                    return item;
+                });
+                setGallonData(updatedData);
+                console.log('Data update:', updatedData);
+            }else {
+                console.warn('No Gallon Index Selected'); // Check if index is null
+            } 
+            setIsConfirmationModalOpen(false);
+        }
+    });
+    setIsConfirmationModalOpen(true);
+};
+
+const handleCloseReturnModal = () =>{
+    setIsReturnModalOpen(false);
+    setSelectedRequest(null);
+};
 
     return(
         <>
@@ -157,21 +168,15 @@ export const Request = () =>{
                     selectedIcon = {images.refillIconOpen}
                     title='Refill'
                     description='Submit a request for your gallons to be picked up for a refill.'
-                    onClick={()=>{
-                        setSelectedRequest('refill');
-                        setIsRefillModalOpen(true);
-                    }}
-                    isSelected={selectedRequest === 'refill'}// Apply conditional styling
+                    onClick={()=>handleRequestSelection('refill')}
+                    isSelected={selectedRequest === 'refill'} // Apply conditional styling
                 />
                 <RequestBox
                     icon={images.borrowIcon}
                     selectedIcon = {images.borrowIconOpen}
                     title='Borrow'
                     description='Borrow a water container temporarily from the delivery service.'
-                    onClick={()=>{
-                        setSelectedRequest('borrow');
-                        setIsBorrowModalOpen(true);
-                    }}
+                    onClick={()=>handleRequestSelection('borrow')}
                     isSelected={selectedRequest === 'borrow'} 
                 />
                 <RequestBox
@@ -179,10 +184,7 @@ export const Request = () =>{
                     selectedIcon = {images.returnIconOpen}
                     title="Return"
                     description="Return an empty water container to the delivery service."
-                    onClick={()=>{
-                        setSelectedRequest('return');
-                        setIsReturnModalOpen(true);
-                    }}
+                    onClick={()=>handleRequestSelection('return')}
                     isSelected={selectedRequest === 'return'}
                 />
             </div>
@@ -211,7 +213,6 @@ export const Request = () =>{
                 onClose = {handleCloseReturnModal}
                 onConfirm = {confirmReturn}
                 gallonData={gallonData}
-                setSelectedGallonIndex={setSelectedGallonIndex}
             />
 
             {/*Confirmation component */}

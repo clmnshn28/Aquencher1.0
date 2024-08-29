@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import 'assets/css/customer';
 import Modal from "components/Modal";
 import * as images from 'assets/images';
@@ -6,6 +6,17 @@ import * as images from 'assets/images';
 
 export const RefillModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
 
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+
+    useEffect(() => {
+        const updateIsMobile = () => {
+            setIsMobile(window.innerWidth <= 767);
+        };
+        
+        window.addEventListener("resize", updateIsMobile);
+        return () => window.removeEventListener("resize", updateIsMobile);
+    }, []);
+    
     // incrementing and decrementing quantity
     const handleIncrement = (id) => {
         setItems((prevItems) =>
@@ -32,8 +43,7 @@ export const RefillModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
 
     if (!isOpen) return null;
 
-    return(
-        <Modal>
+    const content = (
             <div className="RefillModal__content">
                 <button className="RefillModal__close" onClick={onClose}>&times;</button>
                 <div className="RefillModal__header-container">
@@ -77,6 +87,15 @@ export const RefillModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
                     Submit Refill Request
                 </button>
             </div>
+    );
+
+    return isMobile ? (
+        <div className="RefillModal__mobile">
+            {content}
+        </div>
+    ) : (
+        <Modal>
+            {content}
         </Modal>
     );
 };

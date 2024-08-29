@@ -61,3 +61,43 @@
     color: white;
 }
 
+
+
+@media only screen and (max-width: 767px){
+    
+    .ConfirmationModal__content{
+        padding: 20px 25px;
+        width: 280px;
+    }
+
+    .ConfirmationModal__header-container{
+        gap: 5px;
+        padding-bottom: 10px;
+    }
+
+    .ConfirmationModal__header-container img{
+        width: 35px;
+    }
+    
+    .ConfirmationModal__header-container h2{
+        font-size: 17px;
+    }
+
+    .ConfirmationModal__message{
+        padding: 0px 30px ;
+        margin: 15px 0px;
+        font-size: 12px;
+    }
+
+    .ConfirmationModal__actions {
+        gap: 20px;
+    }    
+
+    .ConfirmationModal__confirm, .ConfirmationModal__cancel {
+        width: 100px;
+        padding: 10px;
+        font-size: 13px;
+    }
+
+
+}

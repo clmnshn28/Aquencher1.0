@@ -1,11 +1,13 @@
 import "assets/css/customer";
 import React, {useState, useEffect} from "react";
 import {Link, Outlet, useLocation} from 'react-router-dom';
-
+import { useAuth } from "context/AuthContext";
 import * as images from 'assets/images';
 
 export const CustomerLayout = () =>{
 
+  const { signOut } = useAuth(); 
+  
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [notificationsVisible, setNotificationsVisible] = useState(false);
@@ -111,7 +113,7 @@ export const CustomerLayout = () =>{
 
   const toggleSidebarMobile = () => {
     setSidebarOpenMobile(!sidebarOpenMobile);
-  };
+  }; 
 
   return(
     <div className={`CustomerLayout__dashboard-container ${sidebarMinimized ? 'CustomerLayout__sidebar-minimized' : ''}`}>
@@ -155,7 +157,7 @@ export const CustomerLayout = () =>{
                     <img className="CustomerLayout__setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
                     Account Settings
                   </Link>
-                  <Link to="/" >
+                  <Link to="/"  onClick={signOut}>
                     <img className="CustomerLayout__logout-dropdown" src={images.logoutDropdown} alt="Logout Logo" />
                     Logout
                   </Link>

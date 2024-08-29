@@ -43,7 +43,7 @@
     background-color: #007bff;
     width: 16em;
     height: 17em;
-    border-radius: 10px;
+    border-radius: 6px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -51,6 +51,7 @@
     text-align: center;
     padding: 20px;
     cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s ease-in-out, background-color 0.3s ease;
 }
 
@@ -79,14 +80,64 @@
 
 .Request__box-selected{
     background-color: #9AD3FF;
+    box-shadow: none;
 }
 
-.Request__box-title-selected,
-.Request__box-description-selected{
+.Request__box-title.Request__box-title-selected,
+.Request__box-description.Request__box-description-selected{
     color:#007bff;
 }
 
 
 
+@media only screen and (max-width: 767px){
+
+    .Request__header {
+        margin-right: 1px;
+        margin-left: 1px;
+        padding: 10px;
+        gap: 3px;
+    }
+
+    .Request__header-icon{
+        width: 33px;
+    }
+
+    .Request__header-title{
+        font-size: 17px; 
+    }
+    
+    .Request__header-description{
+        font-size: 8.5px;
+    }
+
+    
+    /* content */
+    .Request__action-box-container{
+        margin-top: 7px;
+        gap: 4px;
+    }
+
+    .Request__box{
+        width: 4.6em;
+        height: 6em;
+    }
+
+    .Request__box img{
+        width: 3em;
+        margin: 5px 0;
+    }
+
+    .Request__box-title {
+        font-weight: bold;
+        color: white;
+        font-size: 0.8em;
+    }
+    
+    .Request__box-description {
+        font-size: 6px;
+        padding: 0px 0px;
+    }
+}
 
 

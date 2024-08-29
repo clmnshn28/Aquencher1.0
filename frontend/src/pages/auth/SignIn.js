@@ -36,14 +36,16 @@ export const SignIn = () =>{
   };
 
   const navigateToAdmin = () => {
-    if (user && user.token) {
-      navigate('/Admin/Dashboard');
+    if (user && user.token && user.role === 'admin') {
+      navigate('/admin/dashboard');
+    }else if (user && user.token){
+      navigate('/customer/dashboard')
     }
-  }
+  };
 
   useEffect(() => {
     navigateToAdmin()
-  }, [ user ])
+  }, [ user ]);
 
   return(
     <div className="signin-wrapper">

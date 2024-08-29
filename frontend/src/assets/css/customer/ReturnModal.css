@@ -70,6 +70,9 @@
     padding: 10px;
     text-align: center;
     color: #007bff;
+}
+
+.ReturnModal__table tr {
     border-bottom: 2px solid #0174CF;
 }
 
@@ -130,4 +133,76 @@
 .ReturnModal__status-button:disabled {
     cursor: not-allowed;
     opacity: 0.7;
+}
+
+
+.ReturnModal__mobile{
+    margin-top: 8px;
+}
+
+
+
+@media only screen and (max-width: 767px){
+    
+    .ReturnModal__content{
+        border: 3px solid #55B0FF;
+        padding: 12px 15px;
+    }
+
+    .ReturnModal__close{
+        top: 10px;
+        right: 10px;
+        font-size:20px;
+    }
+
+    
+    .ReturnModal__header-container{
+        gap: 5px;
+    }
+
+    .ReturnModal__header-container img{
+        width: 25px;
+    }
+    
+    .ReturnModal__header-container h2{
+        font-size: 20px;
+    }
+    
+    .ReturnModal__header-description{
+        margin: 0px 0px 5px;
+        font-size: 9px;
+    }
+
+    /* content */
+    .ReturnModal__table-container {
+        max-height: 285px; 
+        overflow-y: auto;
+    }
+
+    .ReturnModal__table th,
+    .ReturnModal__table td {
+        padding: 8px;
+    }
+
+    /* image & number */
+    .ReturnModal__gallon-container {
+        gap: 10px;
+    
+    }
+
+    .ReturnModal__gallon-item img {
+        width: 28px;
+    }
+
+    .ReturnModal__gallon-item span{
+        font-size: 15px;
+    }
+
+    /* button */
+    .ReturnModal__status-button {
+        width: 90px;
+        padding: 8px;
+        font-size: 11px;
+    }
+
 }

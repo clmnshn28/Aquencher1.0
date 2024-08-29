@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
     }).then(response => {
       if (response.data?.data) {
         setIsAuthenticated(true);
-        setUserRole("admin")
+        setUserRole(response.data.data.role);
         setUser(response.data.data);
       }
     }).catch(error => {
@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }) => {
   // Sign-out function
   const signOut = () => {
     setUser(null);
+    console.log('User after sign out:', user);
   };
 
   return (

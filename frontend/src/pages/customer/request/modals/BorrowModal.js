@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import 'assets/css/customer';
 import Modal from "components/Modal";
 import * as images from 'assets/images';
 
 export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
     
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+
+    useEffect(() => {
+        const updateIsMobile = () => {
+            setIsMobile(window.innerWidth <= 767);
+        };
+        
+        window.addEventListener("resize", updateIsMobile);
+        return () => window.removeEventListener("resize", updateIsMobile);
+    }, []);
+
     // incrementing and decrementing quantity
     const handleIncrement = (id) => {
         setItems((prevItems) =>
@@ -31,51 +42,59 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
 
     if (!isOpen) return null;
    
-    return(
-        <Modal>
-        <div className="RefillModal__content">
-            <button className="RefillModal__close" onClick={onClose}>&times;</button>
-            <div className="RefillModal__header-container">
+    const content =(
+        <div className="BorrowModal__content">
+            <button className="BorrowModal__close" onClick={onClose}>&times;</button>
+            <div className="BorrowModal__header-container">
                 <img src={images.borrowIconOpen} alt="Borrow Icon" />
                 <h2>Borrow</h2>  
             </div>
-            <p className="RefillModal__header-description">Submit a request to borrow a water container temporarily from the delivery service.</p>
+            <p className="BorrowModal__header-description">Submit a request to borrow a water container temporarily from the delivery service.</p>
 
             {items.map((item) => (
-                <div key={item.id} className="RefillModal__item">
-                    <img src={item.image} alt={item.name} className="RefillModal__item-image" />
-                    <div className="RefillModal__item-info">
+                <div key={item.id} className="BorrowModal__item">
+                    <img src={item.image} alt={item.name} className="BorrowModal__item-image" />
+                    <div className="BorrowModal__item-info">
                         <h3>{item.name}</h3>
-                        <p>₱{item.price.toFixed(2)}/Refill Gallon</p>
-                        <div className="RefillModal__item-quantity">
+                        <p>₱{item.price.toFixed(2)}/Borrow Gallon</p>
+                        <div className="BorrowModal__item-quantity">
                             <button
-                                className="quantity-btn"
+                                className="BorrowModal__quantity-btn"
                                 onClick={() => handleDecrement(item.id)}
                                 disabled={item.quantity === 0}
                             >-</button>
                             <span>{item.quantity}</span>
                             <button
-                                className="quantity-btn"
+                                className="BorrowModal__quantity-btn"
                                 onClick={() => handleIncrement(item.id)}
                             >+</button>
                         </div>
                     </div>
-                    <p className="RefillModal__item-total">₱{(item.price * item.quantity).toFixed(2)}</p>
+                    <p className="BorrowModal__item-total">₱{(item.price * item.quantity).toFixed(2)}</p>
                 </div>
             ))}
 
-            <div className="RefillModal__total-container">
+            <div className="BorrowModal__total-container">
                 <p>Total ({items.reduce((acc,item) => acc + item.quantity,0)} item) :</p>
-                <p className="RefillModal__total"> ₱{totalPrice.toFixed(2)}</p>
+                <p className="BorrowModal__total"> ₱{totalPrice.toFixed(2)}</p>
             </div>
 
-            <button className="RefillModal__submit" 
+            <button className="BorrowModal__submit" 
             onClick={onConfirm}
             disabled={isSubmitDisabled}
             >
                 Submit Borrow Request
             </button>
         </div>
-    </Modal>
+    );
+
+    return isMobile ? (
+        <div className="BorrowModal__mobile">
+            {content}
+        </div>
+    ) : (
+        <Modal>
+            {content}
+        </Modal>
     );
 };
