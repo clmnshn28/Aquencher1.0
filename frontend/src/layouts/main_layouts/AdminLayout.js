@@ -1,10 +1,12 @@
-import "assets/css/index.css"
+import "assets/css/admin";
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation  } from 'react-router-dom';
-
+import { useAuth } from "context/AuthContext";
 import * as images from 'assets/images';
 
 export const AdminLayout = () => {
+
+  const { signOut } = useAuth(); 
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -58,6 +60,14 @@ export const AdminLayout = () => {
     setNotifications(notifications.map((notification, i) => 
       i === index ? { ...notification, isNew: false } : notification
     ));
+  };
+
+  const handleSeeAllClick = () => {
+    setNotificationsVisible(false);
+  };
+
+  const handleAccountSettingsClick = () => {
+    setDropdownVisible(false);
   };
 
   useEffect(() => {
@@ -114,23 +124,23 @@ export const AdminLayout = () => {
   useEffect(() => {
     const currentPath = location.pathname;
 
-    if (currentPath.includes('Dashboard')) {
+    if (currentPath.includes('dashboard')) {
       setHighlightedTab('dashboard');
-    } else if (currentPath.includes('Notifications')) {
+    } else if (currentPath.includes('notifications')) {
       setHighlightedTab('notifications');
-    } else if (currentPath.includes('Users')) {
+    } else if (currentPath.includes('users')) {
       setHighlightedTab('users');
-    } else if (currentPath.includes('Delivery')) {
+    } else if (currentPath.includes('delivery')) {
       setHighlightedTab('task');
-    } else if (currentPath.includes('Transactions')) {
+    } else if (currentPath.includes('transactions')) {
       setHighlightedTab('transactions');
-    } else if (currentPath.includes('Inventory')) {
+    } else if (currentPath.includes('inventory')) {
       setHighlightedTab('inventory');
-    } else if (currentPath.includes('Announcements')) {
+    } else if (currentPath.includes('announcements')) {
       setHighlightedTab('announcement');
-    }else if (currentPath.includes('Concerns')) {
+    }else if (currentPath.includes('concerns')) {
       setHighlightedTab('concerns');
-    } else if (currentPath.includes('Account')) {
+    } else if (currentPath.includes('account')) {
       setHighlightedTab('account');
     }
   }, [location]);
@@ -147,15 +157,17 @@ export const AdminLayout = () => {
           <div className="notifications-view">
             <div className="notifications-header">
               <p className="notification-title-header">Notifications</p>
-              <Link to="Notifications" className="see-all-button">See all</Link>
+              <Link to="notifications" className="see-all-button"  onClick={handleSeeAllClick}>See all</Link>
             </div>
             <p className="notification-earlier-header">Earlier</p>
             {notifications.map((notification, index) => (
-              <div key={index} className={`notification-details-header ${notification.isNew ? 'new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
-                <p className="notification-subject-header">{notification.subject}</p>
-                <p className="notification-description-header">{notification.description}</p>
-                <p className="notification-time-header">{notification.time}</p>
-                {notification.isNew && <div className="blue-circle"></div>}
+              <div key={index} className="notification-border-bottom">
+                <div className={`notification-details-header ${notification.isNew ? 'new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
+                  <p className="notification-subject-header">{notification.subject}</p>
+                  <p className="notification-description-header">{notification.description}</p>
+                  <p className="notification-time-header">{notification.time}</p>
+                  {notification.isNew && <div className="blue-circle"></div>}
+                </div>
               </div>
             ))}
           </div>
@@ -168,15 +180,15 @@ export const AdminLayout = () => {
         </div>
         {dropdownVisible && (
             <div  className="profile-dropdown">
-              <Link to="Profile" className="link">
+              <Link className="link">
                 <img className="image-dropdown" src={images.defaultAvatar} alt="Account Profile" />
                 <span className="profile-name">Celmin Shane</span>
               </Link>
-              <Link to="Account/Settings/MyProfile" >
+              <Link to="account/settings/my-profile" onClick={handleAccountSettingsClick}>
                 <img className="setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
                 Account Settings
               </Link>
-              <Link to="/" >
+              <Link to="/" onClick={signOut}>
                 <img className="logout-dropdown" src={images.logoutDropdown} alt="Logout Logo" />
                 Logout
               </Link>
@@ -191,7 +203,7 @@ export const AdminLayout = () => {
       </button>
       <img className="adminlogo" src={images.adminLogo} alt="AdminLogo" />
       <ul>
-        <Link to="Dashboard" className={`link-sidebar ${highlightedTab === 'dashboard'? 'highlighted' : ''}`}>
+        <Link to="dashboard" className={`link-sidebar ${highlightedTab === 'dashboard'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
             src={highlightedTab === 'dashboard'? images.dashboardIconOpen :images.dashboardIconClose} 
@@ -199,7 +211,7 @@ export const AdminLayout = () => {
             <span className="sidebar-text">Dashboard</span>
           </li>
         </Link>
-        <Link to="Notifications" className={`link-sidebar ${highlightedTab === 'notifications'? 'highlighted' : ''}`}>
+        <Link to="notifications" className={`link-sidebar ${highlightedTab === 'notifications'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
             src={highlightedTab === 'notifications'? images.notificationIconOpen : images.notificationIconClose} 
@@ -207,7 +219,7 @@ export const AdminLayout = () => {
             <span className="sidebar-text">Notifications</span>
           </li>
         </Link>
-        <Link to="Users" className={`link-sidebar ${highlightedTab === 'users'? 'highlighted' : ''}`}>
+        <Link to="users" className={`link-sidebar ${highlightedTab === 'users'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
             src={highlightedTab === 'users'? images.usersIconOpen : images.usersIconClose} 
@@ -232,7 +244,7 @@ export const AdminLayout = () => {
         </li>
         {subDeliverySidebarVisible && (
           <ul>
-            <Link to="Delivery/Task">
+            <Link to="delivery/task">
             <li className={`sub-sidebar ${highlightedTab === 'task'? 'selected' : ''}`}  >
               <div className={`task-container ${highlightedTab === 'task'? 'sub-highlighted' : ''} `}>
                 <img className="sub-sidebaricon" 
@@ -242,7 +254,7 @@ export const AdminLayout = () => {
               </div>
             </li>
             </Link>
-            <Link to="Delivery/Request">
+            <Link to="delivery/request">
             <li className={`sub-sidebar ${highlightedTab === 'request'? 'selected' : ''}`} >
               <div className={`task-container  ${highlightedTab === 'request'? 'sub-highlighted' : ''} `}>
                 <img className="sub-sidebaricon" 
@@ -254,7 +266,7 @@ export const AdminLayout = () => {
             </Link>
           </ul>
         )}
-        <Link to="Transactions" className={`link-sidebar ${highlightedTab === 'transactions'? 'highlighted' : ''}`}>
+        <Link to="transactions" className={`link-sidebar ${highlightedTab === 'transactions'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
             src={highlightedTab === 'transactions'? images.transactionIconOpen : images.transactionIconClose} 
@@ -262,7 +274,7 @@ export const AdminLayout = () => {
             <span className="sidebar-text">Transactions</span>
           </li>
         </Link>
-        <Link to="Inventory" className={`link-sidebar ${highlightedTab === 'inventory'? 'highlighted' : ''}`}>
+        <Link to="inventory" className={`link-sidebar ${highlightedTab === 'inventory'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
             src={highlightedTab === 'inventory'? images.inventoryIconOpen :images.inventoryIconClose} 
@@ -270,7 +282,7 @@ export const AdminLayout = () => {
             <span className="sidebar-text">Inventory</span>
           </li>
         </Link>
-        <Link to="Announcements" className={`link-sidebar ${highlightedTab === 'announcement'? 'highlighted' : ''}`}>
+        <Link to="announcements" className={`link-sidebar ${highlightedTab === 'announcement'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
             src={highlightedTab === 'announcement'? images.announcementIconOpen :images.announcementIconClose} 
@@ -278,7 +290,7 @@ export const AdminLayout = () => {
             <span className="sidebar-text">Announcements</span>
           </li>
         </Link>
-        <Link to="Concerns" className={`link-sidebar ${highlightedTab === 'concerns'? 'highlighted' : ''}`}>
+        <Link to="concerns" className={`link-sidebar ${highlightedTab === 'concerns'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
             src={highlightedTab === 'concerns'? images.concernIconOpen :images.concernIconClose} 
@@ -303,7 +315,7 @@ export const AdminLayout = () => {
         </li>
         {subAccountSidebarVisible && (
         <ul>
-          <Link to="Account/Settings/MyProfile" className='link-sub-sidebar'>
+          <Link to="account/settings/my-profile" className='link-sub-sidebar'>
             <li className={`sub-sidebar ${highlightedTab === 'account'? 'selected' : ''}`}>
               <div className={`task-container  ${highlightedTab === 'account'? 'sub-highlighted' : ''} `}>
                 <img className="sub-sidebaricon account-settings-icon" 

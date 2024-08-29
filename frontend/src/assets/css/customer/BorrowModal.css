@@ -1,0 +1,275 @@
+
+.BorrowModal__content{
+    background: #fff;
+    border: 4px solid #55B0FF;
+    padding: 35px 15px;
+    border-radius: 10px;
+    width: 750px;
+    max-width: 90%;
+    position: relative;
+}
+
+
+.BorrowModal__close{
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  background: none;
+  border: none;
+  font-size:26px;
+  cursor: pointer;
+}
+
+/* header */
+.BorrowModal__header-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.BorrowModal__header-container img{
+    width: 50px;
+}
+
+.BorrowModal__header-container h2{
+    color: #007bff;
+    font-size: 30px;
+    margin: 0;
+}
+
+.BorrowModal__header-description{
+    text-align: center;
+    margin: 0px 0px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #007bff;
+}
+
+/* items */
+.BorrowModal__item {
+    display: flex;
+    align-items: center;
+    margin: 15px 45px 0px;
+    padding: 10px 35px;
+    border-radius: 7px;
+    background-color: rgba(233, 246, 250, 0.8);
+}
+
+.BorrowModal__item-image {
+    width: 9.5em;
+    margin-right: 15px;
+}
+
+.BorrowModal__item-info {
+    width: 23em;
+    text-align: left;
+}
+
+.BorrowModal__item-info  h3{
+    font-size: 15px;
+    color: #626262;
+    white-space: pre-line;
+    margin: 4px 0px 0px;
+}
+
+.BorrowModal__item-info  p{
+    margin: 3px 0px 15px;
+    font-size: 12px;
+    color: #626262;
+}
+
+/* quantity */
+.BorrowModal__item-quantity {
+    margin: 10px 0px 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    
+}
+
+.BorrowModal__quantity-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+    border-radius: 4px;
+}
+
+.BorrowModal__quantity-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.BorrowModal__quantity-btn:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.BorrowModal__item-quantity span {
+    font-size: 18px;
+    font-weight: bold;
+    width: 25px;
+    margin: 0 10px;
+    text-align: center;
+}
+
+/* total */
+.BorrowModal__item-total {
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 50px;
+    color: #007bff;
+}
+
+.BorrowModal__total-container {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 5px;
+    margin: 5px 55px;
+    font-size: 17px; 
+}
+.BorrowModal__total{
+    font-size: 19px;    
+    font-weight: bold;
+    color: #525252;
+}
+
+.BorrowModal__submit {
+    background-color: #4177DF;
+    display: block;
+    margin: 0 auto;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 15px;
+    font-family: "poppins";
+    cursor: pointer;
+    transition: background-color 1s;
+}
+
+.BorrowModal__submit:hover {
+    background-color: rgb(2, 83, 170);
+}
+
+.BorrowModal__submit:disabled {
+    background-color: #d6d6d6; 
+    color: #a0a0a0; 
+    cursor: not-allowed; 
+}
+
+
+.BorrowModal__mobile{
+    margin-top: 8px;
+}
+
+
+@media only screen and (max-width: 767px){
+
+    .BorrowModal__content{
+        border: 3px solid #55B0FF;
+        padding: 12px 15px;
+    }
+
+    .BorrowModal__close{
+        top: 10px;
+        right: 10px;
+        font-size:20px;
+    }
+
+    .BorrowModal__header-container{
+        gap: 5px;
+    }
+
+    .BorrowModal__header-container img{
+        width: 25px;
+    }
+    
+    .BorrowModal__header-container h2{
+        font-size: 20px;
+    }
+    
+    .BorrowModal__header-description{
+        margin: 0px 0px 5px;
+        font-size: 9px;
+    }
+
+    /* items */
+    .BorrowModal__item {
+        margin: 7px 5px 0px;
+        padding: 10px;
+    }
+
+    .BorrowModal__item-image {
+        width: 5em;
+        margin-right: 10px;
+    }
+
+    .BorrowModal__item-info {
+        width: 20em;
+    }
+
+    .BorrowModal__item-info  h3{
+        font-size: 9px;
+        margin: 4px 0px 0px;
+    }
+
+    .BorrowModal__item-info  p{
+        margin: 3px 0px 5px;
+        font-size: 9px;
+    }
+
+    /* quantity */
+    .BorrowModal__item-quantity {
+        margin: 5px 0px 5px;
+    }
+
+    .BorrowModal__item-quantity span {
+        font-size: 13px;
+        width: 15px;
+        margin: 0 10px;
+
+    }
+
+    .BorrowModal__quantity-btn {
+        width: 20px;
+        height: 20px;
+        padding: 5px 10px;
+        font-size: 15px;
+        border-radius: 4px;
+    }
+
+    /* total */
+    .BorrowModal__item-total {
+        font-size: 14px;
+        margin-left: 5px;
+    }
+
+    .BorrowModal__total-container {
+        gap: 5px;
+        margin: 0px 5px;
+        font-size: 10px; 
+    }
+
+    .BorrowModal__total-container  p{
+        margin: 5px 0px;
+    }
+
+    .BorrowModal__total{
+        font-size: 12px;    
+    }
+
+    .BorrowModal__submit {
+        padding: 7px 15px;
+        font-size: 10px;
+    }
+}

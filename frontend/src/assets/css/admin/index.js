@@ -1,0 +1,16 @@
+import './AdminLayout.css';
+import './AccountSettingsAdmin.css';
+import './AnnouncementAdmin.css';
+import './ChangePasswordAdmin.css';
+import './ConcernsAdmin.css';
+import './CreateAnnouncementAdmin.css';
+import './DashboardAdmin.css';
+import './DeactivationModal.css';
+import './DeliveryTaskAdmin.css';
+import './InventoryAdmin.css';
+import './NewUserModal.css';
+import './NotificationAdmin.css';
+import './TransactionAdmin.css';
+import './UsersAdmin.css';
+import './UsersEditAdmin.css';
+import './UsersViewAdmin.css';

@@ -1,4 +1,4 @@
-import "assets/css/NotificationAdmin.css"
+import "assets/css/admin"
 
 import React, { useState } from 'react';
 
@@ -24,11 +24,13 @@ export const NotificationAdmin = () => {
         <h2 className="notification-title">Notifications</h2>
         <h3 className="notification-earlier">Earlier</h3>
         {notifications.map((notification, index) => (
-          <div key={index} className={`notification-details ${notification.isNew ? 'new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
-            <p className="notification-subject">{notification.subject}</p>
-            <p className="notification-description">{notification.description}</p>
-            <p className="notification-time">{notification.time}</p>
-            {notification.isNew && <div className="blue-circle"></div>}
+          <div key={index} className="notification-border-bottom">
+            <div className={`notification-details ${notification.isNew ? 'new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
+              <p className="notification-subject">{notification.subject}</p>
+              <p className="notification-description">{notification.description}</p>
+              <p className="notification-time">{notification.time}</p>
+              {notification.isNew && <div className="blue-circle"></div>}
+            </div>
           </div>
         ))}
       </div>

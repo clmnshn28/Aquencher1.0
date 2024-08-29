@@ -1,4 +1,4 @@
-import "assets/css/CreateAnnouncementAdmin.css"
+import "assets/css/admin"
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -26,7 +26,7 @@ export const CreateAnnouncementAdmin = () =>{
             </div>
           </div>
           <div className="create-announcement-form-actions">
-            <Link to="/Admin/Announcements" className="btn btn-cancel">Cancel</Link>
+            <Link to="/admin/announcements" className="btn btn-cancel">Cancel</Link>
             <button type="submit" className="btn btn-publish">Publish</button>
           </div>
         </form>  

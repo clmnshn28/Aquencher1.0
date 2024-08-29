@@ -95,12 +95,13 @@ body {
   cursor: pointer;
 }
 
-.notification-details-header:hover {
-  background-color: rgba(200, 200, 200,0.3);
+.notification-border-bottom{
+  border-bottom: 1px solid rgba(77, 75, 75, 0.2);
+  margin-bottom: 5px;
 }
 
 .new-notification{
-  background: rgba(193, 193, 193,0.2);
+  background: rgba(88, 233, 255, 0.2);
 }
 
 .new-notification .blue-circle {

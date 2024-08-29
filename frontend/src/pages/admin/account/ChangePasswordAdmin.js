@@ -1,4 +1,4 @@
-import "assets/css/ChangePasswordAdmin.css"
+import "assets/css/admin"
 
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -67,10 +67,10 @@ export const ChangePasswordAdmin = () =>{
     <div >
       <div className="account-settings-container">
         <h1 className="account-settings-header-text">Account Setting</h1>
-        <Link to="/Admin/Account/Settings/MyProfile">
+        <Link to="/admin/account/settings/my-profile">
           <p className="account-settings-profile-text-change">My Profile</p>
         </Link>
-        <Link to="/Admin/Account/Settings/ChangePassword">
+        <Link to="/admin/account/settings/change-password">
           <p className="account-settings-password-text-change">Change Password</p>
         </Link>
       </div>

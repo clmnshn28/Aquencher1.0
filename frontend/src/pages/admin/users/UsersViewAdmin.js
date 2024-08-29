@@ -1,4 +1,4 @@
-import 'assets/css/UsersViewAdmin.css';
+import 'assets/css/admin';
 import React, { useState } from 'react';
 import {  useNavigate  } from 'react-router-dom';
 

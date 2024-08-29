@@ -1,4 +1,4 @@
-import "assets/css/TransactionAdmin.css"
+import "assets/css/admin"
 import React, { useState } from 'react';
 
 import * as images from 'assets/images';

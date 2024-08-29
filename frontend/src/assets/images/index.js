@@ -26,6 +26,17 @@ import totalRefill from './total-refill.png';
 import totalBorrow from './total-borrow.png';
 import totalReturn from './total-return.png';
 import userDots from './user-dots.png';
+import pickRound from './pickRound.png';
+import pickSlim from './pickSlim.png';
+import returnRound from './returnRound.png';
+import returnSlim from './returnSlim.png';
+import refillIcon from './refillIcon.png';
+import refillIconOpen from './refillIconOpen.png';
+import borrowIcon from './borrowIcon.png';
+import borrowIconOpen from './borrowIconOpen.png';
+import returnIcon from './returnIcon.png';
+import returnIconOpen from './returnIconOpen.png';
+import requestDropHeader from './requestHeader.png';
 
 import dashboardIconOpen from './dashboard-open.png';
 import dashboardIconClose from './dashboard.png';
@@ -89,6 +100,17 @@ export {
     totalRefill,
     totalReturn,
     userDots,
+    pickRound,
+    pickSlim,
+    returnRound,
+    returnSlim,
+    refillIcon,
+    refillIconOpen,
+    borrowIcon,
+    borrowIconOpen,
+    returnIcon,
+    returnIconOpen,
+    requestDropHeader,
     dashboardIconClose,
     dashboardIconOpen,
     notificationIconClose,

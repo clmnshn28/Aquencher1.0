@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "assets/css/SignUp.css"
+import "assets/css/auth"
 import { Link } from 'react-router-dom';
 
 import PasswordRequirements from 'components/PasswordRequirements';

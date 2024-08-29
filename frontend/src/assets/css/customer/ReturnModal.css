@@ -1,0 +1,208 @@
+
+.ReturnModal__content{
+    background: #fff;
+    border: 4px solid #55B0FF;
+    padding: 35px 15px;
+    border-radius: 10px;
+    width: 750px;
+    max-width: 90%;
+    position: relative;
+}
+
+
+.ReturnModal__close{
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    background: none;
+    border: none;
+    font-size:26px;
+    cursor: pointer;
+}
+
+/* header */
+.ReturnModal__header-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.ReturnModal__header-container img{
+    width: 50px;
+}
+
+.ReturnModal__header-container h2{
+    color: #007bff;
+    font-size: 30px;
+    margin: 0;
+}
+
+.ReturnModal__header-description{
+    text-align: center;
+    margin: 0px 0px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #007bff;
+}
+
+
+/* content */
+.ReturnModal__table-container {
+    max-height: 450px; 
+    overflow-y: auto;
+}
+
+.ReturnModal__table {
+    width: 100%;
+    border-collapse: collapse; 
+}
+
+.ReturnModal__table thead th {
+    position: sticky;
+    top: 0;
+    background: #fff; 
+    z-index: 1;
+}
+
+.ReturnModal__table th,
+.ReturnModal__table td {
+    padding: 10px;
+    text-align: center;
+    color: #007bff;
+}
+
+.ReturnModal__table tr {
+    border-bottom: 2px solid #0174CF;
+}
+
+.ReturnModal__gallons-cell {
+    display: flex;
+    justify-content: center;
+}
+
+/* image & number */
+.ReturnModal__gallon-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+}
+
+.ReturnModal__gallon-item{
+    display: flex;
+    align-items: center;
+}
+
+.ReturnModal__gallon-item img {
+    width: 40px;
+}
+
+.ReturnModal__gallon-item span{
+    font-weight: bold;
+    font-size: 22px;
+}
+
+
+/* button */
+.ReturnModal__status-button {
+    width: 100px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    border: none;
+    font-weight: 600;
+    font-family: "poppins";
+    cursor: pointer;
+}
+
+.ReturnModal__status-button.return {
+    background-color: #007bff;
+    color: white;
+}
+
+
+.ReturnModal__status-button.pending {
+    background-color: #cccccc;
+    color: #666;
+}
+
+.ReturnModal__status-button.returned {
+    background-color: #4caf50;
+    color: white;
+}
+
+.ReturnModal__status-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+
+.ReturnModal__mobile{
+    margin-top: 8px;
+}
+
+
+
+@media only screen and (max-width: 767px){
+    
+    .ReturnModal__content{
+        border: 3px solid #55B0FF;
+        padding: 12px 15px;
+    }
+
+    .ReturnModal__close{
+        top: 10px;
+        right: 10px;
+        font-size:20px;
+    }
+
+    
+    .ReturnModal__header-container{
+        gap: 5px;
+    }
+
+    .ReturnModal__header-container img{
+        width: 25px;
+    }
+    
+    .ReturnModal__header-container h2{
+        font-size: 20px;
+    }
+    
+    .ReturnModal__header-description{
+        margin: 0px 0px 5px;
+        font-size: 9px;
+    }
+
+    /* content */
+    .ReturnModal__table-container {
+        max-height: 285px; 
+        overflow-y: auto;
+    }
+
+    .ReturnModal__table th,
+    .ReturnModal__table td {
+        padding: 8px;
+    }
+
+    /* image & number */
+    .ReturnModal__gallon-container {
+        gap: 10px;
+    
+    }
+
+    .ReturnModal__gallon-item img {
+        width: 28px;
+    }
+
+    .ReturnModal__gallon-item span{
+        font-size: 15px;
+    }
+
+    /* button */
+    .ReturnModal__status-button {
+        width: 90px;
+        padding: 8px;
+        font-size: 11px;
+    }
+
+}
