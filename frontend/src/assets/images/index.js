@@ -37,6 +37,9 @@ import borrowIconOpen from './borrowIconOpen.png';
 import returnIcon from './returnIcon.png';
 import returnIconOpen from './returnIconOpen.png';
 import requestDropHeader from './requestHeader.png';
+import borrowIconRed from './borrowIconRed.png';
+import returnIconGreen from './returnIconGreen.png';
+import locationAddress from './location.png';
 
 import dashboardIconOpen from './dashboard-open.png';
 import dashboardIconClose from './dashboard.png';
@@ -111,6 +114,9 @@ export {
     returnIcon,
     returnIconOpen,
     requestDropHeader,
+    borrowIconRed,
+    returnIconGreen,
+    locationAddress,
     dashboardIconClose,
     dashboardIconOpen,
     notificationIconClose,

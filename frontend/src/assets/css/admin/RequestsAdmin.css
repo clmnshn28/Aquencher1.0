@@ -1,0 +1,155 @@
+
+ /*-- request task content --*/
+
+ .RequestsAdmin__header {
+  background-color: #FFFFFF;
+  margin:0 40px 10px 10px;
+  height: 130px;
+  padding: 5px 30px;
+  font-size: 20px;
+  border-radius: 5px;
+  color: #007bff;
+  position: relative;
+}
+
+.RequestsAdmin__header-text{
+  padding-left: 15px;
+}
+
+.RequestsAdmin__link{
+  color: inherit;
+  text-decoration: none;
+}
+
+.RequestsAdmin__text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 600;
+  top: 64%;
+  left:4%;
+  padding-bottom: 13px;
+  border-bottom: 4px solid #007bff;
+}
+
+.RequestsAdmin__queue-text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 500;
+  top: 64%;
+  left:17%;
+  padding-bottom: 13px;
+  color: #626262;
+}
+
+.RequestsAdmin__complete-text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 500;
+  top: 64%;
+  left:27%;
+  padding-bottom: 13px;
+  color: #626262;
+}
+
+
+
+
+
+/* filter content */
+.RequestsAdmin__filter-container{
+  margin: 0 0 10px 10px;
+  padding: 5px ;
+  color: #007bff;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* input filter */
+.RequestsAdmin__search-bar-container{
+  display: flex;
+}
+
+.RequestsAdmin__search-bar-container input{
+  height: 29px;
+  width: 200px;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border: 2px solid #8CB8FB;
+  padding: 3px 10px 2px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'poppins';
+}
+
+.RequestsAdmin__search-button{
+  height: 37px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  background-color: #5b9af9;
+  border: none;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+.RequestsAdmin__search-button:hover{
+  background-color: #0168d5;
+}
+
+.RequestsAdmin__search-button:active{
+  opacity:0.5;
+}
+
+.RequestsAdmin__search-button img{
+  width: 23px;
+}
+
+/* dropdown filter */
+.RequestsAdmin__dropdown-icon,
+.RequestsAdmin__filter-icon{
+   font-size: 22px;
+   color: #8CB8FB;
+}
+
+/* clear */
+.RequestsAdmin__clear-filters-button{
+  cursor: pointer;
+  font-family: "poppins";
+  font-weight: 600;
+  font-size: 14px;
+  color: #395e96;
+  background-color: #f1f1f1;
+  border: 2px solid #5f7ead;
+}
+
+
+/* main content */
+.RequestsAdmin__container{
+  margin: 0 40px 20px 10px;
+}
+
+/* not found */
+.RequestsAdmin__not-found{
+  background-color: #FFFFFF;
+  padding: 5px 0px;
+  margin-bottom: 4px;
+  height: 55px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: rgba(67, 65, 65, 0.5);
+}
+
+
+
+
+
