@@ -8,7 +8,7 @@ import {AdminLayout, CustomerLayout} from 'layouts/main_layouts';
 import {DashboardAdmin} from 'pages/admin/dashboard';
 import {NotificationAdmin} from 'pages/admin/notification';
 import {UsersAdmin, UsersEditAdmin, UsersViewAdmin} from 'pages/admin/users';
-import {DeliveryTaskAdmin} from 'pages/admin/delivery';
+import {RequestsAdmin, QueueAdmin, CompletedAdmin} from 'pages/admin/request';
 import {TransactionAdmin} from 'pages/admin/transaction';
 import {InventoryAdmin} from 'pages/admin/inventory';
 import {AnnouncementAdmin, CreateAnnouncementAdmin} from 'pages/admin/announcement';
@@ -25,20 +25,22 @@ const MainRoutes = () =>{
         <Route exact path="/" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         
-        <Route path='/Admin/' element={
+        <Route path='/admin/' element={
           <PrivateRoute role="admin">
             <AdminLayout />
           </PrivateRoute>
         }>
-          <Route path='Dashboard' element={<DashboardAdmin />}/>
-          <Route path='Notifications' element={<NotificationAdmin />}/>
-          <Route path="Users">
+          <Route path='dashboard' element={<DashboardAdmin />}/>
+          <Route path='notifications' element={<NotificationAdmin />}/>
+          <Route path="users">
             <Route index element={<UsersAdmin />} />
             <Route path="customer/edit" element={<UsersEditAdmin />} />
             <Route path="customer/view-details" element={<UsersViewAdmin/>}/>
           </Route>
-          <Route path="delivery">
-            <Route path='task' element={<DeliveryTaskAdmin/>}/>
+          <Route path='requests'>
+            <Route path='all-requests' element={<RequestsAdmin/>}/>
+            <Route path='queue' element={<QueueAdmin/>}/>
+            <Route path='completed' element={<CompletedAdmin/>}/>
           </Route>
           <Route path='transactions' element={<TransactionAdmin/>}/>
           <Route path='inventory' element={<InventoryAdmin/>}/>
@@ -53,7 +55,7 @@ const MainRoutes = () =>{
           </Route>
         </Route>
 
-        <Route path='/Customer/' role="customer" element={
+        <Route path='/customer/' element={
           <PrivateRoute role="customer">
             <CustomerLayout/>
           </PrivateRoute>

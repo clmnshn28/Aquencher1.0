@@ -17,8 +17,6 @@ export const AdminLayout = () => {
     { subject: 'Borrow Request', description: 'John Smith requested to borrow 2 gallons of Po\'s Purified Dispenser Bottle Refill 18.9L', time: '12 minutes ago', isNew: false },
     { subject: 'System Update', description: 'System will be offline temporarily. Update is scheduled for tomorrow at 10:00 AM. Please plan your tasks accordingly.', time: '12 minutes ago', isNew: false },
   ]);
-  const [subDeliverySidebarVisible, setSubDeliverySidebarVisible] = useState(false);
-  const [highlightedDeliveryTab, setHighlightedDeliveryTab] = useState('');
   const [subAccountSidebarVisible, setSubAccountSidebarVisible] = useState(false);
   const [highlightedAccountTab, setHighlightedAccountTab] = useState('');
   const [lastOpenedDropdown, setLastOpenedDropdown] = useState(null);
@@ -30,18 +28,14 @@ export const AdminLayout = () => {
     if (!sidebarMinimized) {
       // Store the last opened dropdown
       setLastOpenedDropdown(
-        subDeliverySidebarVisible ? 'delivery' : subAccountSidebarVisible ? 'account' : null
+         subAccountSidebarVisible ? 'account' : null
       );
       // Close all sub sidebars
-      setSubDeliverySidebarVisible(false);
       setSubAccountSidebarVisible(false);
 
     } else {
       // Reopen the last opened dropdown
-      if (lastOpenedDropdown === 'delivery') {
-        setSubDeliverySidebarVisible(true);
-        setHighlightedDeliveryTab('sub-highlighted-delivery');
-      } else if (lastOpenedDropdown === 'account') {
+      if (lastOpenedDropdown === 'account') {
         setSubAccountSidebarVisible(true);
         setHighlightedAccountTab('sub-highlighted-delivery');
       }
@@ -82,38 +76,15 @@ export const AdminLayout = () => {
     document.addEventListener('click', handleDocumentClick);
     return () => document.removeEventListener('click', handleDocumentClick);
   }, [setDropdownVisible, setNotificationsVisible]);
-  
 
-  const toggleSubSidebarDelivery = () => {
-    if (sidebarMinimized) {
-      setSidebarMinimized(false);
-      setSubDeliverySidebarVisible(true);
-      setHighlightedDeliveryTab('sub-highlighted-delivery');
-      setSubAccountSidebarVisible(false);
-      setHighlightedAccountTab('');
-    } else {
-      setSubDeliverySidebarVisible(!subDeliverySidebarVisible);
-      if (!subDeliverySidebarVisible) {
-        setSubAccountSidebarVisible(false);
-        setHighlightedAccountTab('');
-      }
-      setHighlightedDeliveryTab(subDeliverySidebarVisible ? '' : 'sub-highlighted-delivery');
-    }
-  };
 
   const toggleSubSidebarAccount = () => {
     if (sidebarMinimized) {
       setSidebarMinimized(false);
       setSubAccountSidebarVisible(true);
       setHighlightedAccountTab('sub-highlighted-delivery');
-      setSubDeliverySidebarVisible(false);
-      setHighlightedDeliveryTab('');
     } else {
       setSubAccountSidebarVisible(!subAccountSidebarVisible);
-      if (!subAccountSidebarVisible) {
-        setSubDeliverySidebarVisible(false);
-        setHighlightedDeliveryTab('');
-      }
       setHighlightedAccountTab(subAccountSidebarVisible ? '' : 'sub-highlighted-delivery');
     }
   };
@@ -130,8 +101,8 @@ export const AdminLayout = () => {
       setHighlightedTab('notifications');
     } else if (currentPath.includes('users')) {
       setHighlightedTab('users');
-    } else if (currentPath.includes('delivery')) {
-      setHighlightedTab('task');
+    } else if (currentPath.includes('requests')) {
+      setHighlightedTab('requests');
     } else if (currentPath.includes('transactions')) {
       setHighlightedTab('transactions');
     } else if (currentPath.includes('inventory')) {
@@ -227,45 +198,14 @@ export const AdminLayout = () => {
             <span className="sidebar-text">Users</span>
           </li>
         </Link>
-        <li className={`link-sidebar sub-delivery 
-          ${highlightedTab === 'task' || highlightedTab === 'delivery'? 'highlighted' : highlightedDeliveryTab}`} 
-          onClick={toggleSubSidebarDelivery}>
-          <img className="sidebaricon" 
-          src={highlightedTab === 'task' || highlightedTab === 'delivery'? images.deliveryIconOpen :images.deliveryIconClose} 
-          alt="Delivery" />
-          <span className="sidebar-text">Requests</span>
-          <img
-            className="sidebar-dropdown"
-            src={subDeliverySidebarVisible ? 
-              (highlightedTab === 'task' || highlightedTab === 'delivery' ? images.blueSidebarDropdownClose : images.sidebarDropdownClose) : 
-              (highlightedTab === 'task' || highlightedTab === 'delivery' ? images.blueSidebarDropdownOpen : images.sidebarDropdownOpen)}
-            alt="dropdown"
-          />
-        </li>
-        {subDeliverySidebarVisible && (
-          <ul>
-            <Link to="delivery/task">
-            <li className={`sub-sidebar ${highlightedTab === 'task'? 'selected' : ''}`}  >
-              <div className={`task-container ${highlightedTab === 'task'? 'sub-highlighted' : ''} `}>
-                <img className="sub-sidebaricon" 
-                src={highlightedTab === 'task'? images.deliveryTaskOpen :images.deliveryTaskClose} 
-                alt="Tasks" />
-                <span className="sidebar-text">Tasks</span>
-              </div>
-            </li>
-            </Link>
-            <Link to="delivery/request">
-            <li className={`sub-sidebar ${highlightedTab === 'request'? 'selected' : ''}`} >
-              <div className={`task-container  ${highlightedTab === 'request'? 'sub-highlighted' : ''} `}>
-                <img className="sub-sidebaricon" 
-                src={images.deliveryRequestClose} 
-                alt="Requests" />
-                <span className="sidebar-text">Requests</span>
-                </div>
-            </li>
-            </Link>
-          </ul>
-        )}
+        <Link to="requests/all-requests" className={`link-sidebar ${highlightedTab === 'requests'? 'highlighted' : ''}`}>
+          <li>
+            <img className="sidebaricon" 
+            src={highlightedTab === 'requests'? images.deliveryIconOpen : images.deliveryIconClose} 
+            alt="Requests" />
+            <span className="sidebar-text">Requests</span>
+          </li>
+        </Link>
         <Link to="transactions" className={`link-sidebar ${highlightedTab === 'transactions'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
