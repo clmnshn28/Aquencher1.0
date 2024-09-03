@@ -1,0 +1,51 @@
+
+/* button */
+.ButtonGroup__container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin: 20px 0 10px;
+}
+  
+.ButtonGroup__pass-cancel {
+    width: 130px;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #8a938a;
+    font-weight: 600;
+    font-family: "poppins";
+    cursor: pointer;
+    transition: background-color 1s;
+}
+
+.ButtonGroup__pass-save {
+    width: 130px;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    background-color: #0174CF;
+    font-weight: 600;
+    font-family: "poppins";
+    cursor: pointer;
+    transition: background-color 1s;
+}
+  
+  
+.ButtonGroup__pass-save:hover {
+    background-color: #006cc5;
+}
+  
+.ButtonGroup__pass-cancel:hover {
+    background-color: #7b837b;
+}
+
+.ButtonGroup__pass-save:active,
+.ButtonGroup__pass-cancel:active{
+    opacity: 0.5;
+}
+  

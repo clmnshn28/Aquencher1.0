@@ -106,7 +106,7 @@ export const CompletedAdmin = () =>{
                 />
                 <IoFilterSharp  className="CompletedAdmin__filter-icon" />
                 <DropdownFilter
-                    label="Transaction Type"
+                    label="Request Type"
                     isOpen={activeDropdown === 'requestType'}
                     toggleDropdown={() => toggleDropdown('requestType')}
                     options={[

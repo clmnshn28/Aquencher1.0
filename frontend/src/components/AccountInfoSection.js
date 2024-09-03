@@ -45,32 +45,32 @@ export default function AccountInfoSection({title, infoItems}){
   };
   
   return(
-    <div className="edit-account-container">
-      <div className="info-section">
+    <div className="AccountInfoSection__container">
+      <div className="AccountInfoSection__section">
         <h3 className="edit-header-info">{title}</h3>
         {infoItems.map((row, rowIndex) => (
-          <div className="info-row" key={rowIndex}>
+          <div className="AccountInfoSection__row" key={rowIndex}>
             {row.map((item, itemIndex) => (
-              <div className="info-item" key={itemIndex}>
-                <span className="info-detail-name">{item.label}</span>
-                <p className="info-details-editable">{item.value}</p>
+              <div className="AccountInfoSection__item" key={itemIndex}>
+                <span className="AccountInfoSection__detail-name">{item.label}</span>
+                <p className="AccountInfoSection__details-editable">{item.value}</p>
               </div>
             ))}
           </div>
         ))}
       </div>
-      <button className="button-edit-personal-info" onClick={handleOpenModal}>
+      <button className="AccountInfoSection__edit-btn" onClick={handleOpenModal}>
         Edit
-        <img className="edit-profile-button-icon" src={images.editProfile} alt="Edit Profile Icon" />
+        <img className="AccountInfoSection__button-icon" src={images.editProfile} alt="Edit Profile Icon" />
       </button>
       
       {isModalOpen && (
         <Modal>
-          <form className="edit-modal-content">
-            <h2 className='add-new-user-header'>{title}</h2>
-            <div className="form-center-container">
+          <form className="AccountInfoSection__modal-content">
+            <h2 className='AccountInfoSection__user-header'>{title}</h2>
+            <div className="AccountInfoSection__center-container">
               {infoItems.map((row, rowIndex) => (
-                <div className="form-edit-container" key={rowIndex}>
+                <div className="AccountInfoSection__form-edit-container" key={rowIndex}>
                   {row.map((item, itemIndex) => (
                     <TextField
                       key={itemIndex}

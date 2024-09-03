@@ -1,188 +1,236 @@
 import "assets/css/admin"
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import {NewUserModal,DeactivationModal} from './modals'; 
+import React, { useState, useEffect } from 'react';
+import { IoFilterSharp } from 'react-icons/io5';
+import { FaPhoneAlt, FaUserEdit } from "react-icons/fa";
+import { BsPersonFillSlash, BsFillPersonLinesFill  } from "react-icons/bs";
+import { PiMapPinAreaDuotone } from "react-icons/pi";
+import { useNavigate } from 'react-router-dom';
 
 import * as images from 'assets/images';
+import {NewUserModal,DeactivationModal} from './modals'; 
+import SearchBar from "components/SearchBar";
+import DropdownFilter from "components/DropdownFilter";
 
 export const UsersAdmin = () => {
 
-  const [selectedUsers, setSelectedUsers] = useState([]);
-  const [selectAll, setSelectAll] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const users = [
-    { fullName: 'Karen Joyce Joson', username: '@karenjoycrjoson', phone: '09123892012', address: '12 Everlasting St. Bulihan', dateRegistered: 'January 5, 2024', status: 'Active', avatar: images.defaultAvatar },
-    { fullName: 'Celmin Shane Quizon', username: '@clmnshn', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: images.defaultAvatar },
-    { fullName: 'Miguel Angelo Barruga', username: '@barrugs', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: images.defaultAvatar },
-    { fullName: 'Francis Harvey Soriano', username: '@harvey', phone: '09123098971', address: 'Malolos, Bulacan', dateRegistered: 'January 15, 2024', status: 'Active', avatar: images.defaultAvatar },
-  ];
-  const [filteredUsers, setFilteredUsers] = useState(users);
-  const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
-  const [activeDropdownIndex, setActiveDropdownIndex] = useState(null);
-  const [isDeactivationModalOpen, setIsDeactivationModalOpen] = useState(false); 
+    const [users, setUsers] = useState([
+        { id: 1, firstName: 'Karen Joyce', lastName: 'Joson', username: '@karenjoycrjoson', phone: '09123892012', address: '146 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
+        { id: 2, firstName: 'Celmin Shane', lastName: 'Quizon', username: '@clmnshn', phone: '09123098971', address: '136 Dama De Notche Street, Bulihan', status: 'Inactive', avatar: images.defaultAvatar },
+        { id: 3, firstName: 'Miguel Angelo', lastName: 'Barruga', username: '@barrugs', phone: '09123098971', address: '246 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
+        { id: 4, firstName: 'Francis Harvey', lastName: 'Soriano', username: '@harvey', phone: '09123098971', address: '075 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
+    ]);
+    const [activeDropdown, setActiveDropdown] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filteredUsers, setFilteredUsers] = useState(users);
+
+    const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
+    const [isDeactivationModalOpen, setIsDeactivationModalOpen] = useState(false); 
 
 
-  const handleSelectAll = () => {
-    setSelectAll(!selectAll);
-    if (!selectAll) {
-      setSelectedUsers(users.map((_, index) => index));
-    } else {
-      setSelectedUsers([]);
-    }
-  };
-  
-  const handleCheckboxChange = (index) => {
-    if (selectedUsers.includes(index)) {
-      setSelectedUsers(selectedUsers.filter((i) => i !== index));
-    } else {
-      setSelectedUsers([...selectedUsers, index]);
-    }
-  };
-
-  //filtering search
-  const handleSearchClick = () => {
-    setFilteredUsers(users.filter((user) =>
-      user.fullName.toLowerCase().includes(searchQuery.toLowerCase()) 
-    ));
+    const [filters, setFilters] = useState({
+        status: '',
+        address: '',
+    });
     
-  };
-
-  const handleAddUser = (newUser) => {
-    setFilteredUsers([...filteredUsers, { ...newUser }]);
-  };
-
-  const handleUserDotsClick = (index) => {
-    setActiveDropdownIndex(activeDropdownIndex === index ? null : index);
-  };
-
-    // Function to handle deactivation modal open
-    const handleDeactivateUser = (index) => {
-      setActiveDropdownIndex(null); // Close dropdown when opening modal
-      setIsDeactivationModalOpen(true);
+    // clear
+    const handleClearFilters = () => {
+        setFilters({
+            status: '',
+            address: '',
+        });
+        setSearchQuery('');
+        setFilteredUsers(users); // Reset
+        setActiveDropdown(null); 
     };
-  
+
+    // search filter
+    const handleSearch = () => {
+        if (searchQuery !== '') {
+          const results = users.filter((user) => 
+           `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+          setFilteredUsers(results);
+        }
+      };
+    
+    useEffect(() => {
+        if (searchQuery === '') {
+          setFilteredUsers(users);
+        }
+    }, [searchQuery, users]);
+
+    // dropdown filter 
+    const handleFilterChange = (name, value) => {
+        setFilters((prevFilters) => {
+          const updatedFilters = {
+            ...prevFilters,
+            [name]: value,
+          };
+    
+          // Automatically filter users based on the updated filters
+          const results = users.filter((request) => {
+            return (
+              (updatedFilters.status === '' || request.status === updatedFilters.status) &&
+              (updatedFilters.address === '' || request.address.toLowerCase().includes(updatedFilters.address.toLowerCase()))
+            );
+          });
+          
+          setFilteredUsers(results);
+          return updatedFilters;
+        });
+        setActiveDropdown(null);
+    };
+
+    // reveal or not in filter dropdown
+    const toggleDropdown = (dropdown) => {
+        setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
+    };
+
+
+    // new user add
+    const handleAddUser = (newUser) => {
+        setFilteredUsers([...filteredUsers, { ...newUser }]);
+    };
+
+    const navigate = useNavigate();
+    // user edit 
+    const handleEditClick = () => {
+        navigate(`/admin/users/customer/edit`);
+    };
+
+    // user view details 
+    const handleViewDetailsClick = () => {
+        navigate(`/admin/users/customer/view-details`);
+    };
+
+    // user deactivate
+    const handleDeactivationClick = (user) => {
+        setIsDeactivationModalOpen(true);
+    };
+
+      
     // Function to confirm deactivation
     const confirmDeactivation = () => {
-      // Perform deactivation logic here (e.g., update user status to 'Inactive', etc.)
-      console.log('User deactivated'); // Placeholder logic
-      setIsDeactivationModalOpen(false); // Close modal after deactivation
+        console.log('User deactivated'); 
+        setIsDeactivationModalOpen(false); // Close modal 
     };
 
-  return (
 
-    <div>
-        <div className="users-header">
-          <h2 className="users-header-text">Users</h2>
-          <p className="customer-name-text">Customers</p>
-        </div>
-        <div className="user-controls">
-          <div className="search-bar-container">
-            <div className="search-bar">
-              <input 
-                type="text" 
-                placeholder="Search" 
-                value={searchQuery} 
-                onChange={(e) => setSearchQuery(e.target.value)} 
-              />
-              <img src={images.searchBlackIcon} alt="Search" />
+    return(
+        <>
+            <div className="UsersAdmin__header">
+                <h2 className="UsersAdmin__header-text">Users</h2>
+                <p className="UsersAdmin__name-text">Customers</p>
             </div>
-            <button className="search-button" onClick={handleSearchClick}>
-              <img src={images.searchIcon} alt="Search Icon" />
-            </button>
-            <button className="filter-button">
-              <img src={images.filterIcon} alt="Filter" />
-            </button>
-          </div>
-          <button className="new-user-button" onClick={() => setIsNewUserModalOpen(true)}>+ New User</button>
-        </div>
-        <div className="users-table-container">
-        <table className="users-table">
-              <thead className="users-table-header">
-                <tr>
-                  <th>
-                    <input
-                      className="custom-checkbox"
-                      type="checkbox"
-                      checked={selectAll}
-                      onChange={handleSelectAll}
-                    />
-                  </th>
-                  <th>Full Name</th>
-                  <th>Username</th>
-                  <th>Phone</th>
-                  <th>Address</th>
-                  <th>Date Registered</th>
-                  <th>Status</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredUsers.length === 0 ? (
-                  <tr>
-                    <td colSpan="8" style={{ textAlign: 'center' }}>
-                      No users found.
-                    </td>
-                  </tr>
-                ) :
-                 (filteredUsers.map((user, index) => (
-                  <tr key={index}>
-                    <td>
-                      <input
-                        className="custom-checkbox"
-                        type="checkbox"
-                         checked={selectedUsers.includes(index)}
-                        onChange={() => handleCheckboxChange(index)}
-                      />
-                    </td>
-                    <td>
-                      <div className="user-info">
-                        <img className="user-avatar" src={user.avatar} alt={`${user.fullName}'s avatar`} />
-                        <span>{user.fullName}</span>
-                      </div>
-                    </td>
-                    <td>{user.username}</td>
-                    <td>{user.phone}</td>
-                    <td>{user.address}</td>
-                    <td>{user.dateRegistered}</td>
-                    <td className={`user-status ${user.status.toLowerCase() === 'inactive' ? 'inactive' : ''}`}>
-                      {user.status}
-                    </td>
-                    <td>
-                        <div className="user-actions">
-                          <img
-                            src={images.userDots}
-                            alt="Actions"
-                            onClick={() => handleUserDotsClick(index)}
-                            className="userDots"
-                          />
-                          {activeDropdownIndex === index && (
-                            <div className="user-dropdown">
-                              <Link to={`/admin/users/customer/edit`}>Edit</Link>
-                              <Link to={`/admin/users/customer/view-details`}>View Details</Link>
-                              <button onClick={() => handleDeactivateUser(index)}>Deactivate</button>
-                            </div>
-                          )}
-                        </div>
-                      </td>
-                  </tr>
-                )))}
-              </tbody>
-            </table>
-        </div>
-      {/* NewUserModal component */}
-      <NewUserModal
-        isOpen={isNewUserModalOpen}
-        onClose={() => setIsNewUserModalOpen(false)}
-        onAddUser={handleAddUser}
-      />
-      {/* DeactivationModal component */}
-      <DeactivationModal
-        isOpen={isDeactivationModalOpen}
-        onClose={() => setIsDeactivationModalOpen(false)}
-        onConfirm={confirmDeactivation}
-      />
-    </div>
-    
-  );
+            <div className="UsersAdmin__controls">
+                <SearchBar
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    handleSearch={handleSearch}
+                />  
+                <IoFilterSharp  className="UsersAdmin__filter-icon" />
+                <DropdownFilter
+                    label="Status"
+                    isOpen={activeDropdown === 'status'}
+                    toggleDropdown={()=>toggleDropdown('status')}
+                    options={[
+                        {label: 'Active', value: 'Active'},
+                        {label: 'Inactive', value: 'Inactive'},
+                    ]}
+                    onOptionSelect={(value) => handleFilterChange('status', value)}
+                /> 
+                <DropdownFilter
+                    label="Address"
+                    isOpen={activeDropdown === 'address'}
+                    toggleDropdown={() => toggleDropdown('address')}
+                    options={users.map((user) => ({ label: user.address, value: user.address }))}
+                    onOptionSelect={(value) => handleFilterChange('address', value)}
+                />
+                 {(searchQuery || filters.status || filters.address) && (
+                    <button className="RequestsAdmin__clear-filters-button" onClick={handleClearFilters}>
+                        CLEAR
+                    </button>
+                )}
+                <button className="UsersAdmin__new-user-button" onClick={() => setIsNewUserModalOpen(true)}>
+                    + New User
+                </button>
+            </div>
+            <div className="UsersAdmin__table-container">
+                <table className="UsersAdmin__table">
+                    <thead className="UsersAdmin__table-header">
+                        <tr>
+                            <th style={{paddingLeft: '40px'}}>Full Name</th>
+                            <th>Username</th>
+                            <th>Contact</th>
+                            <th style={{textAlign: 'center'}}>Status</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredUsers.length === 0 ? (
+                            <tr>
+                                <td colSpan="8" style={{textAlign: 'center'}}>
+                                    No users found
+                                </td>
+                            </tr>
+                        ):(
+                            filteredUsers.map((user) =>(
+                                <tr key={user.id}>
+                                    <td  style={{paddingLeft: '40px'}}>
+                                        <div className="UsersAdmin__info">
+                                            <img className="UsersAdmin__avatar" src={user.avatar} alt="Customer Image"/>
+                                            <span>{`${user.firstName} ${user.lastName}`}</span>
+                                        </div>
+                                    </td>
+                                    <td>{user.username}</td>
+                                    <td>
+                                        <div>
+                                            <p className="UserAdmin__address">
+                                                <PiMapPinAreaDuotone className="UserAdmin__address-icon" />
+                                                {user.address}
+                                            </p>
+                                            <p className="UserAdmin__phone">
+                                                <FaPhoneAlt />
+                                                {user.phone}
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td style={{textAlign: 'center'}}>
+                                        <span 
+                                            className={`UsersAdmin__dot ${user.status === 'Active' ? 'UsersAdmin__active' : 'UsersAdmin__inactive'}`} 
+                                        />
+                                    </td>
+                                    <td>
+                                        <div className="UserAdmin__actions">
+                                            <button className="UserAdmin__edit" onClick={() => handleEditClick(user)}>
+                                                <FaUserEdit/>
+                                            </button>
+                                            <button className="UserAdmin__view" onClick={() => handleViewDetailsClick(user)}>
+                                                <BsFillPersonLinesFill/>
+                                            </button>
+                                            <button className="UserAdmin__delete" onClick={()=> handleDeactivationClick(user)}>
+                                                <BsPersonFillSlash/>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
+                    </tbody>
+                </table>
+            </div>
+            {/* NewUserModal component */}
+            <NewUserModal
+                isOpen={isNewUserModalOpen}
+                onClose={() => setIsNewUserModalOpen(false)}
+                onAddUser={handleAddUser}
+            />
+            {/* DeactivationModal component */}
+            <DeactivationModal
+                isOpen={isDeactivationModalOpen}
+                onClose={() => setIsDeactivationModalOpen(false)}
+                onConfirm={confirmDeactivation}
+            />
+        </>
+    );
 };
-
