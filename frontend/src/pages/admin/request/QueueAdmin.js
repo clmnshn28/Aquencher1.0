@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import 'assets/css/admin';
 
-import * as images from 'assets/images';
 import DropdownFilter from 'components/DropdownFilter';
 import QueueItem from "components/QueueItem";
+import SearchBar from "components/SearchBar";
 
 export const QueueAdmin = () =>{
 
@@ -145,17 +145,11 @@ export const QueueAdmin = () =>{
             </div>
 
             <div className="QueueAdmin__filter-container">
-                <div className="QueueAdmin__search-bar-container">
-                    <input 
-                        type="text" 
-                        placeholder="Search" 
-                        value={searchQuery} 
-                        onChange={(e) => setSearchQuery(e.target.value)} 
-                    />
-                    <button className="QueueAdmin__search-button" onClick={handleSearch}>
-                        <img src={images.searchIcon} alt="Search Icon" />
-                    </button>
-                </div>
+                <SearchBar
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    handleSearch={handleSearch}
+                />
                 <IoFilterSharp  className="QueueAdmin__filter-icon" />
                 <DropdownFilter
                     label="Transaction Type"

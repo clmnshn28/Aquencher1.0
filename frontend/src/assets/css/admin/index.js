@@ -21,3 +21,4 @@ import './DropdownFilter.css';
 import './CreateAnnouncementModal.css';
 import './TextField.css';
 import './DeleteAnnouncementModal.css';
+import './SearchBar.css';
