@@ -1,0 +1,40 @@
+
+
+/* text field  */
+
+.TextField__label{
+    font-weight: bold;
+    font-size: 13px;
+    color: #504F4F;
+    margin-right: 10px;
+    margin-bottom: 4px;
+}
+
+.TextField__required-field {
+    font-size: 12px;
+    vertical-align: super;
+    color: red; 
+}
+
+.TextField__input{
+    height: 25px;
+    width: 390px;
+    border: 1.5px solid #ADAFB0;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    padding-left: 10px;
+    font-family: "poppins";
+}
+
+.TextField__textarea {
+    height: 130px;
+    width: 90%;
+    padding: 17px 10px;
+    resize: none;
+    font-family: "poppins";
+    text-indent: 25px;
+    border: 1.5px solid #ADAFB0;
+    border-radius: 5px;
+    font-weight: 500;
+}
