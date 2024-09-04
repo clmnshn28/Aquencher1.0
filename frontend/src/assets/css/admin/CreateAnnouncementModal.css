@@ -40,33 +40,3 @@
     justify-content: flex-end;
    margin: 20px 0px;
 }  
-
-.CreateAnnouncementModal__cancel {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
-    text-decoration: none;
-    margin-left: 20px;
-    width: 130px;
-    font-size: 17px;
-    font-family: "poppins";
-    font-weight: 600;
-    color: rgba(98, 98, 98, 0.7);
-    background-color: #D1D1D1;
-}
-
-.CreateAnnouncementModal__publish {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 7px;
-    cursor: pointer;
-    text-decoration: none;
-    margin-left: 20px;
-    width: 130px;
-    font-size: 17px;
-    font-family: "poppins";
-    font-weight: bold;
-    color: white;
-    background-color: #007bff;
-  }

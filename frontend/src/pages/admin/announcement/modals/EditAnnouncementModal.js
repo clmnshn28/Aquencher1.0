@@ -3,9 +3,11 @@ import 'assets/css/admin';
 
 import Modal from "components/Modal";
 import TextField from "components/TextField";
+import TextArea from "components/TextArea";
+import ButtonGroup from "components/ButtonGroup";
 
 
-export const EditAnnouncementModal = ({isOpen, onClose, onConfirm, announcementTitle, announcementSummary, handleAnnouncementTitleChange, handleAnnouncementSummaryChange}) => {
+export const EditAnnouncementModal = ({isOpen, onClose, onConfirm, announcementTitle, announcementSummary, onTitleChange, onSummaryChange}) => {
 
 
     if(!isOpen) return null;
@@ -22,28 +24,31 @@ export const EditAnnouncementModal = ({isOpen, onClose, onConfirm, announcementT
                                 id='announcementTitle' 
                                 name='announcementTitle' 
                                 value={announcementTitle} 
-                                onChange={handleAnnouncementTitleChange}
+                                onChange={onTitleChange}
                                 type='text'
                                 isRequired
                             />
                         </div>
                         <div className="CreateAnnouncementModal__summary-group">
-                            <TextField 
+                            <TextArea
                                 label='Summary' 
                                 id='summary' 
                                 name='summary' 
                                 value={announcementSummary} 
-                                onChange={handleAnnouncementSummaryChange}
+                                onChange={onSummaryChange}
                                 type='text'
-                                isTextArea ={true}
                                 placeholder='Write your announcement here...'
                                 isRequired
                             />
                         </div>
                     </div>
                     <div className="CreateAnnouncementModal__form-actions">
-                        <button type="button" className="CreateAnnouncementModal__cancel" onClick={onClose}>Cancel</button>
-                        <button type="submit" className=" CreateAnnouncementModal__publish">Publish</button>
+                        <ButtonGroup  
+                            onSave={onConfirm}
+                            onCancel={onClose}
+                            saveText="Publish"
+                            saveButtonColor="#0174CF" 
+                        />
                     </div>
                 </form>  
             </div>

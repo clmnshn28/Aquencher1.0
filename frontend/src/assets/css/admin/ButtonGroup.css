@@ -3,49 +3,38 @@
 .ButtonGroup__container {
     display: flex;
     justify-content: center;
-    gap: 50px;
-    margin: 20px 0 10px;
+    gap: 30px;
+    margin: 5px 0 5px;
 }
   
 .ButtonGroup__pass-cancel {
-    width: 130px;
-    height: 40px;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    background-color: #8a938a;
-    font-weight: 600;
+    width: 150px;
+    height: 45px;
+    font-size: 17px;
+    font-weight: bold;
     font-family: "poppins";
+    border-radius: 7px;
+    border:none;
+    background-color: #D9D9D9;
+    color: #626262;
     cursor: pointer;
-    transition: background-color 1s;
 }
 
 .ButtonGroup__pass-save {
-    width: 130px;
-    height: 40px;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    color: #fff;
-    background-color: #0174CF;
-    font-weight: 600;
+    width: 150px;
+    height: 45px;
+    font-size: 17px;
+    font-weight: bold;
     font-family: "poppins";
+    border-radius: 7px;
+    border:none;
+    color: #fff;
     cursor: pointer;
-    transition: background-color 1s;
 }
-  
-  
-.ButtonGroup__pass-save:hover {
-    background-color: #006cc5;
-}
-  
-.ButtonGroup__pass-cancel:hover {
-    background-color: #7b837b;
-}
+
 
 .ButtonGroup__pass-save:active,
 .ButtonGroup__pass-cancel:active{
-    opacity: 0.5;
+    opacity: 0.7;
 }
   

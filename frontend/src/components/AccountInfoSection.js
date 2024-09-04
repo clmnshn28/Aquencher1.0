@@ -85,7 +85,12 @@ export default function AccountInfoSection({title, infoItems}){
                 </div>
               ))}
             </div>
-            <ButtonGroup onCancel={handleCloseModal} onSave={handleSave}/>
+            <ButtonGroup 
+              onCancel={handleCloseModal} 
+              onSave={handleSave}
+              saveText="Save"
+              saveButtonColor="#0174CF" 
+              />
           </form>
         </Modal>
       )}

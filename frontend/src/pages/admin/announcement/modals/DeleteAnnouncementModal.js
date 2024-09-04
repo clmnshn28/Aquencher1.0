@@ -1,6 +1,7 @@
 import React from "react";
 import 'assets/css/admin';
 import Modal from "components/Modal";
+import ButtonGroup from "components/ButtonGroup";
 
 export const DeleteAnnouncementModal = ({isOpen, onClose, onConfirm, title}) =>{
 
@@ -14,8 +15,12 @@ export const DeleteAnnouncementModal = ({isOpen, onClose, onConfirm, title}) =>{
                 <p><b><em>'{title}'</em></b></p><br/>
                 <p>This action cannot be undone.</p>
                 <div className="DeleteAnnouncementModal__actions">
-                    <button className="DeleteAnnouncementModal__cancel" onClick={onClose}>Cancel</button>
-                    <button className="DeleteAnnouncementModal__confirm" onClick={onConfirm}>Confirm</button>
+                    <ButtonGroup  
+                        onSave={onConfirm}
+                        onCancel={onClose}
+                        saveText="Confirm"
+                        saveButtonColor="#9E1616" 
+                    />
                 </div>
             </div>
         </Modal>

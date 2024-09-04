@@ -34,30 +34,3 @@
     gap: 20px;
   }
   
-  .DeleteAnnouncementModal__cancel{
-    width: 150px;
-    height: 45px;
-    font-size: 17px;
-    font-weight: bold;
-    font-family: "poppins";
-    border-radius: 5px;
-    border:none;
-    background-color: #D9D9D9;
-    color: #626262;
-    cursor: pointer;
-    
-  }
-  
-  
-  .DeleteAnnouncementModal__confirm{
-    width: 150px;
-    height: 45px;
-    font-size: 17px;
-    font-weight: bold;
-    font-family: "poppins";
-    border-radius: 5px;
-    border:none;
-    background-color: #9E1616;
-    color: #fff;
-    cursor: pointer;
-  }

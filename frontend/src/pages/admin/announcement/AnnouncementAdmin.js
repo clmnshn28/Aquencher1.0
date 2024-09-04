@@ -4,8 +4,7 @@ import { MdOutlineDelete, MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 
 import * as images from 'assets/images';
-import { CreateAnnouncementModal, DeleteAnnouncementModal } from "./modals";
-import { EditAnnouncementModal } from "./modals/EditAnnouncementModal";
+import { CreateAnnouncementModal, DeleteAnnouncementModal,EditAnnouncementModal } from "./modals";
 
 export const AnnouncementAdmin = () =>{
 
@@ -21,13 +20,12 @@ export const AnnouncementAdmin = () =>{
   const [editAnnouncement, setEditAnnouncement] = useState(false);
   const [deleteAnnouncement, setDeleteAnnouncement] = useState(false);
 
-  const [announcementTitle, setAnnouncementTitle] = useState('');
-  const [announcementSummary, setAnnouncementSummary] = useState('');
+  const [announcement, setAnnouncement] = useState({ title: '', summary: '' });
   const [selectedTitle, setSelectedTitle] = useState('');
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
 
-  const handleAnnouncementTitleChange = (e) => setAnnouncementTitle(e.target.value);
-  const handleAnnouncementSummaryChange = (e) => setAnnouncementSummary(e.target.value);
+  const handleTitleChange = (e) => setAnnouncement(prevState => ({ ...prevState, title: e.target.value }));
+  const handleSummaryChange = (e) => setAnnouncement(prevState => ({ ...prevState, summary: e.target.value }));
 
 
   // delete announcement
@@ -45,16 +43,14 @@ export const AnnouncementAdmin = () =>{
   // edit announcement
   const handleEditClick = (announcement) => {
     setSelectedAnnouncement(announcement);
-    setAnnouncementTitle(announcement.title);
-    setAnnouncementSummary(announcement.summary);
+    setAnnouncement({ title: announcement.title, summary: announcement.summary });
     setEditAnnouncement(true);
   };
 
 
-  // submit for submit and cancel announcement
+  // submit and cancel announcement
   const AnnounceCancel = () => {
-    setAnnouncementTitle('');
-    setAnnouncementSummary('');
+    setAnnouncement({ title: '', summary: '' });
     setCreateAnnouncement(false);
     setEditAnnouncement(false);
   };
@@ -65,15 +61,14 @@ export const AnnouncementAdmin = () =>{
       // update existing announcement
       setAnnouncements(announcements.map(a =>
         a.id === selectedAnnouncement.id
-          ? { ...a, title: announcementTitle, summary: announcementSummary }
+          ? { ...a, ...announcement }
           : a
       ));
     } else {
       // create new announcement
       setAnnouncements([ {
         id: announcements.length + 1,
-        title: announcementTitle,
-        summary: announcementSummary
+        ...announcement
       },
        ...announcements
     ]);
@@ -135,20 +130,20 @@ export const AnnouncementAdmin = () =>{
         isOpen ={createAnnouncement}
         onClose ={AnnounceCancel}
         onConfirm ={AnnounceSubmit}
-        announcementTitle ={announcementTitle}
-        announcementSummary ={announcementSummary}
-        handleAnnouncementTitleChange = {handleAnnouncementTitleChange}
-        handleAnnouncementSummaryChange = {handleAnnouncementSummaryChange}
+        announcementTitle ={announcement.title}
+        announcementSummary ={announcement.summary}
+        onTitleChange={handleTitleChange}
+        onSummaryChange={handleSummaryChange}
       />
 
       <EditAnnouncementModal
         isOpen={editAnnouncement}
         onClose={AnnounceCancel}
         onConfirm={AnnounceSubmit}
-        announcementTitle={announcementTitle}
-        announcementSummary={announcementSummary}
-        handleAnnouncementTitleChange={handleAnnouncementTitleChange}
-        handleAnnouncementSummaryChange={handleAnnouncementSummaryChange}
+        announcementTitle={announcement.title}
+        announcementSummary={announcement.summary}
+        onTitleChange={handleTitleChange}
+        onSummaryChange={handleSummaryChange}
       />
 
       <DeleteAnnouncementModal
