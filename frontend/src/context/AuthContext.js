@@ -13,9 +13,9 @@ export const AuthProvider = ({ children }) => {
   const [ userRole, setUserRole ] = useState(null);
 
   // Mock sign-in function
-  const signIn = async (username, password) => {
+  const signIn = async (username, password, endpoint) => {
     // Replace with actual authentication logic
-    axios.post(API_URL + '/api/login', {
+    axios.post(API_URL + endpoint, {
       username:username, password:password
     }).then(response => {
       if (response.data?.data) {

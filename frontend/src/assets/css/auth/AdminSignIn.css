@@ -1,0 +1,176 @@
+
+
+
+.AdminSignIn__wrapper {
+    background-color: #08A8EB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+}
+
+
+
+.AdminSignIn__container{
+    background-color: #05a1e4;
+    border: 4px solid rgba(124, 227, 252,40%);
+    width: 534px;
+    height: 640px;
+    border-top-left-radius: 129px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 129px;
+    border-bottom-left-radius: 20px;
+    margin: 40px 0;
+}
+  
+.AdminSignIn__logo{
+    width: 170px;
+    margin-left: 170px;
+}
+  
+.AdminSignIn__box {
+    background-color: white;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 -4px -8px rgba(0, 0, 0, 0.2);
+    border-top-left-radius: 129px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 127px;
+    border-bottom-left-radius: 18px;
+}
+  
+/* --- */ 
+.AdminSignIn__input-container{
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0px;
+    padding-bottom: 64px;
+}
+  
+/* --- */
+.AdminSignIn__title {
+    color: #1372F2;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+}
+  
+.AdminSignIn__form {
+    display: flex;
+    flex-direction: column;
+    width: 73%;
+    font-family: "Poppins", sans-serif;
+}
+
+
+.AdminSignIn__input-field {
+    position: relative;
+    margin-bottom: 30px;
+}
+  
+.AdminSignIn__input-field input {
+    width: 90%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 10px;
+    padding: 15px 15px 15px 25px;
+    border: 0.5px solid #285AFF;
+    font-family: "Poppins", sans-serif;
+}
+  
+.AdminSignIn__input-field label {
+    position: absolute;
+    left: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #999;
+    font-size: 16px;
+    transition: 0.3s;
+}
+  
+.AdminSignIn__input-field input:focus + label,
+.AdminSignIn__input-field input:not(:placeholder-shown) + label {
+    top: 2px;
+    font-size: 13px;
+    color: #6a6a6a;
+    background-color: rgb(255, 255, 255);
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 2px 5px;
+}
+  
+
+.AdminSignIn__toggle-password {
+    position: absolute;
+    font-size: 18px;
+    top: 55%;
+    right: 20px;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+  /* --- */
+.AdminSignIn__form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom:49px;
+    color: #565252;
+}
+
+.AdminSignIn__form-footer label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+  
+.AdminSignIn__form-footer input[type="checkbox"] {
+    width: 15px; 
+    height: 15px;  
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+
+/* forgot */
+.AdminSignIn__forgot{
+    color:  #565252;
+    text-decoration: none;
+    transition: text-decoration 0.3s ease-in-out; 
+}
+  
+.AdminSignIn__forgot:hover {
+    text-decoration: underline;
+}
+
+/* --- */
+.AdminSignIn__Button {
+    width: 100%; 
+    height: 45px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #08A8EB;
+    border-radius: 8px;
+    color: white;
+    border: none;
+    margin-bottom: 50px;
+    cursor: pointer;
+    transition: background-color 1s;
+}
+  
+.AdminSignIn__Button :hover {
+    background-color: #0056b3;
+}
+  
+.AdminSignIn__Button :active{
+    opacity:0.5;
+}
+  
