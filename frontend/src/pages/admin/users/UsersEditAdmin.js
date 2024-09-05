@@ -12,30 +12,23 @@ import ButtonGroup from "components/ButtonGroup";
 export const UsersEditAdmin = () =>{
   const navigate = useNavigate();
 
-  const user = {
-    firstname: 'Karen Joyce',
-    lastname: 'Joson',
-    profilePicture: images.defaultAvatar,
-    username: '@karenjoycejoson'
-  };
-
-  const personalInfoItems = [
+  const [personalInfoItems, setPersonalInfoItems] = useState([
     [
-      {label: 'Firstname', value: 'Karen Joyce'},
-      {label: 'Lastname', value: 'Joson'},
-      {label: 'Username', value: 'karenjoycejoson' },
-      {label: 'Phone', value: '09123892012'}
+      { label: 'Firstname', value: 'Karen Joyce' },
+      { label: 'Lastname', value: 'Joson' },
+      { label: 'Username', value: 'karenjoycejoson' },
+      { label: 'Phone', value: '09123892012' }
     ]
-  ];
+  ]);
 
-  const addressInfoItems =[
+  const [addressInfoItems, setAddressInfoItems] = useState([
     [
       { label: 'Home number', value: '123' },
       { label: 'Street Address', value: 'Sampaguita St.' },
       { label: 'Barangay', value: 'Bulihan' },
       { label: 'City', value: 'Malolos' }
     ]
-  ];
+  ]);
 
   const [showResetPassword , setShowResetPassword] = useState(false);
   const [newPassword , setNewPassword] = useState('');
@@ -98,36 +91,36 @@ export const UsersEditAdmin = () =>{
 
   return (
     <div>
-      <div className="users-edit-profile-header">
-        <img className="user-edit-avatar" src={images.defaultAvatar} alt="User Avatar" />
-        <div className="user-edit-details">
-          <h2 className="user-edit-name">
+      <div className="UserEditAdmin__profile-header">
+        <img className="UserEditAdmin__avatar" src={images.defaultAvatar} alt="User Avatar" />
+        <div className="UserEditAdmin__details">
+          <h2 className="UserEditAdmin__name">
             {personalInfoItems[0].find(item => item.label === 'Firstname').value} {personalInfoItems[0].find(item => item.label === 'Lastname').value}
           </h2>
-          <p className="user-edit-username">
+          <p className="UserEditAdmin__username">
             @{personalInfoItems[0].find(item => item.label === 'Username').value}
           </p>
         </div>
-        <img className="user-back-btn" src={images.backEditButton} alt="Back Button" onClick={() => navigate(-1)}/>
+        <img className="UserEditAdmin__back-btn" src={images.backEditButton} alt="Back Button" onClick={() => navigate(-1)}/>
       </div>
       
-      <div className="user-account-edit-container">
+      <div className="UserEditAdmin__account-container">
         <AccountInfoSection title="Personal Information" infoItems={personalInfoItems} />
         <AccountInfoSection title="Address" infoItems={addressInfoItems} />
 
-        <div className="edit-user-container password">
-          <button className="reset-password-btn" onClick={handleShowResetPassword}>
-            <img className="reset-icon" src={images.resetPassword} alt="reset Icon"/>
+        <div className="UserEditAdmin__password-container">
+          <button className="UserEditAdmin__reset-password-btn" onClick={handleShowResetPassword}>
+            <img className="UserEditAdmin__reset-icon" src={images.resetPassword} alt="reset Icon"/>
             Reset Password
           </button>
           {showResetPassword &&(
-            <form className="user-reset-password-form" onSubmit={handleSubmitResetPassword}>
+            <form className="UserEditAdmin__password-form" onSubmit={handleSubmitResetPassword}>
               <div className="input-change-container">
                 <TextField label='Password' type="password" value={newPassword} onChange={handlePasswordChange} isRequired/>
                 <TextField label="Confirm Password" type="password" value={newConfirmPassword} onChange={handleConfirmPasswordChange} isRequired  error={error}/>
-                {error && <span className="editUser-error">{error}</span>}
+                {error && <span className="UserEditAdmin__error">{error}</span>}
               </div>
-              <div className="reset-password-requirements">
+              <div className="UserEditAdmin__password-requirements">
                 <PasswordRequirements newPassword={newPassword}/>
               </div>
               <ButtonGroup onCancel={handleCancel} onSave={()=> console.log("Clicked")}/>

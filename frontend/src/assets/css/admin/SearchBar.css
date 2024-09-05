@@ -1,0 +1,45 @@
+
+/* input filter */
+.SearchBar__container{
+    display: flex;
+  }
+  
+  .SearchBar__container input{
+    height: 29px;
+    width: 200px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 2px solid #8CB8FB;
+    padding: 3px 10px 2px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'poppins';
+  }
+  
+  .SearchBar__button{
+    height: 37px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    background-color: #5b9af9;
+    border: none;
+    cursor: pointer;
+    transition: background-color 1s;
+  }
+  
+  .SearchBar__button:hover{
+    background-color: #0168d5;
+  }
+  
+  .SearchBar__button:active{
+    opacity:0.5;
+  }
+  
+  .SearchBar__button img{
+    width: 23px;
+  }

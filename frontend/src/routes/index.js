@@ -11,7 +11,7 @@ import {UsersAdmin, UsersEditAdmin, UsersViewAdmin} from 'pages/admin/users';
 import {RequestsAdmin, QueueAdmin, CompletedAdmin} from 'pages/admin/request';
 import {TransactionAdmin} from 'pages/admin/transaction';
 import {InventoryAdmin} from 'pages/admin/inventory';
-import {AnnouncementAdmin, CreateAnnouncementAdmin} from 'pages/admin/announcement';
+import {AnnouncementAdmin} from 'pages/admin/announcement';
 import {ConcernsAdmin} from 'pages/admin/concern';
 import {AccountSettingsAdmin , ChangePasswordAdmin } from 'pages/admin/account';
 
@@ -44,10 +44,7 @@ const MainRoutes = () =>{
           </Route>
           <Route path='transactions' element={<TransactionAdmin/>}/>
           <Route path='inventory' element={<InventoryAdmin/>}/>
-          <Route path="announcements">
-            <Route index element={<AnnouncementAdmin />} />
-            <Route path="create-announcement" element={<CreateAnnouncementAdmin />} />
-          </Route>
+          <Route path="announcements" element={<AnnouncementAdmin />}/>
           <Route path='concerns' element={<ConcernsAdmin/>}/>
           <Route path="account/settings">
             <Route path="my-profile" element={<AccountSettingsAdmin />} />

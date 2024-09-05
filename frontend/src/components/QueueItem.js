@@ -35,14 +35,18 @@ export default function QueueItem ({id, name, address, slimQuantity, roundQuanti
                 </div>
             </div>
             <div className="QueueItem__quantities">
-                <div className="QueueItem__quantity-item">
-                    <img src={images.returnSlim} alt="Slim Gallon" />
-                    <span>{slimQuantity}</span>
-                </div>
-                <div className="QueueItem__quantity-item">
-                    <img src={images.returnRound} alt="Slim Gallon" />
-                    <span>{roundQuantity}</span>
-                </div>
+                {slimQuantity > 0 && (
+                    <div className="QueueItem__quantity-item">
+                        <img src={images.returnSlim} alt="Slim Gallon" />
+                        <span>{slimQuantity}</span>
+                    </div>
+                )}
+                {roundQuantity > 0 && (
+                    <div className="QueueItem__quantity-item">
+                        <img src={images.returnRound} alt="Round Gallon" />
+                        <span>{roundQuantity}</span>
+                    </div>
+                )}
             </div>
             <div className="QueueItem__duration">
                 <p>{requestType} Duration</p>

@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import 'assets/css/admin';
 
-import * as images from 'assets/images';
 import DropdownFilter from 'components/DropdownFilter';
 import RequestItem from "components/RequestItem";
-import { complete } from "assets/images/index";
+import SearchBar from "components/SearchBar";
 
 
 export const CompletedAdmin = () =>{
@@ -100,20 +99,14 @@ export const CompletedAdmin = () =>{
             </div>
 
             <div className="CompletedAdmin__filter-container">
-                <div className="CompletedAdmin__search-bar-container">
-                    <input 
-                        type="text" 
-                        placeholder="Search" 
-                        value={searchQuery} 
-                        onChange={(e) => setSearchQuery(e.target.value)} 
-                    />
-                    <button className="CompletedAdmin__search-button" onClick={handleSearch}>
-                        <img src={images.searchIcon} alt="Search Icon" />
-                    </button>
-                </div>
+                <SearchBar
+                    searchQuery={searchQuery}
+                    setSearchQuery={setSearchQuery}
+                    handleSearch={handleSearch}
+                />
                 <IoFilterSharp  className="CompletedAdmin__filter-icon" />
                 <DropdownFilter
-                    label="Transaction Type"
+                    label="Request Type"
                     isOpen={activeDropdown === 'requestType'}
                     toggleDropdown={() => toggleDropdown('requestType')}
                     options={[

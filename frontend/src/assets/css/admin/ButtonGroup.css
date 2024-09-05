@@ -1,0 +1,40 @@
+
+/* button */
+.ButtonGroup__container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 5px 0 5px;
+}
+  
+.ButtonGroup__pass-cancel {
+    width: 150px;
+    height: 45px;
+    font-size: 17px;
+    font-weight: bold;
+    font-family: "poppins";
+    border-radius: 7px;
+    border:none;
+    background-color: #D9D9D9;
+    color: #626262;
+    cursor: pointer;
+}
+
+.ButtonGroup__pass-save {
+    width: 150px;
+    height: 45px;
+    font-size: 17px;
+    font-weight: bold;
+    font-family: "poppins";
+    border-radius: 7px;
+    border:none;
+    color: #fff;
+    cursor: pointer;
+}
+
+
+.ButtonGroup__pass-save:active,
+.ButtonGroup__pass-cancel:active{
+    opacity: 0.7;
+}
+  

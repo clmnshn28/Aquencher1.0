@@ -1,6 +1,7 @@
 import React from 'react';
 import 'assets/css/admin';
 import Modal from 'components/Modal';
+import ButtonGroup from 'components/ButtonGroup';
 
 export const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {
   
@@ -14,8 +15,12 @@ export const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {
         <p>Are you sure you want to deactivate this account?</p>
         <p>This action will prevent the worker from <br/> accessing the system.</p>
         <div className="deactivation-modal-actions">
-          <button className="deactivation-cancel-btn" onClick={onClose}>Cancel</button>
-          <button className="deactivation-confirm-btn" onClick={onConfirm}>Deactivate</button>
+          <ButtonGroup
+            onSave={onConfirm}
+            onCancel={onClose}
+            saveText="Deactivate"
+            saveButtonColor='#9E1616'
+          />
         </div>
       </div>
     </Modal>

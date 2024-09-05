@@ -29,14 +29,18 @@ export default function RequestItem({id, name, address, slimQuantity, roundQuant
                 </p>
             </div>
             <div className="RequestItem__quantities">
-                <div className="RequestItem__quantity-item">
-                    <img src={images.returnSlim} alt="Slim Gallon" />
-                    <span>{slimQuantity}</span>
-                </div>
-                <div className="RequestItem__quantity-item">
-                    <img src={images.returnRound} alt="Slim Gallon" />
-                    <span>{roundQuantity}</span>
-                </div>
+                {slimQuantity > 0 && (
+                    <div className="RequestItem__quantity-item">
+                        <img src={images.returnSlim} alt="Slim Gallon" />
+                        <span>{slimQuantity}</span>
+                    </div>
+                )}
+                {roundQuantity > 0 && (
+                    <div className="RequestItem__quantity-item">
+                        <img src={images.returnRound} alt="Round Gallon" />
+                        <span>{roundQuantity}</span>
+                    </div>
+                )}
             </div>
             <div className="RequestItem__status">
                 {status === false ? (

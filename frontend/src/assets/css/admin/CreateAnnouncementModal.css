@@ -1,0 +1,42 @@
+
+/* content */
+.CreateAnnouncementModal__container{
+    background-color: #FFFFFF;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+    border-radius: 5px;
+    padding: 10px 50px;
+    width: 800px;
+}
+
+
+/* header */
+.CreateAnnouncementModal__header{
+    color: #0174CF;
+}
+  
+/* form */
+.CreateAnnouncementModal__form-container {
+    background-color: #F8FEFF;
+    color: #0174CF;
+    padding: 30px 50px;
+    border: 1px solid rgba(0, 123, 255,0.7);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.CreateAnnouncementModal__form-group {
+    margin-bottom: 20px;
+}
+
+.CreateAnnouncementModal__summary-group{
+    display: flex;
+    flex-direction: column;
+    margin-left: 70px;
+}
+
+
+/* button */
+.CreateAnnouncementModal__form-actions {
+    display: flex;
+    justify-content: flex-end;
+   margin: 20px 0px;
+}  

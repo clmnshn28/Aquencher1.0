@@ -1,0 +1,114 @@
+
+
+
+.AccountInfoSection__container{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    margin-bottom: 25px;
+    border-radius: 15px;
+    border: 2px solid rgba(160, 160, 160,0.3);
+}
+
+
+  
+/* personal info */
+.AccountInfoSection__section{
+    width: 100%;
+}
+
+.edit-header-info{
+    margin-top: 3px;
+}
+
+.AccountInfoSection__row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+  
+.AccountInfoSection__item {
+    flex: 1 1 48%;
+    margin: 10px 0;
+}
+  
+.AccountInfoSection__detail-name {
+    display: block;
+    font-size: 14px;
+    color: #626262;
+    margin-bottom: 0;
+}
+  
+.AccountInfoSection__details-editable{
+    font-size: 16px;
+    font-weight: bold;
+    color: #5e5e5e;
+    margin: 0;
+}
+  
+.AccountInfoSection__edit-btn{
+    position: absolute;
+    right: 3%;
+    top: 8%;
+    padding: 5px 15px;
+    border-radius: 30px;
+    border: 2px solid  rgba(0, 0, 0, 0.3);
+    background-color: #FFFFFF;
+    color: #454343;
+    font-weight: 600;
+    font-size: 14px;
+    font-family: "poppins";
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 1s;
+}
+  
+.AccountInfoSection__button-icon{
+    width: 20px;
+    margin-left: 5px;
+}
+  
+.AccountInfoSection__edit-btn:hover{
+    background-color: #f5f5f5;
+}
+  
+.AccountInfoSection__edit-btn:active{
+    opacity: 0.5;
+}
+  
+/* Modal */
+.AccountInfoSection__modal-content {
+    background: #fff;
+    padding: 20px 0px;
+    border-radius: 5px;
+    width: 600px;
+    max-width: 90%;
+    position: relative;
+}
+
+
+.AccountInfoSection__user-header{
+    padding-left: 45px;
+    color: #0174CF;
+    font-size: 25px;
+    margin: 0 0 9px;
+    
+}
+  
+.AccountInfoSection__center-container{
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid #96E1EC;
+    border-bottom: 1px solid #96E1EC;
+    padding: 40px 0px;
+    margin-bottom: 20px;
+}
+  
+  
+.AccountInfoSection__form-edit-container{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}

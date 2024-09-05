@@ -230,8 +230,8 @@ export const CustomerLayout = () =>{
           <img
               className="CustomerLayout__sidebar-dropdown"
               src={subAccountSidebarVisible ? 
-              (highlightedTab === 'account' ? images.blueSidebarDropdownClose : images.sidebarDropdownClose) : 
-              ( highlightedTab === 'account' ? images.blueSidebarDropdownOpen : images.sidebarDropdownOpen)}
+                (highlightedTab === 'account' ? images.blueSidebarDropdownOpen : images.sidebarDropdownOpen) : 
+                ( highlightedTab === 'account' ? images.blueSidebarDropdownClose : images.sidebarDropdownClose)}
               alt="dropdown"
             />
         </li>

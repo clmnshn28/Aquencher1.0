@@ -1,16 +1,16 @@
 
 /* announcement content */
 
-.announcement-container{
+.AnnouncementAdmin__container{
   background-color: #FFFFFF;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
-  margin: 50px 40px 50px 10px;
+  margin: 50px 40px 0px 10px;
   border-radius: 10px;
   padding: 60px 30px;
   position: relative;
 }
 
-.create-announcement-button {
+.AnnouncementAdmin__announcement-button {
   position: absolute;
   top: -25px;
   right: 50px;
@@ -26,22 +26,25 @@
   cursor: pointer;
   display: flex;
   align-items: center;
+  transition: background-color 1s;
 }
 
-.create-announcement-icon{
+.AnnouncementAdmin__announcement-icon{
   width: 37px;
   margin-right: 6px;
 }
 
-.create-announcement-button:hover {
+.AnnouncementAdmin__announcement-button:hover {
   background-color: #0056b3;
 }
 
-.create-announcement-button:active {
-  opacity: 0.2;
+.AnnouncementAdmin__announcement-button:active {
+  opacity: 0.8;
 }
 
-.announcement-table{
+
+/* table */
+.AnnouncementAdmin__table{
   width: 100%;
   border-collapse: collapse;
   background-color: #FFFFFF;
@@ -50,14 +53,13 @@
   font-size: 14px;
 }
 
-
-.announcement-table th{
+.AnnouncementAdmin__table th{
   padding: 15px 30px;
   text-align: left;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.announcement-table td {
+.AnnouncementAdmin__table td {
   padding: 9px 30px;
   text-align: left;
   border-bottom: 1px solid #C4E5FF;
@@ -65,15 +67,71 @@
   font-size: 13px;
 }
 
+.AnnouncementAdmin__table-header{
+  background-color: #0174CF;
+  color: white;
+  padding: 5px 30px;
+}
 
-.title-announcement{
+.AnnouncementAdmin__title{
   margin: 0;
   color: #444444;
 }
 
-.summary-announcement{
+.AnnouncementAdmin__summary{
   color: #616161;
   margin: 0;
   font-weight: 400;
   font-style: italic;
 }
+
+/* action button */
+.AnnouncementAdmin__actions{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+
+.AnnouncementAdmin__edit,
+.AnnouncementAdmin__delete{
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  font-size: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+.AnnouncementAdmin__edit:active,
+.AnnouncementAdmin__delete:active{
+  opacity: 0.8;
+}
+
+.AnnouncementAdmin__edit{
+  background-color: #d5cece;
+  color: #444444;
+  border: 1.5px solid rgba(68, 68, 68, 0.5);
+}
+
+.AnnouncementAdmin__delete{
+  background-color: rgb(239, 68, 68);
+  color: #fff;
+  border: 1.5px solid rgba(68, 68, 68, 0.5);
+}
+
+
+/* no announcement */
+.AnnouncementAdmin__no-announcements {
+  color: #888;
+  font-style: italic;
+  font-size: 15px; 
+  text-align: center;
+} 
+
+
