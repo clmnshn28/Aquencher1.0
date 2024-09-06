@@ -6,7 +6,7 @@ import { useAuth } from 'context/AuthContext';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 import { Link, useNavigate } from 'react-router-dom';
 
-export const SignIn = () =>{
+export const CustomerSignIn = () =>{
   const navigate = useNavigate();
   const { user, signIn } = useAuth();
 
@@ -32,19 +32,17 @@ export const SignIn = () =>{
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    signIn(username, password);
+    signIn(username, password, '/api/login/customer');
   };
 
-  const navigateToAdmin = () => {
-    if (user && user.token && user.role === 'admin') {
-      navigate('/admin/dashboard');
-    }else if (user && user.token){
-      navigate('/customer/dashboard')
+  const navigateToCustomer = () => {
+    if (user && user.token) {
+      navigate('/customer/dashboard');
     }
   };
 
   useEffect(() => {
-    navigateToAdmin()
+    navigateToCustomer()
   }, [ user ]);
 
   return(

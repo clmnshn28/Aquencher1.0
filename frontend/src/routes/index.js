@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 
-import {SignIn, SignUp} from 'pages/auth';
+import {CustomerSignIn, AdminSignIn, SignUp} from 'pages/auth';
 
 import {AdminLayout, CustomerLayout} from 'layouts/main_layouts';
 
@@ -22,7 +22,8 @@ const MainRoutes = () =>{
   return(
     <Router>
       <Routes>
-        <Route exact path="/" element={<SignIn />} />
+        <Route exact path="/" element={<CustomerSignIn />} />
+        <Route path="/admin/sign-in" element={<AdminSignIn />} />      
         <Route path="/sign-up" element={<SignUp />} />
         
         <Route path='/admin/' element={
