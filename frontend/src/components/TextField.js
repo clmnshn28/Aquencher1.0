@@ -1,10 +1,10 @@
 import React from "react";
-import 'assets/css/admin';
+import 'assets/css/components';
 
-export default function TextField ({onChange, value, label, id, isRequired, type, }){
+export default function TextField ({onChange, value, label, id, isRequired, type, isReadOnly, isDisabled }){
   return(
-    <>
-      <label className='TextField__label' htmlFor={id}>{label} 
+    <div className="TextField__container">
+      <label className='TextField__label' htmlFor={id}>{label}
         {isRequired ? <span className="TextField__required-field" > * </span> : ''}
       :
       </label> 
@@ -16,7 +16,9 @@ export default function TextField ({onChange, value, label, id, isRequired, type
           value={value}
           onChange={onChange}
           required={isRequired}
+          readOnly={isReadOnly}
+          disabled={isDisabled}
         />
-    </>
+    </div>
   );
 };

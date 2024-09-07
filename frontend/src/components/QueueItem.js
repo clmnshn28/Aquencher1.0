@@ -1,4 +1,5 @@
 import React from "react";
+import 'assets/css/components';
 import { MdAccessTime } from "react-icons/md";
 
 import * as images from 'assets/images';

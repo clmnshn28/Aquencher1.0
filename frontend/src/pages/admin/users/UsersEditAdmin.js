@@ -8,6 +8,7 @@ import AccountInfoSection from "components/AccountInfoSection";
 import PasswordRequirements from "components/PasswordRequirements";
 import TextField from "components/TextField";
 import ButtonGroup from "components/ButtonGroup";
+import { ResetPasswordConfirmationModal } from "./modals";
 
 export const UsersEditAdmin = () =>{
   const navigate = useNavigate();
@@ -26,7 +27,9 @@ export const UsersEditAdmin = () =>{
       { label: 'Home number', value: '123' },
       { label: 'Street Address', value: 'Sampaguita St.' },
       { label: 'Barangay', value: 'Bulihan' },
-      { label: 'City', value: 'Malolos' }
+      { label: 'Municipality/City', value: 'Malolos' },
+      { label: 'Province', value: 'Bulacan'},
+      { label: 'Postal Code', value: '3000'},
     ]
   ]);
 
@@ -34,6 +37,7 @@ export const UsersEditAdmin = () =>{
   const [newPassword , setNewPassword] = useState('');
   const [newConfirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
   const handleShowResetPassword = () =>{
     setShowResetPassword(true);
@@ -69,9 +73,8 @@ export const UsersEditAdmin = () =>{
       setError('Passwords do not match');
       return; 
     }
-
-    console.log("Reset Password Submitted!!!");
-
+    setError('');
+    setShowConfirmationModal(true); 
   }
 
    // checking requirement in password
@@ -88,9 +91,15 @@ export const UsersEditAdmin = () =>{
     }
   };
 
+  const handleConfirmPasswordReset = () => {
+    console.log("Reset Password Submitted!!!");
+    setShowConfirmationModal(false);
+    handleCancel();
+  };
 
+  const username = personalInfoItems[0].find(item => item.label === 'Username').value;
   return (
-    <div>
+    <>
       <div className="UserEditAdmin__profile-header">
         <img className="UserEditAdmin__avatar" src={images.defaultAvatar} alt="User Avatar" />
         <div className="UserEditAdmin__details">
@@ -109,13 +118,13 @@ export const UsersEditAdmin = () =>{
         <AccountInfoSection title="Address" infoItems={addressInfoItems} />
 
         <div className="UserEditAdmin__password-container">
-          <button className="UserEditAdmin__reset-password-btn" onClick={handleShowResetPassword}>
+          <button className="UserEditAdmin__reset-button" onClick={handleShowResetPassword}>
             <img className="UserEditAdmin__reset-icon" src={images.resetPassword} alt="reset Icon"/>
             Reset Password
           </button>
           {showResetPassword &&(
             <form className="UserEditAdmin__password-form" onSubmit={handleSubmitResetPassword}>
-              <div className="input-change-container">
+              <div className="UserEditAdmin__input-group">
                 <TextField label='Password' type="password" value={newPassword} onChange={handlePasswordChange} isRequired/>
                 <TextField label="Confirm Password" type="password" value={newConfirmPassword} onChange={handleConfirmPasswordChange} isRequired  error={error}/>
                 {error && <span className="UserEditAdmin__error">{error}</span>}
@@ -123,12 +132,22 @@ export const UsersEditAdmin = () =>{
               <div className="UserEditAdmin__password-requirements">
                 <PasswordRequirements newPassword={newPassword}/>
               </div>
-              <ButtonGroup onCancel={handleCancel} onSave={()=> console.log("Clicked")}/>
+              <ButtonGroup 
+                onCancel={handleCancel} 
+                onSave={handleSubmitResetPassword} 
+                saveText="Save" 
+                saveButtonColor="#0174CF" 
+              />
             </form>
           )}
         </div>
       </div>
-    
-    </div>
+      <ResetPasswordConfirmationModal
+        isOpen={showConfirmationModal}
+        onClose={() => setShowConfirmationModal(false)}
+        onConfirm={handleConfirmPasswordReset}
+        username={username}
+      />
+    </>
   );
 }

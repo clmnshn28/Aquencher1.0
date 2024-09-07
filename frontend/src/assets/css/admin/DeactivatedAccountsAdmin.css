@@ -1,0 +1,148 @@
+
+ /* DeactivatedAccounts content */
+
+.DeactivatedAccountsAdmin__header {
+  background-color: #FFFFFF;
+  margin:0 40px 10px 10px;
+  height: 130px;
+  padding: 5px 30px;
+  font-size: 20px;
+  border-radius: 5px;
+  color: #007bff;
+  position: relative;
+}
+  
+.DeactivatedAccountsAdmin__header-text{
+  padding-left: 15px;
+}
+  
+.DeactivatedAccountsAdmin__link{
+  color: inherit;
+  text-decoration: none;
+}
+  
+.DeactivatedAccountsAdmin__customers-text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 500;
+  top: 64%;
+  left:4%;
+  padding-bottom: 13px;
+  color: #626262;
+}
+  
+  
+.DeactivatedAccountsAdmin__deactivated-text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 600;
+  top: 64%;
+  left:17%;
+  padding-bottom: 13px;
+  border-bottom: 4px solid #007bff;
+}
+  
+  
+  
+/* filter container */
+.DeactivatedAccountsAdmin__controls{
+  display: flex;
+  align-items: center;
+  margin: 13px 30px 13px 10px;
+  gap: 15px;
+  padding: 5px ;
+  color: #007bff;
+}
+
+.DeactivatedAccountsAdmin__filter-icon{
+  font-size: 22px;
+  color: #8CB8FB;
+}
+
+
+
+
+/* table */
+
+.DeactivatedAccountsAdmin__table-container{
+  margin-right: 50px;
+}
+
+.DeactivatedAccountsAdmin__table{
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #FFFFFF;
+  margin-left: 10px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.DeactivatedAccountsAdmin__table-header{
+  background-color: #0174CF;
+  color: white;
+}
+
+.DeactivatedAccountsAdmin__table th, 
+.DeactivatedAccountsAdmin__table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.DeactivatedAccountsAdmin__table td {
+  font-weight: 600;
+  color: #434141;
+}
+
+
+.DeactivatedAccountsAdmin__info {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.DeactivatedAccountsAdmin__avatar{
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+
+}
+
+.DeactivatedAccountsAdmin__title{
+  margin: 0;
+  font-weight: 600;
+  font-size: 14px;
+
+}
+
+.DeactivatedAccountsAdmin__description{
+  margin: 0;
+  color: #888;
+  font-weight: 500;
+  font-size: 12px;
+  font-style: italic;
+}
+
+
+/* button */
+
+
+.DeactivatedAccountsAdmin__reactivated{
+  background-color: #d5cece;
+  color: #444444;
+  border: 1.5px solid rgba(68, 68, 68, 0.5);
+  width: 35px;
+  height: 35px;
+  border-radius: 5px;
+  border: none;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+.DeactivatedAccountsAdmin__reactivated:active{
+  opacity: 0.8;
+}

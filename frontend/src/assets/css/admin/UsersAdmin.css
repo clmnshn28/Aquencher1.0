@@ -17,16 +17,31 @@
   padding-left: 15px;
 }
 
-.UsersAdmin__name-text{
+.UsersAdmin__link{
+  color: inherit;
+  text-decoration: none;
+}
+
+.UsersAdmin__customers-text{
   position: absolute;
   font-size: 14px;
   font-weight: 600;
-  top: 66%;
+  top: 64%;
   left:4%;
-  padding-bottom: 10px;
+  padding-bottom: 13px;
   border-bottom: 4px solid #007bff;
 }
 
+
+.UsersAdmin__deactivated-text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 500;
+  top: 64%;
+  left:17%;
+  padding-bottom: 13px;
+  color: #626262;
+}
 
 
 
@@ -174,7 +189,7 @@
       opacity: 1;
   }
   100% {
-      transform: scale(2.8);
+      transform: scale(2.3);
       opacity: 0; /* Fade out */
   }
 }

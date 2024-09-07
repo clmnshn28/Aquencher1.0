@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import 'assets/css/admin';
+import 'assets/css/modals';
 
 import * as images from 'assets/images';
 
@@ -9,10 +9,15 @@ import PasswordRequirements from 'components/PasswordRequirements';
 
 export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
 
-  const [firstname, setFirstName] = useState('');
-  const [lastname, setLastName] = useState('');
-  const [address, setAddress] = useState('');
-  const [phone, setPhone] = useState('');
+  const [fname, setFname] = useState('');
+  const [lname, setLname] = useState('');
+  const [contactNumber, setContactNumber] = useState('');
+  const [houseNumber, setHouseNumber] = useState('');
+  const [street, setStreet] = useState('');
+  const [barangay, setBarangay] = useState('');
+  const [municipalityCity, setMunicipalityCity] = useState('Malolos');
+  const [province, setProvince] = useState('Bulacan');
+  const [postalCode, setPostalCode] = useState('3000');
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -21,22 +26,6 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   
   const [error, setError] = useState('');
   
-  const handleFirstnameChange = (e) => {
-    setFirstName(e.target.value);
-  };
-  const handleLastnameChange = (e) => {
-    setLastName(e.target.value);
-  };
-  const handleAddressChange = (e) => {
-    setAddress(e.target.value);
-  };
-  const handlePhoneChange = (e) => {
-    setPhone(e.target.value);
-  };
-
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
-  };
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     setError('');
@@ -45,7 +34,6 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
     setConfirmPassword(e.target.value);
     setError('');
   };
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -67,14 +55,15 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
     const usernameWithAt = `@${username}`;
 
     const newUser = {
-      fullName: `${firstname} ${lastname}`, 
-      address,
-      phone,
+      fname, 
+      lname,
+      contactNumber,
+      address: `${houseNumber} ${street} ${barangay} ${municipalityCity} ${province}`,
       username: usernameWithAt,
       password,
       avatar,
-      dateRegistered: formatDate(new Date()),
       status: 'Inactive' 
+
     };
     onAddUser(newUser);
     onClose();
@@ -93,22 +82,25 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   };
 
   const resetForm = () => {
-    setFirstName('');
-    setLastName('');
-    setAddress('');
-    setPhone('');
+    setFname('');
+    setLname('');
+    setContactNumber('');
+    setHouseNumber('');
+    setStreet('');
+    setBarangay('');
+    setMunicipalityCity('Malolos');
+    setProvince('Bulacan');
+    setPostalCode('3000');
     setUsername('');
     setPassword('');
     setConfirmPassword('');
     setAvatar(images.defaultAvatar);
   };
 
-  const formatDate = (date) => {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(date).toLocaleDateString(undefined, options);
+  const handleClose = () => {
+    resetForm(); 
+    onClose();   
   };
-
-
 
   // checking requirement in password
   const isPasswordRequirementMet = (requirement) => {
@@ -124,43 +116,55 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
     }
   };
   
-  const getRequirementIcon = (requirement) => {
-    return isPasswordRequirementMet(requirement) ? <span className='check'>&#10004;</span> : <span className='wrong'>&#10005;</span>;
-  };
 
   if (!isOpen) return null;
 
   return(
     <Modal>
-      <div className="modal-content">
-        <button className="close-modal" onClick={onClose}>&times;</button>
-        <h2 className='add-new-user-header'>New User</h2>
-        <form onSubmit={handleSubmit}  className="form-container">
-          <div className="form-flex-container">
-            <div className="avatar-container">
-              <img className='new-avatar' src={avatar} alt="Avatar Preview" />
-              <label htmlFor="file-upload" className='button-upload-photo'>
-                <img className='upload-photo-icon' src={images.uploadPhoto} alt="upload Photo" />
-                Upload Photo
-              </label>
-              <input id="file-upload" type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
-            </div>
-            <div className="newUser-input-container">
-              <div className="newUser-container">
-                <TextField label="First Name"  id="firstname" name="firstname" value={firstname} onChange={handleFirstnameChange} type="text" isRequired />
-                <TextField label="Last Name" id="lastname" name="lastname" value={lastname} onChange={handleLastnameChange} type="text" isRequired />
-                <TextField label="Address"  id="address" name="address" value={address} onChange={handleAddressChange} type="text" isRequired />
-                <TextField label="Phone"  id="phone" name="phone" value={phone} onChange={handlePhoneChange} type="text" isRequired />
-                <TextField label="Username"  id="username" name="username" value={username} onChange={handleUsernameChange} type="text" isRequired />
-                <TextField label="Password"  id="password" name="password" value={password} onChange={handlePasswordChange} type="password" isRequired />
-                <TextField label="Confirm Password"  id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} type="password" isRequired />
-                {error && <span className="newUser-error">{error}</span>}
+      <div className="NewUserModal__content">
+        <button className="NewUserModal__close" onClick={handleClose}>&times;</button>
+        <h2 className='NewUserModal__header'>New User</h2>
+        <form onSubmit={handleSubmit}  className="NewUserModal__form-container">
+          <div className="NewUserModal__flex-container">
+            <div className="NewUserModal__avatar-section">
+              <div className="NewUserModal__avatar-wrapper">
+                <img className='NewUserModal__avatar-preview' src={avatar} alt="Avatar Preview" />
+                <label htmlFor="file-upload" className='NewUserModal__upload-label'>
+                  <img className='NewUserModal__upload-photo-icon' src={images.uploadPhoto} alt="upload Photo" />
+                  Upload Photo
+                </label>
+                <input id="file-upload" type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
               </div>
+            </div>     
+            <div className="NewUserModal__input-container">
+              <div className='NewUserModal__name-container'>
+                <TextField label="First Name"  id="fname" name="fname" value={fname} onChange={(e) => setFname(e.target.value)} type="text" isRequired />
+                <TextField label="Last Name" id="lname" name="lname" value={lname} onChange={(e) => setLname(e.target.value)} type="text" isRequired />
+              </div>
+              <TextField label="Contact Number"  id="contactNumber" name="contactNumber" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} type="text" isRequired />
+              <div className='NewUserModal__address-container'>
+                <p>Address</p>
+                <div className='NewUserModal__address-subsection'>
+                  <TextField label="House No."  id="houseNumber" name="houseNumber" value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)} type="text"  />
+                  <TextField label="Street"  id="street" name="street" value={street} onChange={(e) => setStreet(e.target.value)} type="text"  />
+                  <TextField label="Barangay"  id="barangay" name="barangay" value={barangay} onChange={(e) => setBarangay(e.target.value)} type="text"  />
+                </div>
+                <div className='NewUserModal__address-subsection'>
+                  <TextField label="Municipality/City"  id="municipalityCity" name="municipalityCity" value='Malolos' onChange={(e) => setMunicipalityCity(e.target.value)} type="text"  isReadOnly/>
+                  <TextField label="Province"  id="province" name="province" value="Bulacan" onChange={(e) => setProvince(e.target.value)} type="text"  isReadOnly/>
+                  <TextField label="Postal Code"  id="postalCode" name="postalCode" value="3000" onChange={(e) => setPostalCode(e.target.value)} type="text"  isReadOnly/>
+                </div>
+              </div>
+
+              <TextField label="Username"  id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} type="text" isRequired />
+              <TextField label="Password"  id="password" name="password" value={password} onChange={handlePasswordChange} type="password" isRequired />
+              <TextField label="Confirm Password"  id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} type="password" isRequired />
+              {error && <span className="NewUserModal__error">{error}</span>}
             </div>
           </div>
-          <button className='submit-add-user' type="submit">Add User</button>
+          <button className='NewUserModal__add-user-btn' type="submit">Add User</button>
 
-          <div className="password-requirements">
+          <div className="NewUserModal__password-requirements">
            <PasswordRequirements newPassword={password}/>
           </div>
         </form>

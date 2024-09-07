@@ -1,5 +1,5 @@
 import React from "react";
-import 'assets/css/admin';
+import 'assets/css/components';
 import * as images from 'assets/images';
 
 export default function SearchBar ({searchQuery, setSearchQuery, handleSearch}){

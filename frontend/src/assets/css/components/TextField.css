@@ -1,13 +1,18 @@
 
 
 /* text field  */
+.TextField__container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
 
 .TextField__label{
     font-weight: bold;
     font-size: 13px;
     color: #504F4F;
-    margin-right: 10px;
     margin-bottom: 4px;
+    
 }
 
 .TextField__required-field {
@@ -17,15 +22,17 @@
 }
 
 .TextField__input{
-    height: 25px;
-    width: 390px;
+    height: 32px;
+    width: 100%;
+    max-width: 100%; 
     color: #434141;
     border: 1.5px solid #ADAFB0;
     border-radius: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
     font-weight: 600;
     padding-left: 10px;
     font-family: "poppins";
+    box-sizing: border-box;
 }
 
 .TextField__textarea {
@@ -39,4 +46,12 @@
     border: 1.5px solid #ADAFB0;
     border-radius: 5px;
     font-weight: 500;
+}
+
+
+input[readonly] {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    color: #929090;
+    cursor: not-allowed;
 }
