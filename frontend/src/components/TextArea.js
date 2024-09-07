@@ -1,5 +1,5 @@
 import React from "react";
-import 'assets/css/admin';
+import 'assets/css/components';
 
 export default function TextArea ({onChange, value, label, id, isRequired, placeholder}){
   return(

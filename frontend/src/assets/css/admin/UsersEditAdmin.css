@@ -68,6 +68,7 @@
   padding: 40px 60px;
 }
 
+/* password content */
 .UserEditAdmin__password-container{
   position: relative;
   display: flex;
@@ -79,10 +80,7 @@
   border: 2px solid rgba(160, 160, 160,0.3);
 }
 
-
-/* password */
-
-.UserEditAdmin__reset-password-btn{
+.UserEditAdmin__reset-button{
   position: absolute;
   top: -20px;
   left: 35px;
@@ -120,14 +118,21 @@
   align-items: center;
 }
 
-/* requirements */
+.UserEditAdmin__input-group{
+  width: 50%;
+  margin-bottom: 20px;
+  position: relative;
+}
 
+
+
+/* requirements */
 .UserEditAdmin__password-requirements{
   background-color: rgba(146, 146, 146,0.15);
   padding: 10px;
-  margin-top: 10px;
+  margin-bottom: 30px;
   width: 47%;
-  max-width: 390px;
+  max-width: 700px;
   border-radius: 5px;
 }
 
@@ -155,7 +160,7 @@
 .UserEditAdmin__error {
   position: absolute;
   top: 73px; 
-  right: 3px; 
+  right: 5px; 
   color: red;
   font-size: 11px;
   font-weight: bold;

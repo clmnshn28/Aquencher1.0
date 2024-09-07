@@ -1,0 +1,71 @@
+/* Reactivate Modal */
+
+
+.ReactivationModal__content{
+    background: #fff;
+    border: 4px solid #0174CF;
+    padding: 35px 15px;
+    border-radius: 7px;
+    width: 600px;
+    max-width: 90%;
+    position: relative;
+  }
+  
+  .ReactivationModal__header{
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid black;
+  }
+  
+  .ReactivationModal__content p{
+    margin: 0;
+    text-align: center;
+    font-weight: 500;
+  }
+  
+
+
+
+  /* customer info */
+  .ReactivationModal__customer-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+
+  }
+  
+  .ReactivationModal__customer-info {
+    display: flex;
+    width: 50%;
+  }
+
+  .ReactivationModal__label {
+    font-weight: 600; 
+    color: #0174CF;
+    flex: 1;
+    text-align: end;
+    margin-right: 15px;
+  }
+  
+  .ReactivationModal__value {
+    color: #555; 
+    font-weight: bold;
+    flex: 1.2;
+  }
+
+
+
+
+
+  /* button */
+  .ReactivationModal__modal-actions{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+    margin-bottom: 20px;
+    gap: 30px;
+  }
+  

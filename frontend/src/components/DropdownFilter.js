@@ -1,4 +1,5 @@
 import React from "react";
+import 'assets/css/components';
 import { MdOutlineArrowDropDown } from "react-icons/md";
 
 

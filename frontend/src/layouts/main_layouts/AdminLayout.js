@@ -190,7 +190,7 @@ export const AdminLayout = () => {
             <span className="sidebar-text">Notifications</span>
           </li>
         </Link>
-        <Link to="users" className={`link-sidebar ${highlightedTab === 'users'? 'highlighted' : ''}`}>
+        <Link to="users/customers" className={`link-sidebar ${highlightedTab === 'users'? 'highlighted' : ''}`}>
           <li>
             <img className="sidebaricon" 
             src={highlightedTab === 'users'? images.usersIconOpen : images.usersIconClose} 

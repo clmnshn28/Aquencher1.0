@@ -35,6 +35,12 @@
 
 .ButtonGroup__pass-save:active,
 .ButtonGroup__pass-cancel:active{
-    opacity: 0.7;
+    opacity: 0.8;
 }
   
+
+.ButtonGroup__pass-save:disabled {
+    background-color: #d3d3d3 !important;
+    color: #888; 
+    cursor: not-allowed;
+  } 

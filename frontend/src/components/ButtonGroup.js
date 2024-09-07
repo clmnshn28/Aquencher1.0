@@ -1,7 +1,7 @@
 import React from "react";
+import 'assets/css/components';
 
-
-export default function ButtonGroup ({onSave, onCancel, saveText, saveButtonColor }){
+export default function ButtonGroup ({onSave, onCancel, saveText, saveButtonColor, disabled }){
 
   return(
     <div className="ButtonGroup__container">
@@ -11,6 +11,7 @@ export default function ButtonGroup ({onSave, onCancel, saveText, saveButtonColo
       className="ButtonGroup__pass-save" 
       onClick={onSave} 
       style={{ backgroundColor: saveButtonColor }} 
+      disabled = {disabled}
       >
         {saveText}
       </button>

@@ -1,4 +1,5 @@
 import React from "react";
+import 'assets/css/components';
 import { IoCheckmarkCircleOutline } from "react-icons/io5";
 
 import * as images from 'assets/images';

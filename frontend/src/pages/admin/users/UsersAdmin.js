@@ -1,8 +1,9 @@
 import "assets/css/admin"
 import React, { useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import { FaPhoneAlt, FaUserEdit } from "react-icons/fa";
-import { BsPersonFillSlash, BsFillPersonLinesFill  } from "react-icons/bs";
+import { BsPersonFillSlash } from "react-icons/bs";
 import { PiMapPinAreaDuotone } from "react-icons/pi";
 import { useNavigate } from 'react-router-dom';
 
@@ -14,10 +15,10 @@ import DropdownFilter from "components/DropdownFilter";
 export const UsersAdmin = () => {
 
     const [users, setUsers] = useState([
-        { id: 1, firstName: 'Karen Joyce', lastName: 'Joson', username: '@karenjoycrjoson', phone: '09123892012', address: '146 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
-        { id: 2, firstName: 'Celmin Shane', lastName: 'Quizon', username: '@clmnshn', phone: '09123098971', address: '136 Dama De Notche Street, Bulihan', status: 'Inactive', avatar: images.defaultAvatar },
-        { id: 3, firstName: 'Miguel Angelo', lastName: 'Barruga', username: '@barrugs', phone: '09123098971', address: '246 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
-        { id: 4, firstName: 'Francis Harvey', lastName: 'Soriano', username: '@harvey', phone: '09123098971', address: '075 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
+        { id: 1, fname: 'Karen Joyce', lname: 'Joson', username: '@karenjoycrjoson', contactNumber: '09123892012', address: '146 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
+        { id: 2, fname: 'Celmin Shane', lname: 'Quizon', username: '@clmnshn', contactNumber: '09123098971', address: '136 Dama De Notche Street, Bulihan', status: 'Inactive', avatar: images.defaultAvatar },
+        { id: 3, fname: 'Miguel Angelo', lname: 'Barruga', username: '@barrugs', contactNumber: '09123098971', address: '246 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
+        { id: 4, fname: 'Francis Harvey', lname: 'Soriano', username: '@harvey', contactNumber: '09123098971', address: '075 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
     ]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -47,7 +48,7 @@ export const UsersAdmin = () => {
     const handleSearch = () => {
         if (searchQuery !== '') {
           const results = users.filter((user) => 
-           `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchQuery.toLowerCase())
+           `${user.fname} ${user.lname}`.toLowerCase().includes(searchQuery.toLowerCase())
           );
           setFilteredUsers(results);
         }
@@ -120,7 +121,12 @@ export const UsersAdmin = () => {
         <>
             <div className="UsersAdmin__header">
                 <h2 className="UsersAdmin__header-text">Users</h2>
-                <p className="UsersAdmin__name-text">Customers</p>
+                <Link to="/admin/users/customers"  className='UsersAdmin__link'>
+                    <p className="UsersAdmin__customers-text">Customers</p>
+                </Link>
+                <Link to="/admin/users/deactivated-accounts"  className='UsersAdmin__link'>
+                    <p className="UsersAdmin__deactivated-text">Deactivated Accounts</p>
+                </Link>
             </div>
             <div className="UsersAdmin__controls">
                 <SearchBar
@@ -179,7 +185,7 @@ export const UsersAdmin = () => {
                                     <td  style={{paddingLeft: '40px'}}>
                                         <div className="UsersAdmin__info">
                                             <img className="UsersAdmin__avatar" src={user.avatar} alt="Customer Image"/>
-                                            <span>{`${user.firstName} ${user.lastName}`}</span>
+                                            <span>{`${user.fname} ${user.lname}`}</span>
                                         </div>
                                     </td>
                                     <td>{user.username}</td>
@@ -191,7 +197,7 @@ export const UsersAdmin = () => {
                                             </p>
                                             <p className="UserAdmin__phone">
                                                 <FaPhoneAlt />
-                                                {user.phone}
+                                                {user.contactNumber}
                                             </p>
                                         </div>
                                     </td>
@@ -205,9 +211,9 @@ export const UsersAdmin = () => {
                                             <button className="UserAdmin__edit" onClick={() => handleEditClick(user)}>
                                                 <FaUserEdit/>
                                             </button>
-                                            <button className="UserAdmin__view" onClick={() => handleViewDetailsClick(user)}>
+                                            {/* <button className="UserAdmin__view" onClick={() => handleViewDetailsClick(user)}>
                                                 <BsFillPersonLinesFill/>
-                                            </button>
+                                            </button> */}
                                             <button className="UserAdmin__delete" onClick={()=> handleDeactivationClick(user)}>
                                                 <BsPersonFillSlash/>
                                             </button>

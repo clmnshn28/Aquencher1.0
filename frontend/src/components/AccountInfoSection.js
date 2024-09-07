@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import 'assets/css/components';
 import * as images from 'assets/images';
 
 import Modal from "components/Modal";
@@ -37,7 +38,7 @@ export default function AccountInfoSection({title, infoItems}){
   };
 
   const handleSave = () => {
-    const form = document.querySelector('.edit-modal-content'); // Get the form element
+    const form = document.querySelector('.AccountInfoSection__modal-content'); // Get the form element
     if (form.reportValidity()) {
       console.log("Saved data:", formData);
       setIsModalOpen(false);

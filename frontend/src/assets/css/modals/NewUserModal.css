@@ -1,0 +1,207 @@
+
+
+/* new user content */
+.NewUserModal__content {
+  background: #fff;
+  padding: 20px 0px;
+  border-radius: 5px;
+  width: 920px;
+  max-width: 90%;
+  position: relative;
+}
+
+.NewUserModal__close {
+  position: absolute;
+  top: 15px;
+  right: 17px;
+  background: none;
+  border: none;
+  font-size:28px;
+  cursor: pointer;
+}
+
+.NewUserModal__header{
+  padding-left: 25px;
+  color: #0174CF;
+  margin: 0px 0px 5px 10px;
+}
+
+/* form */
+.NewUserModal__form-container{
+  width: 100%;
+}
+
+/* separate */
+.NewUserModal__flex-container{
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #96E1EC;
+  border-bottom: 1px solid #96E1EC;
+  position: relative;
+  
+}
+
+/* avatar */
+.NewUserModal__avatar-section{
+  flex: 1.2;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+/* wrap */
+.NewUserModal__avatar-wrapper{
+  margin-left: 35px;
+}
+
+.NewUserModal__avatar-preview{
+  width: 150px;
+  border-radius: 3px;
+  border: 1.5px solid rgba(90, 86, 86, 0.5);
+  margin-bottom: 7px;
+  margin-top: 50px;
+}
+
+.NewUserModal__upload-label{
+  background-color: #0174CF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  border: none;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  width: 130px;
+  padding: 9px 12px;
+  cursor: pointer;
+}
+
+.NewUserModal__upload-photo-icon{
+  width: 17px;
+  margin-right: 5px;
+}
+
+
+
+
+
+/* inputs */
+.NewUserModal__input-container{
+  flex: 2;
+  padding:  20px;
+  margin: 0px 20px;
+  /* border: 1px solid #ADAFB0; */
+  border-radius: 5px;
+  box-sizing: border-box;  
+}
+
+/* name */
+.NewUserModal__name-container{
+  display: flex;
+  gap: 15px; 
+  width: 100%;
+}
+
+/* address */
+.NewUserModal__address-container{
+    padding: 20px;
+    margin: 20px 0 10px;
+    border-radius: 5px;
+    border: 1px solid #ADAFB0;
+    position: relative;
+
+}
+
+.NewUserModal__address-container p{
+  position: absolute;
+  top: -36px;
+  left: 18px;
+  font-weight: bold;
+  font-size: 20px;
+  color: #605f5f;
+  background-color: #fff;
+  padding: 0 3px;
+}
+
+.NewUserModal__address-subsection{
+  display: flex;
+  gap: 15px; 
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.NewUserModal__address-subsection:last-child {
+  margin-bottom: 0; 
+}
+
+
+
+/* submit  */
+.NewUserModal__add-user-btn{
+  background-color: #0174CF;
+  color: white;
+  display: block;
+  margin: 20px auto 0;
+  width: 140px;
+  padding: 8px 0px;
+  border-radius: 5px;
+  border: none;
+  font-family: 'poppins';
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+.NewUserModal__add-user-btn:hover {
+  background-color: #0056b3;
+}
+
+.NewUserModal__add-user-btn:active {
+  opacity: 0.2;
+}
+
+
+/* password */
+
+.NewUserModal__password-requirements{
+  position: absolute;
+  bottom: 98px;
+  left: 15px;
+  background-color: rgba(146, 146, 146,0.15);
+  padding: 15px 15px 10px;
+  border-radius: 5px;
+  margin-left: 10px;
+}
+
+.NewUserModal__password-requirements p{
+  font-size: 11px;
+  font-weight: bold;
+  color: #565252;
+  margin: 0;
+}
+
+.NewUserModal__password-requirements ul{
+  margin: 0;
+  margin-bottom: 10px;
+  padding:6px 0px;
+  list-style: none;
+}
+
+.NewUserModal__password-requirements li{
+  font-size: 9px;
+  font-weight: 500;
+  color: #565252;
+  margin: 0;
+}
+
+/* error message */
+.NewUserModal__error {
+  position: absolute;
+  bottom: 57px; 
+  right: 45px; 
+  color: red;
+  font-size: 10px;
+  font-weight: bold;
+}
