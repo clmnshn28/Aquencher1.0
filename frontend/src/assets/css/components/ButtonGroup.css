@@ -8,10 +8,10 @@
 }
   
 .ButtonGroup__pass-cancel {
-    width: 150px;
+    width: 155px;
     height: 45px;
     font-size: 17px;
-    font-weight: bold;
+    font-weight: 500;
     font-family: "poppins";
     border-radius: 7px;
     border:none;
@@ -21,10 +21,10 @@
 }
 
 .ButtonGroup__pass-save {
-    width: 150px;
+    width: 155px;
     height: 45px;
     font-size: 17px;
-    font-weight: bold;
+    font-weight: 500;
     font-family: "poppins";
     border-radius: 7px;
     border:none;
