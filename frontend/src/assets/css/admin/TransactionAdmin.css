@@ -1,5 +1,5 @@
 
-.transactions-header {
+.TransactionAdmin__header {
   background-color: #FFFFFF;
   margin-right: 40px;
   margin-left: 10px;
@@ -11,26 +11,33 @@
   position: relative;
 }
 
-.transactions-header-text{
+.TransactionAdmin__header-text{
   padding-left: 15px;
 }
 
-.transactions-table-header{
-  background-color: #0174CF;
-  color: white;
-}
 
-.user-controls{
-  margin-right: 40px;
-  margin-left: 10px;
+
+
+/* filter content */
+.TransactionAdmin__filter-container{
+  margin: 10px 0 10px 10px;
+  padding: 5px ;
+  color: #007bff;
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  margin: 20px 40px 20px 10px;
+  align-items: center;
+  gap: 15px;
 }
 
-.transactions-table {
-  width: 96%;
+
+
+
+/* table */
+.TransactionAdmin__table-container{
+  margin-right: 50px;
+}
+
+.TransactionAdmin__table {
+  width: 100%;
   border-collapse: collapse;
   background-color: #FFFFFF;
   margin-left: 10px;
@@ -38,36 +45,62 @@
   font-size: 14px;
 }
 
-.transactions-table th, .transactions-table td {
-  padding: 10px;
+.TransactionAdmin__table-header{
+  background-color: #0174CF;
+  color: white;
+}
+
+.TransactionAdmin__table th,
+.TransactionAdmin__table td {
+  padding: 13px 10px;
+  text-align: left;
   border-bottom: 1px solid #e0e0e0;
-  padding-left: 40px;
-  text-align: start;
 }
 
-.user-status {
-  color: rgb(1, 204, 1);
+
+.TransactionAdmin__table td:first-child{
+  width: 22%;
+  font-weight: 400;
 }
 
-.user-status.inactive {
-  color: #999; 
+.TransactionAdmin__table th:nth-child(2){
+  width: 27%;
 }
 
-.transaction-info {
+.TransactionAdmin__table th:nth-child(3){
+  width: 17%;
+}
+
+.TransactionAdmin__table th:nth-child(4){
+  width: 20%;
+}
+
+.TransactionAdmin__info {
   display: flex;
   align-items: center;
-
+  gap: 7px;
 }
 
-.user-avatar{
-  width: 18px;
-  height: 18px;
+.TransactionAdmin__avatar{
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
-  margin-right: 7px;
 }
 
-.transaction-date-time div{
-  display: block;
-  font-size: 12px;
+.TransactionAdmin__date-time{
+  display: flex;
+  align-items: center;
 }
 
+.TransactionAdmin__time,
+.TransactionAdmin__date{
+  width: 43%;
+  max-width: 90px;
+}
+
+
+/* not found */
+.TransactionAdmin__not-found{
+  font-weight: 600;
+  color: rgba(67, 65, 65, 0.5);
+}
