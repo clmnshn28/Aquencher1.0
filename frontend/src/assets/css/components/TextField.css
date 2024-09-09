@@ -55,3 +55,43 @@ input[readonly] {
     color: #929090;
     cursor: not-allowed;
 }
+
+
+
+
+
+
+
+/* inline */
+.TextField__inline{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 12px; 
+}
+
+.TextField__inline .TextField__label{
+    white-space: nowrap;
+    margin-right: 30px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #0F8CFF;
+    flex: 0.6;
+    text-align: end;
+}
+
+.TextField__inline .TextField__input {
+  flex: 1;
+  padding: 18px 10px;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1.5px solid #8A8A8A;
+}
+
+
+.TextField__inline input[readonly] {
+    background-color: #f9f9f9;
+    border: 1px solid #e8e7e7;
+    color: #b6b2b2;
+    cursor: not-allowed;
+}
