@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import 'assets/css/modals';
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 import * as images from 'assets/images';
-
 import Modal from 'components/Modal';
 import TextField from 'components/TextField';
 import PasswordRequirements from 'components/PasswordRequirements';
@@ -22,10 +23,18 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [avatar, setAvatar] = useState(images.defaultAvatar);
+  const [avatar, setAvatar] = useState({ file: null, preview: null });
   
   const [error, setError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [imageError, setImageError] = useState('');
+  const [contactError, setContactError] = useState('');
   
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+    setUsernameError('');
+  };
+
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     setError('');
@@ -35,49 +44,41 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
     setError('');
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!isPasswordRequirementMet('Be 8-100 characters long') ||
-        !isPasswordRequirementMet('Contain at least one uppercase and one lowercase letter') ||
-        !isPasswordRequirementMet('Contain at least one number or special character')) {
-      setError('Password does not meet the requirements');
-      return;
+  // check contact
+  const validateContactNumber = (number) => {
+    if (!/^\d+$/.test(number)) {
+      return 'Contact number must be numeric';
     }
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      return; 
+    if (number.length !== 11) {
+      return 'Contact number must be 11 digits';
     }
-
-    console.log('Form submitted');
-
-    const usernameWithAt = `@${username}`;
-
-    const newUser = {
-      fname, 
-      lname,
-      contactNumber,
-      address: `${houseNumber} ${street} ${barangay} ${municipalityCity} ${province}`,
-      username: usernameWithAt,
-      password,
-      avatar,
-      status: 'Inactive' 
-
-    };
-    onAddUser(newUser);
-    onClose();
-    resetForm();
+    return ''; 
   };
 
+  // for uploading image
   const handleFileChange = (e) => {
     const file = e.target.files[0];
+    // Check if file exists
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatar(reader.result);
-      };
-      reader.readAsDataURL(file);
+      const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+      if (validTypes.includes(file.type)) {
+        setImageError('');
+  
+        // Update the file object for submission
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setAvatar({
+            file: file, // The File object
+            preview: reader.result // Data URL for preview
+          });
+        };
+        reader.readAsDataURL(file); // Read the file as a data URL
+      } else {
+        setAvatar({ file: null, preview: null });
+        setImageError('Please upload a valid image file (PNG, JPG, JPEG)');
+      }
+    } else {
+      setImageError('Please select a file.');
     }
   };
 
@@ -94,7 +95,11 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
     setUsername('');
     setPassword('');
     setConfirmPassword('');
-    setAvatar(images.defaultAvatar);
+    setAvatar({ file: null, preview: null });
+    setError('');
+    setImageError('');
+    setContactError(''); 
+    setUsernameError('');
   };
 
   const handleClose = () => {
@@ -116,6 +121,83 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
     }
   };
   
+  // submit new user
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate contact number
+    const contactValidationError = validateContactNumber(contactNumber);
+    if (contactValidationError) {
+      setContactError(contactValidationError);
+      return; 
+    } else {
+      setContactError(''); 
+    }
+    
+    if (!isPasswordRequirementMet('Be 8-100 characters long') ||
+        !isPasswordRequirementMet('Contain at least one uppercase and one lowercase letter') ||
+        !isPasswordRequirementMet('Contain at least one number or special character')) {
+      setError('Password does not meet the requirements');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return; 
+    }
+
+
+    // Create a new FormData object to prepare data for API request
+    const formData = new FormData();
+    // Append individual form fields to the FormData object.
+    formData.append('fname', fname);
+    formData.append('lname', lname);
+    formData.append('contact_number', contactNumber);
+    formData.append('house_number', houseNumber);
+    formData.append('street', street);
+    formData.append('barangay', barangay);
+    formData.append('municipality_city', municipalityCity);
+    formData.append('province', province);
+    formData.append('postal_code', postalCode);
+    formData.append('username', username);
+    formData.append('password', password);
+    formData.append('c_password', confirmPassword);
+
+    // Use the File object from avatar
+    if (avatar.file) {
+      formData.append('image', avatar.file);
+    } else {
+      const response = await fetch(images.defaultAvatar);
+      const blob = await response.blob();
+      formData.append('image', blob, 'defaultAvatar.png');
+    }
+
+    try {
+      await axios.post(API_URL + '/api/customers', formData,{
+        headers:{
+          'Content-Type': 'multipart/form-data',
+        }
+      });
+
+      onClose();
+      resetForm(); 
+    } catch (error) { 
+      if (error.response && error.response.data) {
+        // Check if validation errors are present
+        if (error.response.data.data) {
+          if (error.response.data.data.username) {
+            setUsernameError(error.response.data.data.username[0]); 
+            return;// Set the first username error
+          }
+        } else if (error.response.data.message) {
+          setError(error.response.data.message);
+          return; 
+        }
+      }
+
+    }
+
+  };
 
   if (!isOpen) return null;
 
@@ -128,26 +210,32 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
           <div className="NewUserModal__flex-container">
             <div className="NewUserModal__avatar-section">
               <div className="NewUserModal__avatar-wrapper">
-                <img className='NewUserModal__avatar-preview' src={avatar} alt="Avatar Preview" />
+                <img 
+                  className='NewUserModal__avatar-preview' 
+                  src={avatar.preview || images.defaultAvatar } 
+                  alt="Avatar Preview" 
+                />
                 <label htmlFor="file-upload" className='NewUserModal__upload-label'>
                   <img className='NewUserModal__upload-photo-icon' src={images.uploadPhoto} alt="upload Photo" />
                   Upload Photo
                 </label>
                 <input id="file-upload" type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+                {imageError && <span className="NewUserModal__image-error">{imageError}</span>}
               </div>
             </div>     
             <div className="NewUserModal__input-container">
               <div className='NewUserModal__name-container'>
-                <TextField label="First Name"  id="fname" name="fname" value={fname} onChange={(e) => setFname(e.target.value)} type="text" isRequired />
-                <TextField label="Last Name" id="lname" name="lname" value={lname} onChange={(e) => setLname(e.target.value)} type="text" isRequired />
+                <TextField label="First Name"  id="fname" name="fname" value={fname} onChange={(e) => setFname(e.target.value)} type="text" autoComplete='off' isRequired />
+                <TextField label="Last Name" id="lname" name="lname" value={lname} onChange={(e) => setLname(e.target.value)} type="text" autoComplete='off' isRequired />
               </div>
-              <TextField label="Contact Number"  id="contactNumber" name="contactNumber" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} type="text" isRequired />
+              <TextField label="Contact Number"  id="contactNumber" name="contactNumber" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} type="text" autoComplete='off' isRequired />
+              {contactError && <span className="NewUserModal__contact-error">{contactError}</span>}
               <div className='NewUserModal__address-container'>
                 <p>Address</p>
                 <div className='NewUserModal__address-subsection'>
-                  <TextField label="House No."  id="houseNumber" name="houseNumber" value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)} type="text"  />
-                  <TextField label="Street"  id="street" name="street" value={street} onChange={(e) => setStreet(e.target.value)} type="text"  />
-                  <TextField label="Barangay"  id="barangay" name="barangay" value={barangay} onChange={(e) => setBarangay(e.target.value)} type="text"  />
+                  <TextField label="House No."  id="houseNumber" name="houseNumber" value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)} type="text" autoComplete='off'  />
+                  <TextField label="Street"  id="street" name="street" value={street} onChange={(e) => setStreet(e.target.value)} type="text" autoComplete='off'  />
+                  <TextField label="Barangay"  id="barangay" name="barangay" value={barangay} onChange={(e) => setBarangay(e.target.value)} type="text" autoComplete='off'  />
                 </div>
                 <div className='NewUserModal__address-subsection'>
                   <TextField label="Municipality/City"  id="municipalityCity" name="municipalityCity" value='Malolos' onChange={(e) => setMunicipalityCity(e.target.value)} type="text"  isReadOnly/>
@@ -156,10 +244,11 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
                 </div>
               </div>
 
-              <TextField label="Username"  id="username" name="username" value={username} onChange={(e) => setUsername(e.target.value)} type="text" isRequired />
-              <TextField label="Password"  id="password" name="password" value={password} onChange={handlePasswordChange} type="password" isRequired />
-              <TextField label="Confirm Password"  id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} type="password" isRequired />
+              <TextField label="Username"  id="username" name="username" value={username} onChange={handleUsernameChange} type="text" autoComplete='off' isRequired />
+              <TextField label="Password"  id="password" name="password" value={password} onChange={handlePasswordChange} type="password" autoComplete='off' isRequired />
+              <TextField label="Confirm Password"  id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} type="password" autoComplete='off' isRequired />
               {error && <span className="NewUserModal__error">{error}</span>}
+              {usernameError && <span className="NewUserModal__username-error">{usernameError}</span>}
             </div>
           </div>
           <button className='NewUserModal__add-user-btn' type="submit">Add User</button>
