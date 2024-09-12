@@ -52,10 +52,22 @@
 /* wrap */
 .NewUserModal__avatar-wrapper{
   margin-left: 35px;
+  position: relative;
+}
+
+.NewUserModal__image-error{
+  position: absolute;
+  top: 47%; 
+  color: red;
+  text-align: center;
+  font-size: 10px;
+  font-weight: bold;
 }
 
 .NewUserModal__avatar-preview{
+  height: 150px;
   width: 150px;
+  object-fit: cover;
   border-radius: 3px;
   border: 1.5px solid rgba(90, 86, 86, 0.5);
   margin-bottom: 7px;
@@ -200,6 +212,24 @@
 .NewUserModal__error {
   position: absolute;
   bottom: 57px; 
+  right: 45px; 
+  color: red;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.NewUserModal__username-error {
+  position: absolute;
+  bottom: 33%; 
+  right: 45px; 
+  color: red;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.NewUserModal__contact-error {
+  position: absolute;
+  top: 95px; 
   right: 45px; 
   color: red;
   font-size: 10px;
