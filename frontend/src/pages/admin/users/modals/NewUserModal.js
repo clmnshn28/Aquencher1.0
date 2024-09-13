@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'assets/css/modals';
 import axios from 'axios';
 import {API_URL} from 'constants';
+import { useAuth } from 'context/AuthContext';
 
 import * as images from 'assets/images';
 import Modal from 'components/Modal';
@@ -9,6 +10,7 @@ import TextField from 'components/TextField';
 import PasswordRequirements from 'components/PasswordRequirements';
 
 export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
+  const { user } = useAuth();
 
   const [fname, setFname] = useState('');
   const [lname, setLname] = useState('');
@@ -176,6 +178,7 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
       await axios.post(API_URL + '/api/customers', formData,{
         headers:{
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${user.token}`,
         }
       });
 
