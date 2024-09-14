@@ -6,13 +6,29 @@
     background-color: #FFFFFF;
     padding: 5px 0px;
     margin-bottom: 4px;
-    height: 80px;
+    height: 90px;
     border-radius: 5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.1);
 }
+
+
+
+/* request details */
+.QueueItem__date-time{
+    display: flex;
+    gap: 10px;
+    color: #867f7f;
+    background-color: #f8f4f4;
+    font-weight: 500;
+    font-size: 9px;
+    padding: 0 3px ;
+    position: absolute;
+    bottom: 0;
+    border-radius: 0 3px 0 5px;
+  }
 
 /* request type */
 .QueueItem__request-type{
@@ -60,13 +76,13 @@
     display: flex;
     align-items: center;
     flex: 2.4;
-    gap: 5px;
+    gap: 8px;
     margin-left: 30px;
 }
 
 .QueueItem__customer-info img{
     border-radius: 50%;
-    width: 42px;
+    width: 43px;
 }
 
 .QueueItem__customer-info span{
@@ -90,9 +106,9 @@
     gap: 3px;
 }
 
-.QueueItem__location img{
-    width: 13px;
-    border-radius: 0%;
+.QueueAdmin__address-icon{
+    font-size: 14px;
+    color: #595656;
 }
 
 .QueueItem__specific-address{
@@ -112,19 +128,39 @@ font-size: 9.5px;
 line-height: 1.1;
 }
 
+.QueueAdmin__phone{
+    margin: 0;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #6f6d6d;
+  }
+
 /* quantities */
 .QueueItem__quantities{
-display: flex;
-align-items: center;
-justify-content: center;
-flex: 1;
-gap: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    position: relative;
 }
 
 .QueueItem__quantity-item {
-display: flex;
-align-items: center;
-justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+
+.QueueItem__quantity-item:nth-child(1) {
+    left: 0%;
+}
+
+.QueueItem__quantity-item:nth-child(2) {
+    right: 0%;
 }
 
 .QueueItem__quantity-item img{
@@ -137,8 +173,12 @@ font-size: 20px;
 color: #007bff;
 }
 
-/* duration */
+.QueueItem__quantity-item.hidden {
+    display: none;
+}
 
+
+/* duration */
 .QueueItem__duration{
     display: flex;
     flex-direction: column;

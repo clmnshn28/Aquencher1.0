@@ -51,6 +51,16 @@
   color: #626262;
 }
 
+.RequestsAdmin__rejected-requests{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 500;
+  top: 64%;
+  right: 3.5%;
+  padding-bottom: 13px;
+  color: #626262;
+}
+
 
 
 
@@ -87,6 +97,14 @@
 /* main content */
 .RequestsAdmin__container{
   margin: 0 40px 20px 10px;
+}
+
+.RequestsAdmin__section{
+ color: #ADAFB0;
+}
+
+.RequestsAdmin__no-request{
+  text-align: center;
 }
 
 /* not found */

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import 'assets/css/admin';
 
+import * as images from 'assets/images';
 import DropdownFilter from 'components/DropdownFilter';
 import QueueItem from "components/QueueItem";
 import SearchBar from "components/SearchBar";
@@ -10,10 +11,10 @@ import SearchBar from "components/SearchBar";
 export const QueueAdmin = () =>{
 
     const [queues, setQueues] = useState([
-        { id: 1, name: 'Miguel Angelo Barruga', address: '146 Dama De Notche Street, Bulihan', slimQuantity: 3, roundQuantity: 3, requestType: 'Refill', status: false, isAccepted: false},
-        { id: 2, name: 'Celmin Shane Quizon', address: '123 Dama De Notche Street, Bulihan', slimQuantity: 4, roundQuantity: 5, requestType: 'Return', status: false, isAccepted: false },
-        { id: 3, name: 'Karen Joyce Joson', address: '145 Dama De Notche Street, Bulihan', slimQuantity: 1, roundQuantity: 8, requestType: 'Borrow', status: false, isAccepted: false },
-        { id: 4, name: 'Francis Harvey Soriano', address: '156 Dama De Notche Street, Bulihan', slimQuantity: 0, roundQuantity: 7, requestType: 'Borrow', status: false, isAccepted: false },
+        { id: 1, name: 'Miguel Angelo Barruga', address: '146 Dama De Notche Street, Bulihan', slimQuantity: 3, roundQuantity: 3, requestType: 'Refill', contactNumber: '09123892012', status: false, isAccepted: false, date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar},
+        { id: 2, name: 'Celmin Shane Quizon', address: '123 Dama De Notche Street, Bulihan', slimQuantity: 4, roundQuantity: 5, requestType: 'Return', contactNumber: '09123892012', status: false, isAccepted: false, date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
+        { id: 3, name: 'Karen Joyce Joson', address: '145 Dama De Notche Street, Bulihan', slimQuantity: 1, roundQuantity: 8, requestType: 'Borrow', contactNumber: '09123892012', status: false, isAccepted: false, date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
+        { id: 4, name: 'Francis Harvey Soriano', address: '156 Dama De Notche Street, Bulihan', slimQuantity: 0, roundQuantity: 7, requestType: 'Borrow', contactNumber: '09123892012', status: false, isAccepted: false, date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
     ]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -142,6 +143,9 @@ export const QueueAdmin = () =>{
                 <Link to="/admin/requests/completed"  className='QueueAdmin__link'>
                     <p className="QueueAdmin__complete-text">Completed</p>
                 </Link>
+                <Link to="/admin/requests/rejected-requests"  className='RequestsAdmin__link'>
+                    <p className="RequestsAdmin__rejected-requests">Rejected Request</p>
+                </Link>
             </div>
 
             <div className="QueueAdmin__filter-container">
@@ -193,7 +197,7 @@ export const QueueAdmin = () =>{
                     </div>
                     {filteredPickupRequests.length === 0 ? (
                         <div className="RequestsAdmin__not-found">
-                            <span>No pickup requests found.</span>
+                            <span>No pickup requests found</span>
                         </div>
                     ) : (
                         filteredPickupRequests.map((queue) =>(
@@ -204,7 +208,11 @@ export const QueueAdmin = () =>{
                                 slimQuantity={queue.slimQuantity}
                                 roundQuantity={queue.roundQuantity}
                                 requestType={queue.requestType}
+                                contact={queue.contactNumber}
                                 status={queue.status}
+                                date={queue.date}
+                                time={queue.time}
+                                image={queue.image}
                                 onAccept={()=> handleAccept(queue.id)}
                             />
                         ))
@@ -217,7 +225,7 @@ export const QueueAdmin = () =>{
                     </div>
                     {filteredDeliverRequests.length === 0 ? (
                         <div className="RequestsAdmin__not-found">
-                            <span>No deliver requests found.</span>
+                            <span>No deliver requests found</span>
                         </div>
                     ) : (
                         filteredDeliverRequests.map((queue) =>(
@@ -228,7 +236,11 @@ export const QueueAdmin = () =>{
                                 slimQuantity={queue.slimQuantity}
                                 roundQuantity={queue.roundQuantity}
                                 requestType={queue.requestType}
+                                contact={queue.contactNumber}
                                 status={queue.status}
+                                date={queue.date}
+                                time={queue.time}
+                                image={queue.image}
                                 onAccept={()=> handleAccept(queue.id)}
                             />
                         ))

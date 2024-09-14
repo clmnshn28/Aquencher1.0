@@ -1,12 +1,11 @@
 import React from "react";
 import 'assets/css/components';
-import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { PiMapPinAreaDuotone } from "react-icons/pi";
 import { FaPhoneAlt } from "react-icons/fa";
 
 import * as images from 'assets/images';
 
-export default function RequestItem({id, name, address, slimQuantity, roundQuantity, requestType, status,contact, date, time, image, onAccept, onDecline}){
+export default function RejectedItem({id, name, address, slimQuantity, roundQuantity, requestType, contact, date, time}){
     
     return(
         <div className="RequestsItem__item">
@@ -27,7 +26,7 @@ export default function RequestItem({id, name, address, slimQuantity, roundQuant
             </div>
             
             <div className='RequestItem__customer-info'>
-                <img src={image} alt="Customer Image" />
+                <img src={images.defaultAvatar} alt="Customer Image" />
                 <div>
                     <span>{name}</span>
                     <p className="RequestAdmin__phone">
@@ -55,22 +54,11 @@ export default function RequestItem({id, name, address, slimQuantity, roundQuant
                     <span>{roundQuantity}</span>
                 </div>
             </div>
-            <div className="RequestItem__status">
-                {status === false ? (
-                    <>
-                        <button className="RequestItem__status-button RequestItem__decline" onClick={()=>onDecline(id)} >
-                            &#10005;
-                        </button>
-                        <button className="RequestItem__status-button RequestItem__accept" onClick={()=>onAccept(id)}>
-                            &#10004;
-                        </button>
-                    </>
-                ):(
-                    <span className="RequestItem__status-text-completed">
-                        <IoCheckmarkCircleOutline  className="RequestItem__status-completed-icon" /> 
-                        Completed
-                    </span>
-                )}
+            <div className="RequestItem__reason-container">
+               <div className="RequestItem__reason-section">
+                    <p>Reason:</p>
+                    <p>Invalid contact information</p>
+               </div>
             </div>
       </div>
     );

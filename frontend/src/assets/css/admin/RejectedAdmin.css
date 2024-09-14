@@ -1,0 +1,65 @@
+
+ /*-- rejected task content --*/
+
+ .RejectedAdmin__header {
+    background-color: #FFFFFF;
+    margin:0 40px 10px 10px;
+    height: 130px;
+    padding: 5px 30px;
+    font-size: 20px;
+    border-radius: 5px;
+    color: #007bff;
+    position: relative;
+  }
+  
+  .RejectedAdmin__header-text{
+    padding-left: 15px;
+  }
+  
+  .RejectedAdmin__link{
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .RejectedAdmin__text{
+    position: absolute;
+    font-size: 14px;
+    font-weight: 500;
+    top: 64%;
+    left:4%;
+    padding-bottom: 13px;
+    color: #626262;
+  }
+  
+  .RejectedAdmin__queue-text{
+    position: absolute;
+    font-size: 14px;
+    font-weight: 500;
+    top: 64%;
+    left:17%;
+    padding-bottom: 13px;
+    color: #626262;
+  }
+  
+  .RejectedAdmin__complete-text{
+    position: absolute;
+    font-size: 14px;
+    font-weight: 500;
+    top: 64%;
+    left:27%;
+    padding-bottom: 13px;
+    color: #626262;
+  }
+  
+  .RejectedAdmin__rejected-requests{
+    position: absolute;
+    font-size: 14px;
+    font-weight: 600;
+    top: 64%;
+    right: 3.5%;
+    padding-bottom: 13px;
+    border-bottom: 4px solid #007bff;
+  }
+  
+  
+  

@@ -3,21 +3,25 @@ import { Link } from 'react-router-dom';
 import { IoFilterSharp } from 'react-icons/io5';
 import 'assets/css/admin';
 
+import * as images from 'assets/images';
 import DropdownFilter from 'components/DropdownFilter';
 import RequestItem from 'components/RequestItem';
 import SearchBar from 'components/SearchBar';
+import { RejectedModal } from './modals';
 
 export const RequestsAdmin = () =>{
 
   const [requests, setRequests] = useState([
-    {id: 1, name: 'Miguel Angelo Barruga', address: '146 Dama De Notche Street, Bulihan', slimQuantity: 3, roundQuantity: 3, requestType: 'Refill', status: false },
-    {id: 2, name: 'Celmin Shane Quizon', address: '123 Dama De Notche Street, Bulihan', slimQuantity: 4, roundQuantity: 5, requestType: 'Return', status: false },
-    {id: 3, name: 'Karen Joyce Joson', address: '145 Dama De Notche Street, Bulihan', slimQuantity: 1, roundQuantity: 8, requestType: 'Borrow', status: false },
-    {id: 4, name: 'Francis Harvey Soriano', address: '156 Dama De Notche Street, Bulihan', slimQuantity: 0, roundQuantity: 7, requestType: 'Borrow', status: false },
+    {id: 1, name: 'Miguel Angelo Barruga', address: '146 Dama De Notche Street, Bulihan', slimQuantity: 3, roundQuantity: 3, requestType: 'Refill', status: false, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar},
+    {id: 2, name: 'Celmin Shane Quizon', address: '123 Dama De Notche Street, Bulihan', slimQuantity: 4, roundQuantity: 0, requestType: 'Return', status: false, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
+    {id: 3, name: 'Karen Joyce Joson', address: '145 Dama De Notche Street, Bulihan', slimQuantity: 1, roundQuantity: 8, requestType: 'Borrow', status: false, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar},
+    {id: 4, name: 'Francis Harvey Soriano', address: '156 Dama De Notche Street, Bulihan', slimQuantity: 0, roundQuantity: 7, requestType: 'Borrow', status: false, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
   ]);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredRequests, setFilteredRequests] = useState(requests);
+  const [isRejectedModalOpen, setIsRejectedModalOpen] = useState(false);
+  const [rejectedRequestDetails, setRejectedRequestDetails] = useState(null);
 
   const [filters, setFilters] = useState({
     requestType: '',
@@ -81,12 +85,39 @@ export const RequestsAdmin = () =>{
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
 
-  const handleAccept = (id) =>{
-    console.log("handleAccept called with ID:", id); 
+  // filter date
+  const today = new Date().toDateString();
+  const yesterday = new Date(new Date().setDate(new Date().getDate() - 1)).toDateString();
+  
+  const thresholdDate = new Date();
+  thresholdDate.setDate(thresholdDate.getDate() - 2); // Everything older than yesterday
+
+   const filterByDate = (dateString, requestsList) => {
+    return requestsList.filter(request => new Date(request.date).toDateString() === dateString);
   };
 
+  const requestsToday = filterByDate(today, filteredRequests);
+  const requestsYesterday = filterByDate(yesterday, filteredRequests);
+  const requestsOlder = filteredRequests.filter(request => new Date(request.date) < thresholdDate);
+  
+
+  // function to decline/rejected button and open modal
   const handleDecline = (id) =>{
-    console.log("handleDecline called with ID:", id); 
+    const requestDetails = requests.find(request => request.id === id);
+    setRejectedRequestDetails(requestDetails);
+    setIsRejectedModalOpen(true);
+  };
+
+  // function to confirm reject
+  const confirmRejected = (id) => {
+    console.log('Request Rejected'); 
+    setIsRejectedModalOpen(false);
+  };
+
+
+  // function accept button
+  const handleAccept = (id) =>{
+    console.log("handleAccept called with ID:", id); 
   };
 
   return (
@@ -102,6 +133,9 @@ export const RequestsAdmin = () =>{
         </Link>
         <Link to="/admin/requests/completed"  className='RequestsAdmin__link'>
           <p className="RequestsAdmin__complete-text">Completed</p>
+        </Link>
+        <Link to="/admin/requests/rejected-requests"  className='RequestsAdmin__link'>
+          <p className="RequestsAdmin__rejected-requests">Rejected Request</p>
         </Link>
       </div>
 
@@ -148,27 +182,88 @@ export const RequestsAdmin = () =>{
       </div>
 
       <div className="RequestsAdmin__container">
-        {filteredRequests.length === 0 ? (
-          <div className="RequestsAdmin__not-found">
-            <span>No requests found.</span>
-          </div>
-        ) : (
-        filteredRequests.map((request) =>(
-          <RequestItem
-          key={request.id}
-          name={request.name}
-          address={request.address}
-          slimQuantity={request.slimQuantity}
-          roundQuantity={request.roundQuantity}
-          requestType={request.requestType}
-          status={request.status}
-          onAccept={()=> handleAccept(request.id)}
-          onDecline={()=> handleDecline(request.id)}
-          />
-          ))
-        )}
+        <div className="RequestsAdmin__section">
+          <h3>Today</h3>
+          {requestsToday.length > 0 ? (
+            requestsToday.map(request => (
+              <RequestItem
+                key={request.id}
+                name={request.name}
+                address={request.address}
+                slimQuantity={request.slimQuantity}
+                roundQuantity={request.roundQuantity}
+                requestType={request.requestType}
+                status={request.status}
+                contact={request.contactNumber}
+                date={request.date}
+                time={request.time}
+                image={request.image}
+                onDecline={() => handleDecline(request.id)}
+                onAccept={() => handleAccept(request.id)}
+              />
+            ))
+          ) : (
+            <p className='RequestsAdmin__no-request'>No requests for Today</p>
+          )}
+        </div>
+
+        <div className="RequestsAdmin__section">
+          <h3>Yesterday</h3>
+          {requestsYesterday.length > 0 ? (
+            requestsYesterday.map(request => (
+              <RequestItem
+                key={request.id}
+                name={request.name}
+                address={request.address}
+                slimQuantity={request.slimQuantity}
+                roundQuantity={request.roundQuantity}
+                requestType={request.requestType}
+                status={request.status}
+                contact={request.contactNumber}
+                date={request.date}
+                time={request.time}
+                image={request.image}
+                onDecline={() => handleDecline(request.id)}
+                onAccept={() => handleAccept(request.id)}
+              />
+            ))
+          ) : (
+            <p className='RequestsAdmin__no-request'>No requests for Yesterday</p>
+          )}
+        </div>
+        
+        <div className="RequestsAdmin__section">
+          <h3>Older</h3>
+          {requestsOlder.length > 0 ? (
+            requestsOlder.map(request => (
+              <RequestItem
+                key={request.id}
+                name={request.name}
+                address={request.address}
+                slimQuantity={request.slimQuantity}
+                roundQuantity={request.roundQuantity}
+                requestType={request.requestType}
+                status={request.status}
+                contact={request.contactNumber}
+                date={request.date}
+                time={request.time}
+                image={request.image}
+                onDecline={() => handleDecline(request.id)}
+                onAccept={() => handleAccept(request.id)}
+              />
+            ))
+          ) : (
+            <p className='RequestsAdmin__no-request'>No requests for Older dates</p>
+          )}
+        </div>
+        
       </div>
-      
+      <RejectedModal
+        isOpen={isRejectedModalOpen}
+        onClose={() => setIsRejectedModalOpen(false)}
+        onConfirm={confirmRejected}
+        rejectedDetails={rejectedRequestDetails}
+      />
     </>
 
   );

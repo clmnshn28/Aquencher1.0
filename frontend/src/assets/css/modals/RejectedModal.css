@@ -1,0 +1,173 @@
+
+/* deactivate Modal */
+
+
+.RejectedModal__content{
+    background: #fff;
+    border: 4px solid #E11010;
+    padding: 35px 15px;
+    border-radius: 7px;
+    width: 600px;
+    max-width: 90%;
+    position: relative;
+}
+  
+.RejectedModal__header{
+    text-align: center;
+    margin-top: 0px;
+    margin-bottom: 40px;
+    padding-bottom: 14px;
+    color: #9E1616;
+    border-bottom: 1.5px solid #ADAFB0;
+}
+
+
+
+
+
+
+
+/* user details */
+.RejectedModal__user-section{
+    background-color: rgba(191, 187, 187, 0.2);
+    border-radius: 3px;
+    margin: 0 130px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 15px ;
+
+}
+
+.RejectedModal__user-avatar{
+    width: 65px;
+    border-radius: 50%;
+    
+}
+
+.RejectedModal__user-info{
+    border-left: 1px solid #626262;
+    padding-left: 15px;
+    width: 100%;
+}
+
+/* name */
+.RejectedModal__fullName{
+    font-weight: bold;
+    margin: 0;
+}
+
+
+
+
+/* request type */
+.RejectedModal__request-details {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.RejectedModal__detail-label {
+    font-weight: 500;
+    font-size: 10px;
+    margin: 0;
+}
+
+/* request type icon*/
+.RejectedModal__request-type{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    padding: 0px 7px;
+    border-radius: 3px;
+}
+  
+.RejectedModal__request-type.refill{
+    background-color: #DDEBF8;
+    color: #007bff;
+    border: 1px solid #0370e4;
+}
+  
+.RejectedModal__request-type.borrow{
+    background-color: #FFCBCB;
+    color: #D70000;
+    border: 1px solid #d00303;
+}
+  
+.RejectedModal__request-type.return{
+    background-color: #DDF8F0;
+    color: #11B936;
+    border: 1px solid #0ea02e;
+}
+  
+.RejectedModal__request-type img{
+    width: 15px;
+}
+  
+.RejectedModal__request-type span{
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+
+
+/* quantity */
+.RejectedModal__quantity-details{
+    width: 100%;
+}
+
+.RejectedModal__quantity-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 110px;
+}
+
+
+.RejectedModal__quantity-label {
+    font-weight: 500;
+    font-size: 10px;
+}
+
+.RejectedModal__quantity-value {
+    font-weight: bold;
+    font-size: 13px;
+    color: #626262;
+}
+
+
+.RejectedModal__quantity-item.hidden {
+    display: none;
+}
+
+
+
+
+
+
+
+/* reason */
+.RejectedModal__reason-section{
+    margin: 30px 80px 0;
+}
+
+.RejectedModal__error-message{
+    margin: 10px 0 0;
+    font-size: 10px;
+    font-style: italic;
+    font-weight: 500;
+    color: #9E1616;
+    text-align: center;
+}
+
+
+  /* button */
+.RejectedModal__modal-actions{
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+  
