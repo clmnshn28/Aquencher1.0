@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import 'assets/css/admin';
 
+import * as images from 'assets/images';
 import DropdownFilter from 'components/DropdownFilter';
 import RequestItem from "components/RequestItem";
 import SearchBar from "components/SearchBar";
@@ -12,10 +13,10 @@ export const CompletedAdmin = () =>{
 
     
     const [requests, setRequests] = useState([
-        {id: 1, name: 'Miguel Angelo Barruga', address: '146 Dama De Notche Street, Bulihan', slimQuantity: 3, roundQuantity: 3, requestType: 'Refill', status: true },
-        {id: 2, name: 'Celmin Shane Quizon', address: '123 Dama De Notche Street, Bulihan', slimQuantity: 4, roundQuantity: 5, requestType: 'Return', status: true },
-        {id: 3, name: 'Karen Joyce Joson', address: '145 Dama De Notche Street, Bulihan', slimQuantity: 1, roundQuantity: 8, requestType: 'Borrow', status: true },
-        {id: 4, name: 'Francis Harvey Soriano', address: '156 Dama De Notche Street, Bulihan', slimQuantity: 0, roundQuantity: 7, requestType: 'Borrow', status: true },
+        {id: 1, name: 'Miguel Angelo Barruga', address: '146 Dama De Notche Street, Bulihan', slimQuantity: 3, roundQuantity: 3, requestType: 'Refill', status: true, contactNumber: '09123892012', date: '2024-09-12', time: '9:00 AM', image: images.defaultAvatar  },
+        {id: 2, name: 'Celmin Shane Quizon', address: '123 Dama De Notche Street, Bulihan', slimQuantity: 4, roundQuantity: 5, requestType: 'Return', status: true , contactNumber: '09123892012', date: '2024-09-12', time: '9:00 AM', image: images.defaultAvatar},
+        {id: 3, name: 'Karen Joyce Joson', address: '145 Dama De Notche Street, Bulihan', slimQuantity: 1, roundQuantity: 8, requestType: 'Borrow', status: true , contactNumber: '09123892012', date: '2024-09-12', time: '9:00 AM', image: images.defaultAvatar },
+        {id: 4, name: 'Francis Harvey Soriano', address: '156 Dama De Notche Street, Bulihan', slimQuantity: 0, roundQuantity: 7, requestType: 'Borrow', status: true , contactNumber: '09123892012', date: '2024-09-12', time: '9:00 AM', image: images.defaultAvatar },
     ]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -96,6 +97,9 @@ export const CompletedAdmin = () =>{
                 <Link to="/admin/requests/completed"  className='CompletedAdmin__link'>
                     <p className="CompletedAdmin__complete-text">Completed</p>
                 </Link>
+                <Link to="/admin/requests/rejected-requests"  className='RequestsAdmin__link'>
+                    <p className="RequestsAdmin__rejected-requests">Rejected Request</p>
+                </Link>
             </div>
 
             <div className="CompletedAdmin__filter-container">
@@ -155,6 +159,10 @@ export const CompletedAdmin = () =>{
                             roundQuantity={request.roundQuantity}
                             requestType={request.requestType}
                             status={request.status}
+                            contact={request.contactNumber}
+                            date={request.date}
+                            time={request.time}
+                            image={request.image}
                         />  
                     ))
                 )}

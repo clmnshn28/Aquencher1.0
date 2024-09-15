@@ -1,10 +1,12 @@
 import React from "react";
 import 'assets/css/components';
 import { MdAccessTime } from "react-icons/md";
+import { FaPhoneAlt } from "react-icons/fa";
+import { PiMapPinAreaDuotone } from "react-icons/pi";
 
 import * as images from 'assets/images';
 
-export default function QueueItem ({id, name, address, slimQuantity, roundQuantity, requestType, status, onAccept}){
+export default function QueueItem ({id, name, address, slimQuantity, roundQuantity, requestType, contact, date, time, image, onAccept}){
 
     return(
         <div className="QueueItem__item">
@@ -17,14 +19,19 @@ export default function QueueItem ({id, name, address, slimQuantity, roundQuanti
                 alt={`${requestType} Icon`} />
                 <span>{requestType}</span>
             </div>
+            <div className="QueueItem__date-time">
+                <span>{date}</span>
+                <span>{time}</span>
+            </div>
             
             <div className='QueueItem__customer-info'>
-                <img src={images.defaultAvatar} alt="Customer Image" />
+                <img src={image} alt="Customer Image" />
                 <div className="QueueItem__info">
                     <span>{name}</span>
                     <div className="QueueItem__address-info">
+        
                         <div className="QueueItem__location">
-                            <img src={images.locationAddress} alt="Location Icon" />
+                            <PiMapPinAreaDuotone className="QueueAdmin__address-icon" />
                             <p className="QueueItem__specific-address">
                                 {address}
                             </p>
@@ -32,22 +39,22 @@ export default function QueueItem ({id, name, address, slimQuantity, roundQuanti
                         <p className="QueueItem__city-province">
                             Malolos, Bulacan
                         </p>
+                        <p className="QueueAdmin__phone">
+                            <FaPhoneAlt />
+                            {contact}
+                        </p>
                     </div>
                 </div>
             </div>
             <div className="QueueItem__quantities">
-                {slimQuantity > 0 && (
-                    <div className="QueueItem__quantity-item">
-                        <img src={images.returnSlim} alt="Slim Gallon" />
-                        <span>{slimQuantity}</span>
-                    </div>
-                )}
-                {roundQuantity > 0 && (
-                    <div className="QueueItem__quantity-item">
-                        <img src={images.returnRound} alt="Round Gallon" />
-                        <span>{roundQuantity}</span>
-                    </div>
-                )}
+            <div className={`QueueItem__quantity-item ${slimQuantity > 0 ? '' : 'hidden'}`}>
+                    <img src={images.returnSlim} alt="Slim Gallon" />
+                    <span>{slimQuantity}</span>
+                </div>
+                <div className={`QueueItem__quantity-item ${roundQuantity > 0 ? '' : 'hidden'}`}>
+                    <img src={images.returnRound} alt="Round Gallon" />
+                    <span>{roundQuantity}</span>
+                </div>
             </div>
             <div className="QueueItem__duration">
                 <p>{requestType} Duration</p>

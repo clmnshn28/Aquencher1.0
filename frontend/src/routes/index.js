@@ -8,7 +8,7 @@ import {AdminLayout, CustomerLayout} from 'layouts/main_layouts';
 import {DashboardAdmin} from 'pages/admin/dashboard';
 import {NotificationAdmin} from 'pages/admin/notification';
 import {UsersAdmin, DeactivatedAccountsAdmin, UsersEditAdmin, UsersViewAdmin} from 'pages/admin/users';
-import {RequestsAdmin, QueueAdmin, CompletedAdmin} from 'pages/admin/request';
+import {RequestsAdmin, QueueAdmin, CompletedAdmin, RejectedAdmin} from 'pages/admin/request';
 import {TransactionAdmin} from 'pages/admin/transaction';
 import {InventoryAdmin} from 'pages/admin/inventory';
 import {AnnouncementAdmin} from 'pages/admin/announcement';
@@ -43,6 +43,7 @@ const MainRoutes = () =>{
             <Route path='all-requests' element={<RequestsAdmin/>}/>
             <Route path='queue' element={<QueueAdmin/>}/>
             <Route path='completed' element={<CompletedAdmin/>}/>
+            <Route path='rejected-requests' element={<RejectedAdmin/>}/>
           </Route>
           <Route path='transactions' element={<TransactionAdmin/>}/>
           <Route path='inventory' element={<InventoryAdmin/>}/>
