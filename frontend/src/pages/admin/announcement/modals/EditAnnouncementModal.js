@@ -15,22 +15,27 @@ export const EditAnnouncementModal = ({isOpen, onClose, onConfirm, announcementT
     return(
         <Modal>
             <div className="CreateAnnouncementModal__container">
-                <h1  className="CreateAnnouncementModal__header">Edit Announcement</h1>
-                <form onSubmit={onConfirm} className="CreateAnnouncementModal__form-submit" >
+                   <h2 className="CreateAnnouncementModal__header">Create Announcement</h2>
+                <form onSubmit={onConfirm}  >
                     <div className="CreateAnnouncementModal__form-container">
+                        <p className="CreateAnnouncementModal__description">
+                            Fill in the subject and body of the announcement. Click publish to make it visible on the customer dashboard.
+                        </p>
                         <div className="CreateAnnouncementModal__form-group">
-                            <TextField 
-                                label='Announcement Title' 
-                                id='announcementTitle' 
-                                name='announcementTitle' 
-                                value={announcementTitle} 
-                                onChange={onTitleChange}
-                                type='text'
-                                isRequired
-                            />
-                        </div>
-                        <div className="CreateAnnouncementModal__summary-group">
-                            <TextArea
+                           <div className="CreateAnnouncementModal__title">
+                                <TextField 
+                                    label='Announcement Title' 
+                                    id='announcementTitle' 
+                                    name='announcementTitle' 
+                                    value={announcementTitle} 
+                                    onChange={onTitleChange}
+                                    type='text'
+                                    isRequired
+                                    autoComplete='off'
+                                    style={{ border: '1.5px solid #0174CF'}}
+                                />
+                            </div>
+                            <TextArea 
                                 label='Summary' 
                                 id='summary' 
                                 name='summary' 
@@ -39,18 +44,21 @@ export const EditAnnouncementModal = ({isOpen, onClose, onConfirm, announcementT
                                 type='text'
                                 placeholder='Write your announcement here...'
                                 isRequired
+                                style={{ height: '150px', border: '1.5px solid #0174CF'}}
                             />
+                            <div className="CreateAnnouncementModal__form-actions">
+                                <ButtonGroup  
+                                    onCancel={onClose}
+                                    saveText="Save Changes"
+                                    saveButtonColor="#0174CF" 
+                                
+                                />
+                            </div>
                         </div>
-                    </div>
-                    <div className="CreateAnnouncementModal__form-actions">
-                        <ButtonGroup  
-                            onSave={onConfirm}
-                            onCancel={onClose}
-                            saveText="Publish"
-                            saveButtonColor="#0174CF" 
-                        />
+                        
                     </div>
                 </form>  
+
             </div>
         </Modal>
     );

@@ -1,7 +1,7 @@
 import React from "react";
 import 'assets/css/components';
 
-export default function TextField ({onChange, value, label, id, isRequired, type, isReadOnly, isDisabled, isInline, autoComplete }){
+export default function TextField ({onChange, value, label, id, isRequired, type, isReadOnly, isDisabled, isInline, autoComplete, style }){
   return(
     <div className={`TextField__container ${isInline ? 'TextField__inline' : ''}`}>
       <label className='TextField__label' htmlFor={id}>{label}
@@ -19,6 +19,7 @@ export default function TextField ({onChange, value, label, id, isRequired, type
           readOnly={isReadOnly}
           disabled={isDisabled}
           autoComplete={autoComplete}
+          style={style}
         />
     </div>
   );

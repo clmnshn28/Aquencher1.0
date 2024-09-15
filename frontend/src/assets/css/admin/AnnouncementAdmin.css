@@ -49,13 +49,13 @@
   border-collapse: collapse;
   background-color: #FFFFFF;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
-  font-weight: 500;
   font-size: 14px;
 }
 
 .AnnouncementAdmin__table th{
   padding: 15px 30px;
   text-align: left;
+  font-weight: 600;
   border-bottom: 1px solid #e0e0e0;
 }
 
@@ -63,8 +63,16 @@
   padding: 9px 30px;
   text-align: left;
   border-bottom: 1px solid #C4E5FF;
-  font-weight: 500;
   font-size: 13px;
+}
+
+.AnnouncementAdmin__table td:first-child {
+  width: 10%;
+  font-weight: 400;
+}
+
+.AnnouncementAdmin__table td:nth-child(2) {
+  width: 70%;
 }
 
 .AnnouncementAdmin__table-header{
@@ -76,13 +84,18 @@
 .AnnouncementAdmin__title{
   margin: 0;
   color: #444444;
+  
 }
 
 .AnnouncementAdmin__summary{
   color: #616161;
   margin: 0;
   font-weight: 400;
-  font-style: italic;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* action button */
