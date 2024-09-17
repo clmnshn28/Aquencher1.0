@@ -1,7 +1,7 @@
 import React from "react";
 import 'assets/css/components';
 
-export default function TextArea ({onChange, value, label, id, isRequired, placeholder, height}){
+export default function TextArea ({label, id, isRequired, ...otherProps }){
   return(
     <>
       <div className={`TextField__container `}>
@@ -12,12 +12,7 @@ export default function TextArea ({onChange, value, label, id, isRequired, place
         <textarea
             className="TextField__textarea"
             id={id}
-            name={id}
-            value={value}
-            onChange={onChange}
-            required={isRequired}
-            placeholder={placeholder}
-            style={{ height: height || '100px'}} 
+            {...otherProps} 
         />
       </div>
     </>

@@ -72,7 +72,7 @@ export const RejectedModal = ({isOpen, onClose, onConfirm, rejectedDetails}) =>{
                         id="reason"
                         value={reason}
                         onChange={(e)=> setReason(e.target.value)}
-                        height="55px" 
+                        style={{height: '55px'}}
                         // isRequired
                         placeholder="Provide your reason"
                     />
