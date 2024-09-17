@@ -1,150 +1,207 @@
 
 /* dashboard-content */
-
-.welcome{
-  color: #0174CF;
-}
-
-.summary {
-  display: flex;
-  width: 100%;
-}
-
-.summary-item {
-  width: 150px;
+.DashboardAdmin__first-content{
   background-color: #fff;
-  padding:  10px 20px;
-  margin: 0px 7px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.summary-title{
-  font-size: 12px;
-  font-weight: 500;
-  color: rgb(80, 80, 80);
-}
-
-.summary-value{
-  color: #0174CF;
-  font-size: 30px;
-  font-weight: bold;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.time-date-container{
-  width: 300px;
-  background-color: #fff;
-  padding: 20px;
-  margin: 0px 7px;
-  text-align: center;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.time{
-  font-size: 28px;
-  font-weight: bold;
-
-}
-.date{
-  font-weight: 600;
-}
-
-/* second content */
-
-.second-content{
-  display: flex;
-  width: 100%;
-}
-
-.left-content{
-  margin-bottom: 20px;
-}
-
-.delivery {
-  background-color: #fff;
-  padding: 13px 20px;
-  margin: 10px 7px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.delivery-text{
-  margin: 0;
-  color: #0174CF;
+  padding:  15px 30px 20px;
+  border-radius: 5px;
+  margin-right: 40px;
   margin-left: 10px;
 }
 
-.delivery-item-container{
-  display: flex;
-  justify-content: space-between;
+/* header */
+.DashboardAdmin__welcome{
+  color: #0174CF;
+  margin: 0;
+  margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 27px;
 }
 
-.delivery-item {
+
+/* time date */
+.DashboardAdmin__time-date{
+  background-color: #B2DAFF;
+  padding: 10px 20px;
+  border-radius: 5px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  width:193px;
-  background-color: #fff;
-  padding: 15px 20px;
-  margin: 10px;
+}
+
+.DashboardAdmin__time-text{
+  margin: 0;
+  font-size: 33px;
+  color: #00699E;
+}
+
+.DashboardAdmin__date-text{
+  margin: 0;
+  font-weight: 500;
+  color: #0174CF;
+}
+
+
+
+/* Stock */
+.DashboardAdmin__stock-info{
+  display: flex;
+  justify-content: space-evenly;
+  padding: 20px 20px 0;
+}
+
+.DashboardAdmin__stock-column{
+  display: flex;
+}
+
+/* per item */
+.DashboardAdmin__stock-item{
+  border: 2px solid #0174CF;
   border-radius: 8px;
-  border: 1px solid #C4E5FF;
-}
-
-.delivery-image{
-  width: 43px;
-  margin-right: 10px;
-}
-
-.delivery-title{
-  font-size: 14px;
-  font-weight: 500;
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   color: #0174CF;
+  width: 165px;
 }
 
-.delivery-value{
-  font-weight: 500;
-  font-size: 22px;
-  color: #0174CF;
+.DashboardAdmin__stock-item:nth-child(1){
+  border-radius: 8px 0 0 8px;
+  border-right: none;
 }
 
-/* graph */
-.graph-container{
-  height: 200px;
-  background-color: #fff;
-  padding: 20px;
-  margin: 10px;
-  margin-right: 7px;
-  margin-left: 5px;
-  text-align: center;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.DashboardAdmin__stock-item:nth-child(2){
+  border-radius: 0 8px 8px 0;
 }
 
-.graph-container p {
+.DashboardAdmin__stock-icon{
+  width: 35px;
+  padding: 3px;
+  border: 1px solid #0174CF;
+  border-radius: 50%;
+}
+
+.DashboardAdmin__stock-title{
+  margin: 0;
+}
+
+.DashboardAdmin__stock-label{
+  margin: 0;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.DashboardAdmin__stock-value{
   margin: 0;
   font-weight: bold;
-  color: #0174CF;
+  font-size: 30px;
 }
 
-/* --- */
 
-.returned-gallon-container{
-  width: 300px;
-  height: 200px;
+
+
+
+
+/* second content */
+.DashboardAdmin__second-content{
+  margin: 10px 40px 0 10px;
+  display: flex;
+  gap: 15px;
+
+}
+
+.DashboardAdmin__returned-section{
   background-color: #fff;
-  padding: 20px;
-  margin: 10px;
-  margin-left: 5px;
-  text-align: center;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding:  15px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0.8;
 }
 
-.returned-gallon-container p{
-  margin: 0;
-  font-weight: bold;
+.DashboardAdmin__header-chart{
+  color: #0483E8;
+  font-weight: 600;
+  margin: 10px 0;
+}
 
+.chart-container {
+  width: 230px; 
+  height: 230px;
+  margin: 20px 0;
+}
+
+/* Legend styling for Doughnut chart */
+.DashboardAdmin__returned-legend {
+  width: 80%;
+  margin: 20px 0;
+}
+
+.DashboardAdmin__returned-legend p{
+  margin: 0;
+  font-size: 15px;
+  color: #ADAFB0;
+}
+
+.DashboardAdmin__legend-dot {
+  display: inline-block;
+  width: 30px;
+  height: 10px;
+  margin-right: 5px;
+}
+
+.DashboardAdmin__legend-dot.slim {
+  background-color: #014377;
+}
+
+.DashboardAdmin__legend-dot.round {
+  background-color: #1BABE9;
+}
+
+
+
+
+
+/* line chart */
+.DashboardAdmin__refill-borrow-section{
+  background-color: #fff;
+  padding:  15px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 2;
+  
+}
+
+.chart-container-small {
+  width: 99%;
+ height: 300px;
+}
+
+/* Legend styling for Line chart */
+.DashboardAdmin__refill-borrow-legend {
+  margin: 20px 0;
+  display: flex;
+  gap: 50px;
+}
+
+.DashboardAdmin__refill-borrow-legend p{
+  margin: 0;
+  color: #ADAFB0;
+}
+
+.DashboardAdmin__refill-borrow-legend-dot {
+  display: inline-block;
+  width: 30px;
+  height: 10px;
+  margin-right: 5px;
+}
+
+.DashboardAdmin__refill-borrow-legend-dot.refill {
+  background-color: #0071CA;
+}
+
+.DashboardAdmin__refill-borrow-legend-dot.borrow {
+  background-color: #A4D3FF;
 }
