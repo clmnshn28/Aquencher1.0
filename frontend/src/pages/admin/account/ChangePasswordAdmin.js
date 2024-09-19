@@ -65,28 +65,28 @@ export const ChangePasswordAdmin = () =>{
 
   return (
     <div >
-      <div className="account-settings-container">
-        <h1 className="account-settings-header-text">Account Setting</h1>
-        <Link to="/admin/account/settings/my-profile">
-          <p className="account-settings-profile-text-change">My Profile</p>
+      <div className="AccountSettingsAdmin__container">
+        <h1 className="AccountSettingsAdmin__header-text">Account Settings</h1>
+        <Link to="/admin/account-settings/my-profile">
+          <p className="AccountSettingsAdmin__profile-text-change">My Profile</p>
         </Link>
-        <Link to="/admin/account/settings/change-password">
-          <p className="account-settings-password-text-change">Change Password</p>
+        <Link to="/admin/account-settings/change-password">
+          <p className="AccountSettingsAdmin__password-text-change">Change Password</p>
         </Link>
       </div>
-      <div className="admin-account-edit-container-change">
-        <form onSubmit={changePasswordSubmit} className="form-change-container">
-          <div className="input-change-container">
-            <TextField label="Current Password" id="currentPassword" name="currentPassword" value={currentPassword} onChange={handleCurrentPasswordChange} type="password" isRequired />
-            <TextField label="New Password" id="newPassword" name="newPassword" value={newPassword} onChange={handleNewPasswordChange} type="password" isRequired />
-            <TextField label="Confirm New Password" id="confirmNewPassword" name="confirmNewPassword" value={confirmNewPassword} onChange={handleConfirmNewPasswordChange} type="password" isRequired />
-            {error && <span className="changePass-error">{error}</span>}
+      <div className="ChangePasswordAdmin__password-container">
+        <form onSubmit={changePasswordSubmit} className="ChangePasswordAdmin__form">
+          <div className="ChangePasswordAdmin__input-container">
+            <TextField label="Current Password" id="currentPassword" name="currentPassword" value={currentPassword} onChange={handleCurrentPasswordChange} type="password" isRequired required/>
+            <TextField label="New Password" id="newPassword" name="newPassword" value={newPassword} onChange={handleNewPasswordChange} type="password" isRequired required/>
+            <TextField label="Confirm New Password" id="confirmNewPassword" name="confirmNewPassword" value={confirmNewPassword} onChange={handleConfirmNewPasswordChange} type="password" isRequired required/>
+            {error && <span className="ChangePasswordAdmin__error">{error}</span>}
           </div>
   
           <div className="change-password-requirements">
             <PasswordRequirements newPassword={newPassword} />
           </div>
-          <button className="change-pass-btn" type="submit">Change Password</button>
+          <button className="ChangePasswordAdmin__pass-btn" type="submit">Change Password</button>
         </form>
       </div>
     </div>

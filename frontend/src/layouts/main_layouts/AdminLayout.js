@@ -111,8 +111,10 @@ export const AdminLayout = () => {
       setHighlightedTab('announcement');
     }else if (currentPath.includes('concerns')) {
       setHighlightedTab('concerns');
-    } else if (currentPath.includes('account')) {
+    } else if (currentPath.includes('account-settings/my-profile')) {
       setHighlightedTab('account');
+    }else if (currentPath.includes('operational-settings')) {
+      setHighlightedTab('operational');
     }
   }, [location]);
 
@@ -239,29 +241,39 @@ export const AdminLayout = () => {
           </li>
         </Link>
         <li className={`link-sidebar sub-delivery
-          ${highlightedTab === 'account'? 'highlighted' : highlightedAccountTab}`} 
+          ${highlightedTab === 'account' || highlightedTab === 'operational' ? 'highlighted' : highlightedAccountTab}`} 
           onClick={toggleSubSidebarAccount}>
           <img className="sidebaricon" 
-          src={highlightedTab === 'account'? images.accountIconOpen : images.accountIconClose} 
+          src={highlightedTab === 'account' || highlightedTab === 'operational' ? images.accountIconOpen : images.accountIconClose} 
           alt="Account" />
           <span className="sidebar-text">Account</span>
           <img
               className="sidebar-dropdown"
               src={subAccountSidebarVisible ? 
-              (highlightedTab === 'account' ? images.blueSidebarDropdownOpen : images.sidebarDropdownOpen) : 
-              ( highlightedTab === 'account' ? images.blueSidebarDropdownClose : images.sidebarDropdownClose)}
+              (highlightedTab === 'account' || highlightedTab === 'operational' ? images.blueSidebarDropdownOpen : images.sidebarDropdownOpen) : 
+              ( highlightedTab === 'account' || highlightedTab === 'operational' ? images.blueSidebarDropdownClose : images.sidebarDropdownClose)}
               alt="dropdown"
             />
         </li>
         {subAccountSidebarVisible && (
         <ul>
-          <Link to="account/settings/my-profile" className='link-sub-sidebar'>
+          <Link to="account-settings/my-profile" className='link-sub-sidebar'>
             <li className={`sub-sidebar ${highlightedTab === 'account'? 'selected' : ''}`}>
               <div className={`task-container  ${highlightedTab === 'account'? 'sub-highlighted' : ''} `}>
                 <img className="sub-sidebaricon account-settings-icon" 
                 src={highlightedTab === 'account'? images.accountSettingIconOpen : images.accountSettingIconClose} 
-                alt="Tasks" />
+                alt="Account Settings" />
                 <span className="sidebar-text account-settings-text">Account Settings</span>
+              </div>
+            </li>
+          </Link>
+          <Link to="operational-settings" className='link-sub-sidebar'>
+            <li className={`sub-sidebar ${highlightedTab === 'operational'? 'selected' : ''}`}>
+              <div className={`task-container  ${highlightedTab === 'operational'? 'sub-highlighted' : ''} `}>
+                <img className="sub-sidebaricon account-settings-icon" 
+                src={highlightedTab === 'operational'? images.accountSettingIconOpen : images.accountSettingIconClose} 
+                alt="Operational Settings" />
+                <span className="sidebar-text account-settings-text">Operational Settings</span>
               </div>
             </li>
           </Link>

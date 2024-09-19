@@ -1,0 +1,123 @@
+
+
+.BusinessHoursModal__container{
+    background-color: #FFFFFF;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+    border-radius: 5px;
+    padding: 10px 40px 30px;
+    width: 730px;
+}
+
+.BusinessHoursModal__container h2{
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #007bff;
+}
+
+.BusinessHoursModal__edit-section{
+    border-top: 1px solid #ADAFB0;
+    padding: 30px 15px 0;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.BusinessHoursModal__hours-content{
+    border: 1px solid #ADAFB0;
+    border-radius: 10px;
+    padding: 30px 40px 10px;
+}
+
+
+/* content */
+.BusinessHoursModal__day {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 0px 10px 10px;
+    border-bottom: 1px solid #bec1c2;
+    width: 100%;
+}
+
+.BusinessHoursModal__day:last-child {
+    border-bottom: none;
+}
+
+.BusinessHoursModal__label {
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #626262;
+    width: 70px;
+}
+  
+
+
+
+/* time picker */
+.BusinessHoursModal__time-section{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.BusinessHoursModal__time-slot{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.time-line {
+    display: inline-block;
+    width: 20px; 
+    border: 1px solid #555252;  
+}
+
+
+
+
+
+/* time add & remove */
+.BusinessHoursModal__add-slot{
+    background-color: #fff;
+    border: 1px solid #9e9c9c;
+    padding: 5px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.BusinessHoursModal__icon-add{
+    font-size: 18px;
+    color: #626262;
+}
+
+.BusinessHoursModal__remove-slot{
+    background-color: #ce1414;
+    border: none;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+}
+
+.BusinessHoursModal__icon-delete{
+    font-size: 18px;
+    color: white;
+}
+
+
+
+
+
+
+/* switch section */
+.BusinessHoursModal__switch-section{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 120px;
+}

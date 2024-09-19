@@ -1,0 +1,47 @@
+
+.BorrowLimitModal__container{
+    background-color: #FFFFFF;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+    border-radius: 5px;
+    padding: 10px 40px 30px;
+    width: 700px;
+}
+
+.BorrowLimitModal__container h2{
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #007bff;
+}
+
+.BorrowLimitModal__edit-section{
+    border-top: 1px solid #ADAFB0;
+    padding: 30px 15px 0;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.BorrowLimitModal__time-picker-container{
+    border: 1px solid #ADAFB0;
+    border-radius: 10px;
+    padding: 50px 55px ;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+
+
+.BorrowLimitModal__time-picker-item{
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.BorrowLimitModal__time-picker-item img{
+    width: 60px;
+    position: absolute;
+    top: -20%;
+}
+
+

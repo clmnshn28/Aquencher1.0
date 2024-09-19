@@ -7,3 +7,5 @@ import './QueueItem.css';
 import './CustomDropdown.css';
 import './RequestItem.css';
 import './Modal.css';
+import './Switch.css';
+import './TimePicker.css';

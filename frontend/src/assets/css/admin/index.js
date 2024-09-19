@@ -15,3 +15,4 @@ import './QueueAdmin.css';
 import './CompletedAdmin.css';
 import './DeactivatedAccountsAdmin.css';
 import './RejectedAdmin.css';
+import './OperationalSettingsAdmin.css';

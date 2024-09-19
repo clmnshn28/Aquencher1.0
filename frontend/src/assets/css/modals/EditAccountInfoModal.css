@@ -1,0 +1,85 @@
+
+.EditAccountInfoModal__container{
+    background-color: #FFFFFF;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+    border-radius: 5px;
+    padding: 10px 40px 30px;
+    width: 700px;
+}
+
+.EditAccountInfoModal__container h2{
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #007bff;
+}
+
+.EditAccountInfoModal__edit-section{
+    border-top: 1px solid #ADAFB0;
+    padding: 30px 15px 0;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.EditAccountInfoModal__textfield-container{
+    border: 1px solid #ADAFB0;
+    border-radius: 10px;
+    padding: 50px 70px 40px 0;
+   
+}
+
+
+/* Image View */
+
+.EditProfileModal__avatar-wrapper{
+    position: relative;
+    border: 1px solid #ADAFB0;
+    border-radius: 10px;
+    padding: 0 0 70px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.EditProfileModal__image-error{
+    position: absolute;
+    bottom: 8%; 
+    color: red;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+  
+.EditProfileModal__avatar-preview{
+    height: 230px;
+    width: 230px;
+    object-fit: cover;
+    border-radius: 3px;
+    border: 1.5px solid rgba(90, 86, 86, 0.5);
+    margin-bottom: 10px;
+    margin-top: 30px;
+}
+  
+.EditProfileModal__upload-label{
+    background-color: #0174CF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+    border: none;
+    color: white;
+    font-weight: 500;
+    font-size: 18px;
+    width: 210px;
+    padding: 9px 12px;
+    cursor: pointer;
+}
+  
+.EditProfileModal__upload-photo-icon{
+    width: 23px;
+    margin-right: 8px;
+}
+  
+  
+
+

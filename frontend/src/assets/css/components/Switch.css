@@ -1,0 +1,44 @@
+
+.Switch__content{
+    position: relative;
+    width: 48px;
+    height: 23px;
+}
+  
+.Switch__content input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+  
+.Switch__slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+  
+.Switch__slider:before {
+    position: absolute;
+    content: "";
+    height: 17px;
+    width: 17px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+  
+input:checked + .Switch__slider {
+    background-color: #0174CF;
+}
+  
+input:checked + .Switch__slider:before {
+    transform: translateX(25px);
+}

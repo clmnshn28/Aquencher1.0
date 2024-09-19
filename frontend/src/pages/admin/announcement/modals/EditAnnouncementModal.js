@@ -31,6 +31,7 @@ export const EditAnnouncementModal = ({isOpen, onClose, onConfirm, announcementT
                                     onChange={onTitleChange}
                                     type='text'
                                     isRequired
+                                    required
                                     autoComplete='off'
                                     style={{ border: '1.5px solid #0174CF'}}
                                 />
@@ -44,6 +45,7 @@ export const EditAnnouncementModal = ({isOpen, onClose, onConfirm, announcementT
                                 type='text'
                                 placeholder='Write your announcement here...'
                                 isRequired
+                                required
                                 style={{ height: '150px', border: '1.5px solid #0174CF'}}
                             />
                             <div className="CreateAnnouncementModal__form-actions">

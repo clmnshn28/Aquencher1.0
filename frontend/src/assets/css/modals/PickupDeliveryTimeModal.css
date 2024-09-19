@@ -1,0 +1,48 @@
+
+.PickupDeliveryTimeModal__container{
+    background-color: #FFFFFF;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+    border-radius: 5px;
+    padding: 10px 40px 30px;
+    width: 700px;
+}
+
+.PickupDeliveryTimeModal__container h2{
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 7px;
+    color: #007bff;
+}
+
+.PickupDeliveryTimeModal__edit-section{
+    border-top: 1px solid #ADAFB0;
+    padding: 30px 15px 0;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.PickupDeliveryTimeModal__time-picker-container{
+    border: 1px solid #ADAFB0;
+    border-radius: 10px;
+    padding: 50px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+   
+}
+
+
+.PickupDeliveryTimeModal__time-picker-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #606263;
+    padding: 50px 0;
+}
+
+.PickupDeliveryTimeModal__time-picker-item:first-child{
+    border-right: 2px solid #909395;
+    padding-right: 50px;
+
+}
+
