@@ -13,7 +13,7 @@ import {TransactionAdmin} from 'pages/admin/transaction';
 import {InventoryAdmin} from 'pages/admin/inventory';
 import {AnnouncementAdmin} from 'pages/admin/announcement';
 import {ConcernsAdmin} from 'pages/admin/concern';
-import {AccountSettingsAdmin , ChangePasswordAdmin } from 'pages/admin/account';
+import {AccountSettingsAdmin , ChangePasswordAdmin, OperationalSettingsAdmin } from 'pages/admin/account';
 
 import { Notification } from 'pages/customer/notification';
 import { Request } from 'pages/customer/request';
@@ -49,10 +49,11 @@ const MainRoutes = () =>{
           <Route path='inventory' element={<InventoryAdmin/>}/>
           <Route path="announcements" element={<AnnouncementAdmin />}/>
           <Route path='concerns' element={<ConcernsAdmin/>}/>
-          <Route path="account/settings">
+          <Route path="account-settings">
             <Route path="my-profile" element={<AccountSettingsAdmin />} />
             <Route path="change-password" element={<ChangePasswordAdmin />} />
           </Route>
+          <Route path='operational-settings' element={<OperationalSettingsAdmin/>}/>
         </Route>
 
         <Route path='/customer/' element={

@@ -59,11 +59,6 @@ export const InventoryAdmin = () =>{
   const handleInventorySubmit = (e) =>{
     e.preventDefault();
 
-    if (!inventory.itemName || inventory.initialStock === '' || inventory.price === '' || inventory.borrowable === '') {
-      alert('Please fill in all required fields.');
-      return;
-    }
-
     const updatedItems = inventoryItems.map(item =>
       item.id === selectedInventory.id ? { ...selectedInventory, ...inventory } : item
     );

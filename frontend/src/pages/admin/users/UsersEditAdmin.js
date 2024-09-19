@@ -8,30 +8,32 @@ import AccountInfoSection from "components/AccountInfoSection";
 import PasswordRequirements from "components/PasswordRequirements";
 import TextField from "components/TextField";
 import ButtonGroup from "components/ButtonGroup";
-import { ResetPasswordConfirmationModal } from "./modals";
+import { ResetPasswordConfirmationModal, EditCustomerInfoModal } from "./modals";
+
 
 export const UsersEditAdmin = () =>{
   const navigate = useNavigate();
 
   const [personalInfoItems, setPersonalInfoItems] = useState([
-    [
       { label: 'Firstname', value: 'Karen Joyce' },
       { label: 'Lastname', value: 'Joson' },
       { label: 'Username', value: 'karenjoycejoson' },
       { label: 'Phone', value: '09123892012' }
-    ]
   ]);
 
   const [addressInfoItems, setAddressInfoItems] = useState([
-    [
       { label: 'Home number', value: '123' },
       { label: 'Street Address', value: 'Sampaguita St.' },
       { label: 'Barangay', value: 'Bulihan' },
       { label: 'Municipality/City', value: 'Malolos' },
       { label: 'Province', value: 'Bulacan'},
       { label: 'Postal Code', value: '3000'},
-    ]
   ]);
+    // Destructure to avoid redundancy
+    const { value: firstname } = personalInfoItems.find(item => item.label === 'Firstname') || {};
+    const { value: lastname } = personalInfoItems.find(item => item.label === 'Lastname') || {};
+    const { value: username } = personalInfoItems.find(item => item.label === 'Username') || {};
+  
 
   const [showResetPassword , setShowResetPassword] = useState(false);
   const [newPassword , setNewPassword] = useState('');
@@ -97,25 +99,62 @@ export const UsersEditAdmin = () =>{
     handleCancel();
   };
 
-  const username = personalInfoItems[0].find(item => item.label === 'Username').value;
+
+  // ===============================
+  const [ editInfoModal, setEditInfoModal] = useState(false);
+  const [currentInfo, setCurrentInfo] = useState([]);
+  const [modalTitle, setModalTitle] = useState('');
+
+  // open the modal info
+  const openEditInfoModal = (info, title) => {
+    setCurrentInfo(info);
+    setModalTitle(title);
+    setEditInfoModal(true); 
+  };
+
+  // Close the modal info
+   const closeEditInfoModal = () => {
+    setEditInfoModal(false);
+    setCurrentInfo([]); 
+  };
+
+  // Confirm the modal info
+  const confirmEditInfoModal = (updatedInfo) => {
+    if (modalTitle === 'Personal Information') {
+      setPersonalInfoItems(updatedInfo);
+    } else if (modalTitle === 'Address Information') {
+      setAddressInfoItems(updatedInfo);
+    }
+    setEditInfoModal(false);
+  };
+
   return (
     <>
       <div className="UserEditAdmin__profile-header">
         <img className="UserEditAdmin__avatar" src={images.defaultAvatar} alt="User Avatar" />
         <div className="UserEditAdmin__details">
           <h2 className="UserEditAdmin__name">
-            {personalInfoItems[0].find(item => item.label === 'Firstname').value} {personalInfoItems[0].find(item => item.label === 'Lastname').value}
+            {firstname} {lastname}
           </h2>
           <p className="UserEditAdmin__username">
-            @{personalInfoItems[0].find(item => item.label === 'Username').value}
+            @{username}
           </p>
         </div>
         <img className="UserEditAdmin__back-btn" src={images.backEditButton} alt="Back Button" onClick={() => navigate(-1)}/>
       </div>
       
       <div className="UserEditAdmin__account-container">
-        <AccountInfoSection title="Personal Information" infoItems={personalInfoItems} />
-        <AccountInfoSection title="Address" infoItems={addressInfoItems} />
+          <AccountInfoSection 
+            title="Personal Information" 
+            infoItems={personalInfoItems} 
+            onEditClick={() => openEditInfoModal(personalInfoItems, "Personal Information")}
+          />
+
+          <AccountInfoSection 
+            title="Address Information" 
+            infoItems={addressInfoItems} 
+            onEditClick={() => openEditInfoModal(addressInfoItems, "Address Information")}
+          />
 
         <div className="UserEditAdmin__password-container">
           <button className="UserEditAdmin__reset-button" onClick={handleShowResetPassword}>
@@ -147,6 +186,13 @@ export const UsersEditAdmin = () =>{
         onClose={() => setShowConfirmationModal(false)}
         onConfirm={handleConfirmPasswordReset}
         username={username}
+      />
+      <EditCustomerInfoModal
+        isOpen={editInfoModal}
+        onClose={closeEditInfoModal}
+        onConfirm={confirmEditInfoModal}
+        infoItems={currentInfo}
+        title={modalTitle}
       />
     </>
   );

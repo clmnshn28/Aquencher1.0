@@ -6,3 +6,7 @@ import './DeactivationModal.css';
 import './ReactivationModal.css';
 import './EditInventoryModal.css';
 import './RejectedModal.css';
+import './BusinessHourModal.css';
+import './PickupDeliveryTimeModal.css';
+import './BorrowLimitModal.css';
+import './EditAccountInfoModal.css';
