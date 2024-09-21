@@ -12,7 +12,9 @@ export default function AccountInfoSection({title, infoItems, onEditClick}){
             {infoItems.map((item, itemIndex) => (
               <div className="AccountInfoSection__item" key={itemIndex}>
                 <span className="AccountInfoSection__detail-name">{item.label}</span>
-                <p className="AccountInfoSection__details-editable">{item.value}</p>
+                <p className="AccountInfoSection__details-editable">
+                  {item.label === 'Username' ? `@${item.value}` : item.value}
+                </p>
               </div>
             ))}
           </div>

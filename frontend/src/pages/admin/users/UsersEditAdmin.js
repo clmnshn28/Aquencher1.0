@@ -18,12 +18,13 @@ export const UsersEditAdmin = () =>{
       { label: 'Firstname', value: 'Karen Joyce' },
       { label: 'Lastname', value: 'Joson' },
       { label: 'Username', value: 'karenjoycejoson' },
-      { label: 'Phone', value: '09123892012' }
+      { label: 'Contact No.', value: '09123892012' },
+      { label: 'Email', value: 'karenjoycejoson@gmail.com' },
   ]);
 
   const [addressInfoItems, setAddressInfoItems] = useState([
-      { label: 'Home number', value: '123' },
-      { label: 'Street Address', value: 'Sampaguita St.' },
+      { label: 'House number', value: '123' },
+      { label: 'Street', value: 'Sampaguita' },
       { label: 'Barangay', value: 'Bulihan' },
       { label: 'Municipality/City', value: 'Malolos' },
       { label: 'Province', value: 'Bulacan'},

@@ -8,7 +8,6 @@ import ButtonGroup from 'components/ButtonGroup';
 export const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {
   
   const options = [
-    { value: 'request', title: 'Customer Request', description: 'The customer has requested to close their account.' },
     { value: 'inactivity', title: 'Inactivity', description: 'The account has been inactive for an extended period.' },
     { value: 'violation', title: 'Violation of Terms', description: 'The customer has violated the terms of service.' },
   ];
@@ -32,7 +31,7 @@ export const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {
       <div className="DeactivationModal__content">
         <h2 className='DeactivationModal__header'>Deactivate Customer Account</h2>
         <p>Are you sure you want to deactivate this account?</p>
-        <p>This action will prevent the worker from <br/> accessing the system.</p>
+        <p>This action will prevent the customer from <br/> accessing the system.</p>
 
         <div className='DeactivationModal__dropdown-container'>
           <CustomDropdown

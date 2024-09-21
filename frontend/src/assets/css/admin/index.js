@@ -16,3 +16,4 @@ import './CompletedAdmin.css';
 import './DeactivatedAccountsAdmin.css';
 import './RejectedAdmin.css';
 import './OperationalSettingsAdmin.css';
+import './DeactivationRequestAdmin.css';

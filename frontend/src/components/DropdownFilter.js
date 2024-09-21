@@ -3,7 +3,7 @@ import 'assets/css/components';
 import { MdOutlineArrowDropDown } from "react-icons/md";
 
 
-export default function DropdownFilter({label, isOpen, toggleDropdown, options, onOptionSelect }){
+export default function DropdownFilter({label, isOpen, toggleDropdown, options, onOptionSelect, classExpand }){
 
     return(
         <div className="DropdownFilter__dropdown">
@@ -14,7 +14,7 @@ export default function DropdownFilter({label, isOpen, toggleDropdown, options, 
                 <MdOutlineArrowDropDown  className="DropdownFilter__dropdown-icon" />  
             </button>
             {isOpen && (
-            <div className="DropdownFilter__dropdown-content">
+            <div className={`DropdownFilter__dropdown-content ${classExpand}`}>
                 {options.map((option,index)=>(
                     <button 
                     key={index} 

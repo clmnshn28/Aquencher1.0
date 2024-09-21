@@ -3,7 +3,7 @@ import 'assets/css/modals';
 import Modal from 'components/Modal';
 import ButtonGroup from 'components/ButtonGroup';
 
-export const ReactivationModal = ({ isOpen, onClose, onConfirm, userId, username}) => {
+export const ReactivationModal = ({ isOpen, onClose, onConfirm, userId, fName, lName}) => {
   
   if (!isOpen) return null;
 
@@ -19,8 +19,8 @@ export const ReactivationModal = ({ isOpen, onClose, onConfirm, userId, username
             <span className='ReactivationModal__value'>{userId}</span>
           </div>
           <div className='ReactivationModal__customer-info'>
-            <span className='ReactivationModal__label'>Username:</span>
-            <span className='ReactivationModal__value'>{username}</span>
+            <span className='ReactivationModal__label'>Customer Name:</span>
+            <span className='ReactivationModal__value'>{`${fName} ${lName}`}</span>
           </div>
         </div>
 

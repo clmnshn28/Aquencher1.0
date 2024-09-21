@@ -108,7 +108,7 @@ export const TransactionAdmin = () => {
         />
         <IoFilterSharp  className="RequestsAdmin__filter-icon" />
         <DropdownFilter
-          label="Request Type"
+          label={filters.requestType || "Request Type"}
           isOpen={activeDropdown === 'requestType'}
           toggleDropdown={() => toggleDropdown('requestType')}
           options={[
@@ -119,7 +119,7 @@ export const TransactionAdmin = () => {
           onOptionSelect={(value) => handleFilterChange('requestType', value)}
         />
         <DropdownFilter
-          label="Gallon Type"
+          label={filters.gallonType || "Gallon Type"}
           isOpen={activeDropdown === 'gallonType'}
           toggleDropdown={()=> toggleDropdown('gallonType')}
           options={[
@@ -129,7 +129,7 @@ export const TransactionAdmin = () => {
           onOptionSelect={(value) => handleFilterChange('gallonType', value)}
         />
         <DropdownFilter
-          label="Status"
+          label={filters.status || "Status"}
           isOpen={activeDropdown === 'status'}
           toggleDropdown={()=> toggleDropdown('status')}
           options={[

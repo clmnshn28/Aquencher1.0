@@ -5,7 +5,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 
 import * as images from 'assets/images';
 
-export default function RejectedItem({id, name, address, slimQuantity, roundQuantity, requestType, contact, date, time}){
+export default function RejectedItem({id, name, address, slimQuantity, roundQuantity, requestType, contact, image, date, time}){
     
     return(
         <div className="RequestsItem__item">
@@ -26,7 +26,7 @@ export default function RejectedItem({id, name, address, slimQuantity, roundQuan
             </div>
             
             <div className='RequestItem__customer-info'>
-                <img src={images.defaultAvatar} alt="Customer Image" />
+                <img src={image} alt="Customer Image" />
                 <div>
                     <span>{name}</span>
                     <p className="RequestAdmin__phone">

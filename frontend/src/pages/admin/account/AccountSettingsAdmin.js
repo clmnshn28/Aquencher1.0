@@ -13,12 +13,13 @@ export const AccountSettingsAdmin = () =>{
     { label: 'Firstname', value: 'Celmin Shane' },
     { label: 'Lastname', value: 'Quizon' },
     { label: 'Username', value: 'clmnshn28' },
-    { label: 'Phone', value: '09675710874' }
+    { label: 'Contact No.', value: '09675710874' },
+    { label: 'Email', value: 'celminshanequizon@gmail.com' },
   ]);
 
   const [addressInfoItems, setAddressInfoItems] = useState([
-    { label: 'Home number', value: '12' },
-    { label: 'Street Address', value: 'Everlasting St.' },
+    { label: 'House number', value: '12' },
+    { label: 'Street', value: 'Everlasting' },
     { label: 'Barangay', value: 'Bulihan' },
     { label: 'Municipality/City', value: 'Malolos' },
     { label: 'Province', value: 'Bulacan' },
