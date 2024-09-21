@@ -11,10 +11,10 @@ import SearchBar from "components/SearchBar";
 export const QueueAdmin = () =>{
 
     const [queues, setQueues] = useState([
-        { id: 1, name: 'Miguel Angelo Barruga', address: '146 Dama De Notche Street, Bulihan', slimQuantity: 3, roundQuantity: 3, requestType: 'Refill', contactNumber: '09123892012', status: false, isAccepted: false, date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar},
-        { id: 2, name: 'Celmin Shane Quizon', address: '123 Dama De Notche Street, Bulihan', slimQuantity: 4, roundQuantity: 5, requestType: 'Return', contactNumber: '09123892012', status: false, isAccepted: false, date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
-        { id: 3, name: 'Karen Joyce Joson', address: '145 Dama De Notche Street, Bulihan', slimQuantity: 1, roundQuantity: 8, requestType: 'Borrow', contactNumber: '09123892012', status: false, isAccepted: false, date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
-        { id: 4, name: 'Francis Harvey Soriano', address: '156 Dama De Notche Street, Bulihan', slimQuantity: 0, roundQuantity: 7, requestType: 'Borrow', contactNumber: '09123892012', status: false, isAccepted: false, date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
+        {id: 1, fname: 'Karen Joyce', lname: 'Joson',  house_number: '045', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 3, roundQuantity: 3, requestType: 'Refill', status: true, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar},
+        {id: 2, fname: 'Celmin Shane', lname: 'Quizon', house_number: '065', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 4, roundQuantity: 0, requestType: 'Return', status: true, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
+        {id: 3, fname: 'Miguel Angelo', lname: 'Barruga', house_number: '255', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 1, roundQuantity: 8, requestType: 'Borrow', status: true, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar},
+        {id: 4, fname: 'Francis Harvey', lname: 'Soriano', house_number: '085', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 0, roundQuantity: 7, requestType: 'Borrow', status: true, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
     ]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -30,14 +30,16 @@ export const QueueAdmin = () =>{
     const handleSearch = () => {
         const applyFilters = (requests) => {
             return requests.filter(queue => {
+                const fullName = `${queue.fname} ${queue.lname}`.toLowerCase(); 
+                const fullAddress = `${queue.house_number} ${queue.street}, ${queue.barangay}`.toLowerCase();
+            
                 return (
                     (filters.requestType === '' || queue.requestType === filters.requestType) &&
                     (filters.gallonType === '' ||
                         (filters.gallonType === 'Slim' && queue.slimQuantity > 0) ||
                         (filters.gallonType === 'Round' && queue.roundQuantity > 0)
                     ) &&
-                    (filters.address === '' || queue.address.toLowerCase().includes(filters.address.toLowerCase())) &&
-                    (searchQuery === '' || queue.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                    ( fullName.includes(searchQuery.toLowerCase()) || fullAddress.includes(searchQuery.toLowerCase())) 
                 );
             });
         };
@@ -79,8 +81,7 @@ export const QueueAdmin = () =>{
                     (filters.gallonType === '' ||
                         (filters.gallonType === 'Slim' && queue.slimQuantity > 0) ||
                         (filters.gallonType === 'Round' && queue.roundQuantity > 0)
-                    ) &&
-                    (filters.address === '' || queue.address.toLowerCase().includes(filters.address.toLowerCase()))
+                    ) 
                 );
             });
         };
@@ -130,6 +131,12 @@ export const QueueAdmin = () =>{
         console.log("handleAccept queue called with ID:", id);     
     };
 
+
+    const formatAddress = (queue) => {
+        const { house_number, street, barangay} = queue;
+        return `${house_number} ${street}, ${barangay}`;
+    };
+
     return(
         <>
             <div className="QueueAdmin__header">
@@ -156,7 +163,7 @@ export const QueueAdmin = () =>{
                 />
                 <IoFilterSharp  className="QueueAdmin__filter-icon" />
                 <DropdownFilter
-                    label="Request Type"
+                    label={filters.requestType || "Request Type"}
                     isOpen={activeDropdown === 'requestType'}
                     toggleDropdown={() => toggleDropdown('requestType')}
                     options={[
@@ -167,7 +174,7 @@ export const QueueAdmin = () =>{
                     onOptionSelect={(value) => handleFilterChange('requestType', value)}
                 />
                 <DropdownFilter
-                    label="Gallon Type"
+                    label={filters.gallonType || "Gallon Type"}
                     isOpen={activeDropdown === 'gallonType'}
                     toggleDropdown={()=> toggleDropdown('gallonType')}
                     options={[
@@ -176,14 +183,8 @@ export const QueueAdmin = () =>{
                     ]}
                     onOptionSelect={(value) => handleFilterChange('gallonType', value)}
                 />
-                <DropdownFilter
-                    label="Address"
-                    isOpen={activeDropdown === 'address'}
-                    toggleDropdown={() => toggleDropdown('address')}
-                    options={queues.map((request) => ({ label: request.address, value: request.address }))}
-                    onOptionSelect={(value) => handleFilterChange('address', value)}
-                />
-                {(searchQuery || filters.requestType || filters.gallonType || filters.address) && (
+           
+                {(searchQuery || filters.requestType || filters.gallonType) && (
                     <button className="QueueAdmin__clear-filters-button" onClick={handleClearFilters}>
                         CLEAR
                     </button>
@@ -203,8 +204,8 @@ export const QueueAdmin = () =>{
                         filteredPickupRequests.map((queue) =>(
                             <QueueItem
                                 key={queue.id}
-                                name={queue.name}
-                                address={queue.address}
+                                name={`${queue.fname} ${queue.lname}`}
+                                address={formatAddress(queue)}
                                 slimQuantity={queue.slimQuantity}
                                 roundQuantity={queue.roundQuantity}
                                 requestType={queue.requestType}
@@ -231,8 +232,8 @@ export const QueueAdmin = () =>{
                         filteredDeliverRequests.map((queue) =>(
                             <QueueItem
                                 key={queue.id}
-                                name={queue.name}
-                                address={queue.address}
+                                name={`${queue.fname} ${queue.lname}`}
+                                address={formatAddress(queue)}
                                 slimQuantity={queue.slimQuantity}
                                 roundQuantity={queue.roundQuantity}
                                 requestType={queue.requestType}

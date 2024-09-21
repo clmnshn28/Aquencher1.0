@@ -13,10 +13,10 @@ export const CompletedAdmin = () =>{
 
     
     const [requests, setRequests] = useState([
-        {id: 1, name: 'Miguel Angelo Barruga', address: '146 Dama De Notche Street, Bulihan', slimQuantity: 3, roundQuantity: 3, requestType: 'Refill', status: true, contactNumber: '09123892012', date: '2024-09-12', time: '9:00 AM', image: images.defaultAvatar  },
-        {id: 2, name: 'Celmin Shane Quizon', address: '123 Dama De Notche Street, Bulihan', slimQuantity: 4, roundQuantity: 5, requestType: 'Return', status: true , contactNumber: '09123892012', date: '2024-09-12', time: '9:00 AM', image: images.defaultAvatar},
-        {id: 3, name: 'Karen Joyce Joson', address: '145 Dama De Notche Street, Bulihan', slimQuantity: 1, roundQuantity: 8, requestType: 'Borrow', status: true , contactNumber: '09123892012', date: '2024-09-12', time: '9:00 AM', image: images.defaultAvatar },
-        {id: 4, name: 'Francis Harvey Soriano', address: '156 Dama De Notche Street, Bulihan', slimQuantity: 0, roundQuantity: 7, requestType: 'Borrow', status: true , contactNumber: '09123892012', date: '2024-09-12', time: '9:00 AM', image: images.defaultAvatar },
+        {id: 1, fname: 'Karen Joyce', lname: 'Joson',  house_number: '045', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 3, roundQuantity: 3, requestType: 'Refill', status: true, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar},
+        {id: 2, fname: 'Celmin Shane', lname: 'Quizon', house_number: '065', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 4, roundQuantity: 0, requestType: 'Return', status: true, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
+        {id: 3, fname: 'Miguel Angelo', lname: 'Barruga', house_number: '255', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 1, roundQuantity: 8, requestType: 'Borrow', status: true, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar},
+        {id: 4, fname: 'Francis Harvey', lname: 'Soriano', house_number: '085', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 0, roundQuantity: 7, requestType: 'Borrow', status: true, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
     ]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -41,9 +41,16 @@ export const CompletedAdmin = () =>{
 
     const handleSearch = () => {
         if (searchQuery !== '') {
-          const results = requests.filter((request) => 
-            request.name.toLowerCase().includes(searchQuery.toLowerCase())
-          );
+            const results = requests.filter((request) => {
+                const fullName = `${request.fname} ${request.lname}`.toLowerCase();
+                const fullAddress = `${request.house_number} ${request.street}, ${request.barangay}`.toLowerCase();
+            
+                // Search by both name and address
+                return (
+                    fullName.includes(searchQuery.toLowerCase()) || 
+                    fullAddress.includes(searchQuery.toLowerCase())
+                );
+            });
           setFilteredRequests(results);
         }
       };
@@ -68,8 +75,7 @@ export const CompletedAdmin = () =>{
               (updatedFilters.gallonType === '' || 
                 (updatedFilters.gallonType === 'Slim' && request.slimQuantity > 0) || 
                 (updatedFilters.gallonType === 'Round' && request.roundQuantity > 0)
-              ) &&
-              (updatedFilters.address === '' || request.address.toLowerCase().includes(updatedFilters.address.toLowerCase()))
+              )
             );
           });
           
@@ -82,6 +88,11 @@ export const CompletedAdmin = () =>{
     const toggleDropdown = (dropdown) => {
         setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
     };
+
+    const formatAddress = (request) => {
+        const { house_number, street, barangay} = request;
+        return `${house_number} ${street}, ${barangay}`;
+    }
     
 
     return(
@@ -110,7 +121,7 @@ export const CompletedAdmin = () =>{
                 />
                 <IoFilterSharp  className="CompletedAdmin__filter-icon" />
                 <DropdownFilter
-                    label="Request Type"
+                    label={filters.requestType || "Request Type"}
                     isOpen={activeDropdown === 'requestType'}
                     toggleDropdown={() => toggleDropdown('requestType')}
                     options={[
@@ -121,7 +132,7 @@ export const CompletedAdmin = () =>{
                     onOptionSelect={(value) => handleFilterChange('requestType', value)}
                 />
                 <DropdownFilter
-                    label="Gallon Type"
+                    label={filters.gallonType || "Gallon Type"}
                     isOpen={activeDropdown === 'gallonType'}
                     toggleDropdown={()=> toggleDropdown('gallonType')}
                     options={[
@@ -130,14 +141,7 @@ export const CompletedAdmin = () =>{
                     ]}
                     onOptionSelect={(value) => handleFilterChange('gallonType', value)}
                 />
-                <DropdownFilter
-                    label="Address"
-                    isOpen={activeDropdown === 'address'}
-                    toggleDropdown={() => toggleDropdown('address')}
-                    options={requests.map((request) => ({ label: request.address, value: request.address }))}
-                    onOptionSelect={(value) => handleFilterChange('address', value)}
-                />
-                {(searchQuery || filters.requestType || filters.gallonType || filters.address) && (
+                {(searchQuery || filters.requestType || filters.gallonType ) && (
                     <button className="CompletedAdmin__clear-filters-button" onClick={handleClearFilters}>
                         CLEAR
                     </button>
@@ -153,8 +157,8 @@ export const CompletedAdmin = () =>{
                     filteredRequests.map((request, index) =>(
                         <RequestItem
                             key={index}
-                            name={request.name}
-                            address={request.address}
+                            name={`${request.fname} ${request.lname}`}
+                            address={formatAddress(request)}
                             slimQuantity={request.slimQuantity}
                             roundQuantity={request.roundQuantity}
                             requestType={request.requestType}

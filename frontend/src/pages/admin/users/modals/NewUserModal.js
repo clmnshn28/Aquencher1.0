@@ -15,6 +15,7 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   const [fname, setFname] = useState('');
   const [lname, setLname] = useState('');
   const [contactNumber, setContactNumber] = useState('');
+  const [email, setEmail] = useState('');
   const [houseNumber, setHouseNumber] = useState('');
   const [street, setStreet] = useState('');
   const [barangay, setBarangay] = useState('');
@@ -31,10 +32,21 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   const [usernameError, setUsernameError] = useState('');
   const [imageError, setImageError] = useState('');
   const [contactError, setContactError] = useState('');
+  const [emailError, setEmailError] = useState('');
   
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
     setUsernameError('');
+  };
+
+  const handleContactChange = (e) => {
+    setContactNumber(e.target.value);
+    setContactError('');
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setEmailError('');
   };
 
   const handlePasswordChange = (e) => {
@@ -49,10 +61,10 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   // check contact
   const validateContactNumber = (number) => {
     if (!/^\d+$/.test(number)) {
-      return 'Contact number must be numeric';
+      return 'Contact No. must be numeric';
     }
     if (number.length !== 11) {
-      return 'Contact number must be 11 digits';
+      return 'Contact No. must be 11 digits';
     }
     return ''; 
   };
@@ -87,6 +99,7 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   const resetForm = () => {
     setFname('');
     setLname('');
+    setEmail('');
     setContactNumber('');
     setHouseNumber('');
     setStreet('');
@@ -154,6 +167,7 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
     // Append individual form fields to the FormData object.
     formData.append('fname', fname);
     formData.append('lname', lname);
+    formData.append('email', email);
     formData.append('contact_number', contactNumber);
     formData.append('house_number', houseNumber);
     formData.append('street', street);
@@ -192,6 +206,10 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
             setUsernameError(error.response.data.data.username[0]); 
             return;// Set the first username error
           }
+          if (error.response.data.data.email) {
+            setEmailError(error.response.data.data.email[0]); 
+            return; // Set the first email error
+          }
         } else if (error.response.data.message) {
           setError(error.response.data.message);
           return; 
@@ -228,11 +246,15 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
             </div>     
             <div className="NewUserModal__input-container">
               <div className='NewUserModal__name-container'>
-                <TextField label="First Name"  id="fname" name="fname" value={fname} onChange={(e) => setFname(e.target.value)} type="text" autoComplete='off' isRequired />
-                <TextField label="Last Name" id="lname" name="lname" value={lname} onChange={(e) => setLname(e.target.value)} type="text" autoComplete='off' isRequired />
+                <TextField label="First Name"  id="fname" name="fname" value={fname} onChange={(e) => setFname(e.target.value)} type="text" autoComplete='off' isRequired required/>
+                <TextField label="Last Name" id="lname" name="lname" value={lname} onChange={(e) => setLname(e.target.value)} type="text" autoComplete='off' isRequired required/>
               </div>
-              <TextField label="Contact Number"  id="contactNumber" name="contactNumber" value={contactNumber} onChange={(e) => setContactNumber(e.target.value)} type="text" autoComplete='off' isRequired />
+              <div className='NewUserModal__name-container'>
+                <TextField label="Email"  id="email" name="email" value={email} onChange={handleEmailChange} type="email" autoComplete='off' isRequired required/>
+                <TextField label="Contact No."  id="contactNumber" name="contactNumber" value={contactNumber} onChange={handleContactChange} type="text" autoComplete='off' isRequired required/>
+              </div>
               {contactError && <span className="NewUserModal__contact-error">{contactError}</span>}
+              {emailError && <span className="NewUserModal__email-error">{emailError}</span>}
               <div className='NewUserModal__address-container'>
                 <p>Address</p>
                 <div className='NewUserModal__address-subsection'>
@@ -247,9 +269,9 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
                 </div>
               </div>
 
-              <TextField label="Username"  id="username" name="username" value={username} onChange={handleUsernameChange} type="text" autoComplete='off' isRequired />
-              <TextField label="Password"  id="password" name="password" value={password} onChange={handlePasswordChange} type="password" autoComplete='off' isRequired />
-              <TextField label="Confirm Password"  id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} type="password" autoComplete='off' isRequired />
+              <TextField label="Username"  id="username" name="username" value={username} onChange={handleUsernameChange} type="text" autoComplete='off' isRequired required/>
+              <TextField label="Password"  id="password" name="password" value={password} onChange={handlePasswordChange} type="password" autoComplete='off' isRequired required/>
+              <TextField label="Confirm Password"  id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} type="password" autoComplete='off' isRequired required/>
               {error && <span className="NewUserModal__error">{error}</span>}
               {usernameError && <span className="NewUserModal__username-error">{usernameError}</span>}
             </div>

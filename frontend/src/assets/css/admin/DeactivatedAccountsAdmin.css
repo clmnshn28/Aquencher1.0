@@ -94,6 +94,22 @@
   color: #434141;
 }
 
+.DeactivatedAccountsAdmin__table td:nth-child(1) {
+  width:11%;
+}
+
+.DeactivatedAccountsAdmin__table td:nth-child(2) {
+  width:20%;
+}
+
+.DeactivatedAccountsAdmin__table td:nth-child(3) {
+  width:23%;
+}
+
+.DeactivatedAccountsAdmin__table td:nth-child(4) {
+  width:26%;
+}
+
 
 .DeactivatedAccountsAdmin__info {
   display: flex;
@@ -121,6 +137,11 @@
   font-weight: 500;
   font-size: 12px;
   font-style: italic;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 

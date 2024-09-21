@@ -43,6 +43,15 @@
   color: #626262;
 }
 
+.UsersAdmin__account-deactivation-request-text{
+  position: absolute;
+  font-size: 14px;
+  font-weight: 500;
+  top: 64%;
+  right:4%;
+  padding-bottom: 13px;
+  color: #626262;
+}
 
 
 

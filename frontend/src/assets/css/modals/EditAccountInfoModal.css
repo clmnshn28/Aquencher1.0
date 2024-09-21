@@ -25,7 +25,7 @@
     border: 1px solid #ADAFB0;
     border-radius: 10px;
     padding: 50px 70px 40px 0;
-   
+    position: relative;
 }
 
 
@@ -81,5 +81,21 @@
 }
   
   
+/* error contact */
+.EditAccountInfoModal__contact-error{
+    position: absolute;
+    bottom: 145px; 
+    right: 70px; 
+    color: red;
+    font-size: 10px;
+    font-weight: bold;
+}
 
-
+.EditAccountInfoModal__email-error{
+    position: absolute;
+    bottom: 92px; 
+    right: 70px; 
+    color: red;
+    font-size: 10px;
+    font-weight: bold;
+}

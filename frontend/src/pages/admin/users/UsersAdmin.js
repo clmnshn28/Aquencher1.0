@@ -15,10 +15,10 @@ import DropdownFilter from "components/DropdownFilter";
 export const UsersAdmin = () => {
 
     const [users, setUsers] = useState([
-        { id: 1, fname: 'Karen Joyce', lname: 'Joson', username: '@karenjoycrjoson', contactNumber: '09123892012', address: '146 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
-        { id: 2, fname: 'Celmin Shane', lname: 'Quizon', username: '@clmnshn', contactNumber: '09123098971', address: '136 Dama De Notche Street, Bulihan', status: 'Inactive', avatar: images.defaultAvatar },
-        { id: 3, fname: 'Miguel Angelo', lname: 'Barruga', username: '@barrugs', contactNumber: '09123098971', address: '246 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
-        { id: 4, fname: 'Francis Harvey', lname: 'Soriano', username: '@harvey', contactNumber: '09123098971', address: '075 Dama De Notche Street, Bulihan', status: 'Active', avatar: images.defaultAvatar },
+        { id: 1, fname: 'Karen Joyce', lname: 'Joson', email:'karenjoycejoson@gmail.com', contactNumber: '09123892012', house_number: '055', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', status: 'Active', avatar: images.defaultAvatar },
+        { id: 2, fname: 'Celmin Shane', lname: 'Quizon',  email:'celminshanequizon@gmail.com', contactNumber: '09123098971', house_number: '305', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', status: 'Inactive', avatar: images.defaultAvatar },
+        { id: 3, fname: 'Miguel Angelo', lname: 'Barruga',  email:'miguelangelobarruga@gmail.com', contactNumber: '09123098971', house_number: '105', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', status: 'Active', avatar: images.defaultAvatar },
+        { id: 4, fname: 'Francis Harvey', lname: 'Soriano',  email:'francisharveysoriano@gmail.com', contactNumber: '09123098971', house_number: '065', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', status: 'Active', avatar: images.defaultAvatar },
     ]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -47,9 +47,16 @@ export const UsersAdmin = () => {
     // search filter
     const handleSearch = () => {
         if (searchQuery !== '') {
-          const results = users.filter((user) => 
-           `${user.fname} ${user.lname}`.toLowerCase().includes(searchQuery.toLowerCase())
-          );
+            const results = users.filter((user) => {
+                const fullName = `${user.fname} ${user.lname}`.toLowerCase();
+                const fullAddress = `${user.house_number} ${user.street}, ${user.barangay}`.toLowerCase();
+            
+                // Search by both name and address
+                return (
+                    fullName.includes(searchQuery.toLowerCase()) || 
+                    fullAddress.includes(searchQuery.toLowerCase())
+                );
+            });
           setFilteredUsers(results);
         }
       };
@@ -69,10 +76,9 @@ export const UsersAdmin = () => {
           };
     
           // Automatically filter users based on the updated filters
-          const results = users.filter((request) => {
+          const results = users.filter((user) => {  
             return (
-              (updatedFilters.status === '' || request.status === updatedFilters.status) &&
-              (updatedFilters.address === '' || request.address.toLowerCase().includes(updatedFilters.address.toLowerCase()))
+              (updatedFilters.status === '' || user.status === updatedFilters.status) 
             );
           });
           
@@ -136,7 +142,7 @@ export const UsersAdmin = () => {
                 />  
                 <IoFilterSharp  className="UsersAdmin__filter-icon" />
                 <DropdownFilter
-                    label="Status"
+                    label={filters.status || "Status"}
                     isOpen={activeDropdown === 'status'}
                     toggleDropdown={()=>toggleDropdown('status')}
                     options={[
@@ -145,14 +151,8 @@ export const UsersAdmin = () => {
                     ]}
                     onOptionSelect={(value) => handleFilterChange('status', value)}
                 /> 
-                <DropdownFilter
-                    label="Address"
-                    isOpen={activeDropdown === 'address'}
-                    toggleDropdown={() => toggleDropdown('address')}
-                    options={users.map((user) => ({ label: user.address, value: user.address }))}
-                    onOptionSelect={(value) => handleFilterChange('address', value)}
-                />
-                 {(searchQuery || filters.status || filters.address) && (
+              
+                 {(searchQuery || filters.status ) && (
                     <button className="RequestsAdmin__clear-filters-button" onClick={handleClearFilters}>
                         CLEAR
                     </button>
@@ -166,7 +166,7 @@ export const UsersAdmin = () => {
                     <thead className="UsersAdmin__table-header">
                         <tr>
                             <th style={{paddingLeft: '40px'}}>Full Name</th>
-                            <th>Username</th>
+                            <th>Email</th>
                             <th>Contact</th>
                             <th style={{textAlign: 'center'}}>Status</th>
                             <th></th>
@@ -175,7 +175,7 @@ export const UsersAdmin = () => {
                     <tbody>
                         {filteredUsers.length === 0 ? (
                             <tr>
-                                <td colSpan="8" style={{textAlign: 'center'}}>
+                                <td colSpan="8" style={{textAlign: 'center', color: 'rgba(67, 65, 65, 0.5)'}}>
                                     No users found
                                 </td>
                             </tr>
@@ -188,12 +188,12 @@ export const UsersAdmin = () => {
                                             <span>{`${user.fname} ${user.lname}`}</span>
                                         </div>
                                     </td>
-                                    <td>{user.username}</td>
+                                    <td>{user.email}</td>
                                     <td>
                                         <div>
                                             <p className="UserAdmin__address">
                                                 <PiMapPinAreaDuotone className="UserAdmin__address-icon" />
-                                                {user.address}
+                                                {user.house_number} {user.street}, {user.barangay}
                                             </p>
                                             <p className="UserAdmin__phone">
                                                 <FaPhoneAlt />

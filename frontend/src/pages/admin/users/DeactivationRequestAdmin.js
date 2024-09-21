@@ -1,29 +1,28 @@
-import React, {useEffect, useState} from "react";
-import { Link } from "react-router-dom";
+import React,{useEffect, useState} from "react";
+import {Link} from 'react-router-dom';
 import { IoFilterSharp } from 'react-icons/io5';
-import { ImLoop } from "react-icons/im";
+import { BsPersonFillSlash } from "react-icons/bs";
 import 'assets/css/admin';
 
 import * as images from 'assets/images';
 import SearchBar from "components/SearchBar";
-import { ReactivationModal } from "./modals";
 import DropdownFilter from "components/DropdownFilter";
+import {DeactivationModal} from './modals'; 
 
-export const DeactivatedAccountsAdmin = () =>{
+export const DeactivationRequestAdmin = () =>{
 
     const [users, setUsers] = useState([
-        { id: 1, fname: 'Karen Joyce', lname: 'Joson',  email:'karenjoycejoson@gmail.com', avatar: images.defaultAvatar, deactivationDate: 'January 20, 2024', reason: 'Violation of Terms', description: 'The customer has violated the terms of service.' },
-        { id: 2, fname: 'Celmin Shane', lname: 'Quizon',  email:'celminshanequizon@gmail.com', avatar: images.defaultAvatar, deactivationDate: 'February 10, 2024', reason: 'Inactivity', description: 'The account has been inactive for an extended period.' },
-        { id: 3, fname: 'Miguel Angelo', lname: 'Barruga',  email:'miguelangelobarruga@gmail.com', avatar: images.defaultAvatar, deactivationDate: 'March 15, 2024', reason: 'Violation of Terms', description: 'The customer has violated the terms of service.' },
-        { id: 4, fname: 'Francis Harvey', lname: 'Soriano',  email:'francisharveysoriano@gmail.com', avatar: images.defaultAvatar, deactivationDate: 'April 5, 2024', reason: 'Inactivity', description: 'The account has been inactive for an extended period.' },
+        { id: 1, fname: 'Karen Joyce', lname: 'Joson', username: 'karenjoycrjoson', avatar: images.defaultAvatar, deactivationDate: 'January 20, 2024', reason: 'Customer Request', description: 'The customer has requested to close their account.' },
+        { id: 2, fname: 'Celmin Shane', lname: 'Quizon', username: 'clmnshn', avatar: images.defaultAvatar, deactivationDate: 'February 10, 2024', reason: 'Inactivity', description: 'The account has been inactive for an extended period.' },
+        { id: 3, fname: 'Miguel Angelo', lname: 'Barruga', username: 'barrugs', avatar: images.defaultAvatar, deactivationDate: 'March 15, 2024', reason: 'Violation of Terms', description: 'The customer has violated the terms of service.' },
+        { id: 4, fname: 'Francis Harvey', lname: 'Soriano', username: 'harvey', avatar: images.defaultAvatar, deactivationDate: 'April 5, 2024', reason: 'Customer Request', description: 'The customer has requested to close their account.' },
     ]);
 
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredUsers, setFilteredUsers] = useState(users);
     const [activeDropdown, setActiveDropdown] = useState(null);
 
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedUser, setSelectedUser] = useState(null);
+    const [isDeactivationModalOpen, setIsDeactivationModalOpen] = useState(false); 
 
     const [filters, setFilters] = useState({
         reason: '',
@@ -43,7 +42,7 @@ export const DeactivatedAccountsAdmin = () =>{
     const handleSearch = () => {
         if (searchQuery !== '') {
           const results = users.filter((user) => 
-           `${user.fname} ${user.lname}`.toLowerCase().includes(searchQuery.toLowerCase())
+           user.username.toLowerCase().includes(searchQuery.toLowerCase())
           );
           setFilteredUsers(results);
         }
@@ -80,38 +79,34 @@ export const DeactivatedAccountsAdmin = () =>{
     const toggleDropdown = (dropdown) => {
         setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
     };
+
+
+
+    // user deactivate
+    const handleDeactivationClick = (user) => {
+        setIsDeactivationModalOpen(true);
+    };
+ 
+    // Function to confirm deactivation
+    const confirmDeactivation = () => {
+        console.log('User deactivated'); 
+        setIsDeactivationModalOpen(false); // Close modal 
+    };
     
-
-    // reactivated user click
-    const handleReactivationClick = (user) =>{
-        setIsModalOpen(true);
-        setSelectedUser(user);
-    };
-
-    const handleCloseModal = () =>{
-        setIsModalOpen(false);
-        setSelectedUser(null);
-    };
-
-    const handleConfirmReactivation = (userId, fName, lName) =>{
-        setIsModalOpen(false);
-        setSelectedUser(null);
-        console.log('Reactivating acc for:', userId, fName, lName);
-    };
-
-
     return(
-        <>   
+        <>
             <div className="DeactivatedAccountsAdmin__header">
                 <h2 className="DeactivatedAccountsAdmin__header-text">Users</h2>
                 <Link to="/admin/users/customers"  className='DeactivatedAccountsAdmin__link'>
-                    <p className="DeactivatedAccountsAdmin__customers-text">Customers</p>
+                    <p className="DeactivationRequestAdmin__customers-text">Customers</p>
                 </Link>
                 <Link to="/admin/users/deactivated-accounts"  className='DeactivatedAccountsAdmin__link'>
-                    <p className="DeactivatedAccountsAdmin__deactivated-text">Deactivated Accounts</p>
+                    <p className="DeactivationRequestAdmin__deactivated-text">Deactivated Accounts</p>
+                </Link>
+                <Link to="/admin/users/account-deactivation-request"  className='UsersAdmin__link'>
+                    <p className="DeactivationRequestAdmin__account-deactivation-request-text">Account Deactivation Requests</p>
                 </Link>
             </div>
-
             <div className="DeactivatedAccountsAdmin__controls">
                 <SearchBar
                     searchQuery={searchQuery}
@@ -120,15 +115,15 @@ export const DeactivatedAccountsAdmin = () =>{
                 />  
                 <IoFilterSharp  className="DeactivatedAccountsAdmin__filter-icon" />
                 <DropdownFilter
-                    label={filters.reason || "Reason"}
+                    label="Reason"
                     isOpen={activeDropdown === 'reason'}
                     toggleDropdown={()=>toggleDropdown('reason')}
                     options={[
+                        {label: 'Customer Request', value: 'Customer Request'},
                         {label: 'Inactivity', value: 'Inactivity'},
                         {label: 'Violation of Terms', value: 'Violation of Terms'},
                     ]}
                     onOptionSelect={(value) => handleFilterChange('reason', value)}
-                    classExpand='DropdownFilter__expand'
                 />
                 {(searchQuery || filters.reason) && (
                     <button className="RequestsAdmin__clear-filters-button" onClick={handleClearFilters}>
@@ -140,11 +135,10 @@ export const DeactivatedAccountsAdmin = () =>{
                 <table className="DeactivatedAccountsAdmin__table">
                     <thead className="DeactivatedAccountsAdmin__table-header">
                         <tr>
-                            <th style={{paddingLeft: '20px'}}>Customer ID</th>
-                            <th>Customer Name</th>
-                            <th>Email</th>
-                            <th>Reason</th>
+                            <th style={{paddingLeft: '40px'}}>Customer ID</th>
+                            <th>Username</th>
                             <th>Deactivation Date</th>
+                            <th>Reason</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -160,20 +154,19 @@ export const DeactivatedAccountsAdmin = () =>{
                                     <td>
                                         <div className="DeactivatedAccountsAdmin__info">
                                             <img className="DeactivatedAccountsAdmin__avatar" src={user.avatar} alt="Customer Image"/>
-                                            <span>{user.fname} {user.lname}</span>
+                                            <span>@{user.username}</span>
                                         </div>
                                     </td>
-                                    <td>{user.email}</td>
-                                    <td className="DeactivatedAccountsAdmin__reason-section">
+                                    <td>{user.deactivationDate}</td>
+                                    <td>
                                         <div>
                                             <p className="DeactivatedAccountsAdmin__title">{user.reason}</p>
                                             <p className="DeactivatedAccountsAdmin__description">{user.description}</p>
                                         </div>
                                     </td>
-                                    <td>{user.deactivationDate}</td>
                                     <td>
-                                        <button className="DeactivatedAccountsAdmin__reactivated" onClick={() => handleReactivationClick(user)}>
-                                            <ImLoop/>
+                                        <button className="UserAdmin__delete" onClick={()=> handleDeactivationClick(user)}>
+                                            <BsPersonFillSlash/>
                                         </button>
                                     </td>
                                 </tr>
@@ -182,16 +175,12 @@ export const DeactivatedAccountsAdmin = () =>{
                     </tbody>
                 </table>
             </div>
-            {selectedUser && (
-            <ReactivationModal
-                isOpen={isModalOpen}
-                onClose={handleCloseModal}
-                onConfirm={handleConfirmReactivation}
-                userId={selectedUser.id}
-                fName={selectedUser.fname}
-                lName={selectedUser.lname}
+            {/* DeactivationModal component */}
+            <DeactivationModal
+                isOpen={isDeactivationModalOpen}
+                onClose={() => setIsDeactivationModalOpen(false)}
+                onConfirm={confirmDeactivation}
             />
-            )}
         </>
     );
 };

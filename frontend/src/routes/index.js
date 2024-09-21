@@ -7,7 +7,7 @@ import {AdminLayout, CustomerLayout} from 'layouts/main_layouts';
 
 import {DashboardAdmin} from 'pages/admin/dashboard';
 import {NotificationAdmin} from 'pages/admin/notification';
-import {UsersAdmin, DeactivatedAccountsAdmin, UsersEditAdmin, UsersViewAdmin} from 'pages/admin/users';
+import {UsersAdmin, DeactivatedAccountsAdmin, DeactivationRequestAdmin, UsersEditAdmin, UsersViewAdmin} from 'pages/admin/users';
 import {RequestsAdmin, QueueAdmin, CompletedAdmin, RejectedAdmin} from 'pages/admin/request';
 import {TransactionAdmin} from 'pages/admin/transaction';
 import {InventoryAdmin} from 'pages/admin/inventory';
@@ -36,6 +36,7 @@ const MainRoutes = () =>{
           <Route path="users">
             <Route path="customers" element={<UsersAdmin />} />
             <Route path="deactivated-accounts" element={<DeactivatedAccountsAdmin />} />
+            <Route path="account-deactivation-request" element={<DeactivationRequestAdmin />} />
             <Route path="customer/edit" element={<UsersEditAdmin />} />
             <Route path="customer/view-details" element={<UsersViewAdmin/>}/>
           </Route>
