@@ -6,6 +6,8 @@ import { FaPhoneAlt, FaUserEdit } from "react-icons/fa";
 import { BsPersonFillSlash } from "react-icons/bs";
 import { PiMapPinAreaDuotone } from "react-icons/pi";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 import * as images from 'assets/images';
 import {NewUserModal,DeactivationModal} from './modals'; 
@@ -14,31 +16,33 @@ import DropdownFilter from "components/DropdownFilter";
 
 export const UsersAdmin = () => {
 
-    const [users, setUsers] = useState([
-        { id: 1, fname: 'Karen Joyce', lname: 'Joson', email:'karenjoycejoson@gmail.com', contactNumber: '09123892012', house_number: '055', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', status: 'Active', avatar: images.defaultAvatar },
-        { id: 2, fname: 'Celmin Shane', lname: 'Quizon',  email:'celminshanequizon@gmail.com', contactNumber: '09123098971', house_number: '305', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', status: 'Inactive', avatar: images.defaultAvatar },
-        { id: 3, fname: 'Miguel Angelo', lname: 'Barruga',  email:'miguelangelobarruga@gmail.com', contactNumber: '09123098971', house_number: '105', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', status: 'Active', avatar: images.defaultAvatar },
-        { id: 4, fname: 'Francis Harvey', lname: 'Soriano',  email:'francisharveysoriano@gmail.com', contactNumber: '09123098971', house_number: '065', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', status: 'Active', avatar: images.defaultAvatar },
-    ]);
+    const [users, setUsers] = useState([]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
-    const [filteredUsers, setFilteredUsers] = useState(users);
+    const [filteredUsers, setFilteredUsers] = useState([]);
 
     const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
     const [isDeactivationModalOpen, setIsDeactivationModalOpen] = useState(false); 
+    const [filters, setFilters] = useState({status: ''});
+    const [selectedUser, setSelectedUser] = useState(null);
 
-
-    const [filters, setFilters] = useState({
-        status: '',
-        address: '',
-    });
+    useEffect(()=>{
+      const fetchUsers = async () =>{
+        try{
+            const response = await axios.get(API_URL +'/api/customers');
+            setUsers(response.data.data);
+            setFilteredUsers(response.data.data);
+        }catch(error){
+            console.error('Error fetching users', error);
+        }
+      }; 
+        fetchUsers();
+       
+    },[]);
     
     // clear
     const handleClearFilters = () => {
-        setFilters({
-            status: '',
-            address: '',
-        });
+        setFilters({status: ''});
         setSearchQuery('');
         setFilteredUsers(users); // Reset
         setActiveDropdown(null); 
@@ -77,9 +81,13 @@ export const UsersAdmin = () => {
     
           // Automatically filter users based on the updated filters
           const results = users.filter((user) => {  
-            return (
-              (updatedFilters.status === '' || user.status === updatedFilters.status) 
-            );
+            if (updatedFilters.status === 'Active') {
+                return user.is_online  === 1;
+            } else if (updatedFilters.status === 'Inactive') {
+                return user.is_online === 0;
+            } else {
+                return true;
+            }  
           });
           
           setFilteredUsers(results);
@@ -101,8 +109,8 @@ export const UsersAdmin = () => {
 
     const navigate = useNavigate();
     // user edit 
-    const handleEditClick = () => {
-        navigate(`/admin/users/customer/edit`);
+    const handleEditClick = (userId) => {
+        navigate(`/admin/users/customer/edit/${userId}`);
     };
 
     // user view details 
@@ -113,13 +121,25 @@ export const UsersAdmin = () => {
     // user deactivate
     const handleDeactivationClick = (user) => {
         setIsDeactivationModalOpen(true);
+        setSelectedUser(user); 
     };
 
       
     // Function to confirm deactivation
-    const confirmDeactivation = () => {
-        console.log('User deactivated'); 
+    const confirmDeactivation = (selectedOption) => {
+        if (selectedUser) {
+            handleDeactivateUser(selectedUser.id, selectedOption.title, selectedOption.description);
+        }
         setIsDeactivationModalOpen(false); // Close modal 
+    };
+
+    const handleDeactivateUser = async (userId, title, description) => {
+        try {
+            await axios.put(`${API_URL}/api/customers/${userId}/deactivate`, { title, description });
+            setFilteredUsers((prev) => prev.filter(u => u.id !== selectedUser.id));
+        } catch (error) {
+            console.error('Error deactivating user:', error);
+        }
     };
 
 
@@ -184,7 +204,7 @@ export const UsersAdmin = () => {
                                 <tr key={user.id}>
                                     <td  style={{paddingLeft: '40px'}}>
                                         <div className="UsersAdmin__info">
-                                            <img className="UsersAdmin__avatar" src={user.avatar} alt="Customer Image"/>
+                                            <img className="UsersAdmin__avatar" src={user.image ? `${API_URL}/storage/images/${user.image}` : images.defaultAvatar} alt="Customer Image"/>
                                             <span>{`${user.fname} ${user.lname}`}</span>
                                         </div>
                                     </td>
@@ -193,22 +213,25 @@ export const UsersAdmin = () => {
                                         <div>
                                             <p className="UserAdmin__address">
                                                 <PiMapPinAreaDuotone className="UserAdmin__address-icon" />
-                                                {user.house_number} {user.street}, {user.barangay}
+                                                {user.house_number && user.street ? 
+                                                    `${user.house_number} ${user.street}, ${user.barangay}` : 
+                                                    user.barangay
+                                                }
                                             </p>
                                             <p className="UserAdmin__phone">
                                                 <FaPhoneAlt />
-                                                {user.contactNumber}
+                                                {user.contact_number}
                                             </p>
                                         </div>
                                     </td>
                                     <td style={{textAlign: 'center'}}>
                                         <span 
-                                            className={`UsersAdmin__dot ${user.status === 'Active' ? 'UsersAdmin__active' : 'UsersAdmin__inactive'}`} 
-                                        />
+                                            className={`UsersAdmin__dot ${user.is_online ? 'UsersAdmin__active' : 'UsersAdmin__inactive'}`}   
+                                        />   
                                     </td>
                                     <td>
                                         <div className="UserAdmin__actions">
-                                            <button className="UserAdmin__edit" onClick={() => handleEditClick(user)}>
+                                            <button className="UserAdmin__edit" onClick={() => handleEditClick(user.id)}>
                                                 <FaUserEdit/>
                                             </button>
                                             {/* <button className="UserAdmin__view" onClick={() => handleViewDetailsClick(user)}>

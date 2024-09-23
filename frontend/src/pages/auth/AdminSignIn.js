@@ -32,18 +32,14 @@ export const AdminSignIn = () =>{
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        signIn(username, password, '/api/login/admin');
-    };
-
-    const navigateToAdmin = () => {
-        if (user && user.token) {
-        navigate('/admin/dashboard');
-        }
+        await signIn(username, password, '/api/login/admin');
     };
 
     useEffect(() => {
-        navigateToAdmin()
-    }, [ user ]);
+        if (user && user.token) {
+            navigate('/admin/dashboard');
+        }
+    }, [ user, navigate ]);
 
     return(
         <div className="AdminSignIn__wrapper">

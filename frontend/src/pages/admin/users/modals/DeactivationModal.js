@@ -21,7 +21,10 @@ export const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {
 
   const handleConfirm = () =>{
     setReason('');
-    onConfirm();
+    const selectedOption = options.find(option => option.value === reason);
+    if (selectedOption) {
+        onConfirm(selectedOption); // Pass the whole selected option
+    }
   };
 
   if (!isOpen) return null;

@@ -32,18 +32,14 @@ export const CustomerSignIn = () =>{
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    signIn(username, password, '/api/login/customer');
-  };
-
-  const navigateToCustomer = () => {
-    if (user && user.token) {
-      navigate('/customer/dashboard');
-    }
+    await signIn(username, password, '/api/login/customer');
   };
 
   useEffect(() => {
-    navigateToCustomer()
-  }, [ user ]);
+    if (user && user.token) {
+      navigate('/customer/requests');
+    }
+  }, [ user, navigate ]);
 
   return(
     <div className="signin-wrapper">
@@ -87,7 +83,7 @@ export const CustomerSignIn = () =>{
               </div>
               <button className='signinButton' type="submit">Login</button>
             </form>
-            <p className="signup-text">Don't have an account? <Link to="sign-up">Sign Up</Link></p>
+            <p className="signup-text">Don't have an account? <Link to="/customer/sign-up">Sign Up</Link></p>
           </div>
         </div>
       </div>

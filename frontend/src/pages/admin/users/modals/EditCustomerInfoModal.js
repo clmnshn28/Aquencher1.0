@@ -3,7 +3,8 @@ import 'assets/css/modals';
 import Modal from "components/Modal";
 import ButtonGroup from "components/ButtonGroup";
 import TextField from "components/TextField";
-
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 
 export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , title}) =>{
@@ -12,6 +13,7 @@ export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , 
   const [formData, setFormData] = useState(infoItems || []);
   const [contactError, setContactError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [usernameError, setUsernameError] = useState('');
 
   useEffect(() => {
     // Update formData when infoItems changes
@@ -57,17 +59,48 @@ export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , 
   const handleCloseEdit = () =>{
     setContactError('');
     setEmailError('');
+    setUsernameError('');
     onClose();
   }
 
-  const handleSubmitEdit = (e) =>{
+  const handleSubmitEdit = async (e) =>{
     e.preventDefault();
     
     if (contactError || emailError) {
       return; 
     }
     
-    onConfirm(formData);
+    // Get the current customer's email and username
+    const currentEmail = infoItems.find(item => item.label === 'Email')?.value;
+    const currentUsername = infoItems.find(item => item.label === 'Username')?.value;
+
+    // Check for existing email and username
+    const email = formData.find(item => item.label === 'Email')?.value;
+    const username = formData.find(item => item.label === 'Username')?.value;
+
+    try {
+      const response = await axios.post(`${API_URL}/api/customer/validate`, { 
+        email, 
+        username,
+        currentEmail, // Add current user's email
+        currentUsername // Add current user's username
+      });
+      const { emailExists, usernameExists } = response.data;
+
+      if (usernameExists) {
+        setUsernameError('Username is already taken.');
+        return;
+      }
+      if (emailExists) {
+        setEmailError('Email is already taken.');
+        return;
+      }
+
+      // If no validation errors, proceed with confirmation
+      onConfirm(formData);
+    } catch (error) {
+        console.error('Error validating user:', error);
+    }
   };
 
   if(!isOpen) return null;
@@ -86,15 +119,16 @@ export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , 
                             value={item.value}
                             onChange={(e) => handleInputChange(item.label, e.target.value)}
                             type={item.label === 'Email' ? 'email' : 'text'}
-                            autocomplete='off'
-                            isRequired
-                            required
+                            autoComplete='off'
+                            isRequired={!(item.label === 'Municipality/City' || item.label === 'Province' || item.label === 'Postal Code')}
+                            required={!(item.label === 'Municipality/City' || item.label === 'Province' || item.label === 'Postal Code')}
                             isInline={true}
                             readOnly={item.label === 'Municipality/City' || item.label === 'Province' || item.label === 'Postal Code'} 
                         />
                     ))}
                      {contactError && <span className="EditAccountInfoModal__contact-error">{contactError}</span>}
                      {emailError && <span className="EditAccountInfoModal__email-error">{emailError}</span>}
+                     {usernameError && <span className="EditAccountInfoModal__username-error">{usernameError}</span>}
                 </div>
             </div>
             <ButtonGroup

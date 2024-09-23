@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import 'assets/css/components';
 import * as images from 'assets/images';
 
 export default function AccountInfoSection({title, infoItems, onEditClick}){
   
+  const getDisplayValue = (label, value) => {
+    if (['House number', 'Street', 'Barangay'].includes(label) && !value) {
+      return '-';
+    }
+    return label === 'Username' ? `@${value}` : value;
+  };
+
   return(
     <div className="AccountInfoSection__container">
       <div className="AccountInfoSection__section">
@@ -13,7 +20,7 @@ export default function AccountInfoSection({title, infoItems, onEditClick}){
               <div className="AccountInfoSection__item" key={itemIndex}>
                 <span className="AccountInfoSection__detail-name">{item.label}</span>
                 <p className="AccountInfoSection__details-editable">
-                  {item.label === 'Username' ? `@${item.value}` : item.value}
+                  {getDisplayValue(item.label, item.value)}
                 </p>
               </div>
             ))}

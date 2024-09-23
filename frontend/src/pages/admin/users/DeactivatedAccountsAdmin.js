@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import { ImLoop } from "react-icons/im";
 import 'assets/css/admin';
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 import * as images from 'assets/images';
 import SearchBar from "components/SearchBar";
@@ -11,15 +13,10 @@ import DropdownFilter from "components/DropdownFilter";
 
 export const DeactivatedAccountsAdmin = () =>{
 
-    const [users, setUsers] = useState([
-        { id: 1, fname: 'Karen Joyce', lname: 'Joson',  email:'karenjoycejoson@gmail.com', avatar: images.defaultAvatar, deactivationDate: 'January 20, 2024', reason: 'Violation of Terms', description: 'The customer has violated the terms of service.' },
-        { id: 2, fname: 'Celmin Shane', lname: 'Quizon',  email:'celminshanequizon@gmail.com', avatar: images.defaultAvatar, deactivationDate: 'February 10, 2024', reason: 'Inactivity', description: 'The account has been inactive for an extended period.' },
-        { id: 3, fname: 'Miguel Angelo', lname: 'Barruga',  email:'miguelangelobarruga@gmail.com', avatar: images.defaultAvatar, deactivationDate: 'March 15, 2024', reason: 'Violation of Terms', description: 'The customer has violated the terms of service.' },
-        { id: 4, fname: 'Francis Harvey', lname: 'Soriano',  email:'francisharveysoriano@gmail.com', avatar: images.defaultAvatar, deactivationDate: 'April 5, 2024', reason: 'Inactivity', description: 'The account has been inactive for an extended period.' },
-    ]);
+    const [users, setUsers] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");
-    const [filteredUsers, setFilteredUsers] = useState(users);
+    const [filteredUsers, setFilteredUsers] = useState([]);
     const [activeDropdown, setActiveDropdown] = useState(null);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,6 +25,22 @@ export const DeactivatedAccountsAdmin = () =>{
     const [filters, setFilters] = useState({
         reason: '',
     });
+
+
+    useEffect(()=>{
+        const fetchUsers = async () =>{
+            try{
+                const response = await axios.get(`${API_URL}/api/customers/soft-deleted`);
+                setUsers(response.data.data);
+                setFilteredUsers(response.data.data);
+            }catch(error){
+                console.error('Error fetching deactivated users', error.response ? error.response.data : error.message);
+            }
+          }; 
+    
+          fetchUsers();
+    },[]);
+
 
      // clear
      const handleClearFilters = () => {
@@ -93,11 +106,20 @@ export const DeactivatedAccountsAdmin = () =>{
         setSelectedUser(null);
     };
 
-    const handleConfirmReactivation = (userId, fName, lName) =>{
+   // Confirm reactivation
+   const handleConfirmReactivation = async (userId) => {
+    try {
+        await axios.post(API_URL +`/api/customers/${userId}/reactivate`); 
+         // Update the user in the filteredUsers state to reflect reactivation
+         setFilteredUsers((prev) => prev.filter(u => u.id !== selectedUser.id));
+    } catch (error) {
+        console.error('Error reactivating account', error);
+    } finally {
         setIsModalOpen(false);
         setSelectedUser(null);
-        console.log('Reactivating acc for:', userId, fName, lName);
-    };
+    }
+};
+
 
 
     return(
@@ -154,30 +176,33 @@ export const DeactivatedAccountsAdmin = () =>{
                                 <td colSpan={8} style={{textAlign: 'center', color: 'rgba(67, 65, 65, 0.5)'}}> No Deactivated Accounts</td>
                             </tr>
                         ) : (
-                            filteredUsers.map((user) =>(
-                                <tr key={user.id}>
-                                    <td style={{paddingLeft: '40px'}}>{user.id}</td>
-                                    <td>
-                                        <div className="DeactivatedAccountsAdmin__info">
-                                            <img className="DeactivatedAccountsAdmin__avatar" src={user.avatar} alt="Customer Image"/>
-                                            <span>{user.fname} {user.lname}</span>
-                                        </div>
-                                    </td>
-                                    <td>{user.email}</td>
-                                    <td className="DeactivatedAccountsAdmin__reason-section">
-                                        <div>
-                                            <p className="DeactivatedAccountsAdmin__title">{user.reason}</p>
-                                            <p className="DeactivatedAccountsAdmin__description">{user.description}</p>
-                                        </div>
-                                    </td>
-                                    <td>{user.deactivationDate}</td>
-                                    <td>
-                                        <button className="DeactivatedAccountsAdmin__reactivated" onClick={() => handleReactivationClick(user)}>
-                                            <ImLoop/>
-                                        </button>
-                                    </td>
-                                </tr>
-                            ))
+                            filteredUsers.map((user) =>{
+                                const deactivationInfo = user.deactivation_info ? JSON.parse(user.deactivation_info) : {};
+                                return (
+                                    <tr key={user.id}>
+                                        <td style={{paddingLeft: '40px'}}>{user.id}</td>
+                                        <td>
+                                            <div className="DeactivatedAccountsAdmin__info">
+                                                <img className="DeactivatedAccountsAdmin__avatar" src={user.image ? `${API_URL}/storage/images/${user.image}` : images.defaultAvatar} alt="Customer Image"/>
+                                                <span>{user.fname} {user.lname}</span>
+                                            </div>
+                                        </td>
+                                        <td>{user.email}</td>
+                                        <td className="DeactivatedAccountsAdmin__reason-section">
+                                            <div>
+                                                <p className="DeactivatedAccountsAdmin__title">{deactivationInfo.title}</p>
+                                                <p className="DeactivatedAccountsAdmin__description">{deactivationInfo.description}</p>
+                                            </div>
+                                        </td>
+                                        <td>{new Date(user.deleted_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</td>
+                                        <td>
+                                            <button className="DeactivatedAccountsAdmin__reactivated" onClick={() => handleReactivationClick(user)}>
+                                                <ImLoop/>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                );
+                            })
                         )}
                     </tbody>
                 </table>

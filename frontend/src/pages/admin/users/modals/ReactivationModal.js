@@ -4,7 +4,11 @@ import Modal from 'components/Modal';
 import ButtonGroup from 'components/ButtonGroup';
 
 export const ReactivationModal = ({ isOpen, onClose, onConfirm, userId, fName, lName}) => {
-  
+
+  const handleConfirm = () => {
+    onConfirm(userId, fName, lName);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -28,7 +32,7 @@ export const ReactivationModal = ({ isOpen, onClose, onConfirm, userId, fName, l
         <div className="ReactivationModal__modal-actions">
           <ButtonGroup
             onCancel={onClose}
-            onSave={onConfirm}
+            onSave={handleConfirm}
             saveText='Reactivate'
             saveButtonColor='#0174CF'
           />
