@@ -85,21 +85,21 @@ export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , 
         currentEmail, // Add current user's email
         currentUsername // Add current user's username
       });
-      const { emailExists, usernameExists } = response.data;
-
-      if (usernameExists) {
-        setUsernameError('Username is already taken.');
-        return;
-      }
-      if (emailExists) {
-        setEmailError('Email is already taken.');
-        return;
-      }
-
+     
       // If no validation errors, proceed with confirmation
       onConfirm(formData);
     } catch (error) {
-        console.error('Error validating user:', error);
+      if (error.response && error.response.status === 422) {
+        const errors = error.response.data.errors;
+        if (errors.email) {
+            setEmailError(errors.email[0]);
+        }
+        if (errors.username) {
+            setUsernameError(errors.username[0]);
+        }
+      } else {
+          console.error('Error validating user:', error);
+      }
     }
   };
 
