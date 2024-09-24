@@ -1,7 +1,8 @@
 import "assets/css/admin"
-import React, { useState } from 'react';
-import {  useNavigate  } from 'react-router-dom';
-
+import React, { useEffect, useState } from 'react';
+import {  useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import {API_URL} from 'constants';
 import * as images from 'assets/images';
 
 import AccountInfoSection from "components/AccountInfoSection";
@@ -13,23 +14,41 @@ import { ResetPasswordConfirmationModal, EditCustomerInfoModal } from "./modals"
 
 export const UsersEditAdmin = () =>{
   const navigate = useNavigate();
+  const { userId } = useParams(); // Get userId from the URL
+  const [personalInfoItems, setPersonalInfoItems] = useState([]);
+  const [addressInfoItems, setAddressInfoItems] = useState([]);
 
-  const [personalInfoItems, setPersonalInfoItems] = useState([
-      { label: 'Firstname', value: 'Karen Joyce' },
-      { label: 'Lastname', value: 'Joson' },
-      { label: 'Username', value: 'karenjoycejoson' },
-      { label: 'Contact No.', value: '09123892012' },
-      { label: 'Email', value: 'karenjoycejoson@gmail.com' },
-  ]);
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/customers/${userId}`);
+        const customerData = response.data.data;
+    
+        // Update state with the fetched user data
+        setPersonalInfoItems([
+          { label: 'Firstname', value: customerData.fname },
+          { label: 'Lastname', value: customerData.lname },
+          { label: 'Username', value: customerData.username },
+          { label: 'Contact No.', value: customerData.contact_number },
+          { label: 'Email', value: customerData.email },
+        ]);
 
-  const [addressInfoItems, setAddressInfoItems] = useState([
-      { label: 'House number', value: '123' },
-      { label: 'Street', value: 'Sampaguita' },
-      { label: 'Barangay', value: 'Bulihan' },
-      { label: 'Municipality/City', value: 'Malolos' },
-      { label: 'Province', value: 'Bulacan'},
-      { label: 'Postal Code', value: '3000'},
-  ]);
+        setAddressInfoItems([
+          { label: 'House number', value: customerData.house_number },
+          { label: 'Street', value: customerData.street },
+          { label: 'Barangay', value: customerData.barangay },
+          { label: 'Municipality/City', value: customerData.municipality_city },
+          { label: 'Province', value: customerData.province },
+          { label: 'Postal Code', value: customerData.postal_code },
+        ]);
+      } catch (error) {
+          console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]); 
+
     // Destructure to avoid redundancy
     const { value: firstname } = personalInfoItems.find(item => item.label === 'Firstname') || {};
     const { value: lastname } = personalInfoItems.find(item => item.label === 'Lastname') || {};
@@ -77,6 +96,7 @@ export const UsersEditAdmin = () =>{
       return; 
     }
     setError('');
+    
     setShowConfirmationModal(true); 
   }
 
@@ -94,10 +114,17 @@ export const UsersEditAdmin = () =>{
     }
   };
 
-  const handleConfirmPasswordReset = () => {
-    console.log("Reset Password Submitted!!!");
-    setShowConfirmationModal(false);
-    handleCancel();
+  const handleConfirmPasswordReset = async () => {
+    try {
+        await axios.put(`${API_URL}/api/customers/${userId}/reset-password`, { password: newPassword, c_password: newConfirmPassword  });
+        alert('Password reset successfully!');
+    } catch (error) {
+        console.error('Error resetting password:', error.response?.data || error.message);
+        setError('Failed to reset password. Please try again.');
+    } finally {
+        setShowConfirmationModal(false);
+        handleCancel();
+    }
   };
 
 
@@ -119,6 +146,7 @@ export const UsersEditAdmin = () =>{
     setCurrentInfo([]); 
   };
 
+  
   // Confirm the modal info
   const confirmEditInfoModal = (updatedInfo) => {
     if (modalTitle === 'Personal Information') {
@@ -126,8 +154,32 @@ export const UsersEditAdmin = () =>{
     } else if (modalTitle === 'Address Information') {
       setAddressInfoItems(updatedInfo);
     }
+    handleSubmitUpdate(updatedInfo);
     setEditInfoModal(false);
   };
+
+  const handleSubmitUpdate = async (updatedInfo) => {
+    try {
+      const updatedData = {
+        fname: updatedInfo.find(item => item.label === 'Firstname')?.value ||  personalInfoItems.find(item => item.label === 'Firstname').value,
+        lname: updatedInfo.find(item => item.label === 'Lastname')?.value || personalInfoItems.find(item => item.label === 'Lastname').value,
+        username: updatedInfo.find(item => item.label === 'Username')?.value || personalInfoItems.find(item => item.label === 'Username').value,
+        contact_number: updatedInfo.find(item => item.label === 'Contact No.')?.value || personalInfoItems.find(item => item.label === 'Contact No.').value,
+        email: updatedInfo.find(item => item.label === 'Email')?.value || personalInfoItems.find(item => item.label === 'Email').value,
+        house_number: updatedInfo.find(item => item.label === 'House number')?.value || addressInfoItems.find(item => item.label === 'House number').value,
+        street: updatedInfo.find(item => item.label === 'Street')?.value || addressInfoItems.find(item => item.label === 'Street').value ,
+        barangay: updatedInfo.find(item => item.label === 'Barangay')?.value || addressInfoItems.find(item => item.label === 'Barangay').value , 
+        municipality_city: updatedInfo.find(item => item.label === 'Municipality/City')?.value || addressInfoItems.find(item => item.label === 'Municipality/City').value,
+        province: updatedInfo.find(item => item.label === 'Province')?.value ||  addressInfoItems.find(item => item.label === 'Province').value,
+        postal_code: updatedInfo.find(item => item.label === 'Postal Code')?.value ||  addressInfoItems.find(item => item.label === 'Postal Code').value,
+      };
+      console.log("Sending updated data:", updatedData);
+      await axios.put(`${API_URL}/api/customers/${userId}`, updatedData);
+    } catch (error) {
+      console.error('Error updating user data:', error.response?.data || error.message);
+    }
+  };
+
 
   return (
     <>

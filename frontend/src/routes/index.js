@@ -22,9 +22,10 @@ const MainRoutes = () =>{
   return(
     <Router>
       <Routes>
-        <Route exact path="/" element={<CustomerSignIn />} />
+        <Route exact path="/" element={''} />
+        <Route path="/customer/sign-in" element={<CustomerSignIn />} /> 
         <Route path="/admin/sign-in" element={<AdminSignIn />} />      
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/customer/sign-up" element={<SignUp />} />
         
         <Route path='/admin/' element={
           <PrivateRoute role="admin">
@@ -37,7 +38,7 @@ const MainRoutes = () =>{
             <Route path="customers" element={<UsersAdmin />} />
             <Route path="deactivated-accounts" element={<DeactivatedAccountsAdmin />} />
             <Route path="account-deactivation-request" element={<DeactivationRequestAdmin />} />
-            <Route path="customer/edit" element={<UsersEditAdmin />} />
+            <Route path="customer/edit/:userId" element={<UsersEditAdmin />} />
             <Route path="customer/view-details" element={<UsersViewAdmin/>}/>
           </Route>
           <Route path='requests'>

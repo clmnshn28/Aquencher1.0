@@ -86,7 +86,7 @@ export const EditAccountInfoModal = ({isOpen, onClose, onConfirm , infoItems , t
                                 value={item.value}
                                 onChange={(e) => handleInputChange(item.label, e.target.value)}
                                 type={item.label === 'Email' ? 'email' : 'text'}
-                                autocomplete='off'
+                                autoComplete='off'
                                 isRequired
                                 required
                                 isInline={true}

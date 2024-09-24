@@ -33,7 +33,15 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
   const [imageError, setImageError] = useState('');
   const [contactError, setContactError] = useState('');
   const [emailError, setEmailError] = useState('');
-  
+
+  const toCamelCase = (str) => {
+    return str
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
     setUsernameError('');
@@ -165,13 +173,13 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
     // Create a new FormData object to prepare data for API request
     const formData = new FormData();
     // Append individual form fields to the FormData object.
-    formData.append('fname', fname);
-    formData.append('lname', lname);
+    formData.append('fname', toCamelCase(fname));
+    formData.append('lname', toCamelCase(lname));
     formData.append('email', email);
     formData.append('contact_number', contactNumber);
     formData.append('house_number', houseNumber);
-    formData.append('street', street);
-    formData.append('barangay', barangay);
+    formData.append('street', toCamelCase(street));
+    formData.append('barangay', toCamelCase(barangay));
     formData.append('municipality_city', municipalityCity);
     formData.append('province', province);
     formData.append('postal_code', postalCode);
@@ -189,13 +197,13 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
     }
 
     try {
-      await axios.post(API_URL + '/api/customers', formData,{
+      const response = await axios.post(API_URL + '/api/customers', formData,{
         headers:{
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${user.token}`,
         }
       });
-
+      onAddUser(response.data.data);
       onClose();
       resetForm(); 
     } catch (error) { 
@@ -263,9 +271,9 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
                   <TextField label="Barangay"  id="barangay" name="barangay" value={barangay} onChange={(e) => setBarangay(e.target.value)} type="text" autoComplete='off'  />
                 </div>
                 <div className='NewUserModal__address-subsection'>
-                  <TextField label="Municipality/City"  id="municipalityCity" name="municipalityCity" value='Malolos' onChange={(e) => setMunicipalityCity(e.target.value)} type="text"  isReadOnly/>
-                  <TextField label="Province"  id="province" name="province" value="Bulacan" onChange={(e) => setProvince(e.target.value)} type="text"  isReadOnly/>
-                  <TextField label="Postal Code"  id="postalCode" name="postalCode" value="3000" onChange={(e) => setPostalCode(e.target.value)} type="text"  isReadOnly/>
+                  <TextField label="Municipality/City"  id="municipalityCity" name="municipalityCity" value='Malolos' onChange={(e) => setMunicipalityCity(e.target.value)} type="text"  readOnly/>
+                  <TextField label="Province"  id="province" name="province" value="Bulacan" onChange={(e) => setProvince(e.target.value)} type="text"  readOnly/>
+                  <TextField label="Postal Code"  id="postalCode" name="postalCode" value="3000" onChange={(e) => setPostalCode(e.target.value)} type="text"  readOnly/>
                 </div>
               </div>
 

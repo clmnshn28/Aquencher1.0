@@ -6,7 +6,7 @@ import * as images from 'assets/images';
 
 export const CustomerLayout = () =>{
 
-  const { signOut } = useAuth(); 
+  const { signOut, user } = useAuth(); 
   
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -145,13 +145,13 @@ export const CustomerLayout = () =>{
 
           <div className="CustomerLayout__user-profile-container" onClick={toggleDropdown}>
             <img className="CustomerLayout__profile" src={images.defaultAvatar} alt="Profile" />
-            <span className="CustomerLayout__name">Beckett</span>
+            <span className="CustomerLayout__name">{user.fname}</span>
             <img className="CustomerLayout__dropArrow" src={images.dropArrow} alt="drop Arrow" />
             {dropdownVisible && (
                 <div  className="CustomerLayout__profile-dropdown">
                   <Link className="CustomerLayout__link">
                     <img className="CustomerLayout__image-dropdown" src={images.defaultAvatar} alt="Account Profile" />
-                    <span className="CustomerLayout__profile-name">Beckett</span>
+                    <span className="CustomerLayout__profile-name">{user.fname}</span>
                   </Link>
                   <Link to="account/settings/my-profile" onClick={handleAccountSettingsClick} >
                     <img className="CustomerLayout__setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
