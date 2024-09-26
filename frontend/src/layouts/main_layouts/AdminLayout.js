@@ -157,7 +157,7 @@ export const AdminLayout = () => {
                 <img className="image-dropdown" src={images.defaultAvatar} alt="Account Profile" />
                 <span className="profile-name">{user.fname}</span>
               </Link>
-              <Link to="account/settings/my-profile" onClick={handleAccountSettingsClick}>
+              <Link to="account-settings/my-profile" onClick={handleAccountSettingsClick}>
                 <img className="setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
                 Account Settings
               </Link>
