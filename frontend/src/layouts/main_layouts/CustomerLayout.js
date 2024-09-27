@@ -3,7 +3,7 @@ import React, {useState, useEffect} from "react";
 import {Link, Outlet, useLocation} from 'react-router-dom';
 import { useAuth } from "context/AuthContext";
 import * as images from 'assets/images';
-
+import { TbLogout } from "react-icons/tb";
 export const CustomerLayout = () =>{
 
   const { signOut, user } = useAuth(); 
@@ -153,7 +153,7 @@ export const CustomerLayout = () =>{
                     <img className="CustomerLayout__image-dropdown" src={images.defaultAvatar} alt="Account Profile" />
                     <span className="CustomerLayout__profile-name">{user.fname}</span>
                   </Link>
-                  <Link to="account/settings/my-profile" onClick={handleAccountSettingsClick} >
+                  <Link to="account-settings/my-profile" onClick={handleAccountSettingsClick} >
                     <img className="CustomerLayout__setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
                     Account Settings
                   </Link>
@@ -237,7 +237,7 @@ export const CustomerLayout = () =>{
         </li>
         {subAccountSidebarVisible && (
         <ul>
-          <Link to="account/settings/my-profile" className='CustomerLayout__link-sub-sidebar'>
+          <Link to="account-settings/my-profile" className='CustomerLayout__link-sub-sidebar'>
             <li className={`CustomerLayout__sub-sidebar ${highlightedTab === 'account'? 'CustomerLayout__selected' : ''}`}>
               <div className={`CustomerLayout__task-container  ${highlightedTab === 'account'? 'CustomerLayout__sub-highlighted' : ''} `}>
                 <img className="CustomerLayout__sub-sidebaricon CustomerLayout__account-settings-icon" 
@@ -249,6 +249,12 @@ export const CustomerLayout = () =>{
           </Link>
         </ul>
         )}
+        <Link to="/" onClick={signOut}  className={`CustomerLayout__link-sidebar logout `}>
+          <li>
+            <TbLogout  className="CustomerLayout__sidebaricon"/>
+            <span className="CustomerLayout__sidebar-text">Sign out</span>
+          </li>
+        </Link>
       </ul>
     </div>
     <div className={`CustomerLayout__dashboard-content ${sidebarMinimized ? 'CustomerLayout__content-minimized' : ''}`}>

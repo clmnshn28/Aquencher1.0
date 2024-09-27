@@ -37,7 +37,7 @@ export const CustomerSignIn = () =>{
 
   useEffect(() => {
     if (user && user.token) {
-      navigate('/customer/requests');
+      navigate('/customer/dashboard');
     }
   }, [ user, navigate ]);
 
