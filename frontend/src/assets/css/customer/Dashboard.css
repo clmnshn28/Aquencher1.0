@@ -1,0 +1,582 @@
+/* dashboard-content */
+.Dashboard__first-content{
+    background-color: #fff;
+    padding:  15px 30px 20px;
+    border-radius: 5px;
+    margin-right: 40px;
+    margin-left: 10px;
+}
+
+/* header */
+.Dashboard__welcome{
+    color: #0174CF;
+    margin: 0;
+    margin-bottom: 15px;
+    font-weight: 500;
+    font-size: 23px;
+}
+
+
+/* time date */
+.Dashboard__time-date{
+    background-color: #B2DAFF;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Dashboard__time-text{
+    margin: 0;
+    font-size: 33px;
+    color: #00699E;
+}
+
+.Dashboard__date-text{
+    margin: 0;
+    font-weight: 500;
+    color: #0174CF;
+}
+
+
+
+/* summary gallon */
+.Dashboard__summary-gallons{
+    display: flex;
+    justify-content: space-evenly;
+    padding: 20px 20px 0;
+}
+
+.Dashboard__gallon-content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 2px solid #a8d8ff;
+    border-radius: 10px;
+    padding: 15px 20px;
+    width: 24%;
+}
+
+.Dashboard__gallon-image{
+    width: 40px;
+    padding: 7px;
+    background-color: #1C9BFF;
+    border-radius: 100%;
+}
+
+
+.Dashboard__gallon-info p:nth-child(1){
+    margin: 0;
+    color: #0174CF;
+
+}
+
+.Dashboard__gallon-info p:nth-child(2){
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
+    color: #0174CF;
+}
+
+
+
+
+/* second content */
+.Dashboard__second-content{
+    margin: 10px 40px 0 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.Dashboard__returned-section{
+    background-color: #fff;
+    padding:  25px 20px 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    flex-grow: 0;
+}
+  
+.Dashboard__returned-section h4{
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #0174CF;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.Dashboard__announcement-icon{
+    font-size: 25px;
+    transform: rotate(-20deg);
+}
+
+.Dashboard__announcement-list{
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 4px;
+    width: 100%;
+    margin-top: 10px;
+    overflow-y:auto;
+}
+
+.Dashboard__announcement-list::-webkit-scrollbar {
+    width: 5px;
+}
+
+.Dashboard__announcement-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+.Dashboard__announcement-list::-webkit-scrollbar-thumb {
+    background: #d8d8d8;
+    border-radius: 5px;
+}
+
+.Dashboard__announcement-list::-webkit-scrollbar-thumb:hover {
+    background: #d2d2d2;
+    cursor: pointer;
+}
+
+.Dashboard__announcement-list-header{
+    margin: 10px 0 3px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #b9b9b9;
+}
+
+
+
+/* each announcement */
+.Dashboard__announcement-item{
+    background-color: #fff;
+    padding: 10px 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    border: 1px solid transparent;
+    border-bottom: 1px solid #e2e2e2;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.Dashboard__announcement-item:hover{
+    border: 1px solid #a5cfff;
+    box-shadow: 0px 0px 10px rgba(149, 162, 237, 0.15); 
+}
+  
+.Dashboard__announcement-item:active{
+    opacity: 0.6;
+}
+
+
+.Dashboard__announcement-item.Dashboard__unread {
+    background: #D9EDFF;
+}
+
+  
+.Dashboard__announcement-text{
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.Dashboard__announcement-text span:nth-child(1){
+    font-weight: 600;
+}
+
+.Dashboard__announcement-text span:nth-child(2){
+    font-size: 10px;
+}
+
+
+.Dashboard__announcement-description{
+    margin: 0;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #7e7e7e;
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    max-width: 90%
+}
+
+
+
+/* no announcement */
+.Dashboard__no-announcements{
+    padding: 10px 15px;
+    color: #a7a6a6;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+}
+
+
+
+
+/* line chart */
+.Dashboard__refill-borrow-section{
+    background-color: #fff;
+    padding:  15px 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 2;
+}
+
+.Dashboard__header-chart{
+    color: #0483E8;
+    font-weight: 600;
+    margin: 10px 0;
+}
+
+
+
+.chart-container-small {
+    width: 99%;
+   height: 300px;
+}
+  
+/* Legend styling for Line chart */
+.Dashboard__refill-borrow-legend {
+    margin: 20px 0;
+    display: flex;
+    gap: 50px;
+}
+  
+.Dashboard__refill-borrow-legend p{
+    margin: 0;
+    color: #ADAFB0;
+}
+  
+.Dashboard__refill-borrow-legend-dot {
+    display: inline-block;
+    width: 30px;
+    height: 10px;
+    margin-right: 5px;
+}
+  
+.Dashboard__refill-borrow-legend-dot.refill {
+    background-color: #0071CA;
+}
+  
+.Dashboard__refill-borrow-legend-dot.borrow {
+    background-color: #A4D3FF;
+}
+
+
+
+
+/* modal in announcement */
+/* content */
+.AnnouncementViewModal__container{
+    background-color: #0174CF;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+    border-radius: 15px;
+    width: 850px;
+}
+
+
+/* header */
+.AnnouncementViewModal__header{
+    color: #fff;
+    margin: 15px 0 10px;
+    font-weight: 600;
+    text-align: center;
+}
+
+  
+.AnnouncementViewModal__announcement-section{
+    background-color: #fff;
+    padding: 30px 70px 50px;
+    border-radius: 0 0 15px 15px;
+}
+
+.AnnouncementViewModal__greeting{
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    font-style: italic;
+}
+
+.AnnouncementViewModal__summary {
+    margin: 30px 20px 50px;
+    line-height: 1.5; 
+    font-size: 14px;
+    color: #555;
+}
+
+/* footer */
+.AnnouncementViewModal__footer{
+    margin-top: 20px;
+    font-size: 14px;
+    color: #555;
+    border-top: 1px solid #cccccc;
+}
+
+.AnnouncementViewModal__footer-name {
+    font-weight: bold;
+    margin: 0;
+}
+.AnnouncementViewModal__footer-role{
+    margin: 0;
+    font-style: italic;
+}
+
+.AnnouncementViewModal__footer-company {
+    margin: 0;
+}
+
+
+
+
+
+
+
+
+
+
+@media only screen and (max-width: 767px) {
+
+    .Dashboard__first-content{
+        margin-right: 0px;
+        margin-left: 0px;
+        padding:  10px 13px 15px;
+    }
+
+    /* header */
+    .Dashboard__welcome{
+        margin-bottom: 5px;
+        font-size: 11px;
+    }
+
+    /* time date */
+    .Dashboard__time-date{
+        padding: 5px;
+    }
+
+    .Dashboard__time-text{
+        font-size: 20px;
+        margin: 0;
+    }
+
+    .Dashboard__date-text{
+        font-size: 10px;
+        margin: 0;
+    }
+
+
+        
+    /* summary gallon */
+    .Dashboard__summary-gallons{
+        padding: 10px 0 0;
+        gap: 5px;
+    }
+
+    .Dashboard__gallon-content{
+        gap:5px;
+        padding: 10px 5px 5px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .Dashboard__gallon-image{
+        width: 19px;
+        padding: 4px;
+        background-color: #1C9BFF;
+        border-radius: 100%;
+    }
+
+
+    .Dashboard__gallon-info p:nth-child(1){
+        font-size: 8px;
+        font-weight: 500;
+    }
+
+    .Dashboard__gallon-info p:nth-child(2){  
+        font-size: 20px;
+        text-align: center;
+    }
+
+
+
+        
+    /* second content */
+    .Dashboard__second-content{
+        margin: 10px 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .Dashboard__returned-section{
+        padding:  15px 10px;
+        max-width: 1000px;
+        flex-grow: 0;
+    }
+    
+    .Dashboard__returned-section h4{
+        font-size: 14px;
+        gap: 5px;
+        margin-bottom: 5px;
+    }
+
+    .Dashboard__announcement-icon{
+        font-size: 20px;
+    }
+
+    /* list */
+    .Dashboard__announcement-list{   
+        height: auto; 
+        padding: 0 4px;
+        min-height: 5em; 
+        max-height: 18em;
+        margin-top: 0px;
+    }
+
+
+    .Dashboard__announcement-list::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    
+    .Dashboard__announcement-list-header{
+        margin: 5px 0 3px 10px;
+        font-size: 11px;
+    }
+
+    
+    /* each announcement */
+    .Dashboard__announcement-item{
+        padding: 10px 15px;
+    }
+
+
+ 
+    .Dashboard__announcement-text{
+        display: flex;
+        justify-content: space-between;
+        font-size: 11px;
+    }
+    
+    .Dashboard__announcement-description{
+        margin-top: 3px;
+        font-size: 10px;
+    }
+    
+
+
+    /* no announcement */
+    .Dashboard__no-announcements{
+        padding: 10px 15px;
+        color: #a7a6a6;
+        height: 60px;
+    }
+
+
+
+
+    /* line chart */
+    .Dashboard__refill-borrow-section{
+        padding: 10px;
+        flex: 2;
+    }
+
+    .Dashboard__header-chart{
+        margin: 5px 0;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .chart-container-small {
+        width: 100%;
+       height: 250px;
+    }
+
+    
+    /* Legend styling for Line chart */
+    .Dashboard__refill-borrow-legend {
+        margin: 10px 0;
+        display: flex;
+        gap: 20px;
+    }
+    
+    .Dashboard__refill-borrow-legend p{
+        font-size: 13px;
+    }
+    
+    .Dashboard__refill-borrow-legend-dot {
+        display: inline-block;
+        width: 20px;
+        height: 7px;
+        margin-right: 5px;
+    }
+    
+    .Dashboard__refill-borrow-legend-dot.refill {
+        background-color: #0071CA;
+    }
+    
+    .Dashboard__refill-borrow-legend-dot.borrow {
+        background-color: #A4D3FF;
+    }
+      
+
+
+    
+
+    /* modal in announcement */
+    /* content */
+    .AnnouncementViewModal__container{
+        width: 330px;
+        margin: 0 20px;
+    }
+
+    /* header */
+    .AnnouncementViewModal__header{
+        margin: 10px 0 5px;
+        font-size: 15px;
+    }
+
+    
+    .AnnouncementViewModal__announcement-section{
+        padding: 10px 25px 30px;
+    }
+
+    .AnnouncementViewModal__greeting{
+        font-size: 12px;
+    }
+
+    .AnnouncementViewModal__summary {
+        margin: 10px 5px 25px;
+        line-height: 1.5; 
+        font-size: 12px;
+    }
+
+    /* footer */
+    .AnnouncementViewModal__footer{
+        margin-top: 0;
+        font-size: 11px;
+    }
+
+    .AnnouncementViewModal__footer-name {
+        font-weight: bold;
+        margin: 0;
+    }
+    .AnnouncementViewModal__footer-role{
+        margin: 0;
+        font-style: italic;
+    }
+
+    .AnnouncementViewModal__footer-company {
+        margin: 0;
+    }
+
+
+}

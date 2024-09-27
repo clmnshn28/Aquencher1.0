@@ -15,6 +15,7 @@ import {AnnouncementAdmin} from 'pages/admin/announcement';
 import {ConcernsAdmin} from 'pages/admin/concern';
 import {AccountSettingsAdmin , ChangePasswordAdmin, OperationalSettingsAdmin } from 'pages/admin/account';
 
+import { Dashboard } from 'pages/customer/dashboard';
 import { Notification } from 'pages/customer/notification';
 import { Request } from 'pages/customer/request';
 
@@ -63,6 +64,7 @@ const MainRoutes = () =>{
             <CustomerLayout/>
           </PrivateRoute>
         }>
+          <Route path='Dashboard' element={<Dashboard/>}/>
           <Route path='Notifications' element={<Notification/>}/>
           <Route path='Requests' element={<Request/>}/>
         </Route>

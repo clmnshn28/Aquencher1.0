@@ -416,6 +416,11 @@
 }
 
 
+.CustomerLayout__link-sidebar.logout{
+  display: none;
+}
+
+
 .CustomerLayout__dashboard-content{
   background-color:#EEF7FF;
   padding-bottom: 30px;
@@ -453,6 +458,7 @@
   
   .CustomerLayout__Notification{
       width: 27px;
+      display: none;
   }
   
   .CustomerLayout__notifications-view {
@@ -462,6 +468,7 @@
   .CustomerLayout__notifications-view {
       width: 150px;
       padding: 10px;
+      display: none;
   }
   .CustomerLayout__notification-title-header{
       font-size: 10px;
@@ -492,9 +499,7 @@
   }
   
   /* profile */
-  .CustomerLayout__user-profile-container{
-      width: 100px;
-  }
+
   
   .CustomerLayout__profile{
       width: 25px;
@@ -506,11 +511,13 @@
       
   .CustomerLayout__dropArrow{
       width: 9px;
+      display: none;
   }
 
   .CustomerLayout__profile-dropdown {
       width: 150px;
       padding: 7px;
+      display: none;
   }
 
   .CustomerLayout__profile-dropdown a {
@@ -573,6 +580,26 @@
       height: 15px;
       margin-left: 90px;
   }
+
+  /* logout */
+  .CustomerLayout__link-sidebar.logout{
+    display: flex;
+    width: 210px;
+    position: absolute;
+    bottom: 10px;
+    padding: 8px 10px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.1s ease; 
+  }
+
+  .CustomerLayout__sidebar-logout-icon{
+    font-size: 22px;
+    margin-right: 15px;
+  }
+
+
+
 
   /* content */
   .CustomerLayout__dashboard-content{
