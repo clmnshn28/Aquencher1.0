@@ -114,7 +114,7 @@ export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , 
                     {formData.map((item, index) => (
                         <TextField
                             key={index}
-                            label={item.label}
+                            label={`${item.label} :`}
                             id={item.label}
                             value={item.value}
                             onChange={(e) => handleInputChange(item.label, e.target.value)}

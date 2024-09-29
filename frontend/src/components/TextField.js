@@ -7,7 +7,6 @@ export default function TextField ({label, id, isRequired, isInline, ...otherPro
       <label className='TextField__label' htmlFor={id}>
         {label}
         {isRequired ? <span className="TextField__required-field" > * </span> : ''}
-      :
       </label> 
         <input
           className="TextField__input"

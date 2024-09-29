@@ -18,6 +18,7 @@ import {AccountSettingsAdmin , ChangePasswordAdmin, OperationalSettingsAdmin } f
 import { Dashboard } from 'pages/customer/dashboard';
 import { Notification } from 'pages/customer/notification';
 import { Request } from 'pages/customer/request';
+import { Concern } from 'pages/customer/concern';
 
 const MainRoutes = () =>{
   return(
@@ -64,9 +65,10 @@ const MainRoutes = () =>{
             <CustomerLayout/>
           </PrivateRoute>
         }>
-          <Route path='Dashboard' element={<Dashboard/>}/>
-          <Route path='Notifications' element={<Notification/>}/>
-          <Route path='Requests' element={<Request/>}/>
+          <Route path='dashboard' element={<Dashboard/>}/>
+          <Route path='notifications' element={<Notification/>}/>
+          <Route path='requests' element={<Request/>}/>
+          <Route path='concerns' element={<Concern/>}/>
         </Route>
 
       </Routes>

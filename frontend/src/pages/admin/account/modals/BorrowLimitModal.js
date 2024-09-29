@@ -19,7 +19,7 @@ export const BorrowLimitModal = ({isOpen, onClose, onConfirm, slimGallons, round
                         <div className="BorrowLimitModal__time-picker-item">
                             <img src={images.returnSlim} alt="Slim Gallon Icon"/>
                             <TextField 
-                                label='Slim Gallons' 
+                                label='Slim Gallons :' 
                                 id='slimGallon'
                                 name='slimGallon' 
                                 value={slimGallons} 
@@ -35,7 +35,7 @@ export const BorrowLimitModal = ({isOpen, onClose, onConfirm, slimGallons, round
                         <div className="BorrowLimitModal__time-picker-item">
                             <img src={images.returnRound} alt="Slim Gallon Icon"/>
                             <TextField 
-                                label='Slim Gallons' 
+                                label='Slim Gallons :' 
                                 id='slimGallon'
                                 name='slimGallon' 
                                 value={roundGallons} 

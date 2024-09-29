@@ -146,6 +146,7 @@ const handleFilterChange = (name, value) => {
                   message={concern.message}
                   time={concern.time}
                   isNew={concern.isNew}
+                  isAdmin={true}
                   onClick={() => handleConcernClick(concern)}
                 />
               ))
@@ -157,6 +158,7 @@ const handleFilterChange = (name, value) => {
           <ConcernSpecific 
             selectedConcern={selectedConcern}
             handleBackClick={handleBackClick}
+            isAdmin={true}
           />
         </>
       )}

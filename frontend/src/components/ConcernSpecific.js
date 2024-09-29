@@ -8,7 +8,7 @@ import Modal from './Modal';
 import TextArea from './TextArea';
 
 
-export const ConcernSpecific = ({ selectedConcern, handleBackClick }) => {
+export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [isReplying, setIsReplying] = useState(false); 
     const [currentImage, setCurrentImage] = useState('');
@@ -83,24 +83,24 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick }) => {
                             selectedConcern.requestType === 'Borrow' ? images.borrowIconRed : images.returnIconGreen 
                         } 
                         alt="" />
-                    <span>Concern: {selectedConcern.requestType}</span>
+                    <span>Concern: {selectedConcern.requestType} - <i style={{color: '#9c9c9c'}}>"{selectedConcern.subject}"</i></span>
                 </div>
 
                 <div className="ConcernAdmin__specific-details">
                     <div className="ConcernAdmin__customer-info">
-                    <img 
-                        src={images.defaultAvatar} 
-                        alt="Customer Avatar" 
-                    />
-                    <div className="ConcernAdmin__info">
-                        <span className="ConcernAdmin__customer-name">
-                        {selectedConcern.fname} {selectedConcern.lname}
-                        <span className="ConcernAdmin__email">
-                            &lt;{selectedConcern.email || 'customer email'}&gt;
-                        </span>
-                        </span>
-                        <span className="ConcernAdmin__to-admin">to admin</span>
-                    </div>
+                        <img 
+                            src={images.defaultAvatar} 
+                            alt="Customer Avatar" 
+                        />
+                        <div className="ConcernAdmin__info">
+                            <span className="ConcernAdmin__customer-name">
+                            {selectedConcern.fname} {selectedConcern.lname}
+                            <span className="ConcernAdmin__email">
+                                &lt;{selectedConcern.email || 'customer email'}&gt;
+                            </span>
+                            </span>
+                            <span className="ConcernAdmin__to-admin">to admin</span>
+                        </div>
                     </div>
                     <span className="ConcernAdmin__timestamp">{formatTimeDisplay(selectedConcern.time)}</span>
                 </div>
@@ -130,12 +130,12 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick }) => {
         {isModalOpen && (
             <Modal onClick={() => setModalOpen(false)}>
                 <div onClick={e => e.stopPropagation()}>
-                    <img src={currentImage} alt="Expanded" />
+                    <img src={currentImage} alt="Expanded" className="ConcernAdmin__see-image"  />
                 </div>    
             </Modal>
         )}
         {/* not reveal the button reply if clicked */}
-        {!isReplying && ( 
+        {isAdmin && !isReplying && ( 
             <div className="ConcernAdmin__reply-container">
                 <button 
                     className="ConcernAdmin__reply-button" 
@@ -149,8 +149,8 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick }) => {
         {/* reveal the form container box if clicked */}
         {isReplying && ( 
             <form onSubmit={handleSendClick} className="ConcernAdmin__reply-box">
-                <MdOutlineKeyboardBackspace onClick={handleCancelReply} class="ConcernAdmin__reply-back-btn"/>
-                <div class="ConcernAdmin__reply-info">
+                <MdOutlineKeyboardBackspace onClick={handleCancelReply} className="ConcernAdmin__reply-back-btn"/>
+                <div className="ConcernAdmin__reply-info">
                     <img src={images.defaultAvatar} alt="User Avatar" />
                     <div className="ConcernAdmin__info">
                         <span className="ConcernAdmin__reply-name">
@@ -169,8 +169,8 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick }) => {
                     required
                     style={{ height: '80px', border: '1px solid #ccc'}}
                 />
-                <div class="ConcernAdmin__reply-actions">
-                    <button type='submit' class="ConcernAdmin__send-button">
+                <div className="ConcernAdmin__reply-actions">
+                    <button type='submit' className="ConcernAdmin__send-button">
                         Send
                     </button>
                 </div>
@@ -180,9 +180,9 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick }) => {
         {replies.length > 0 && (
             <>
                 {replies.map((reply, index) => (
-                    <div className="ConcernAdmin__reply-box">
-                        <div key={index} className="ConcernAdmin__reply-item">
-                            <div class="ConcernAdmin__reply-info">
+                    <div  key={index}className="ConcernAdmin__reply-box">
+                        <div className="ConcernAdmin__reply-item">
+                            <div className="ConcernAdmin__reply-info">
                                 <img src={images.defaultAvatar} alt="User Avatar" />
                                 <div className="ConcernAdmin__info">
                                     <span className="ConcernAdmin__reply-name">

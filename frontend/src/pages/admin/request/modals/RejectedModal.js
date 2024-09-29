@@ -68,7 +68,7 @@ export const RejectedModal = ({isOpen, onClose, onConfirm, rejectedDetails}) =>{
 
                 <div className='RejectedModal__reason-section'>
                     <TextArea
-                        label="Reason"
+                        label="Reason :"
                         id="reason"
                         value={reason}
                         onChange={(e)=> setReason(e.target.value)}

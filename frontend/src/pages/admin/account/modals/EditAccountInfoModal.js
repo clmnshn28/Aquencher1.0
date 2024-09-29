@@ -81,14 +81,14 @@ export const EditAccountInfoModal = ({isOpen, onClose, onConfirm , infoItems , t
                         {formData.map((item, index) => (
                             <TextField
                                 key={index}
-                                label={item.label}
+                                label={`${item.label} :`}
                                 id={item.label}
                                 value={item.value}
                                 onChange={(e) => handleInputChange(item.label, e.target.value)}
                                 type={item.label === 'Email' ? 'email' : 'text'}
                                 autoComplete='off'
-                                isRequired
-                                required
+                                isRequired={!(item.label === 'Municipality/City' || item.label === 'Province' || item.label === 'Postal Code')}
+                                required={!(item.label === 'Municipality/City' || item.label === 'Province' || item.label === 'Postal Code')}
                                 isInline={true}
                                 readOnly={item.label === 'Municipality/City' || item.label === 'Province' || item.label === 'Postal Code'} 
                             />

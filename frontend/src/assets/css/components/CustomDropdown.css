@@ -5,19 +5,27 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 60%;
 }
   
 .CustomDropdown__button {
-    padding: 10px 20px;
+    padding: 10px 50px 10px 20px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 13px;
     font-family: 'poppins';
     font-weight: 600;
     width: 100%;
     text-align: left;
     cursor: pointer;
+    position: relative;
+}
+  
+.CustomDropdown__custom-icon {
+    position: absolute;
+    right: 5%;
+    top: 18%;
+    font-size: 24px;
+    pointer-events: none;
 }
   
 .CustomDropdown__menu {
@@ -55,4 +63,38 @@
     color: #888;
     font-size: 11px;
     font-style: italic;
+}
+
+
+@media only screen and (max-width: 767px) {
+
+        
+    .CustomDropdown__button {
+        padding: 8px 50px 8px 10px;  
+        font-size: 11px;
+        text-align: center;
+    }
+
+    .CustomDropdown__custom-icon {
+        font-size: 20px;
+    }
+
+      
+    .CustomDropdown__item {
+        padding: 5px 20px;
+    }
+
+    
+    .CustomDropdown__item-title {
+        font-weight: 600;
+        font-size: 12px;
+        text-align: center;
+    }
+    
+    .CustomDropdown__item-description {
+        color: #888;
+        font-size: 10px;
+        font-style: italic;
+    }
+
 }

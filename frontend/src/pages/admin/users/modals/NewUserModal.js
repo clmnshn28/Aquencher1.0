@@ -254,32 +254,32 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
             </div>     
             <div className="NewUserModal__input-container">
               <div className='NewUserModal__name-container'>
-                <TextField label="First Name"  id="fname" name="fname" value={fname} onChange={(e) => setFname(e.target.value)} type="text" autoComplete='off' isRequired required/>
-                <TextField label="Last Name" id="lname" name="lname" value={lname} onChange={(e) => setLname(e.target.value)} type="text" autoComplete='off' isRequired required/>
+                <TextField label="First Name :"  id="fname" name="fname" value={fname} onChange={(e) => setFname(e.target.value)} type="text" autoComplete='off' isRequired required/>
+                <TextField label="Last Name :" id="lname" name="lname" value={lname} onChange={(e) => setLname(e.target.value)} type="text" autoComplete='off' isRequired required/>
               </div>
               <div className='NewUserModal__name-container'>
-                <TextField label="Email"  id="email" name="email" value={email} onChange={handleEmailChange} type="email" autoComplete='off' isRequired required/>
-                <TextField label="Contact No."  id="contactNumber" name="contactNumber" value={contactNumber} onChange={handleContactChange} type="text" autoComplete='off' isRequired required/>
+                <TextField label="Email :"  id="email" name="email" value={email} onChange={handleEmailChange} type="email" autoComplete='off' isRequired required/>
+                <TextField label="Contact No. :"  id="contactNumber" name="contactNumber" value={contactNumber} onChange={handleContactChange} type="text" autoComplete='off' isRequired required/>
               </div>
               {contactError && <span className="NewUserModal__contact-error">{contactError}</span>}
               {emailError && <span className="NewUserModal__email-error">{emailError}</span>}
               <div className='NewUserModal__address-container'>
                 <p>Address</p>
                 <div className='NewUserModal__address-subsection'>
-                  <TextField label="House No."  id="houseNumber" name="houseNumber" value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)} type="text" autoComplete='off'  />
-                  <TextField label="Street"  id="street" name="street" value={street} onChange={(e) => setStreet(e.target.value)} type="text" autoComplete='off'  />
-                  <TextField label="Barangay"  id="barangay" name="barangay" value={barangay} onChange={(e) => setBarangay(e.target.value)} type="text" autoComplete='off'  />
+                  <TextField label="House No. :"  id="houseNumber" name="houseNumber" value={houseNumber} onChange={(e) => setHouseNumber(e.target.value)} type="text" autoComplete='off'  />
+                  <TextField label="Street :"  id="street" name="street" value={street} onChange={(e) => setStreet(e.target.value)} type="text" autoComplete='off'  />
+                  <TextField label="Barangay :"  id="barangay" name="barangay" value={barangay} onChange={(e) => setBarangay(e.target.value)} type="text" autoComplete='off'  />
                 </div>
                 <div className='NewUserModal__address-subsection'>
-                  <TextField label="Municipality/City"  id="municipalityCity" name="municipalityCity" value='Malolos' onChange={(e) => setMunicipalityCity(e.target.value)} type="text"  readOnly/>
-                  <TextField label="Province"  id="province" name="province" value="Bulacan" onChange={(e) => setProvince(e.target.value)} type="text"  readOnly/>
-                  <TextField label="Postal Code"  id="postalCode" name="postalCode" value="3000" onChange={(e) => setPostalCode(e.target.value)} type="text"  readOnly/>
+                  <TextField label="Municipality/City :"  id="municipalityCity" name="municipalityCity" value='Malolos' onChange={(e) => setMunicipalityCity(e.target.value)} type="text"  readOnly/>
+                  <TextField label="Province :"  id="province" name="province" value="Bulacan" onChange={(e) => setProvince(e.target.value)} type="text"  readOnly/>
+                  <TextField label="Postal Code :"  id="postalCode" name="postalCode" value="3000" onChange={(e) => setPostalCode(e.target.value)} type="text"  readOnly/>
                 </div>
               </div>
 
-              <TextField label="Username"  id="username" name="username" value={username} onChange={handleUsernameChange} type="text" autoComplete='off' isRequired required/>
-              <TextField label="Password"  id="password" name="password" value={password} onChange={handlePasswordChange} type="password" autoComplete='off' isRequired required/>
-              <TextField label="Confirm Password"  id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} type="password" autoComplete='off' isRequired required/>
+              <TextField label="Username :"  id="username" name="username" value={username} onChange={handleUsernameChange} type="text" autoComplete='off' isRequired required/>
+              <TextField label="Password :"  id="password" name="password" value={password} onChange={handlePasswordChange} type="password" autoComplete='off' isRequired required/>
+              <TextField label="Confirm Password :"  id="confirmPassword" name="confirmPassword" value={confirmPassword} onChange={handleConfirmPasswordChange} type="password" autoComplete='off' isRequired required/>
               {error && <span className="NewUserModal__error">{error}</span>}
               {usernameError && <span className="NewUserModal__username-error">{usernameError}</span>}
             </div>
