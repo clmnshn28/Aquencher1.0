@@ -10,3 +10,4 @@ import './BusinessHourModal.css';
 import './PickupDeliveryTimeModal.css';
 import './BorrowLimitModal.css';
 import './EditAccountInfoModal.css';
+import './NewConcernModal.css';

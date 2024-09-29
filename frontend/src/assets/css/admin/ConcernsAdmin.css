@@ -138,7 +138,7 @@
 .ConcernAdmin__specific-item{
   background: #fff;
   padding: 15px 20px 25px;
-  border-radius: 5px;;
+  border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -176,7 +176,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 30px;
   margin: 20px 30px 0 40px;
   font-size: 13px;
   color: #7e7e7e;
@@ -234,6 +233,7 @@
 .ConcernAdmin__attachment-list{
   display: flex;
   align-items: center;
+  flex-wrap:wrap;
   gap: 20px;
 }
 
@@ -242,7 +242,9 @@
   border-radius: 15px;
 }
 
-
+.ConcernAdmin__see-image{
+  height: 40em;
+}
 
 /* buttom icon */
 .ConcernAdmin__reply-icon{

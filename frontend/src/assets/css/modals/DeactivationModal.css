@@ -30,38 +30,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin: 20px 120px 0 120px;
   position: relative;
 }
-
-.DeactivationModal__dropdown{
-  padding: 10px 20px 10px 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 12px;
-  font-family: 'poppins';
-  font-weight: 600;
-  appearance: none;
-  width: 52%;
-  cursor: pointer;
-}
-
-.DeactivationModal__dropdown option {
-  font-size: 11px;
-  font-family: 'poppins';
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.DeactivationModal__custom-icon {
-  position: absolute;
-  right: 25%;
-  top: 17%;
-  font-size: 24px;
-  pointer-events: none;
-}
-
-
 
 
 /* button */

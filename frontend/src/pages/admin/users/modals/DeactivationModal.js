@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import 'assets/css/modals';
 import Modal from 'components/Modal';
-import { MdOutlineArrowDropDown, MdArrowDropUp  } from "react-icons/md";
 import CustomDropdown from 'components/CustomDropdown';
 import ButtonGroup from 'components/ButtonGroup';
 
@@ -43,7 +42,6 @@ export const DeactivationModal = ({ isOpen, onClose, onConfirm }) => {
             options={options}
             defaultText = 'Select the reason for account deactivation'
           />
-          <MdOutlineArrowDropDown className="DeactivationModal__custom-icon" />
         </div>
 
         <div className="DeactivationModal__modal-actions">

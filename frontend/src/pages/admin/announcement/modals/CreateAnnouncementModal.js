@@ -24,7 +24,7 @@ export const CreateAnnouncementModal = ({isOpen, onClose, onConfirm, announcemen
                         <div className="CreateAnnouncementModal__form-group">
                            <div className="CreateAnnouncementModal__title">
                                 <TextField 
-                                    label='Announcement Title' 
+                                    label='Announcement Title :' 
                                     id='announcementTitle' 
                                     name='announcementTitle' 
                                     value={announcementTitle} 
@@ -37,7 +37,7 @@ export const CreateAnnouncementModal = ({isOpen, onClose, onConfirm, announcemen
                                 />
                             </div>
                             <TextArea 
-                                label='Summary' 
+                                label='Summary :' 
                                 id='summary' 
                                 name='summary' 
                                 value={announcementSummary} 

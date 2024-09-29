@@ -3,7 +3,7 @@ import 'assets/css/admin';
 
 import * as images from 'assets/images';
 
-export const ConcernItem = ({fname, lname,requestType, subject, message, time, isNew, onClick}) =>{
+export const ConcernItem = ({fname, lname,requestType, subject, message, time, isNew, isAdmin, onClick}) =>{
     
     const formatTimeDisplay = (time) => {
         const now = new Date();
@@ -21,9 +21,11 @@ export const ConcernItem = ({fname, lname,requestType, subject, message, time, i
 
     return(
         <div className={`ConcernAdmin__item ${isNew ? 'ConcernAdmin__new-message' : ''}`}  onClick={onClick}>
-            <div className="ConcernAdmin__name">
-                {fname} {lname}
-            </div>
+            {isAdmin && (
+                <div className="ConcernAdmin__name">
+                    {fname} {lname}
+                </div>
+            )}
             <div className="ConcernAdmin__Message">
                 <img src={
                      requestType === 'Refill' ? images.refillIconOpen :

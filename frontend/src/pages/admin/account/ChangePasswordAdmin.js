@@ -77,9 +77,9 @@ export const ChangePasswordAdmin = () =>{
       <div className="ChangePasswordAdmin__password-container">
         <form onSubmit={changePasswordSubmit} className="ChangePasswordAdmin__form">
           <div className="ChangePasswordAdmin__input-container">
-            <TextField label="Current Password" id="currentPassword" name="currentPassword" value={currentPassword} onChange={handleCurrentPasswordChange} type="password" isRequired required/>
-            <TextField label="New Password" id="newPassword" name="newPassword" value={newPassword} onChange={handleNewPasswordChange} type="password" isRequired required/>
-            <TextField label="Confirm New Password" id="confirmNewPassword" name="confirmNewPassword" value={confirmNewPassword} onChange={handleConfirmNewPasswordChange} type="password" isRequired required/>
+            <TextField label="Current Password :" id="currentPassword" name="currentPassword" value={currentPassword} onChange={handleCurrentPasswordChange} type="password" isRequired required/>
+            <TextField label="New Password :" id="newPassword" name="newPassword" value={newPassword} onChange={handleNewPasswordChange} type="password" isRequired required/>
+            <TextField label="Confirm New Password :" id="confirmNewPassword" name="confirmNewPassword" value={confirmNewPassword} onChange={handleConfirmNewPasswordChange} type="password" isRequired required/>
             {error && <span className="ChangePasswordAdmin__error">{error}</span>}
           </div>
   

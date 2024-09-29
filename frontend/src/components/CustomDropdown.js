@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MdOutlineArrowDropDown, MdArrowDropUp  } from "react-icons/md";
 import 'assets/css/components'; 
 
 export default function CustomDropdown ({ value, onChange, options, defaultText }) {
@@ -11,9 +12,14 @@ export default function CustomDropdown ({ value, onChange, options, defaultText 
 
     return (
         <div className="CustomDropdown">
-            <button className="CustomDropdown__button" onClick={() => setIsOpen(!isOpen)}>
+            <button type='button' className="CustomDropdown__button" onClick={() => setIsOpen(!isOpen)}>
                 {options.find(opt => opt.value === value)?.title || defaultText}
             </button>
+            {isOpen ? (
+                <MdArrowDropUp className="CustomDropdown__custom-icon" />
+            ) : (
+                <MdOutlineArrowDropDown className="CustomDropdown__custom-icon" />
+            )}
             {isOpen && (
                 <div className="CustomDropdown__menu">
                     {options.map((option) => (

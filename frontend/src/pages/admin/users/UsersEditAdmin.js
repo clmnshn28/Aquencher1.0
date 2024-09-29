@@ -217,8 +217,8 @@ export const UsersEditAdmin = () =>{
           {showResetPassword &&(
             <form className="UserEditAdmin__password-form" onSubmit={handleSubmitResetPassword}>
               <div className="UserEditAdmin__input-group">
-                <TextField label='Password' type="password" value={newPassword} onChange={handlePasswordChange} isRequired/>
-                <TextField label="Confirm Password" type="password" value={newConfirmPassword} onChange={handleConfirmPasswordChange} isRequired  error={error}/>
+                <TextField label='Password :' type="password" value={newPassword} onChange={handlePasswordChange} isRequired/>
+                <TextField label="Confirm Password :" type="password" value={newConfirmPassword} onChange={handleConfirmPasswordChange} isRequired  error={error}/>
                 {error && <span className="UserEditAdmin__error">{error}</span>}
               </div>
               <div className="UserEditAdmin__password-requirements">
