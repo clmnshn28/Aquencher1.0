@@ -1,6 +1,6 @@
 import React from "react";
 import 'assets/css/components';
-import { MdOutlineArrowDropDown } from "react-icons/md";
+import { MdOutlineArrowDropDown, MdArrowDropUp } from "react-icons/md";
 
 
 export default function DropdownFilter({label, isOpen, toggleDropdown, options, onOptionSelect, classExpand }){
@@ -11,7 +11,11 @@ export default function DropdownFilter({label, isOpen, toggleDropdown, options, 
             onClick={toggleDropdown}
             >
                 {label.toUpperCase()}
-                <MdOutlineArrowDropDown  className="DropdownFilter__dropdown-icon" />  
+                {isOpen ? (
+                    <MdArrowDropUp className="DropdownFilter__dropdown-icon" />
+                ) : (
+                    <MdOutlineArrowDropDown className="DropdownFilter__dropdown-icon" />
+                )}
             </button>
             {isOpen && (
             <div className={`DropdownFilter__dropdown-content ${classExpand}`}>
