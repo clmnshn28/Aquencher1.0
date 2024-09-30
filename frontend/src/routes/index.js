@@ -19,6 +19,7 @@ import { Dashboard } from 'pages/customer/dashboard';
 import { Notification } from 'pages/customer/notification';
 import { Request } from 'pages/customer/request';
 import { Concern } from 'pages/customer/concern';
+import { Transaction } from 'pages/customer/transaction';
 
 const MainRoutes = () =>{
   return(
@@ -68,6 +69,7 @@ const MainRoutes = () =>{
           <Route path='dashboard' element={<Dashboard/>}/>
           <Route path='notifications' element={<Notification/>}/>
           <Route path='requests' element={<Request/>}/>
+          <Route path='transactions' element={<Transaction/>}/>
           <Route path='concerns' element={<Concern/>}/>
         </Route>
 

@@ -204,7 +204,7 @@ export const CustomerLayout = () =>{
             <span className="CustomerLayout__sidebar-text">Requests</span>
           </li>
         </Link>
-        <Link to="transactions" className={`link-sidebar ${highlightedTab === 'transactions'? 'CustomerLayout__highlighted' : ''}`}>
+        <Link to="transactions" className={`CustomerLayout__link-sidebar ${highlightedTab === 'transactions'? 'CustomerLayout__highlighted' : ''}`}>
           <li>
             <img className="CustomerLayout__sidebaricon" 
             src={highlightedTab === 'transactions'? images.transactionIconOpen : images.transactionIconClose} 
