@@ -14,12 +14,12 @@
     color: #007bff;
 }
 
-.EditAccountInfoModal__edit-section{
-    border-top: 1px solid #ADAFB0;
-    padding: 30px 15px 0;
-    margin-bottom: 30px;
-    position: relative;
-}
+    .EditAccountInfoModal__edit-section{
+        border-top: 1px solid #ADAFB0;
+        padding: 30px 15px 0;
+        margin-bottom: 30px;
+        position: relative;
+    }
 
 .EditAccountInfoModal__textfield-container{
     border: 1px solid #ADAFB0;
@@ -107,4 +107,81 @@
     color: red;
     font-size: 10px;
     font-weight: bold;
+}
+
+
+
+@media only screen and (max-width: 767px) {
+
+    .EditAccountInfoModal__container{
+        padding: 5px 0 15px;
+        width: 100%;
+    }
+
+    .EditAccountInfoModal__container h2{
+        margin: 7px 0;
+        font-size: 15px;
+    }
+
+    .EditAccountInfoModal__edit-section{
+        padding: 0;
+        margin: 0 15px 30px;
+    }
+
+    .EditAccountInfoModal__textfield-container{
+        border: none;
+        border-radius: 10px;
+        padding: 20px 10px 0 0;
+    }
+
+    /* Image View */
+
+    .EditProfileModal__avatar-wrapper{
+        border: none;
+        padding: 0;
+    }
+
+  
+    .EditProfileModal__image-error{
+        bottom: -10%; 
+        font-size: 9px;
+    }
+     
+    .EditProfileModal__avatar-preview{
+        height: 130px;
+        width: 130px;
+        margin-top: 20px;
+    }
+ 
+    .EditProfileModal__upload-label{
+        font-size: 12px;
+        width: 110px;
+        padding: 7px 12px;
+    }
+
+    .EditProfileModal__upload-photo-icon{
+        width: 18px;
+        margin-right: 5px;
+    }
+    
+
+    
+    /* error contact */
+    .EditAccountInfoModal__contact-error{
+        bottom: 73px; 
+        right: 15px; 
+        font-size: 8px;
+    }
+
+    .EditAccountInfoModal__email-error{
+        bottom: 30px; 
+        right: 15px; 
+        font-size: 8px;
+    }
+
+    .EditAccountInfoModal__username-error{
+        top: 95px;  
+        right: 15px;
+        font-size: 8px;
+    }
 }

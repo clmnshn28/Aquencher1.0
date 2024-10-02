@@ -3,7 +3,9 @@ import React, {useState, useEffect} from "react";
 import {Link, Outlet, useLocation} from 'react-router-dom';
 import { useAuth } from "context/AuthContext";
 import * as images from 'assets/images';
-import { TbLogout } from "react-icons/tb";
+import { TbLogout, TbLogs } from "react-icons/tb";
+import { RxGear } from "react-icons/rx";
+
 export const CustomerLayout = () =>{
 
   const { signOut, user } = useAuth(); 
@@ -104,8 +106,10 @@ export const CustomerLayout = () =>{
       setHighlightedTab('transactions');
     } else if (currentPath.includes('concerns')) {
       setHighlightedTab('concerns');
-    } else if (currentPath.includes('account')) {
+    } else if (currentPath.includes('account-settings/my-profile')) {
       setHighlightedTab('account');
+    }else if (currentPath.includes('activity-logs')) {
+      setHighlightedTab('logs');
     }
   }, [location]);
 
@@ -221,17 +225,17 @@ export const CustomerLayout = () =>{
           </li>
         </Link>
         <li className={`CustomerLayout__link-sidebar CustomerLayout__sub-delivery
-          ${highlightedTab === 'account'? 'CustomerLayout__highlighted' : highlightedAccountTab}`} 
+          ${highlightedTab === 'account' || highlightedTab === 'logs' ? 'CustomerLayout__highlighted' : highlightedAccountTab}`} 
           onClick={toggleSubSidebarAccount}>
           <img className="CustomerLayout__sidebaricon" 
-          src={highlightedTab === 'account'? images.accountIconOpen : images.accountIconClose} 
+          src={highlightedTab === 'account' || highlightedTab === 'logs' ? images.accountIconOpen : images.accountIconClose} 
           alt="Account" />
           <span className="CustomerLayout__sidebar-text">Account</span>
           <img
               className="CustomerLayout__sidebar-dropdown"
               src={subAccountSidebarVisible ? 
-                (highlightedTab === 'account' ? images.blueSidebarDropdownOpen : images.sidebarDropdownOpen) : 
-                ( highlightedTab === 'account' ? images.blueSidebarDropdownClose : images.sidebarDropdownClose)}
+                (highlightedTab === 'account' || highlightedTab === 'logs'  ? images.blueSidebarDropdownOpen : images.sidebarDropdownOpen) : 
+                ( highlightedTab === 'account' || highlightedTab === 'logs'  ? images.blueSidebarDropdownClose : images.sidebarDropdownClose)}
               alt="dropdown"
             />
         </li>
@@ -240,10 +244,16 @@ export const CustomerLayout = () =>{
           <Link to="account-settings/my-profile" className='CustomerLayout__link-sub-sidebar'>
             <li className={`CustomerLayout__sub-sidebar ${highlightedTab === 'account'? 'CustomerLayout__selected' : ''}`}>
               <div className={`CustomerLayout__task-container  ${highlightedTab === 'account'? 'CustomerLayout__sub-highlighted' : ''} `}>
-                <img className="CustomerLayout__sub-sidebaricon CustomerLayout__account-settings-icon" 
-                src={highlightedTab === 'account'? images.accountSettingIconOpen : images.accountSettingIconClose} 
-                alt="Tasks" />
+                <RxGear  className={`CustomerLayout__sub-sidebaricon ${highlightedTab === 'account'? 'CustomerLayout__sub-highlighted' : ''} `}/>
                 <span className="CustomerLayout__sidebar-text account-settings-text">Account Settings</span>
+              </div>
+            </li>
+          </Link>
+          <Link to="activity-logs" className='CustomerLayout__link-sub-sidebar'>
+            <li className={`CustomerLayout__sub-sidebar ${highlightedTab === 'logs'? 'CustomerLayout__selected' : ''}`}>
+              <div className={`CustomerLayout__task-container  ${highlightedTab === 'logs'? 'CustomerLayout__sub-highlighted' : ''} `}>
+                <TbLogs  className={`CustomerLayout__sub-sidebaricon ${highlightedTab === 'logs'? 'CustomerLayout__sub-highlighted' : ''} `}/>
+                <span className="CustomerLayout__sidebar-text account-settings-text">Activity Logs</span>
               </div>
             </li>
           </Link>

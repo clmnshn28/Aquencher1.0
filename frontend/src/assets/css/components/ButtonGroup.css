@@ -43,4 +43,26 @@
     background-color: #d3d3d3 !important;
     color: #888; 
     cursor: not-allowed;
-  } 
+}
+
+
+@media only screen and (max-width: 767px) {
+
+    /* button */
+    .ButtonGroup__container {
+        gap: 20px;
+    }
+
+    .ButtonGroup__pass-cancel {
+        width: 105px;
+        height: 33px;
+        font-size: 12px;
+    }
+    
+
+    .ButtonGroup__pass-save {
+        width: 115px;
+        height: 33px;
+        font-size: 12px;
+    }
+}

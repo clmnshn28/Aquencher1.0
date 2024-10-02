@@ -20,6 +20,7 @@ import { Notification } from 'pages/customer/notification';
 import { Request } from 'pages/customer/request';
 import { Concern } from 'pages/customer/concern';
 import { Transaction } from 'pages/customer/transaction';
+import { AccountSettings, ChangePassword, ActivityLogs } from 'pages/customer/account';
 
 const MainRoutes = () =>{
   return(
@@ -71,6 +72,11 @@ const MainRoutes = () =>{
           <Route path='requests' element={<Request/>}/>
           <Route path='transactions' element={<Transaction/>}/>
           <Route path='concerns' element={<Concern/>}/>
+          <Route path='account-settings'>
+            <Route path='my-profile' element={<AccountSettings/>}/>
+            <Route path='change-password' element={<ChangePassword/>}/>
+          </Route>
+          <Route path='activity-logs' element={<ActivityLogs/>}/>
         </Route>
 
       </Routes>
