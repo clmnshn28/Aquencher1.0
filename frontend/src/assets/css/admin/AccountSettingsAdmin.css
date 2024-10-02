@@ -7,12 +7,12 @@
   margin:0 250px 20px 180px;
   border-radius: 5px;
   padding: 10px 0px;
-  height: 130px;
   position: relative;
 }
 
 .AccountSettingsAdmin__header-text{
   font-size: 30px;
+  margin-bottom: 70px;
   padding-left: 45px;
   color: #007bff;
 }
@@ -120,6 +120,88 @@
 }
 
 
+
+
+
+@media only screen and (max-width: 767px) {
+
+    
+  /* account content */
+  .AccountSettingsAdmin__container{
+      margin:0 0 10px;
+      padding: 10px 0px;
+  }
+
+
+  .AccountSettingsAdmin__header-text{
+      font-size: 20px;
+      margin-bottom: 37px;
+      padding-left: 20px;
+  }
+
+  .AccountSettingsAdmin__profile-text{
+      font-size: 11px;
+      top: 60%;
+      left:6%;
+      padding-bottom: 10px;
+  }
+    
+  .AccountSettingsAdmin__password-text{
+      font-size: 11px;
+      top: 60%;
+      left:30%;
+      padding-bottom: 10px;
+  }
+    
+
+  /* edit details */
+  .AccountSettingsAdmin__setting-container{
+      margin: 0;
+      padding: 15px;
+  }
+
+  
+  .AccountSettingsAdmin__profile-container{
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+  }
+      
+  
+  
+  .AccountSettingsAdmin__profile-image{
+      width: 40px;
+      height: 40px;
+  }
+      
+  .AccountSettingsAdmin__profile-info{
+      margin: 0 60px 0 10px;
+  }
+      
+      
+  .AccountSettingsAdmin__name{
+      font-size: 12px;
+  }
+  
+  .AccountSettingsAdmin__username{
+      font-size: 9px;
+  }
+  
+      
+  .AccountSettingsAdmin__edit-button{
+      right: 3%;
+      top: 30%;
+      padding: 5px 15px;
+      font-size: 10px;
+  }
+  
+  .AccountSettingsAdmin__button-icon{
+      width: 15px;    
+      margin-left: 5px;
+  }
+  
+
+}
 
 
 

@@ -8,3 +8,4 @@ import './ReturnModal.css';
 import './Dashboard.css';
 import './Concern.css';
 import './Transaction.css';
+import './ActivityLogs.css';

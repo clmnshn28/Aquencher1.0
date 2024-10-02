@@ -1,0 +1,183 @@
+
+.ActivityLogs__header {
+    margin-right: 40px;
+    margin-left: 10px;
+    padding: 0px 40px;
+    font-size: 20px;
+    border-radius: 5px;
+    color: #007bff;
+    position: relative;
+}
+  
+.ActivityLogs__header-text{
+    margin-bottom: 0;
+}
+
+
+/* content */
+
+.ActivityLogs__container{
+    margin: 20px 40px 20px 10px;
+    padding: 5px 10px; 
+}
+
+.ActivityLogs__container h3{
+    margin: 10px ;
+    color: #007bff;
+}
+
+.ActivityLogs__item{
+    background-color: #fff;
+    padding: 18px 15px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.ActivityLogs__item-date{
+    font-size: 13px;
+    font-weight: 500;
+    color: #626262;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 0.4;
+}
+
+.ActivityLogs__item-date span{
+    padding: 0 9px;
+}
+
+
+.ActivityLogs__item-content{
+    position: relative;
+    display: flex;  
+    align-items: center; 
+}
+
+.ActivityLogs__item-icon{
+    width: 30px;
+    height: 30px;
+    min-width: 30px; 
+    min-height: 30px; 
+    color: rgb(128, 128, 128);
+    background-color: #fff;
+    z-index: 1;
+}
+
+.ActivityLogs__line{
+    width: 1px;
+    max-width: 1px;  
+    border-left: 1px solid #D9D9D9;
+    background-color: #D9D9D9;
+    position: absolute;
+    top:-200%;
+    bottom: -200%;
+    left: 48%;
+    z-index: 0;
+}
+
+.ActivityLogs__line-first{
+    top: 50%;
+}
+
+.ActivityLogs__line-last{
+    bottom: 50%;
+}
+
+.ActivityLogs__item-info{
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+}
+
+
+.ActivityLogs__item-title{
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.ActivityLogs__item-desc{
+    font-size: 12px;
+    color: #626262;
+    margin-right: 15px;
+}
+
+
+
+@media only screen and (max-width: 767px) {
+
+    .ActivityLogs__header {
+        margin: 0;
+        padding: 0px 10px;
+        font-size: 13px;
+    }
+
+      
+    .ActivityLogs__header-text{
+        margin-top: 10px;
+    }
+
+        
+    /* content */
+
+    .ActivityLogs__container{
+        margin: 5px 0;
+        padding: 5px ; 
+    }
+
+        
+    .ActivityLogs__item{
+        padding: 15px;
+        gap: 10px;
+    }
+    
+    
+    .ActivityLogs__item-date{
+        font-size: 8px;
+        flex: 0.7;
+        flex-direction: column;
+    }
+
+    .ActivityLogs__item-date span{
+        padding: 0;
+    }
+
+    .ActivityLogs__item-icon{
+        width: 23px;
+        height: 23px;
+        min-width: 23px; 
+        min-height: 23px; 
+    }
+
+    
+    .ActivityLogs__line{
+        width: 1px;
+        max-width: 1px;  
+        border-left: 1px solid #D9D9D9;
+        background-color: #D9D9D9;
+        position: absolute;
+        top:-200%;
+        bottom: -200%;
+        left: 48%;
+        z-index: 0;
+    }
+
+    .ActivityLogs__line-first{
+        top: 50%;
+    }
+
+    .ActivityLogs__line-last{
+        bottom: 50%;
+    }
+
+
+    
+    .ActivityLogs__item-title{
+        font-size: 10px;
+    }
+
+    .ActivityLogs__item-desc{
+        font-size: 8px;
+    }
+}

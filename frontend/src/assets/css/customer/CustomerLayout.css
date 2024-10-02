@@ -308,6 +308,8 @@
 
 .CustomerLayout__sidebaricon{
   width: 25px;
+  height: 25px;
+  object-fit: contain;
   margin-right: 20px;
   margin-left: 10px;
 }
@@ -372,24 +374,20 @@
   border-radius: 5px;
 }
 
+.CustomerLayout__sub-highlighted .CustomerLayout__sub-sidebaricon,
 .CustomerLayout__sub-highlighted .CustomerLayout__sidebar-text {
   color: #0A74DA;
   font-weight: 600;
 }
 
 .CustomerLayout__sub-sidebaricon{
-  width: 25px;
+  width: 23px;
+  height: 23px;
   margin-right: 10px;
   margin-left: 10px;
 }
 
-.CustomerLayout__account-settings-icon{
-  width: 20px;
-}
 
-.CustomerLayout__account-settings-text{
-  font-size: 13px;
-}
 
 /* toggle sidebar */
 
@@ -558,7 +556,7 @@
 
   .CustomerLayout__side-bar.open {
       visibility: visible;
-      max-width: 250px;
+      max-width: 220px;
       transition: visibility 0.3s ease-in-out, max-width 0.3s ease-in-out;
     }
   
@@ -568,7 +566,8 @@
   }   
 
   .CustomerLayout__sidebaricon{
-      width: 17px;
+      width: 19px;
+      height: 19px;
   }
 
   .CustomerLayout__sidebar-text {
@@ -578,7 +577,24 @@
   .CustomerLayout__sidebar-dropdown{
       width: 15px;
       height: 15px;
-      margin-left: 90px;
+      margin-left: 70px;
+  }
+
+  /* sub sidebar */
+  .CustomerLayout__sub-sidebar{
+    margin-left: 27px;
+  }
+  
+
+  .CustomerLayout__sub-sidebaricon{
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    margin-left: 0;
+  }
+  
+  .account-settings-text{
+    font-size: 12px;
   }
 
   /* logout */
