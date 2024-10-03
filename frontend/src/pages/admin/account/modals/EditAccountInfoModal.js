@@ -3,7 +3,8 @@ import 'assets/css/modals';
 import Modal from "components/Modal";
 import ButtonGroup from "components/ButtonGroup";
 import TextField from "components/TextField";
-
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 
 export const EditAccountInfoModal = ({isOpen, onClose, onConfirm , infoItems , title}) =>{
@@ -12,7 +13,8 @@ export const EditAccountInfoModal = ({isOpen, onClose, onConfirm , infoItems , t
   const [formData, setFormData] = useState(infoItems || []);
   const [contactError, setContactError] = useState('');
   const [emailError, setEmailError] = useState('');
-  
+  const [usernameError, setUsernameError] = useState('');
+
   useEffect(() => {
     // Update formData when infoItems changes
     setFormData(infoItems || []);
@@ -43,6 +45,7 @@ export const EditAccountInfoModal = ({isOpen, onClose, onConfirm , infoItems , t
               newEmailError = ''; // Reset error if valid
           }
       }
+      
   
       setContactError(newContactError);
       setEmailError(newEmailError);
@@ -57,17 +60,48 @@ export const EditAccountInfoModal = ({isOpen, onClose, onConfirm , infoItems , t
     const handleCloseEdit = () =>{
       setContactError('');
       setEmailError('');
+      setUsernameError('');
       onClose();
     }
 
-    const handleSubmitEdit = (e) =>{
+    const handleSubmitEdit = async (e) =>{
       e.preventDefault();
       
       if (contactError || emailError) {
         return; 
       }
       
-      onConfirm(formData);
+      // Get the current customer's email and username
+      const currentEmail = infoItems.find(item => item.label === 'Email')?.value;
+      const currentUsername = infoItems.find(item => item.label === 'Username')?.value;
+
+      // Check for existing email and username
+      const email = formData.find(item => item.label === 'Email')?.value;
+      const username = formData.find(item => item.label === 'Username')?.value;
+
+      try {
+        const response = await axios.post(`${API_URL}/api/customer/validate`, { 
+          email, 
+          username,
+          currentEmail, // Add current user's email
+          currentUsername // Add current user's username
+        });
+      
+        // If no validation errors, proceed with confirmation
+        onConfirm(formData);
+      } catch (error) {
+        if (error.response && error.response.status === 422) {
+          const errors = error.response.data.errors;
+          if (errors.email) {
+              setEmailError(errors.email[0]);
+          }
+          if (errors.username) {
+              setUsernameError(errors.username[0]);
+          }
+        } else {
+            console.error('Error validating user:', error);
+        }
+      }
     };
 
     if(!isOpen) return null;
@@ -95,6 +129,7 @@ export const EditAccountInfoModal = ({isOpen, onClose, onConfirm , infoItems , t
                         ))}
                          {contactError && <span className="EditAccountInfoModal__contact-error">{contactError}</span>}
                          {emailError && <span className="EditAccountInfoModal__email-error">{emailError}</span>}
+                         {usernameError && <span className="EditAccountInfoModal__username-error">{usernameError}</span>}
                     </div>
                 </div>
                 <ButtonGroup

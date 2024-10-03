@@ -4,7 +4,7 @@
 .AccountSettingsAdmin__container{
   background-color: #FFFFFF;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
-  margin:0 250px 20px 180px;
+  margin:0 200px 20px 150px;
   border-radius: 5px;
   padding: 10px 0px;
   position: relative;
@@ -46,7 +46,7 @@
 .AccountSettingsAdmin__setting-container{
   background-color: #FFFFFF;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
-  margin:0 250px 0px 180px;
+  margin:0 200px 0px 150px;
   border-radius: 5px;
   padding: 40px;
 }
@@ -66,7 +66,7 @@
   width: 100px;
   height: 100px;
   object-fit: cover;
-  border: 2px solid rgb(197, 194, 194);
+  border: 1px solid rgb(197, 194, 194);
   border-radius: 50%;
 }
 

@@ -67,7 +67,7 @@ export const EditProfileModal = ({isOpen, onClose, onConfirm, defaultAvatar }) =
                             <img className='EditProfileModal__upload-photo-icon' src={images.uploadPhoto} alt="upload Photo" />
                             Upload Photo
                         </label>
-                        <input id="file-upload" type="file" accept="image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+                        <input id="file-upload" type="file" accept="image/png, image/jpeg, image/jpg" onChange={handleFileChange} style={{ display: 'none' }} />
                         {imageError && <span className="EditProfileModal__image-error">{imageError}</span>}
                     </div>
                 </div>

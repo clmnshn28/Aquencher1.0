@@ -36,6 +36,7 @@
   height: 90px;
   border-radius: 50%;
   margin-right: 20px;
+  border: 1px solid #9c9c9c;
 }
 
 .UserEditAdmin__details {
