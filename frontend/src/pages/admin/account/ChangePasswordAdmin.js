@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PasswordRequirements from "components/PasswordRequirements";
 import TextField from "components/TextField";
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 export const ChangePasswordAdmin = () =>{
 
@@ -28,27 +30,6 @@ export const ChangePasswordAdmin = () =>{
   };
 
 
-  // checking if password match and met the requirement
-  const changePasswordSubmit = (e) => {
-    e.preventDefault();
-    
-    if (!isPasswordRequirementMet('Be 8-100 characters long') ||
-      !isPasswordRequirementMet('Contain at least one uppercase and one lowercase letter') ||
-      !isPasswordRequirementMet('Contain at least one number or special character')) {
-      setError('Password does not meet the requirements');
-      return;
-    }
-    if (newPassword !== confirmNewPassword) {
-      setError('Passwords do not match');
-      return; 
-    }
-
-    // Proceed with form submission
-    setError(''); 
-
-    console.log('Form submitted');
-  };
-
   // checking requirement in password
   const isPasswordRequirementMet = (requirement) => {
     switch (requirement) {
@@ -63,6 +44,49 @@ export const ChangePasswordAdmin = () =>{
     }
   };
 
+  // checking if password match and met the requirement
+  const changePasswordSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!isPasswordRequirementMet('Be 8-100 characters long') ||
+      !isPasswordRequirementMet('Contain at least one uppercase and one lowercase letter') ||
+      !isPasswordRequirementMet('Contain at least one number or special character')) {
+      setError('Password does not meet the requirements');
+      return;
+    }
+    if (newPassword !== confirmNewPassword) {
+      setError('Passwords do not match');
+      return; 
+    }
+
+    // Proceed with form submission
+    try {
+       await axios.post(`${API_URL}/api/user/change-password`, {
+        current_password: currentPassword,
+        new_password: newPassword,
+        confirm_new_password: confirmNewPassword
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      alert('Password changed successfully');
+      setCurrentPassword('');
+      setNewPassword('');
+      setConfirmNewPassword('');
+      setError('');
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setError(error.response.data.message || 'An error occurred');
+      } else {
+        setError('An error occurred');
+      }
+    }
+  };
+
+
+  
   return (
     <div >
       <div className="AccountSettingsAdmin__container">

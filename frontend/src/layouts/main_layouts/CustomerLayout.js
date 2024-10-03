@@ -5,10 +5,12 @@ import { useAuth } from "context/AuthContext";
 import * as images from 'assets/images';
 import { TbLogout, TbLogs } from "react-icons/tb";
 import { RxGear } from "react-icons/rx";
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 export const CustomerLayout = () =>{
 
-  const { signOut, user } = useAuth(); 
+  const { signOut } = useAuth(); 
   
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -119,6 +121,30 @@ export const CustomerLayout = () =>{
     setSidebarOpenMobile(!sidebarOpenMobile);
   }; 
 
+  const [user, setUser] = useState({});
+  const [profilePic, setProfilePic] = useState(images.defaultAvatar); 
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(API_URL + '/api/user/display', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming you store the token in localStorage
+        }
+      });
+      const userData = response.data.data;
+      setUser(userData);
+      setProfilePic(userData.image ? `${API_URL}/storage/images/${userData.image}` : images.defaultAvatar);
+
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+
+    }
+  };
+
   return(
     <div className={`CustomerLayout__dashboard-container ${sidebarMinimized ? 'CustomerLayout__sidebar-minimized' : ''}`}>
       <div className="CustomerLayout__dashboard-header">
@@ -148,13 +174,13 @@ export const CustomerLayout = () =>{
           </div>
 
           <div className="CustomerLayout__user-profile-container" onClick={toggleDropdown}>
-            <img className="CustomerLayout__profile" src={images.defaultAvatar} alt="Profile" />
+            <img className="CustomerLayout__profile" src={profilePic} alt="Profile" />
             <span className="CustomerLayout__name">{user.fname}</span>
             <img className="CustomerLayout__dropArrow" src={images.dropArrow} alt="drop Arrow" />
             {dropdownVisible && (
                 <div  className="CustomerLayout__profile-dropdown">
                   <Link className="CustomerLayout__link">
-                    <img className="CustomerLayout__image-dropdown" src={images.defaultAvatar} alt="Account Profile" />
+                    <img className="CustomerLayout__image-dropdown" src={profilePic} alt="Account Profile" />
                     <span className="CustomerLayout__profile-name">{user.fname}</span>
                   </Link>
                   <Link to="account-settings/my-profile" onClick={handleAccountSettingsClick} >

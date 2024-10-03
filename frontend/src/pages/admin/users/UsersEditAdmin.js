@@ -17,37 +17,42 @@ export const UsersEditAdmin = () =>{
   const { userId } = useParams(); // Get userId from the URL
   const [personalInfoItems, setPersonalInfoItems] = useState([]);
   const [addressInfoItems, setAddressInfoItems] = useState([]);
+  const [avatarUrl, setAvatarUrl] = useState(images.defaultAvatar); // Initialize with default avatar
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/customers/${userId}`);
-        const customerData = response.data.data;
-    
-        // Update state with the fetched user data
-        setPersonalInfoItems([
-          { label: 'Firstname', value: customerData.fname },
-          { label: 'Lastname', value: customerData.lname },
-          { label: 'Username', value: customerData.username },
-          { label: 'Contact No.', value: customerData.contact_number },
-          { label: 'Email', value: customerData.email },
-        ]);
-
-        setAddressInfoItems([
-          { label: 'House number', value: customerData.house_number },
-          { label: 'Street', value: customerData.street },
-          { label: 'Barangay', value: customerData.barangay },
-          { label: 'Municipality/City', value: customerData.municipality_city },
-          { label: 'Province', value: customerData.province },
-          { label: 'Postal Code', value: customerData.postal_code },
-        ]);
-      } catch (error) {
-          console.error('Error fetching user data:', error);
-      }
-    };
-
     fetchUserData();
   }, [userId]); 
+  
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/customers/${userId}`);
+      const customerData = response.data.data;
+  
+       // Check if customerData.image exists, otherwise use defaultAvatar
+      const imageUrl = customerData.image ? `${API_URL}/storage/images/${customerData.image}` : images.defaultAvatar;
+      setAvatarUrl(imageUrl);
+
+      // Update state with the fetched user data
+      setPersonalInfoItems([
+        { label: 'Firstname', value: customerData.fname },
+        { label: 'Lastname', value: customerData.lname },
+        { label: 'Username', value: customerData.username },
+        { label: 'Contact No.', value: customerData.contact_number },
+        { label: 'Email', value: customerData.email },
+      ]);
+
+      setAddressInfoItems([
+        { label: 'House number', value: customerData.house_number },
+        { label: 'Street', value: customerData.street },
+        { label: 'Barangay', value: customerData.barangay },
+        { label: 'Municipality/City', value: customerData.municipality_city },
+        { label: 'Province', value: customerData.province },
+        { label: 'Postal Code', value: customerData.postal_code },
+      ]);
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+  };
 
     // Destructure to avoid redundancy
     const { value: firstname } = personalInfoItems.find(item => item.label === 'Firstname') || {};
@@ -128,6 +133,14 @@ export const UsersEditAdmin = () =>{
   };
 
 
+  const toCamelCase = (str) => {
+    return str
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  };
+
   // ===============================
   const [ editInfoModal, setEditInfoModal] = useState(false);
   const [currentInfo, setCurrentInfo] = useState([]);
@@ -161,20 +174,20 @@ export const UsersEditAdmin = () =>{
   const handleSubmitUpdate = async (updatedInfo) => {
     try {
       const updatedData = {
-        fname: updatedInfo.find(item => item.label === 'Firstname')?.value ||  personalInfoItems.find(item => item.label === 'Firstname').value,
-        lname: updatedInfo.find(item => item.label === 'Lastname')?.value || personalInfoItems.find(item => item.label === 'Lastname').value,
+        fname: toCamelCase(updatedInfo.find(item => item.label === 'Firstname')?.value ||  personalInfoItems.find(item => item.label === 'Firstname').value),
+        lname: toCamelCase(updatedInfo.find(item => item.label === 'Lastname')?.value || personalInfoItems.find(item => item.label === 'Lastname').value),
         username: updatedInfo.find(item => item.label === 'Username')?.value || personalInfoItems.find(item => item.label === 'Username').value,
         contact_number: updatedInfo.find(item => item.label === 'Contact No.')?.value || personalInfoItems.find(item => item.label === 'Contact No.').value,
         email: updatedInfo.find(item => item.label === 'Email')?.value || personalInfoItems.find(item => item.label === 'Email').value,
         house_number: updatedInfo.find(item => item.label === 'House number')?.value || addressInfoItems.find(item => item.label === 'House number').value,
-        street: updatedInfo.find(item => item.label === 'Street')?.value || addressInfoItems.find(item => item.label === 'Street').value ,
-        barangay: updatedInfo.find(item => item.label === 'Barangay')?.value || addressInfoItems.find(item => item.label === 'Barangay').value , 
+        street: toCamelCase(updatedInfo.find(item => item.label === 'Street')?.value || addressInfoItems.find(item => item.label === 'Street').value) ,
+        barangay: toCamelCase(updatedInfo.find(item => item.label === 'Barangay')?.value || addressInfoItems.find(item => item.label === 'Barangay').value) , 
         municipality_city: updatedInfo.find(item => item.label === 'Municipality/City')?.value || addressInfoItems.find(item => item.label === 'Municipality/City').value,
         province: updatedInfo.find(item => item.label === 'Province')?.value ||  addressInfoItems.find(item => item.label === 'Province').value,
         postal_code: updatedInfo.find(item => item.label === 'Postal Code')?.value ||  addressInfoItems.find(item => item.label === 'Postal Code').value,
       };
-      console.log("Sending updated data:", updatedData);
       await axios.put(`${API_URL}/api/customers/${userId}`, updatedData);
+      fetchUserData();
     } catch (error) {
       console.error('Error updating user data:', error.response?.data || error.message);
     }
@@ -184,13 +197,13 @@ export const UsersEditAdmin = () =>{
   return (
     <>
       <div className="UserEditAdmin__profile-header">
-        <img className="UserEditAdmin__avatar" src={images.defaultAvatar} alt="User Avatar" />
+        <img className="UserEditAdmin__avatar" src={avatarUrl} alt="User Avatar" />
         <div className="UserEditAdmin__details">
           <h2 className="UserEditAdmin__name">
             {firstname} {lastname}
           </h2>
           <p className="UserEditAdmin__username">
-            @{username}
+            {username ? `@${username}` : ''}
           </p>
         </div>
         <img className="UserEditAdmin__back-btn" src={images.backEditButton} alt="Back Button" onClick={() => navigate(-1)}/>

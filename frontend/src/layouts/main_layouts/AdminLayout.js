@@ -3,10 +3,12 @@ import React, { useState, useEffect } from 'react';
 import { Link, Outlet, useLocation  } from 'react-router-dom';
 import { useAuth } from "context/AuthContext";
 import * as images from 'assets/images';
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 export const AdminLayout = () => {
 
-  const { signOut, user } = useAuth(); 
+  const { signOut } = useAuth(); 
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -118,6 +120,30 @@ export const AdminLayout = () => {
     }
   }, [location]);
 
+  const [user, setUser] = useState({});
+  const [profilePic, setProfilePic] = useState(images.defaultAvatar); 
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await axios.get(API_URL + '/api/user/display', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming you store the token in localStorage
+        }
+      });
+      const userData = response.data.data;
+      setUser(userData);
+      setProfilePic(userData.image ? `${API_URL}/storage/images/${userData.image}` : images.defaultAvatar);
+
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+
+    }
+  };
+
   return (
 
   <div className={`dashboard-container ${sidebarMinimized ? 'sidebar-minimized' : ''}`}>
@@ -147,14 +173,14 @@ export const AdminLayout = () => {
           )}
         </div>
         <div className="user-profile-container" onClick={toggleDropdown}>
-          <img className="profile" src={images.defaultAvatar} alt="Profile" />
+          <img className="profile" src={profilePic} alt="Profile" />
           <span className="name">{user.fname}</span>
           <img className="dropArrow" src={images.dropArrow} alt="drop Arrow" />
         </div>
         {dropdownVisible && (
             <div  className="profile-dropdown">
               <Link className="link">
-                <img className="image-dropdown" src={images.defaultAvatar} alt="Account Profile" />
+                <img className="image-dropdown" src={profilePic} alt="Account Profile" />
                 <span className="profile-name">{user.fname}</span>
               </Link>
               <Link to="account-settings/my-profile" onClick={handleAccountSettingsClick}>
