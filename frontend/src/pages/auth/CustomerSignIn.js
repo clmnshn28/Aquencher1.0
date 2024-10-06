@@ -8,11 +8,16 @@ import { Link, useNavigate } from 'react-router-dom';
 
 export const CustomerSignIn = () =>{
   const navigate = useNavigate();
-  const { user, signIn } = useAuth();
+  const { user, signIn, error, clearError  } = useAuth();
 
   // for label of input field 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const handleRememberMeChange = (e) => {
+    setRememberMe(e.target.checked);
+  };
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
@@ -33,6 +38,7 @@ export const CustomerSignIn = () =>{
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signIn(username, password, '/api/login/customer');
+  
   };
 
   useEffect(() => {
@@ -41,15 +47,16 @@ export const CustomerSignIn = () =>{
     }
   }, [ user, navigate ]);
 
+  const handleLinkClick = () => {
+    clearError();
+  };
+
   return(
-    <div className="signin-wrapper">
-      <div className="login-container">
-        <img className="loginlogo" src={images.loginLogo} alt="AquencherLogo" />
-        <div className="login-box">
-          <div className="input-container">
-            <h1 className='login'>Login</h1>
-            
-            <form onSubmit={handleSubmit} action="" method="post" className='signin-form'>
+    <div className="CustomerSignIn__wrapper" style={{ backgroundImage: `url(${images.backgroundFeatures})` }}>
+      <div className="CustomerSignIn__container">
+      <h1 className='CustomerSignIn__header'>Login Account</h1>
+        <div className="CustomerSignIn__white-box">
+            <form onSubmit={handleSubmit} className='CustomerSignIn__form'>
               <div className="input-field">
                 <input
                   type="text"
@@ -73,18 +80,17 @@ export const CustomerSignIn = () =>{
                   {/* Toggle between eye and crossed eye icons based on showPassword state */}
                   {showPassword ? <FaEye /> : <FaEyeSlash />}
                 </span>
+                {error && <p className="CustomerSignIn__error-message">{error}</p>} 
               </div>
-
-              <div className="form-footer">
+              <div className="CustomerSignIn__form-footer">
                 <label>
-                  <input type="checkbox" /> Remember me
+                  <input type="checkbox" checked={rememberMe} onChange={handleRememberMeChange} /> Remember me
                 </label>
-                <a className="forgot" href="#">Forgot password?</a>
+                <a className="CustomerSignIn__forgot" href="#">Forgot password?</a>
               </div>
-              <button className='signinButton' type="submit">Login</button>
+              <button className='CustomerSignIn__btn' type="submit">Login</button>
             </form>
-            <p className="signup-text">Don't have an account? <Link to="/customer/sign-up">Sign Up</Link></p>
-          </div>
+            <p className="CustomerSignIn__sign-up">Don't have an account? <Link to="/customer/sign-up" onClick={handleLinkClick}>Sign Up</Link></p>
         </div>
       </div>
     </div>

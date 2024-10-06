@@ -40,6 +40,14 @@ import requestDropHeader from './requestHeader.png';
 import borrowIconRed from './borrowIconRed.png';
 import returnIconGreen from './returnIconGreen.png';
 import locationAddress from './location.png';
+import heroIcon from './heroIcon.png';
+import backgroundFeatures from './backgroundFeatures.jpg';
+import mapIcon from './mapIcon.png';
+import picture1 from './picture1.jpg';
+import picture2 from './picture2.jpg';
+import picture3 from './picture3.jpeg';
+import picture4 from './picture4.jpg';
+import picture5 from './picture5.jpg';
 
 import dashboardIconOpen from './dashboard-open.png';
 import dashboardIconClose from './dashboard.png';
@@ -117,6 +125,14 @@ export {
     borrowIconRed,
     returnIconGreen,
     locationAddress,
+    heroIcon,
+    backgroundFeatures,
+    mapIcon,
+    picture1,
+    picture2,
+    picture3,
+    picture4,
+    picture5,
     dashboardIconClose,
     dashboardIconOpen,
     notificationIconClose,

@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 
+import { LandingPage } from 'pages/landing';
 import {CustomerSignIn, AdminSignIn, SignUp} from 'pages/auth';
-
 import {AdminLayout, CustomerLayout} from 'layouts/main_layouts';
 
 import {DashboardAdmin} from 'pages/admin/dashboard';
@@ -26,7 +26,7 @@ const MainRoutes = () =>{
   return(
     <Router>
       <Routes>
-        <Route exact path="/" element={''} />
+        <Route exact path="/"  element={<LandingPage />} />
         <Route path="/customer/sign-in" element={<CustomerSignIn />} /> 
         <Route path="/admin/sign-in" element={<AdminSignIn />} />      
         <Route path="/customer/sign-up" element={<SignUp />} />
