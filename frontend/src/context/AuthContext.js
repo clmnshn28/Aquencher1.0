@@ -20,6 +20,10 @@ export const AuthProvider = ({ children }) => {
   const [ userRole, setUserRole ] = useState(() => {
     return localStorage.getItem('userRole');
   }); 
+  const [error, setError] = useState(''); 
+  const clearError = () => {
+    setError(null);
+  };
 
   // Mock sign-in function
   const signIn = async (username, password, endpoint) => {
@@ -36,16 +40,21 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(response.data.data));
         localStorage.setItem('token', response.data.data.token);
         localStorage.setItem('userRole', response.data.data.role);
-  
-      }
+        setError('');
+      }   
     }).catch(error => {
       console.log(error.response)
+      if (error.response && error.response.data) {
+        setError('Invalid username or password.');
+      } else {
+        setError('An error occurred while logging in. Please try again.');
+      }
     })
 
   };
 
   // Sign-out function
-  const signOut = async () => {
+  const signOut = async (navigate) => {
     try {
       await axios.post(`${API_URL}/api/logout`, {}, {
         headers: {
@@ -53,6 +62,13 @@ export const AuthProvider = ({ children }) => {
       },
       });
   
+      const role = userRole; 
+      // Navigate to the appropriate sign-in page
+      if (role === 'admin') {
+        navigate('/admin/sign-in');
+      } else if (role === 'customer') {
+        navigate('/customer/sign-in');
+      }
       // Clear user state and localStorage
       setUser(null);
       setUserRole(null); 
@@ -66,7 +82,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, userRole, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, userRole, signIn, signOut , error, clearError}}>
       {children}
     </AuthContext.Provider>
   );

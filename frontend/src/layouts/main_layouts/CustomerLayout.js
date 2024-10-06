@@ -1,6 +1,6 @@
 import "assets/css/customer";
 import React, {useState, useEffect} from "react";
-import {Link, Outlet, useLocation} from 'react-router-dom';
+import {Link, Outlet, useLocation, useNavigate} from 'react-router-dom';
 import { useAuth } from "context/AuthContext";
 import * as images from 'assets/images';
 import { TbLogout, TbLogs } from "react-icons/tb";
@@ -9,7 +9,7 @@ import axios from 'axios';
 import {API_URL} from 'constants';
 
 export const CustomerLayout = () =>{
-
+  const navigate = useNavigate();
   const { signOut } = useAuth(); 
   
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
@@ -145,6 +145,10 @@ export const CustomerLayout = () =>{
     }
   };
 
+  const handleSignOut = () => {
+    signOut(navigate);
+  };
+
   return(
     <div className={`CustomerLayout__dashboard-container ${sidebarMinimized ? 'CustomerLayout__sidebar-minimized' : ''}`}>
       <div className="CustomerLayout__dashboard-header">
@@ -187,7 +191,7 @@ export const CustomerLayout = () =>{
                     <img className="CustomerLayout__setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
                     Account Settings
                   </Link>
-                  <Link to="/"  onClick={signOut}>
+                  <Link onClick={handleSignOut}>
                     <img className="CustomerLayout__logout-dropdown" src={images.logoutDropdown} alt="Logout Logo" />
                     Logout
                   </Link>
@@ -285,7 +289,7 @@ export const CustomerLayout = () =>{
           </Link>
         </ul>
         )}
-        <Link to="/" onClick={signOut}  className={`CustomerLayout__link-sidebar logout `}>
+        <Link onClick={handleSignOut}  className={`CustomerLayout__link-sidebar logout `}>
           <li>
             <TbLogout  className="CustomerLayout__sidebaricon"/>
             <span className="CustomerLayout__sidebar-text">Sign out</span>

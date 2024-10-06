@@ -5,24 +5,24 @@ body {
   font-family: "Poppins", sans-serif;
 }
 
-.signin-wrapper {
+.CustomerSignIn__wrapper {
   background-color: #08A8EB;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
   height: 100vh;
+  background-size: cover; 
+  background-position: center;
+  background-repeat: no-repeat; 
 }
 
-.login-container{
+.CustomerSignIn__container{
   background-color: #05a1e4;
   border: 4px solid rgba(124, 227, 252,40%);
   width: 534px;
-  height: 640px;
-  border-top-left-radius: 129px;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 129px;
-  border-bottom-left-radius: 20px;
+  height: 584px;
+  border-radius: 129px 20px 129px 20px;
   margin: 40px 0;
 }
 
@@ -31,52 +31,32 @@ body {
   margin-left: 170px;
 }
 
-.login-box {
-  background-color: white;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 -4px -8px rgba(0, 0, 0, 0.2);
-  border-top-left-radius: 129px;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 127px;
-  border-bottom-left-radius: 18px;
-}
 
 /* --- */
 
-.input-container{
-  background-color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0px;
-}
-
-/* --- */
-
-.login {
-  color: #1372F2;
+.CustomerSignIn__header {
+  color: #fff;
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
 }
 
-.signin-form {
+
+.CustomerSignIn__white-box {
+  background-color: white;
+  padding-bottom: 30px;
+  box-shadow: 0 -4px -8px rgba(0, 0, 0, 0.2);
+  border-radius: 129px 0 127px 18px;
+}
+
+.CustomerSignIn__form {
   display: flex;
   flex-direction: column;
-  width: 73%;
+  padding-top: 80px;
+  margin: 0 80px;
   font-family: "Poppins", sans-serif;
 }
 
-/* input {
-  margin-bottom: 20px;
-  padding: 10px;
-  font-size: 14px;
-  border-radius: 10px;
-  padding: 15px 20px 15px 15px;
-  border: 0.5px solid #285AFF;
-  font-family: "Poppins", sans-serif;
-} */
  
 .input-field {
   position: relative;
@@ -84,8 +64,8 @@ body {
 }
 
 .input-field input {
-  width: 90%;
-  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
   font-size: 14px;
   border-radius: 10px;
   padding: 15px 15px 15px 25px;
@@ -126,7 +106,7 @@ body {
 }
 /* --- */
 
-.form-footer {
+.CustomerSignIn__form-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -136,37 +116,39 @@ body {
   margin-bottom:49px;
   color: #565252;
 }
-.form-footer label {
+.CustomerSignIn__form-footer label {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-.form-footer input[type="checkbox"] {
+.CustomerSignIn__form-footer input[type="checkbox"] {
   width: 15px; 
   height: 15px;  
   cursor: pointer;
   margin-right: 10px;
 }
 
+
+
 /* forgot */
-.forgot{
+.CustomerSignIn__forgot{
   color:  #565252;
   text-decoration: none;
   transition: text-decoration 0.3s ease-in-out; 
 }
 
-.forgot:hover {
+.CustomerSignIn__forgot:hover {
   text-decoration: underline;
 }
 /* --- */
 
-.signinButton {
-  width: 100%; 
-  height: 45px;
+.CustomerSignIn__btn {
+
   padding: 10px;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
+  font-family: 'poppins';
   background-color: #08A8EB;
   border-radius: 8px;
   color: white;
@@ -176,30 +158,138 @@ body {
   transition: background-color 1s;
 }
 
-.signinButton :hover {
+.CustomerSignIn__btn :hover {
   background-color: #0056b3;
 }
 
-.signinButton :active{
+.CustomerSignIn__btn :active{
   opacity:0.5;
  }
 
-.signup-text {
+.CustomerSignIn__sign-up {
   text-align: center;
   font-size: 14px;
-  margin-top: 20px;
+  margin-top: 18px;
   margin-bottom: 34px;
   font-weight: 500;
   color:  #565252;
 }
 
-.signup-text a {
+.CustomerSignIn__sign-up a {
   color:  #565252;
   font-weight: bold;
   text-decoration: none;
   transition: text-decoration 0.3s ease-in-out; 
 }
 
-.signup-text a:hover {
+.CustomerSignIn__sign-up a:hover {
   text-decoration: underline;
+}
+
+.CustomerSignIn__error-message{
+  position: absolute;
+  right: 0;
+  top: -18px;
+  font-size: 12px;
+  font-weight: 600;
+  color: red;
+  margin: 0;
+  text-align: center;
+}
+
+@media only screen and (max-width: 767px)  {
+   
+  .CustomerSignIn__wrapper {
+    width: 100%;
+    height: 100%;
+  }
+  
+    
+  .CustomerSignIn__container{
+    background-color: #05a1e4;
+    border:none;
+    height: 100%;
+    width: 100%;
+    border-radius: 0;
+    margin: 0;
+  }
+
+  
+.CustomerSignIn__header {
+  font-size: 27px;
+  margin: 30px 0;
+}
+
+  
+.CustomerSignIn__white-box {
+  border-radius:  50px 0 0;
+  margin-top: 20px;
+}
+
+.CustomerSignIn__form {
+  padding-top: 70px;
+  margin: 0 30px;
+}
+
+.input-field {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-field input {
+  padding: 15px 15px 15px 25px;
+  font-size: 13px;
+}
+
+.input-field label {
+  font-size: 14px;
+}
+
+.input-field input:focus + label,
+.input-field input:not(:placeholder-shown) + label {
+  top: 2px;
+  font-size: 12px;
+  padding: 2px 0;
+}
+
+.toggle-password {
+  font-size: 17px;
+  right: 15px;
+}
+
+/* --- */
+
+.CustomerSignIn__form-footer {
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+
+.CustomerSignIn__form-footer input[type="checkbox"] {
+  width: 15px; 
+  height: 15px;  
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+
+.CustomerSignIn__btn{
+  padding: 10px;
+  font-size: 17px;
+  margin-top: 30px;
+  font-weight: 600;
+}
+
+
+
+.CustomerSignIn__sign-up{
+  font-size: 13px;
+  margin-top: 45px;
+}
+
+.CustomerSignIn__error-message{
+  font-size: 10px;
+  top: -15px;
+}
+
 }

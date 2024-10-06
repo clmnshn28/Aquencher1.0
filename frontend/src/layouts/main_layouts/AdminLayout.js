@@ -1,13 +1,13 @@
 import "assets/css/admin";
 import React, { useState, useEffect } from 'react';
-import { Link, Outlet, useLocation  } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from "context/AuthContext";
 import * as images from 'assets/images';
 import axios from 'axios';
 import {API_URL} from 'constants';
 
 export const AdminLayout = () => {
-
+  const navigate = useNavigate();
   const { signOut } = useAuth(); 
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
@@ -144,6 +144,10 @@ export const AdminLayout = () => {
     }
   };
 
+  const handleSignOut = () => {
+    signOut(navigate);
+  };
+
   return (
 
   <div className={`dashboard-container ${sidebarMinimized ? 'sidebar-minimized' : ''}`}>
@@ -187,7 +191,7 @@ export const AdminLayout = () => {
                 <img className="setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
                 Account Settings
               </Link>
-              <Link to="/" onClick={signOut}>
+              <Link onClick={handleSignOut}>
                 <img className="logout-dropdown" src={images.logoutDropdown} alt="Logout Logo" />
                 Logout
               </Link>
