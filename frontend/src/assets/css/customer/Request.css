@@ -88,6 +88,22 @@
     color:#007bff;
 }
 
+.Request__box-disabled {
+    opacity: 0.5; 
+    cursor: not-allowed;
+    background-color: rgb(152, 152, 152);
+}
+
+.Request__box-disabled.Request__box img{
+    filter: brightness(0) saturate(100%) invert(0) sepia(100%) saturate(0%) hue-rotate(0deg);
+}
+
+
+.Request__box-disabled .Request__box-description ,
+.Request__box-disabled .Request__box-title  {
+    color: rgb(32, 29, 29);
+}
+
 
 
 @media only screen and (max-width: 767px){

@@ -60,16 +60,48 @@
 .UsersAdmin__controls{
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin: 0 30px 10px 10px;
-  gap: 15px;
   padding: 5px ;
   color: #007bff;
+}
+
+.UsersAdmin__controls-filter{
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .UsersAdmin__filter-icon{
   font-size: 22px;
   color: #8CB8FB;
 }
+
+.UsersAdmin__controls-actions{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.UsersAdmin__pdf-button{
+  background: transparent;
+  color: #0174CF;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'poppins';
+  padding: 7px 15px;
+  border-radius: 5px;
+  border: 2px solid #0174CF;
+  /* margin-left: auto;
+  margin-right: 10px; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
 
 /* new user button */
 .UsersAdmin__new-user-button{
@@ -94,6 +126,7 @@
   background-color: #0068bd;
 }
 
+.UsersAdmin__pdf-button:active,
 .UsersAdmin__new-user-button:active{
   opacity:0.5;
 }
@@ -169,6 +202,55 @@
   gap: 4px;
   font-weight: 500;
   color: #434141;
+}
+
+/* Gallon */
+.UsersAdmin__table td:nth-child(4) {
+  width: 150px;
+}
+
+
+.UserAdmin__quantities{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  /* position: relative; */
+}
+
+.UserAdmin__quantity-item {
+  display: flex;
+  align-items: center;
+  /* position: absolute; */
+}
+
+/* .UserAdmin__quantity-item:nth-child(1) {
+  left: 20%;
+}
+
+.UserAdmin__quantity-item:nth-child(2) {
+  right:  7%;
+} */
+
+.UserAdmin__quantity-item img{
+  width: 40px;
+}
+
+.UserAdmin__quantity-item span{
+  font-weight: bold;
+  font-size: 20px;
+  color: #007bff;
+}
+
+.UserAdmin__quantity-item.hidden {
+  display: none;
+}
+
+.no-gallons-message{
+  color: #cecece;
+  margin-left: 30px;
+  font-size: 16px;
 }
 
 /* status */

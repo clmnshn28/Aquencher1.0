@@ -25,7 +25,11 @@ export const UsersEditAdmin = () =>{
   
   const fetchUserData = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/customers/${userId}`);
+      const response = await axios.get(`${API_URL}/api/customers/${userId}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}` 
+        }
+    });
       const customerData = response.data.data;
   
        // Check if customerData.image exists, otherwise use defaultAvatar
@@ -121,7 +125,11 @@ export const UsersEditAdmin = () =>{
 
   const handleConfirmPasswordReset = async () => {
     try {
-        await axios.put(`${API_URL}/api/customers/${userId}/reset-password`, { password: newPassword, c_password: newConfirmPassword  });
+        await axios.put(`${API_URL}/api/customers/${userId}/reset-password`, { password: newPassword, c_password: newConfirmPassword  }, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}` 
+          }
+      });
         alert('Password reset successfully!');
     } catch (error) {
         console.error('Error resetting password:', error.response?.data || error.message);
@@ -186,7 +194,11 @@ export const UsersEditAdmin = () =>{
         province: updatedInfo.find(item => item.label === 'Province')?.value ||  addressInfoItems.find(item => item.label === 'Province').value,
         postal_code: updatedInfo.find(item => item.label === 'Postal Code')?.value ||  addressInfoItems.find(item => item.label === 'Postal Code').value,
       };
-      await axios.put(`${API_URL}/api/customers/${userId}`, updatedData);
+      await axios.put(`${API_URL}/api/customers/${userId}`, updatedData, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}` 
+        }
+      });
       fetchUserData();
     } catch (error) {
       console.error('Error updating user data:', error.response?.data || error.message);

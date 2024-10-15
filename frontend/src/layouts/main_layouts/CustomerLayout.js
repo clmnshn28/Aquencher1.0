@@ -115,12 +115,28 @@ export const CustomerLayout = () =>{
     }
   }, [location]);
 
+  // this for mobile view
   const [sidebarOpenMobile, setSidebarOpenMobile] = useState(false);
 
   const toggleSidebarMobile = () => {
     setSidebarOpenMobile(!sidebarOpenMobile);
   }; 
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const sidebar = document.querySelector('.CustomerLayout__side-bar');
+      if (sidebar && !sidebar.contains(event.target) && sidebarOpenMobile) {
+        setSidebarOpenMobile(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [sidebarOpenMobile]);
+
+// for user fetch and picture
   const [user, setUser] = useState({});
   const [profilePic, setProfilePic] = useState(images.defaultAvatar); 
 
@@ -152,7 +168,12 @@ export const CustomerLayout = () =>{
   return(
     <div className={`CustomerLayout__dashboard-container ${sidebarMinimized ? 'CustomerLayout__sidebar-minimized' : ''}`}>
       <div className="CustomerLayout__dashboard-header">
-        <img className="CustomerLayout__Aquencher-Logo" src={images.loginLogo} alt="Aquencher Logo" />
+        <div className="CustomerLayout__logo-section">
+          <button className="CustomerLayout__hamburger-icon"onClick={toggleSidebarMobile}>
+            <img src={images.hamburgerIconClose} alt="Hamburger Menu"/>  
+          </button> 
+          <img className="CustomerLayout__Aquencher-Logo" src={images.loginLogo} alt="Aquencher Logo" />
+        </div>
         <div className="CustomerLayout__admin-profile">
           <div className="CustomerLayout__notif-container">
             <img className="CustomerLayout__Notification" src={images.notificationClose} alt="Notification"  onClick={toggleNotifications}  />
@@ -199,9 +220,6 @@ export const CustomerLayout = () =>{
               )}
           </div>
 
-          <button className="CustomerLayout__hamburger-icon"onClick={toggleSidebarMobile}>
-            <img src={images.hamburgerIconClose} alt="Hamburger Menu"/>  
-          </button> 
         </div>
       </div>
 
@@ -210,9 +228,9 @@ export const CustomerLayout = () =>{
         <img src={sidebarMinimized ? images.sidebarButtonOpen : images.sidebarButton} alt="button" />
       </button>
       <div className="CustomerLayout__cons-logo"></div>
-      <button className="CustomerLayout__hamburger-menu" onClick={toggleSidebarMobile}>
+      {/* <button className="CustomerLayout__hamburger-menu" onClick={toggleSidebarMobile}>
         <img src={images.hamburgerIconOpen} alt="Hamburger Menu"/>  
-      </button> 
+      </button>  */}
       <ul>
         <Link to="dashboard" className={`CustomerLayout__link-sidebar ${highlightedTab === 'dashboard'? 'CustomerLayout__highlighted' : ''}`}>
           <li>

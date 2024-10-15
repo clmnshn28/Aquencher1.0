@@ -39,6 +39,7 @@ export const RefillModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
     };
 
     const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
+    const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
     const isSubmitDisabled = totalPrice === 0;
 
     if (!isOpen) return null;
@@ -76,7 +77,7 @@ export const RefillModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
                 ))}
 
                 <div className="RefillModal__total-container">
-                    <p>Total ({items.reduce((acc,item) => acc + item.quantity,0)} item) :</p>
+                    <p>Total ({totalQuantity} {totalQuantity > 1 ? 'items' : 'item'}) :</p>
                     <p className="RefillModal__total"> ₱{totalPrice.toFixed(2)}</p>
                 </div>
 

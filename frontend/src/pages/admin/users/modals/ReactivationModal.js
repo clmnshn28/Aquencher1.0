@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import 'assets/css/modals';
 import Modal from 'components/Modal';
 import ButtonGroup from 'components/ButtonGroup';

@@ -45,7 +45,7 @@ import backgroundFeatures from './backgroundFeatures.jpg';
 import mapIcon from './mapIcon.png';
 import picture1 from './picture1.jpg';
 import picture2 from './picture2.jpg';
-import picture3 from './picture3.jpeg';
+import picture3 from './picture3.jpg';
 import picture4 from './picture4.jpg';
 import picture5 from './picture5.jpg';
 

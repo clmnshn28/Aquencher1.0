@@ -76,14 +76,15 @@
 }
 
 .DashboardAdmin__stock-icon{
-  width: 35px;
+  width: 65px;
   padding: 3px;
   border: 1px solid #0174CF;
   border-radius: 50%;
 }
 
 .DashboardAdmin__stock-title{
-  margin: 0;
+  margin: 5px 0 0;
+  font-size: 20px;
 }
 
 .DashboardAdmin__stock-label{

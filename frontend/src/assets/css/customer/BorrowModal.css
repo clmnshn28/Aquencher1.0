@@ -172,6 +172,12 @@
     margin-top: 8px;
 }
 
+.BorrowModal__limit{
+    color: #c10808;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 3px 0px 15px;
+}
 
 @media only screen and (max-width: 767px){
 
@@ -205,17 +211,17 @@
 
     /* items */
     .BorrowModal__item {
-        margin: 7px 5px 0px;
+        margin: 7px 0px 0px;
         padding: 10px;
     }
 
     .BorrowModal__item-image {
-        width: 5em;
+        width: 4.5em;
         margin-right: 10px;
     }
 
     .BorrowModal__item-info {
-        width: 20em;
+        width: 30em;
     }
 
     .BorrowModal__item-info  h3{
@@ -250,13 +256,13 @@
 
     /* total */
     .BorrowModal__item-total {
-        font-size: 14px;
-        margin-left: 5px;
+        font-size: 13px;
+        margin-left: 2px;
     }
 
     .BorrowModal__total-container {
         gap: 5px;
-        margin: 0px 5px;
+        margin: 2px 5px 3px;
         font-size: 10px; 
     }
 
@@ -271,5 +277,11 @@
     .BorrowModal__submit {
         padding: 7px 15px;
         font-size: 10px;
+    }
+
+    
+    .BorrowModal__limit{
+        font-size: 7px;
+        margin: 3px 0px 0px;
     }
 }

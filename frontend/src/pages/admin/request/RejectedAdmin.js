@@ -2,6 +2,9 @@ import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import 'assets/css/admin';
+import axios from 'axios';
+import {API_URL} from 'constants';
+import { format } from 'date-fns';
 
 import * as images from 'assets/images';
 import DropdownFilter from 'components/DropdownFilter';
@@ -10,16 +13,56 @@ import SearchBar from 'components/SearchBar';
 
 
 export const RejectedAdmin = () =>{
-    const [requests, setRequests] = useState([
-        {id: 1, fname: 'Karen Joyce', lname: 'Joson',  house_number: '045', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 3, roundQuantity: 3, requestType: 'Refill', status: false, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar},
-        {id: 2, fname: 'Celmin Shane', lname: 'Quizon', house_number: '065', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 4, roundQuantity: 0, requestType: 'Return', status: false, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
-        {id: 3, fname: 'Miguel Angelo', lname: 'Barruga', house_number: '255', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 1, roundQuantity: 8, requestType: 'Borrow', status: false, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar},
-        {id: 4, fname: 'Francis Harvey', lname: 'Soriano', house_number: '085', street: 'Dama De Notche Street', barangay: 'Bulihan', municipality_city: 'Malolos', province: 'Bulacan', postal_code: '3000', slimQuantity: 0, roundQuantity: 7, requestType: 'Borrow', status: false, contactNumber: '09123892012', date: '2024-09-14', time: '9:00 AM', image: images.defaultAvatar },
-    ]);
-
+    const [requests, setRequests] = useState([]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
-    const [filteredRequests, setFilteredRequests] = useState(requests);
+    const [filteredRequests, setFilteredRequests] = useState([]);
+  
+    useEffect(()=>{
+        fetchGallonsRequest();
+      },[])
+  
+      const fetchGallonsRequest = async () =>{
+          try{
+            const response = await axios.get(API_URL + '/api/gallon-delivery/rejected',{
+              headers: {
+                'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+              },
+            });
+            const requestsWithUpdatedDateTime = response.data.data
+            .map((request) => {
+              const updatedAt = new Date(request.updated_at);
+              const formattedDate = format(updatedAt, 'yyyy-MM-dd');
+              const formattedTime = format(updatedAt, 'hh:mm a');
+  
+              let slimQuantity = 0;
+              let roundQuantity = 0;
+        
+              const quantitiesArray = request.quantities.split(', ');
+                quantitiesArray.forEach(quantity => {
+                  // Extract key and value
+                  const [key, value] = quantity.split(': ').map(str => str.trim());
+                  // Assign values based on key
+                  if (key === '1') slimQuantity = parseInt(value) || 0;
+                  if (key === '2') roundQuantity = parseInt(value) || 0;
+              });
+  
+              return {
+                ...request,
+                date: formattedDate, 
+                time: formattedTime, 
+                slimQuantity,
+                roundQuantity,
+                updatedAt,
+              };
+            }).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+  
+            setRequests(requestsWithUpdatedDateTime);
+            setFilteredRequests(requestsWithUpdatedDateTime);
+          }catch(error){
+            console.error('Error fetching gallon delivery requests:', error);
+          }
+      };
   
     const [filters, setFilters] = useState({
       requestType: '',
@@ -71,7 +114,7 @@ export const RejectedAdmin = () =>{
             // Automatically filter requests based on the updated filters
             const results = requests.filter((request) => {
                 return (
-                    (updatedFilters.requestType === '' || request.requestType === updatedFilters.requestType) &&
+                    (updatedFilters.requestType === '' || request.request_type === updatedFilters.requestType) &&
                     (updatedFilters.gallonType === '' || 
                     (updatedFilters.gallonType === 'Slim' && request.slimQuantity > 0) || 
                     (updatedFilters.gallonType === 'Round' && request.roundQuantity > 0)
@@ -124,9 +167,9 @@ export const RejectedAdmin = () =>{
                 isOpen={activeDropdown === 'requestType'}
                 toggleDropdown={() => toggleDropdown('requestType')}
                 options={[
-                    { label: 'Refill', value: 'Refill' },
-                    { label: 'Return', value: 'Return' },
-                    { label: 'Borrow', value: 'Borrow' },
+                    { label: 'Refill', value: 'refill' },
+                    { label: 'Return', value: 'return' },
+                    { label: 'Borrow', value: 'borrow' },
                 ]}
                 onOptionSelect={(value) => handleFilterChange('requestType', value)}
                 />
@@ -151,21 +194,22 @@ export const RejectedAdmin = () =>{
             <div className="CompletedAdmin__container">
                 {filteredRequests.length === 0 ? (
                     <div className="RequestsAdmin__not-found">
-                        <span>No rejected requests found.</span>
+                        <span>No rejected requests</span>
                     </div>
                 ) : (
-                    filteredRequests.map((request, index) =>(
+                    filteredRequests.map((request) =>(
                         <RejectedItem
-                            key={index}
+                            key={request.gallon_delivery_id}
                             name={`${request.fname} ${request.lname}`}
                             address={formatAddress(request)}
                             slimQuantity={request.slimQuantity}
                             roundQuantity={request.roundQuantity}
-                            requestType={request.requestType}
-                            contact={request.contactNumber}
-                            image={request.image}
+                            requestType={request.request_type}
+                            contact={request.contact_number}
+                            image={request.image ? `${API_URL}/storage/images/${request.image}` : images.defaultAvatar}
                             date={request.date}
                             time={request.time}
+                            reason={request.reason}
                         />  
                     ))
                 )}

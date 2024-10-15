@@ -1,9 +1,22 @@
-import React from "react";
+import React,{useState} from "react";
 import 'assets/css/customer';
 import Modal from "components/Modal";
+import ButtonGroup from "components/ButtonGroup";
+import TextArea from "components/TextArea";
 
+export const ConfirmationModal = ({isOpen, onClose, onConfirm, image, title, message, isProcessing}) =>{
 
-export const ConfirmationModal = ({isOpen, onClose, onConfirm, image, title, message}) =>{
+    const [note, setNote] = useState('');
+
+    const handleCancel = () => {
+        setNote(''); 
+        onClose(); 
+    };
+    
+    const handleConfirm = () =>{
+        onConfirm();
+        setNote('');
+    };
 
     if (!isOpen) return null;
 
@@ -15,9 +28,22 @@ export const ConfirmationModal = ({isOpen, onClose, onConfirm, image, title, mes
                     <h2>{title}</h2>   
                 </div>
                 <p className="ConfirmationModal__message">{message}</p>
+                {/* <div className='ConfirmationModal__note-section'>
+                    <TextArea
+                        className="TextArea" 
+                        value={note}
+                        onChange={(e)=> setNote(e.target.value)}
+                        placeholder="Optional: Enter your message here"
+                    />
+                </div> */}
                 <div className="ConfirmationModal__actions">
-                <button className="ConfirmationModal__cancel" onClick={onClose}>Cancel</button>
-                    <button className="ConfirmationModal__confirm" onClick={onConfirm}>Confirm</button>
+                    <ButtonGroup
+                        onCancel={handleCancel}
+                        onSave={handleConfirm}
+                        disabled={isProcessing}
+                        saveText={isProcessing ? 'Processing...' : 'Confirm'}
+                        saveButtonColor='#0174CF'
+                    />
                 </div>
             </div>
         </Modal>

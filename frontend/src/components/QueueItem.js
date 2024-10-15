@@ -7,17 +7,18 @@ import { PiMapPinAreaDuotone } from "react-icons/pi";
 import * as images from 'assets/images';
 
 export default function QueueItem ({id, name, address, slimQuantity, roundQuantity, requestType, contact, date, time, image, onAccept}){
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
     return(
         <div className="QueueItem__item">
             <div className={`QueueItem__request-type ${requestType.toLowerCase()}`}>
                 <img 
                 src={
-                    requestType === 'Refill' ? images.refillIconOpen :
-                    requestType === 'Borrow' ? images.borrowIconRed : images.returnIconGreen 
+                    requestType === 'refill' ? images.refillIconOpen :
+                    requestType === 'borrow' ? images.borrowIconRed : images.returnIconGreen 
                 } 
-                alt={`${requestType} Icon`} />
-                <span>{requestType}</span>
+                alt={`${capitalize(requestType)} Icon`} />
+                <span>{capitalize(requestType)}</span>
             </div>
             <div className="QueueItem__date-time">
                 <span>{date}</span>
@@ -47,7 +48,7 @@ export default function QueueItem ({id, name, address, slimQuantity, roundQuanti
                 </div>
             </div>
             <div className="QueueItem__quantities">
-            <div className={`QueueItem__quantity-item ${slimQuantity > 0 ? '' : 'hidden'}`}>
+                <div className={`QueueItem__quantity-item ${slimQuantity > 0 ? '' : 'hidden'} `} >
                     <img src={images.returnSlim} alt="Slim Gallon" />
                     <span>{slimQuantity}</span>
                 </div>
@@ -57,7 +58,7 @@ export default function QueueItem ({id, name, address, slimQuantity, roundQuanti
                 </div>
             </div>
             <div className="QueueItem__duration">
-                <p>{requestType} Duration</p>
+                <p>{capitalize(requestType)} Duration</p>
                 <div className="QueueItem__time-duration">
                     <div className="QueueItem__time-icon">
                         <MdAccessTime className='QueueItem__time-logo'/>

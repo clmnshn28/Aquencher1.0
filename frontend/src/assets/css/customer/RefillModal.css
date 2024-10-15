@@ -205,16 +205,18 @@
 
     /* items */
     .RefillModal__item {
-        margin: 7px 5px 0px;
+        margin: 7px 0px 0px;
         padding: 10px;
     }
 
     .RefillModal__item-image {
-        width: 5em;
+        width: 4.5em;
         margin-right: 10px;
     }
 
-    
+    .RefillModal__item-info {
+        width: 30em;
+    }
 
     .RefillModal__item-info  h3{
         font-size: 9px;
@@ -249,12 +251,12 @@
     /* total */
     .RefillModal__item-total {
         font-size: 14px;
-        margin-left: 5px;
+        margin-left: 0px;
     }
 
     .RefillModal__total-container {
         gap: 5px;
-        margin: 0px 5px;
+        margin: 2px 5px 3px;
         font-size: 10px; 
     }
 

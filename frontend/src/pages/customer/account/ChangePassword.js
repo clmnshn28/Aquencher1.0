@@ -13,7 +13,7 @@ export const ChangePassword = () =>{
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [error, setError] = useState('');
-    
+    const [currentError, setCurrentError] = useState('');
 
     const handleCurrentPasswordChange = (e) =>{
         setCurrentPassword(e.target.value);
@@ -76,9 +76,10 @@ export const ChangePassword = () =>{
             setNewPassword('');
             setConfirmNewPassword('');
             setError('');
+            setCurrentError('');
         } catch (error) {
             if (error.response && error.response.data) {
-                setError(error.response.data.message || 'An error occurred');
+                setCurrentError(error.response.data.data?.current_password || 'An error occurred');
             } else {
                 setError('An error occurred');
             }
@@ -103,6 +104,7 @@ export const ChangePassword = () =>{
                         <TextField label="New Password :" id="newPassword" name="newPassword" value={newPassword} onChange={handleNewPasswordChange} type="password" isRequired required/>
                         <TextField label="Confirm New Password :" id="confirmNewPassword" name="confirmNewPassword" value={confirmNewPassword} onChange={handleConfirmNewPasswordChange} type="password" isRequired required/>
                         {error && <span className="ChangePasswordAdmin__error">{error}</span>}
+                        {currentError && <span className="ChangePasswordAdmin__current-error">{currentError}</span>}
                     </div>
             
                     <div className="change-password-requirements">

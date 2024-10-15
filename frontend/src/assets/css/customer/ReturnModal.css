@@ -4,20 +4,20 @@
     border: 4px solid #55B0FF;
     padding: 35px 15px;
     border-radius: 10px;
-    width: 750px;
+    width: 700px;
     max-width: 90%;
     position: relative;
 }
 
 
 .ReturnModal__close{
-    position: absolute;
-    top: 15px;
-    right: 25px;
-    background: none;
-    border: none;
-    font-size:26px;
-    cursor: pointer;
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  background: none;
+  border: none;
+  font-size:26px;
+  cursor: pointer;
 }
 
 /* header */
@@ -46,93 +46,147 @@
     color: #007bff;
 }
 
-
-/* content */
-.ReturnModal__table-container {
-    max-height: 450px; 
-    overflow-y: auto;
-}
-
-.ReturnModal__table {
-    width: 100%;
-    border-collapse: collapse; 
-}
-
-.ReturnModal__table thead th {
-    position: sticky;
-    top: 0;
-    background: #fff; 
-    z-index: 1;
-}
-
-.ReturnModal__table th,
-.ReturnModal__table td {
-    padding: 10px;
+.ReturnModal__quantities-title{
     text-align: center;
+    font-size: 13px;
+    background-color: #fff;
     color: #007bff;
+    position: absolute;
+    top: -31%;
 }
 
-.ReturnModal__table tr {
-    border-bottom: 2px solid #0174CF;
-}
-
-.ReturnModal__gallons-cell {
+/* Gallon */
+.ReturnModal__quantities{
     display: flex;
+    align-items: center;
     justify-content: center;
+    gap: 15px;
+    border:  1px solid #007bff;
+    border-radius: 10px;
+    margin: 0 15em;
+    padding: 15px 10px 10px;
+    position: relative;
 }
 
-/* image & number */
-.ReturnModal__gallon-container {
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-}
-
-.ReturnModal__gallon-item{
+.ReturnModal__quantity-item {
     display: flex;
     align-items: center;
 }
 
-.ReturnModal__gallon-item img {
-    width: 40px;
+.ReturnModal__quantity-item img{
+width: 50px;
 }
 
-.ReturnModal__gallon-item span{
+.ReturnModal__quantity-item span{
+font-weight: bold;
+font-size: 20px;
+color: #007bff;
+}
+
+.ReturnModal__quantity-item.hidden {
+display: none;
+}
+
+  
+/* items */
+.ReturnModal__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 15px 75px 0px;
+    padding: 10px 35px;
+    border-radius: 7px;
+    background-color: rgba(233, 246, 250, 0.8);
+}
+
+.ReturnModal__item-image {
+    width: 7.5em;
+    margin-right: 15px;
+}
+
+.ReturnModal__item-info {
+    text-align: left;
+    flex: 1; 
+}
+
+.ReturnModal__item-info  h3{
+    font-size: 15px;
+    color: #626262;
+    white-space: pre-line;
+    margin: 4px 0px 0px;
+}
+
+.ReturnModal__item-info  p{
+    margin: 3px 0px 15px;
+    font-size: 12px;
+    color: #626262;
+}
+
+/* quantity */
+.ReturnModal__item-quantity {
+    margin: 10px 0px 10px;
     font-weight: bold;
-    font-size: 22px;
+    display: flex;
+    align-items: center;
+    
 }
 
-
-/* button */
-.ReturnModal__status-button {
-    width: 100px;
-    padding: 8px 16px;
-    border-radius: 5px;
-    border: none;
-    font-weight: 600;
-    font-family: "poppins";
-    cursor: pointer;
-}
-
-.ReturnModal__status-button.return {
+.ReturnModal__quantity-btn {
     background-color: #007bff;
     color: white;
+    border: none;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 10px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.5s;
+    border-radius: 4px;
 }
 
-
-.ReturnModal__status-button.pending {
-    background-color: #cccccc;
-    color: #666;
-}
-
-.ReturnModal__status-button.returned {
-    background-color: #4caf50;
-    color: white;
-}
-
-.ReturnModal__status-button:disabled {
+.ReturnModal__quantity-btn:disabled {
+    background-color: #ccc;
     cursor: not-allowed;
-    opacity: 0.7;
+}
+
+.ReturnModal__quantity-btn:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.ReturnModal__item-quantity span {
+    font-size: 18px;
+    font-weight: bold;
+    width: 25px;
+    margin: 0 10px;
+    text-align: center;
+}
+
+.ReturnModal__submit {
+    background-color: #4177DF;
+    display: block;
+    margin: 0 auto;
+    margin-top: 30px;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 15px;
+    font-family: "poppins";
+    cursor: pointer;
+    transition: background-color 1s;
+}
+
+.ReturnModal__submit:hover {
+    background-color: rgb(2, 83, 170);
+}
+
+.ReturnModal__submit:disabled {
+    background-color: #d6d6d6; 
+    color: #a0a0a0; 
+    cursor: not-allowed; 
 }
 
 
@@ -141,9 +195,8 @@
 }
 
 
-
 @media only screen and (max-width: 767px){
-    
+
     .ReturnModal__content{
         border: 3px solid #55B0FF;
         padding: 12px 15px;
@@ -155,7 +208,6 @@
         font-size:20px;
     }
 
-    
     .ReturnModal__header-container{
         gap: 5px;
     }
@@ -173,36 +225,80 @@
         font-size: 9px;
     }
 
-    /* content */
-    .ReturnModal__table-container {
-        max-height: 285px; 
-        overflow-y: auto;
-    }
-
-    .ReturnModal__table th,
-    .ReturnModal__table td {
-        padding: 8px;
-    }
-
-    /* image & number */
-    .ReturnModal__gallon-container {
-        gap: 10px;
     
+    .ReturnModal__quantities-title{
+        font-size: 10px;
+        top: -30%;
     }
 
-    .ReturnModal__gallon-item img {
-        width: 28px;
+    /* Gallon */
+    .ReturnModal__quantities{
+        gap: 10px;
+        border-radius: 10px;
+        margin: 10px 55px 0;
+        padding: 13px 10px 8px;
     }
 
-    .ReturnModal__gallon-item span{
+    .ReturnModal__quantity-item img{
+        width: 35px;
+    }
+
+    .ReturnModal__quantity-item span{
+        font-size: 16px;
+    }
+
+    .ReturnModal__quantity-item.hidden {
+    display: none;
+    }
+    /* items */
+    .ReturnModal__item {
+        margin: 7px 0px 0px;
+        padding: 10px;
+    }
+
+    .ReturnModal__item-image {
+        width: 4.5em;
+        margin-right: 10px;
+    }
+
+    .ReturnModal__item-info {
+        width: 30em;
+    }
+
+    .ReturnModal__item-info  h3{
+        font-size: 9px;
+        margin: 4px 0px 0px;
+    }
+
+    .ReturnModal__item-info  p{
+        margin: 3px 0px 5px;
+        font-size: 9px;
+    }
+
+    /* quantity */
+    .ReturnModal__item-quantity {
+        margin: 5px 0px 5px;
+    }
+
+    .ReturnModal__item-quantity span {
+        font-size: 13px;
+        width: 15px;
+        margin: 0 10px;
+
+    }
+
+    .ReturnModal__quantity-btn {
+        width: 20px;
+        height: 20px;
+        padding: 5px 10px;
         font-size: 15px;
+        border-radius: 4px;
     }
+  
 
-    /* button */
-    .ReturnModal__status-button {
-        width: 90px;
-        padding: 8px;
-        font-size: 11px;
+    .ReturnModal__submit {
+        margin-top: 15px;
+        padding: 7px 15px;
+        font-size: 10px;
     }
-
 }

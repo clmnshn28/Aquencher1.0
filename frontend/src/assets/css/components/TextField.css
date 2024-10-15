@@ -47,6 +47,30 @@
     font-weight: 500;
     outline: none; 
 }
+.TextField__textarea::placeholder {
+    font-style: italic; 
+    color: #bbbbbb; 
+}
+
+/* Scrollbar customization */
+.TextField__textarea::-webkit-scrollbar {
+    width: 5px;
+}
+
+.TextField__textarea::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.TextField__textarea::-webkit-scrollbar-thumb {
+    background: #bdbcbc;
+    border-radius: 10px;
+}
+
+.TextField__textarea::-webkit-scrollbar-thumb:hover {
+    background: #a7a6a6;
+    cursor: pointer;
+}
 
 
 .TextField__input[readonly] {
