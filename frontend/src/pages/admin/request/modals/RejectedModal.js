@@ -19,7 +19,7 @@ export const RejectedModal = ({isOpen, onClose, onConfirm, rejectedDetails}) =>{
         onConfirm(reason);
         setReason('');
     };
-
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
     if(!isOpen || !rejectedDetails) return null;
 
@@ -31,25 +31,25 @@ export const RejectedModal = ({isOpen, onClose, onConfirm, rejectedDetails}) =>{
                 <div className='RejectedModal__user-section'>
                     <img 
                         src={rejectedDetails.image || images.defaultAvatar} 
-                        alt={`${rejectedDetails.name}'s Avatar`}
+                        alt={`${rejectedDetails.fname}'s Avatar`}
                         className="RejectedModal__user-avatar"
                     />
                     <div className='RejectedModal__user-info'>
-                        <p className='RejectedModal__fullName'>{rejectedDetails.name}</p>
+                        <p className='RejectedModal__fullName'>{`${rejectedDetails.fname} ${rejectedDetails.lname}`}</p>
 
                         <div className='RejectedModal__request-details'>
                             <p className='RejectedModal__detail-label'>Request Type:</p>
-                            <div className={`RejectedModal__request-type ${rejectedDetails.requestType.toLowerCase()}`}>
+                            <div className={`RejectedModal__request-type ${rejectedDetails.request_type.toLowerCase()}`}>
                                 <img 
                                     src={
-                                        rejectedDetails.requestType === 'Refill' ? images.refillIconOpen :
-                                        rejectedDetails.requestType === 'Borrow' ? images.borrowIconRed : 
+                                        rejectedDetails.request_type === 'refill' ? images.refillIconOpen :
+                                        rejectedDetails.request_type === 'borrow' ? images.borrowIconRed : 
                                         images.returnIconGreen 
                                     } 
-                                    alt={`${rejectedDetails.requestType} Icon`} 
+                                    alt={`${rejectedDetails.request_type} Icon`} 
                                     className='RejectedModal__request-icon'
                                 />
-                                <span className='RejectedModal__request-type-text'>{rejectedDetails.requestType}</span>
+                                <span className='RejectedModal__request-type-text'>{capitalize(rejectedDetails.request_type)}</span>
                             </div>
                         </div>
                         

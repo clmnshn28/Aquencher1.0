@@ -1,12 +1,16 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import "assets/css/customer";
 import * as images from 'assets/images';
+import axios from 'axios';
+import {API_URL} from 'constants';
 
-import { RefillModal, BorrowModal, ReturnModal, ConfirmationModal} from "./modals";
+import { RefillModal, BorrowModal, ReturnModal, ConfirmationModal, AddressPromptModal} from "./modals";
 
-const RequestBox = ({ icon, selectedIcon, title, description, onClick, isSelected}) => (
-    <div className={`Request__box ${isSelected ? 'Request__box-selected' : ''}`} 
-    onClick={onClick}
+const RequestBox = ({ icon, selectedIcon, title, description, onClick, isSelected, disabled, availableStock, borrowedGallons }) => (
+    <div className={`Request__box ${isSelected ? 'Request__box-selected' : ''} 
+    ${disabled && title === 'Borrow' && availableStock ? 'Request__box-disabled' : ''}
+    ${disabled && title === 'Return' && borrowedGallons ? 'Request__box-disabled' : ''}`} 
+    onClick={!disabled ? onClick : undefined} 
     >
         <img 
         src={isSelected ? selectedIcon :icon} 
@@ -23,44 +27,60 @@ const RequestBox = ({ icon, selectedIcon, title, description, onClick, isSelecte
 
 export const Request = () =>{
 
-    const initialItems = [
-        {
-            id: 1,
-            name: "Po's Purified\nDispenser Bottle Refill 18.9L",
-            price: 25,
-            quantity: 0,
-            image: images.pickRound
-        },
-        {
-            id: 2,
-            name: "Po's Purified\nBlue Slim Gallon with Faucet Refill (20L/5gal)",
-            price: 25,
-            quantity: 0,
-            image: images.pickSlim
-        },
-    ];
-
     const [isRefillModalOpen, setIsRefillModalOpen] = useState(false);
     const [isBorrowModalOpen, setIsBorrowModalOpen] = useState(false);
     const [isReturnModalOpen, setIsReturnModalOpen] = useState(false);
+    const [borrowedGallons, setBorrowedGallons] = useState(0);
 
     const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
     const [confirmationDetails, setConfirmationDetails] = useState({});
-    const [items, setItems] = useState(initialItems);
+    const [items, setItems] = useState([]);
     const [selectedRequest, setSelectedRequest] = useState(null);
+    const [isProcessing, setIsProcessing] = useState(false); 
+    const [isAddressPromptOpen, setIsAddressPromptOpen] = useState(false);
 
-    const [gallonData, setGallonData] = useState([
-        {blueRound: 1, blueSlim: 0, status: "Return"},
-        {blueRound: 2, blueSlim: 3, status: "Pending"},
-        {blueRound: 5, blueSlim: 4, status: "Returned"},
-        {blueRound: 0, blueSlim: 4, status: "Returned"},
-        {blueRound: 6, blueSlim: 0, status: "Returned"},
-        {blueRound: 2, blueSlim: 2, status: "Returned"},
-        {blueRound: 5, blueSlim: 4, status: "Returned"},
-        {blueRound: 0, blueSlim: 4, status: "Returned"},
-        {blueRound: 6, blueSlim: 0, status: "Returned"},
-        {blueRound: 2, blueSlim: 2, status: "Returned"},
-    ]);
+    useEffect(()=>{
+        fetchProducts();
+        fetchBorrowedGallons();
+        checkUserAddress();
+    },[]);
+
+    const fetchProducts = async () =>{
+        try{
+            const response = await axios.get(API_URL +'/api/products', {
+                headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                }
+            });
+            const fetchedProducts = response.data.data;
+            console.log(fetchedProducts);
+            const updatedItems = fetchedProducts.map((product) => ({
+                id: product.id,
+                name: product.item_name, 
+                price: product.price,
+                quantity: 0, 
+                availableStock: product.available_stock,
+                image: product.id === 1 ? images.pickSlim : images.pickRound,
+            }));
+
+            setItems(updatedItems);
+        }catch(error){
+            console.error('Error fetching users', error);
+        }
+    }; 
+
+    const checkUserAddress = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/api/user/address/check`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            return response.data; 
+        } catch (error) {
+            console.error('Error checking user address:', error.response?.data || error.message);
+        }
+    };
 
     const handleRequestSelection = (requestType) => {
         setSelectedRequest(requestType);
@@ -68,90 +88,191 @@ export const Request = () =>{
         setIsRefillModalOpen(requestType === 'refill');
         setIsBorrowModalOpen(requestType === 'borrow');
         setIsReturnModalOpen(requestType === 'return');
-        if (requestType !== 'return') {
-            setItems(initialItems);
-        }
     };
 
  // Function refill
- const confirmRefill = () => {
-
+ const confirmRefill = async () => {
+    const addressCheck = await checkUserAddress();
+    if (!addressCheck) {
+         setIsAddressPromptOpen(true);
+        return;
+    }
     setConfirmationDetails({
         image: images.refillIconOpen,
         title: "Confirm Refill Request",
-        message: "Note: Once confirmed, the refill request cannot be canceled.",
-        onConfirm: () =>{
-            console.log('Refill :', items); 
-            setItems(initialItems); // Reset items to their initial state
-            setIsRefillModalOpen(false); // Close modal after refill
-            setIsConfirmationModalOpen(false); //close the confirm modal
-            setSelectedRequest(null); // reset the selected request
+        message: "Note: This action cannot be undone once confirmed",
+        onConfirm: async () =>{
+            setIsProcessing(true);
+            try{
+                const refillData = [];
+                
+                items.forEach(item => {
+                    if (item.quantity > 0) { 
+                        refillData.push({
+                            gallon_id: item.id, 
+                            quantity: item.quantity,
+                        });
+                    }
+                });
 
+                await axios.post(API_URL + '/api/refill', {
+                    data: refillData 
+                    }, {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        },
+                });
+
+                alert('Refill request successfully.')
+                setIsRefillModalOpen(false); // Close modal after refill
+                setIsConfirmationModalOpen(false); //close the confirm modal
+                setSelectedRequest(null);     // reset the selected request
+                setItems(items.map(item => ({ ...item, quantity: 0 })));
+
+            }catch(error){
+                console.error('Error refilling: ', error.response?.data || error.message);
+            }finally {
+                setIsProcessing(false); 
+            }
         }
     });
     setIsConfirmationModalOpen(true);
 };
 
 const handleCloseRefillModal = () => {
-    setItems(initialItems); 
+    setItems(items.map(item => ({ ...item, quantity: 0 }))); 
     setIsRefillModalOpen(false);
     setSelectedRequest(null); 
 };
 
 //Function borrow
-const confirmBorrow = () =>{
-
+const confirmBorrow = async () =>{
+    const addressCheck = await checkUserAddress();
+    if (!addressCheck) {
+        setIsAddressPromptOpen(true);
+        return;
+    }
+    setIsConfirmationModalOpen(true);
     setConfirmationDetails({
         image: images.borrowIconOpen,
         title: "Confirm Borrow Request",
-        message: "Note: Once confirmed, the borrow request cannot be canceled.",
-        onConfirm: () =>{
-            console.log('Borrow :', items);
-            setItems(initialItems);
-            setIsBorrowModalOpen(false);
-            setIsConfirmationModalOpen(false);
-            setSelectedRequest(null);
+        message: "Note: This action cannot be undone once confirmed.",
+        onConfirm: async () =>{
+            setIsProcessing(true);
+            try{
+                const borrowData = [];
+                
+                items.forEach(item => {
+                    if (item.quantity > 0) { 
+                        borrowData.push({
+                            gallon_id: item.id, 
+                            quantity: item.quantity,
+                            available_stock: item.availableStock, 
+                        });
+                    }
+                });
+
+                await axios.post(API_URL + '/api/borrow', {
+                    data: borrowData 
+                    }, {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        },
+                });
+
+                alert('Borrow request successfully.')
+                setIsBorrowModalOpen(false);
+                setIsConfirmationModalOpen(false);
+                setSelectedRequest(null);
+                setItems(items.map(item => ({ ...item, quantity: 0 })));
+
+            }catch(error){
+                console.error('Error borrowing: ', error.response?.data || error.message);
+            }finally {
+                setIsProcessing(false); 
+            }
         }
     });
-    setIsConfirmationModalOpen(true);
 };
 
 const handleCloseBorrowModal = () => {
-    setItems(initialItems);
+    setItems(items.map(item => ({ ...item, quantity: 0 })));
     setIsBorrowModalOpen(false);
     setSelectedRequest(null); 
 };
 
+// this for returned request to check if have borrowed
+const fetchBorrowedGallons = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/api/borrowed-gallons`, {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+        });
+        setBorrowedGallons(response.data.data);
+    } catch (error) {
+        console.error('Error fetching borrowed gallons:', error.response?.data || error.message);
+    }
+};
+
 //Function return
-const confirmReturn = (gallonIndex) =>{
-    console.log('Gallon index:', gallonIndex);
+const confirmReturn = async () =>{
+    const addressCheck = await checkUserAddress();
+    if (!addressCheck) {
+        setIsAddressPromptOpen(true);
+        return;
+    }
     setConfirmationDetails({
         image: images.returnIconOpen,
         title: "Confirm Return Request",
-        message: "Note: Once confirmed, the return request cannot be canceled.",
-        onConfirm: () =>{
-            if (gallonIndex !== null) {
-                const updatedData = gallonData.map((item, index) => {
-                    if (index === gallonIndex) {
-                        return { ...item, status: 'Pending' };
+        message: "Note: This action cannot be undone once confirmed",
+        onConfirm: async () =>{
+            setIsProcessing(true);
+            try{
+                const returnedData = [];
+                
+                items.forEach(item => {
+                    if (item.quantity > 0) { 
+                        returnedData.push({
+                            gallon_id: item.id, 
+                            quantity: item.quantity,
+                        });
                     }
-                    return item;
                 });
-                setGallonData(updatedData);
-                console.log('Data update:', updatedData);
-            }else {
-                console.warn('No Gallon Index Selected'); // Check if index is null
-            } 
-            setIsConfirmationModalOpen(false);
+
+                await axios.post(API_URL + '/api/returned', {
+                    data: returnedData 
+                    }, {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        },
+                });
+
+                alert('Return request successfully.')
+                setIsReturnModalOpen(false);
+                setIsConfirmationModalOpen(false); 
+                setSelectedRequest(null); 
+                setItems(items.map(item => ({ ...item, quantity: 0 })));
+
+            }catch(error){
+                console.error('Error returning: ', error.response?.data || error.message);
+            }finally {
+                setIsProcessing(false); 
+            }
         }
     });
     setIsConfirmationModalOpen(true);
 };
 
 const handleCloseReturnModal = () =>{
+    setItems(items.map(item => ({ ...item, quantity: 0 })));
     setIsReturnModalOpen(false);
     setSelectedRequest(null);
 };
+
+    const isModalOpen = isRefillModalOpen || isBorrowModalOpen || isReturnModalOpen ;
+    const isBorrowDisabled = !items.some(item => item.availableStock > 0);
+    const isReturnDisabled = Number(borrowedGallons) === 0; 
 
     return(
         <>
@@ -170,6 +291,7 @@ const handleCloseReturnModal = () =>{
                     description='Submit a request for your gallons to be picked up for a refill.'
                     onClick={()=>handleRequestSelection('refill')}
                     isSelected={selectedRequest === 'refill'} // Apply conditional styling
+                    disabled={isModalOpen} 
                 />
                 <RequestBox
                     icon={images.borrowIcon}
@@ -178,6 +300,8 @@ const handleCloseReturnModal = () =>{
                     description='Borrow a water container temporarily from the delivery service.'
                     onClick={()=>handleRequestSelection('borrow')}
                     isSelected={selectedRequest === 'borrow'} 
+                    disabled={isModalOpen || isBorrowDisabled} 
+                    availableStock ={isBorrowDisabled}
                 />
                 <RequestBox
                     icon={images.returnIcon}
@@ -186,6 +310,8 @@ const handleCloseReturnModal = () =>{
                     description="Return an empty water container to the delivery service."
                     onClick={()=>handleRequestSelection('return')}
                     isSelected={selectedRequest === 'return'}
+                    disabled={isModalOpen  || isReturnDisabled} 
+                    borrowedGallons={isReturnDisabled}
                 />
             </div>
 
@@ -212,7 +338,8 @@ const handleCloseReturnModal = () =>{
                 isOpen = {isReturnModalOpen}
                 onClose = {handleCloseReturnModal}
                 onConfirm = {confirmReturn}
-                gallonData={gallonData}
+                items = {items}
+                setItems = {setItems}
             />
 
             {/*Confirmation component */}
@@ -223,6 +350,12 @@ const handleCloseReturnModal = () =>{
                 image = {confirmationDetails.image}
                 title = {confirmationDetails.title}
                 message = {confirmationDetails.message}
+                isProcessing={isProcessing} 
+            />
+
+            <AddressPromptModal
+                isOpen = {isAddressPromptOpen}
+                onClose = {()=> setIsAddressPromptOpen(false)}            
             />
 
         </>

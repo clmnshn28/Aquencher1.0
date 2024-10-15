@@ -19,6 +19,7 @@
 /* request details */
 .RequestsItem__date-time{
   display: flex;
+  justify-content: center;
   gap: 10px;
   color: #666262;
   font-weight: 500;
@@ -27,6 +28,10 @@
 }
 
 /* request type */
+.RequestsItem__request-details{
+  flex: 0.70;
+}
+
 .RequestsItem__request-type{
   display: flex;
   justify-content: center;
@@ -36,7 +41,6 @@
   border-radius: 3px;
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
-  flex: 0.37;
 }
 
 .RequestsItem__request-type.refill{

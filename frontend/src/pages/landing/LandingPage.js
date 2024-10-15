@@ -1,17 +1,34 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { IoMdTime } from "react-icons/io";
 import { TbTruckDelivery } from "react-icons/tb";
 import { LiaFacebook } from "react-icons/lia";
 import { LuPhone } from "react-icons/lu";
 import { PiMapPinAreaDuotone } from "react-icons/pi";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
+// import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import 'assets/css/landing';
 
 import * as images from 'assets/images';
 
 export const LandingPage = () =>{
     const navigate = useNavigate();
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
 
     const handleRegisterClick = () => {
         navigate('/customer/sign-up');
@@ -42,7 +59,7 @@ export const LandingPage = () =>{
 
     return(
         <div id="home" className="LandingPage__content">
-            <header>
+            <header className={isScrolled ? 'scrolled' : ''}>
                 <img className="LandingPage__logo" src={images.loginLogo} alt="LOGO"/>
                 <nav>
                     <a href="#home">Home</a>
@@ -77,7 +94,13 @@ export const LandingPage = () =>{
                         <div className="LandingPage__detailItem" key={index}>
                         <div className="LandingPage__detailInfo">
                             <span className="LandingPage__detailTitle">{detail.title}</span>
-                            {detail.icon}
+                            {detail.title === 'Social Media Link' ? (
+                                <a href="https://www.facebook.com/poswaterrefills" target="_blank" >
+                                    {detail.icon}
+                                </a>
+                            ) : (
+                                detail.icon
+                            )}
                         </div>
                         <p className="LandingPage__detailDescription">{detail.description}</p>
                         </div>
@@ -118,7 +141,13 @@ export const LandingPage = () =>{
                         <div className="LandingPage__detailItem" key={index}>
                         <div className="LandingPage__detailInfo">
                             <span className="LandingPage__detailTitle">{detail.title}</span>
-                            {detail.icon}
+                            {detail.title === 'Social Media Link' ? (
+                                <a href="https://www.facebook.com/poswaterrefills" target="_blank" >
+                                    {detail.icon}
+                                </a>
+                            ) : (
+                                detail.icon
+                            )}
                         </div>
                         <p className="LandingPage__detailDescription">{detail.description}</p>
                         </div>
@@ -136,7 +165,7 @@ export const LandingPage = () =>{
                     <div className="LandingPage__about-content">
                         <h2>Po's Purified Drinking Water & Refilling Hub</h2>
                         <p>
-                            Founded in [Year], PO’s Purified Drinking Water & Refilling Hub has been a trusted source of clean drinking water for the local community. Recognizing the need for reliable water refilling stations in an era of growing demand and environmental awareness, we established our station in the City of Malolos. Over the years, we have evolved to meet the changing needs of our customers while staying true to our core values of quality and reliability.
+                            Founded in 2022, PO’s Purified Drinking Water & Refilling Hub has been a trusted source of clean drinking water for the local community. Recognizing the need for reliable water refilling stations in an era of growing demand and environmental awareness, we established our station in the City of Malolos. Over the years, we have evolved to meet the changing needs of our customers while staying true to our core values of quality and reliability.
                         </p>
                     </div>
                 </section>

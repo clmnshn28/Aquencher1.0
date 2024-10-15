@@ -2,12 +2,14 @@ import "assets/css/admin"
 import React, { useState, useEffect } from 'react';
 import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
-import { FaPhoneAlt, FaUserEdit } from "react-icons/fa";
+import { FaPhoneAlt, FaUserEdit, FaFilePdf} from "react-icons/fa";
 import { BsPersonFillSlash } from "react-icons/bs";
 import { PiMapPinAreaDuotone } from "react-icons/pi";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {API_URL} from 'constants';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 import * as images from 'assets/images';
 import {NewUserModal,DeactivationModal} from './modals'; 
@@ -27,18 +29,23 @@ export const UsersAdmin = () => {
     const [selectedUser, setSelectedUser] = useState(null);
 
     useEffect(()=>{
-      const fetchUsers = async () =>{
+        fetchUsers();
+    },[]);
+
+    const fetchUsers = async () =>{
         try{
-            const response = await axios.get(API_URL +'/api/customers');
+            const response = await axios.get(API_URL +'/api/customers', {
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                }
+            });
+          
             setUsers(response.data.data);
             setFilteredUsers(response.data.data);
         }catch(error){
             console.error('Error fetching users', error);
         }
-      }; 
-        fetchUsers();
-       
-    },[]);
+    }; 
     
     // clear
     const handleClearFilters = () => {
@@ -135,13 +142,80 @@ export const UsersAdmin = () => {
 
     const handleDeactivateUser = async (userId, title, description) => {
         try {
-            await axios.put(`${API_URL}/api/customers/${userId}/deactivate`, { title, description });
+            await axios.put(`${API_URL}/api/customers/${userId}/deactivate`, { title, description }, {
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                }
+            });
             setFilteredUsers((prev) => prev.filter(u => u.id !== selectedUser.id));
         } catch (error) {
             console.error('Error deactivating user:', error);
         }
     };
 
+    const calculateTotalGallons = (gallons) => {
+        const totals = { slim: 0, round: 0 };
+        
+        gallons.forEach(gallon => {
+       
+            gallon.borrow_details.forEach(inactive => {
+
+            if (inactive.shop_gallon_id === 1) { 
+                totals.slim += inactive.quantity;
+            } else if (inactive.shop_gallon_id === 2) { 
+                totals.round += inactive.quantity;
+            }
+            });
+           
+        });
+
+        return totals;
+    };
+
+    const handleExportToPDF = () => {
+        const doc = new jsPDF('landscape');
+        const tableColumn = ["Full Name",'Username', "Email", "Contact",'Address', "Gallons", ];
+        const tableRows = [];
+    
+        filteredUsers.sort((a, b) => {
+            const fnameA = a.fname.toLowerCase();
+            const fnameB = b.fname.toLowerCase();
+            return fnameA.localeCompare(fnameB);
+        });
+        
+        filteredUsers.forEach((user) => {
+            const { slim, round } = calculateTotalGallons(user.inactive_gallons);
+            const fullName = `${user.fname} ${user.lname}`;
+            const address = user.house_number && user.street ? `${user.house_number} ${user.street}, ${user.barangay}` : '-'; 
+            const gallons = `Slim: ${slim}, Round: ${round}`;
+    
+            tableRows.push([fullName, user.username, user.email, user.contact_number, address, gallons]);
+        });
+    
+        if (tableRows.length > 0) {
+            doc.setFont("Helvetica", "bold").setFontSize(20); 
+            doc.setTextColor(0, 105, 217);
+            doc.text("Customer Management List", doc.internal.pageSize.getWidth() / 2, 16, { align: "center" });
+            doc.autoTable({
+                head: [tableColumn],
+                body: tableRows,
+                startY: 20,
+                theme: 'striped', 
+                styles: {
+                    cellPadding: 3, 
+                    fontSize: 11,   
+                },
+                headStyles: {
+                    fillColor: [0, 105, 217], 
+                    fontSize: 12, 
+                },
+            });
+        } else {
+            doc.text("No data available", 14, 16); 
+        }
+
+        doc.save("Customer_Management_List.pdf");
+    };
 
     return(
         <>
@@ -155,31 +229,38 @@ export const UsersAdmin = () => {
                 </Link>
             </div>
             <div className="UsersAdmin__controls">
-                <SearchBar
-                    searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery}
-                    handleSearch={handleSearch}
-                />  
-                <IoFilterSharp  className="UsersAdmin__filter-icon" />
-                <DropdownFilter
-                    label={filters.status || "Status"}
-                    isOpen={activeDropdown === 'status'}
-                    toggleDropdown={()=>toggleDropdown('status')}
-                    options={[
-                        {label: 'Active', value: 'Active'},
-                        {label: 'Inactive', value: 'Inactive'},
-                    ]}
-                    onOptionSelect={(value) => handleFilterChange('status', value)}
-                /> 
-              
-                 {(searchQuery || filters.status ) && (
-                    <button className="RequestsAdmin__clear-filters-button" onClick={handleClearFilters}>
-                        CLEAR
+                <div className="UsersAdmin__controls-filter">
+                    <SearchBar
+                        searchQuery={searchQuery}
+                        setSearchQuery={setSearchQuery}
+                        handleSearch={handleSearch}
+                    />  
+                    <IoFilterSharp  className="UsersAdmin__filter-icon" />
+                    <DropdownFilter
+                        label={filters.status || "Status"}
+                        isOpen={activeDropdown === 'status'}
+                        toggleDropdown={()=>toggleDropdown('status')}
+                        options={[
+                            {label: 'Active', value: 'Active'},
+                            {label: 'Inactive', value: 'Inactive'},
+                        ]}
+                        onOptionSelect={(value) => handleFilterChange('status', value)}
+                    /> 
+                
+                    {(searchQuery || filters.status ) && (
+                        <button className="RequestsAdmin__clear-filters-button" onClick={handleClearFilters}>
+                            CLEAR
+                        </button>
+                    )}
+                </div>
+                <div className="UsersAdmin__controls-actions">   
+                    <button className="UsersAdmin__pdf-button" onClick={handleExportToPDF}>
+                        <FaFilePdf className="UsersAdmin__pdf-icon" /> Export to PDF
                     </button>
-                )}
-                <button className="UsersAdmin__new-user-button" onClick={() => setIsNewUserModalOpen(true)}>
-                    + New User
-                </button>
+                    <button className="UsersAdmin__new-user-button" onClick={() => setIsNewUserModalOpen(true)}>
+                        + New User
+                    </button>
+                </div>
             </div>
             <div className="UsersAdmin__table-container">
                 <table className="UsersAdmin__table">
@@ -188,6 +269,7 @@ export const UsersAdmin = () => {
                             <th style={{paddingLeft: '40px'}}>Full Name</th>
                             <th>Email</th>
                             <th>Contact</th>
+                            <th style={{textAlign: 'center'}}>Gallons</th>
                             <th style={{textAlign: 'center'}}>Status</th>
                             <th></th>
                         </tr>
@@ -200,7 +282,10 @@ export const UsersAdmin = () => {
                                 </td>
                             </tr>
                         ):(
-                            filteredUsers.map((user) =>(
+                            filteredUsers.map((user) =>{
+                                const { slim, round } = calculateTotalGallons(user.inactive_gallons);
+                           
+                                return (
                                 <tr key={user.id}>
                                     <td  style={{paddingLeft: '40px'}}>
                                         <div className="UsersAdmin__info">
@@ -224,6 +309,24 @@ export const UsersAdmin = () => {
                                             </p>
                                         </div>
                                     </td>
+                                    <td>
+                                        <div className="UserAdmin__quantities">
+                                            {user.inactive_gallons.length > 0 ? (
+                                                <>
+                                                    <div className={`UserAdmin__quantity-item ${slim === 0 ? 'hidden' : ''}`}>
+                                                        <img src={images.returnSlim} alt="Slim Gallon" />
+                                                        <span>{slim}</span>
+                                                    </div>
+                                                    <div className={`UserAdmin__quantity-item ${round === 0 ? 'hidden' : ''}`}>
+                                                        <img src={images.returnRound} alt="Round Gallon" />
+                                                        <span>{round}</span>
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <span className="no-gallons-message">-</span>
+                                            )}
+                                        </div>
+                                    </td>
                                     <td style={{textAlign: 'center'}}>
                                         <span 
                                             className={`UsersAdmin__dot ${user.is_online ? 'UsersAdmin__active' : 'UsersAdmin__inactive'}`}   
@@ -243,7 +346,7 @@ export const UsersAdmin = () => {
                                         </div>
                                     </td>
                                 </tr>
-                            ))
+                            )})
                         )}
                     </tbody>
                 </table>

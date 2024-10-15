@@ -15,12 +15,14 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
         window.addEventListener("resize", updateIsMobile);
         return () => window.removeEventListener("resize", updateIsMobile);
     }, []);
+    
+    const perPersonLimit = 5;
 
     // incrementing and decrementing quantity
     const handleIncrement = (id) => {
         setItems((prevItems) =>
             prevItems.map((item) =>
-                item.id === id 
+                item.id === id && item.quantity < perPersonLimit && item.quantity <= item.availableStock 
                     ? { ...item, quantity: item.quantity + 1 } 
                     : item
             )
@@ -38,7 +40,11 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
     };
 
     const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
-    const isSubmitDisabled = totalPrice === 0;
+    const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
+    const isSubmitDisabled = totalPrice === 0 || items.some(
+        item => item.quantity > 0 && (item.quantity >= perPersonLimit || item.quantity > item.availableStock)
+    );
+    
 
     if (!isOpen) return null;
    
@@ -49,7 +55,7 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
                 <img src={images.borrowIconOpen} alt="Borrow Icon" />
                 <h2>Borrow</h2>  
             </div>
-            <p className="BorrowModal__header-description">Submit a request to borrow a water container temporarily from the delivery service.</p>
+            <p className="BorrowModal__header-description">Submit a request to borrow a water container from the delivery service.</p>
 
             {items.map((item) => (
                 <div key={item.id} className="BorrowModal__item">
@@ -67,15 +73,21 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
                             <button
                                 className="BorrowModal__quantity-btn"
                                 onClick={() => handleIncrement(item.id)}
+                                disabled={item.quantity >= perPersonLimit || item.quantity > item.availableStock}
                             >+</button>
                         </div>
+                        {item.quantity >= perPersonLimit ? (
+                            <div className="BorrowModal__limit">Borrowing limit exceeded.</div>
+                        ) : item.quantity > item.availableStock ? (
+                            <div className="BorrowModal__limit">Currently out of stock.</div>
+                        ) : null}
                     </div>
                     <p className="BorrowModal__item-total">₱{(item.price * item.quantity).toFixed(2)}</p>
                 </div>
             ))}
 
             <div className="BorrowModal__total-container">
-                <p>Total ({items.reduce((acc,item) => acc + item.quantity,0)} item) :</p>
+                <p>Total ({totalQuantity} {totalQuantity > 1 ? 'items' : 'item'}) :</p>
                 <p className="BorrowModal__total"> ₱{totalPrice.toFixed(2)}</p>
             </div>
 

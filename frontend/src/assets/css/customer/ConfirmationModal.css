@@ -31,8 +31,52 @@
     color: #9C9C9C;
     font-weight: 500;
     padding: 0px 30px ;
-    margin: 30px 0px;
+    margin: 30px 0px 20px;
     text-align: center;
+}
+
+/* Note */
+.ConfirmationModal__note-section{
+    margin: 20px 30px 30px;
+}
+
+.TextArea {
+    height: 45px;
+    color: #434141;
+    padding: 10px 25px;
+    resize: none;
+    font-family: "poppins";
+    font-size: 13px;
+    text-indent: 5px;
+    border: 1.5px solid #ADAFB0;
+    border-radius: 5px;
+    font-weight: 500;
+    outline: none; 
+}
+
+.TextArea::placeholder {
+    font-style: italic; 
+    color: #c8c8c8; 
+}
+
+/* Scrollbar customization */
+.TextArea::-webkit-scrollbar {
+    width: 5px;
+}
+
+.TextArea::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.TextArea::-webkit-scrollbar-thumb {
+    background: #bdbcbc;
+    border-radius: 10px;
+}
+
+.TextArea::-webkit-scrollbar-thumb:hover {
+    background: #a7a6a6;
+    cursor: pointer;
 }
 
 .ConfirmationModal__actions {
@@ -61,13 +105,57 @@
     color: white;
 }
 
+/* Address Required */
+.AddressPromptModal__content{
+    background: #fff;
+    padding: 35px 35px;
+    border-radius: 10px;
+    width: 400px;
+    max-width: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.AddressPromptModal__icon{
+    width: 70px;
+    height: 70px;
+    min-height: 70px;
+    min-width: 70px;
+    color: #007bff;
+}
+
+.AddressPromptModal__message{
+    color: #8f8f8f;
+    font-weight: 500;
+    padding: 0px 30px ;
+    margin: 20px 0px 30px;
+    text-align: center;
+}
+
+.AddressPromptModal__actions {
+    display: flex;
+    justify-content: center;
+}
+
+.AddressPromptModal__cancel{
+    background-color: #b8b8b8;
+    color: white;
+    padding: 10px 40px;
+    border-radius: 4px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: poppins;
+    cursor: pointer;
+}
 
 
 @media only screen and (max-width: 767px){
     
     .ConfirmationModal__content{
         padding: 20px 25px;
-        width: 280px;
+        margin: 0 20px;
     }
 
     .ConfirmationModal__header-container{
@@ -76,17 +164,34 @@
     }
 
     .ConfirmationModal__header-container img{
-        width: 35px;
+        width: 30px;
     }
     
     .ConfirmationModal__header-container h2{
-        font-size: 17px;
+        font-size: 14px;
     }
 
     .ConfirmationModal__message{
-        padding: 0px 30px ;
-        margin: 15px 0px;
-        font-size: 12px;
+        padding: 0px 0px ;
+        margin: 15px 0px ;
+        font-size: 10px;
+    }
+
+    /* Note */
+    .ConfirmationModal__note-section{
+        margin: 10px 10px 15px;
+    }
+    
+    .TextArea {
+        height: 30px;
+        padding: 10px 15px;
+        font-size: 10px;
+        text-indent: 5px;
+        border: 1px solid #c4c4c4;
+    }
+    
+    .TextArea::-webkit-scrollbar {
+        width: 4px;
     }
 
     .ConfirmationModal__actions {
@@ -94,10 +199,38 @@
     }    
 
     .ConfirmationModal__confirm, .ConfirmationModal__cancel {
-        width: 100px;
-        padding: 10px;
-        font-size: 13px;
+        width: 90px;
+        padding: 8px ;
+        font-size: 11px;
     }
+    
+
+    /* Address Required */
+    .AddressPromptModal__content{
+        padding: 20px 25px;
+        margin: 0 20px;
+    }
+
+    .AddressPromptModal__icon{
+        width: 40px;
+        height: 40px;
+        min-height: 40px;
+        min-width: 40px;
+        color: #007bff;
+    }
+
+    .AddressPromptModal__message{
+        padding: 0px 0px ;
+        margin: 15px 10px ;
+        font-size: 10px;
+    }
+
+
+    .AddressPromptModal__cancel{
+        padding: 7px 25px;
+        font-size: 12px;
+    }
+
 
 
 }

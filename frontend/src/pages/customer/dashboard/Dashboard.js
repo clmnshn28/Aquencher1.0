@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import 'assets/css/customer';
-import { format, formatDistanceToNow } from 'date-fns';
+import { format } from 'date-fns';
 import { RiMegaphoneLine } from "react-icons/ri";
 import { Line } from "react-chartjs-2";
 import 'chart.js/auto';
@@ -28,6 +28,26 @@ export const Dashboard = () =>{
     const recentAnnouncements = announcements.filter(announcement => announcement.date >= currentDateStart);
     const earlierAnnouncements = announcements.filter(announcement => announcement.date < currentDateStart);
 
+    const [currentTimeDashboard, setCurrentTimeDashboard] = useState('');
+    const [currentDateDashboard, setCurrentDateDashboard] = useState('');
+  
+    useEffect(() => {
+
+      updateTimeAndDate();
+      const intervalId = setInterval(updateTimeAndDate, 1000); // update every second
+  
+      return () => clearInterval(intervalId); // Cleanup interval on component unmount
+    }, []);
+
+    const updateTimeAndDate = () => {
+        const now = new Date();
+        const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+        const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
+  
+        setCurrentTimeDashboard(now.toLocaleTimeString('en-US', timeOptions));
+        setCurrentDateDashboard(now.toLocaleDateString('en-US', dateOptions));
+    };
+
     const lineData = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [
@@ -40,7 +60,7 @@ export const Dashboard = () =>{
         },
         {
             label: 'Round Gallons',
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,   0], // changes in this part
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // changes in this part
             fill: false,
             backgroundColor: '#A4D3FF',
             borderColor: '#A4D3FF',
@@ -93,8 +113,8 @@ export const Dashboard = () =>{
                     Welcome Back to Po’s Purified  Drinking Water <br/>& Refilling Hub, <span style={{ fontWeight: 'bold' }}>Francis Harvey</span>
                 </h2>
                 <div className="Dashboard__time-date">
-                    <h3 className="Dashboard__time-text">10:46 AM</h3>
-                    <p className="Dashboard__date-text">Feb 23, 2024</p>
+                    <h3 className="Dashboard__time-text">{currentTimeDashboard}</h3>
+                    <p className="Dashboard__date-text">{currentDateDashboard}</p>
                 </div>
                 <div className="Dashboard__summary-gallons">
                    <GallonInfo

@@ -28,19 +28,23 @@ export const DeactivatedAccountsAdmin = () =>{
 
 
     useEffect(()=>{
-        const fetchUsers = async () =>{
-            try{
-                const response = await axios.get(`${API_URL}/api/customers/soft-deleted`);
-                setUsers(response.data.data);
-                setFilteredUsers(response.data.data);
-            }catch(error){
-                console.error('Error fetching deactivated users', error.response ? error.response.data : error.message);
-            }
-          }; 
-    
           fetchUsers();
     },[]);
 
+    const fetchUsers = async () =>{
+        try{
+            const response = await axios.get(`${API_URL}/api/customers/soft-deleted`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                }
+            });
+            setUsers(response.data.data);
+            setFilteredUsers(response.data.data);
+        }catch(error){
+            console.error('Error fetching deactivated users', error.response ? error.response.data : error.message);
+        }
+    }; 
+    
 
      // clear
      const handleClearFilters = () => {
@@ -109,7 +113,11 @@ export const DeactivatedAccountsAdmin = () =>{
    // Confirm reactivation
    const handleConfirmReactivation = async (userId) => {
     try {
-        await axios.post(API_URL +`/api/customers/${userId}/reactivate`); 
+        await axios.post(API_URL +`/api/customers/${userId}/reactivate`,null,  {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}` 
+            }
+        }); 
          // Update the user in the filteredUsers state to reflect reactivation
          setFilteredUsers((prev) => prev.filter(u => u.id !== selectedUser.id));
     } catch (error) {

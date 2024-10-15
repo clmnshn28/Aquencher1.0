@@ -79,12 +79,19 @@ export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , 
     const username = formData.find(item => item.label === 'Username')?.value;
 
     try {
-      const response = await axios.post(`${API_URL}/api/customer/validate`, { 
-        email, 
-        username,
-        currentEmail, // Add current user's email
-        currentUsername // Add current user's username
-      });
+
+      if (title === 'Personal Information') {
+        await axios.post(`${API_URL}/api/admin/validate`, { 
+            email, 
+            username,
+            currentEmail, // Add current user's email
+            currentUsername // Add current user's username
+          }, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}` 
+            }
+        });
+      }
      
       // If no validation errors, proceed with confirmation
       onConfirm(formData);

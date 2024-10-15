@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IoFilterSharp } from 'react-icons/io5';
+import {FaFilePdf} from "react-icons/fa";
 import "assets/css/admin";
 
 import * as images from 'assets/images';
@@ -145,6 +146,9 @@ export const TransactionAdmin = () => {
             CLEAR
           </button>
         )}
+        <button className="TransactionAdmin__pdf-button" >
+          <FaFilePdf className="UsersAdmin__pdf-icon" /> Export to PDF
+        </button>
       </div>
       <div className="TransactionAdmin__table-container">
         <table className="TransactionAdmin__table">

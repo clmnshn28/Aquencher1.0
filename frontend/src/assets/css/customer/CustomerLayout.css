@@ -17,6 +17,11 @@
   z-index: 2; 
 }
 
+.CustomerLayout__logo-section{
+  display: flex;
+  align-items: center;
+}
+
 .CustomerLayout__Aquencher-Logo{
   width: 100px;
   margin-left: 100px;
@@ -442,21 +447,20 @@
   
   .CustomerLayout__Aquencher-Logo{
       width: 60px;
-      margin-left: 40px;
+      margin-left: 0px;
   }
   
   .CustomerLayout__admin-profile{
-      margin-right: 10px;
+      margin-right: 20px;
   }
   
   /* notification */
   .CustomerLayout__notif-container{
-      margin-right: 13px;
+      margin-right: 10px;
   }
   
   .CustomerLayout__Notification{
       width: 27px;
-      display: none;
   }
   
   .CustomerLayout__notifications-view {
@@ -464,9 +468,9 @@
   }
 
   .CustomerLayout__notifications-view {
-      width: 150px;
+      width: 200px;
       padding: 10px;
-      display: none;
+      right: -90px; /**/
   }
   .CustomerLayout__notification-title-header{
       font-size: 10px;
@@ -546,19 +550,19 @@
   .CustomerLayout__side-bar {
       margin-top: 0;
       z-index: 3;
-      left: auto;
-      right: 0;
-      padding: 10px 5px;
-      visibility: hidden;
-      max-width: 0;
-      transition: visibility 0.3s ease-in-out, max-width 0.3s ease-in-out;
+      left: 0;
+      right: auto;
+      padding: 40px 15px 30px 10px;
+      width: 220px; 
+      transform: translateX(-100%);
+      transition: transform 0.3s ease-in-out;
+      overflow-x: hidden;
+  
   }
 
   .CustomerLayout__side-bar.open {
-      visibility: visible;
-      max-width: 220px;
-      transition: visibility 0.3s ease-in-out, max-width 0.3s ease-in-out;
-    }
+    transform: translateX(0);
+  }
   
   .CustomerLayout__sidebar-toggle-button,
   .CustomerLayout__cons-logo{
@@ -572,7 +576,7 @@
 
   .CustomerLayout__sidebar-text {
       font-size: 13px;
-    }
+  }
 
   .CustomerLayout__sidebar-dropdown{
       width: 15px;
@@ -597,10 +601,11 @@
     font-size: 12px;
   }
 
+
   /* logout */
   .CustomerLayout__link-sidebar.logout{
     display: flex;
-    width: 210px;
+    width: 200px;
     position: absolute;
     bottom: 10px;
     padding: 8px 10px;

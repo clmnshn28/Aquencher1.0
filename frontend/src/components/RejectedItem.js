@@ -5,19 +5,19 @@ import { FaPhoneAlt } from "react-icons/fa";
 
 import * as images from 'assets/images';
 
-export default function RejectedItem({id, name, address, slimQuantity, roundQuantity, requestType, contact, image, date, time}){
-    
+export default function RejectedItem({ name, address, slimQuantity, roundQuantity, requestType, contact, image, date, time, reason}){
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     return(
         <div className="RequestsItem__item">
             <div className="RequestsItem__request-details">
                 <div className={`RequestsItem__request-type ${requestType.toLowerCase()}`}>
                     <img 
                     src={
-                        requestType === 'Refill' ? images.refillIconOpen :
-                        requestType === 'Borrow' ? images.borrowIconRed : images.returnIconGreen 
+                        requestType === 'refill' ? images.refillIconOpen :
+                        requestType === 'borrow' ? images.borrowIconRed : images.returnIconGreen 
                     } 
-                    alt={`${requestType} Icon`} />
-                    <span>{requestType}</span>
+                    alt={`${capitalize(requestType)} Icon`} />
+                    <span>{capitalize(requestType)}</span>
                 </div>  
                 <div className="RequestsItem__date-time">
                     <span>{date}</span>
@@ -57,7 +57,7 @@ export default function RejectedItem({id, name, address, slimQuantity, roundQuan
             <div className="RequestItem__reason-container">
                <div className="RequestItem__reason-section">
                     <p>Reason:</p>
-                    <p>Invalid contact information</p>
+                    <p>{reason}</p>
                </div>
             </div>
       </div>

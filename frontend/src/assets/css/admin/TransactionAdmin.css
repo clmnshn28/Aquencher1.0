@@ -28,7 +28,24 @@
   gap: 15px;
 }
 
-
+.TransactionAdmin__pdf-button{
+  background: transparent;
+  color: #0174CF;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'poppins';
+  padding: 7px 15px;
+  border-radius: 5px;
+  border: 2px solid #0174CF;
+  margin-left: auto;
+  margin-right: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: background-color 1s;
+}
 
 
 /* table */

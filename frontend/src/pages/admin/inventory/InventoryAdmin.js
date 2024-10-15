@@ -1,30 +1,49 @@
 import "assets/css/admin"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdOutlineEdit } from "react-icons/md";
+import { format } from 'date-fns';
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 import * as images from 'assets/images';
 import { EditInventoryModal } from "./modals/EditInventoryModal";
 
 export const InventoryAdmin = () =>{
 
-  const [inventoryItems, setInventoryItems] = useState([
-    {id: 1, itemName:'Blue Slim Gallon with Faucet Refill (20L/5gal)', initialStock: 0, price: 0, borrowable: 0, borrowed: 0, returned: 0, availableStock: 0, status: 'none', lastUpdated: '0000-00-00'},
-    {id: 2, itemName:'Round Gallon Dispenser Refill 18.9L', initialStock: 0, price: 0, borrowable: 0, borrowed: 0, returned: 0, availableStock: 0, status: 'none', lastUpdated: '0000-00-00'},
-  ]);
+  const [inventoryItems, setInventoryItems] = useState([]);
   const [EditInventory, setEditInventory] = useState(false);
 
   const [selectedInventory, setSelectedInventory] = useState(null);
   const [inventory, setInventory] = useState({
     itemName: '', initialStock: '', price: '',
-    borrowable: '',borrowed:'', returned: '',
-    availableStock: '', status: '', lastUpdated: '' 
   });
 
-  const handleItemNameChange = (e) => setInventory(prevState => ({ ...prevState, itemName: e.target.value || '' }));
-  const handleInitialStockChange = (e) => setInventory(prevState => ({ ...prevState, initialStock: parseInt(e.target.value) || '' }));
-  const handlePriceChange = (e) => setInventory(prevState => ({ ...prevState, price:  parseFloat(e.target.value) || '' }));
-  const handleBorrowableChange = (e) => setInventory(prevState => ({ ...prevState, borrowable: parseInt(e.target.value) || ''}));
+  useEffect(()=>{
+    fetchInventory();
+  },[]);
 
+  const fetchInventory  = async () =>{
+    try{
+      const response = await axios.get(API_URL + '/api/admin/products',{
+        headers: {
+          'Authorization' : `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const updatedItems = response.data.data.map(item => ({
+        ...item,
+        status: item.available_stock > 0 ? 'Available' : 'Out of Stock',
+      }));
+
+      setInventoryItems(updatedItems);
+    }catch(error){
+      console.error('Error fetching users', error);
+    }
+  };
+
+  const handleItemNameChange = (e) => setInventory(prevState => ({ ...prevState, itemName: e.target.value || '' }));
+  const handleInitialStockChange = (e) => setInventory(prevState => ({ ...prevState, initialStock: e.target.value || '' }));
+  const handlePriceChange = (e) => setInventory(prevState => ({ ...prevState, price: e.target.value || '' }));
+  
   // color status
   const getStockColor = (value) => {
     if (value > 0) return '#007bff';       
@@ -42,31 +61,56 @@ export const InventoryAdmin = () =>{
   const handleEditClick = (inventory) => {
     setSelectedInventory(inventory);
     setInventory({
-      itemName: inventory.itemName, 
-      initialStock: inventory.initialStock, 
+      itemName: inventory.item_name, 
+      initialStock: inventory.initial_stock, 
       price: inventory.price,
-      borrowable: inventory.borrowable,
       borrowed: inventory.borrowed, 
-      returned: inventory.returned,
-      availableStock: inventory.availableStock, 
+      availableStock: inventory.available_stock, 
       status: inventory.status, 
-      lastUpdated: inventory.lastUpdated
+      lastUpdated: formatDate(inventory.updated_at)
     });
     setEditInventory(true);
   };
 
   // confirm Edit Inventory
-  const handleInventorySubmit = (e) =>{
+  const handleInventorySubmit = async (e) =>{
     e.preventDefault();
 
-    const updatedItems = inventoryItems.map(item =>
-      item.id === selectedInventory.id ? { ...selectedInventory, ...inventory } : item
-    );
+    try{
 
-    setInventoryItems(updatedItems);  
-    setSelectedInventory(null); // set null the item selected
-    setEditInventory(false); //close modal
+      const newAvailableStock = inventory.initialStock - (selectedInventory.borrowed || 0);
+      const updatedStatus = newAvailableStock > 0 ? 'Available' : 'Out of Stock';
 
+      const response = await axios.put(API_URL + `/api/admin/products/${selectedInventory.id}`,{
+        item_name: inventory.itemName, 
+        initial_stock: inventory.initialStock, 
+        price: inventory.price,
+        available_stock: newAvailableStock,
+        status: updatedStatus,
+        },{
+          headers:{
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+      });
+
+      
+      const updatedItem = response.data.data;
+
+      const updatedItems = inventoryItems.map(item =>
+          item.id === selectedInventory.id ? { ...item, ...updatedItem, status: updatedStatus} : item
+      );
+
+      setInventoryItems(updatedItems);
+      setSelectedInventory(null);
+      setEditInventory(false);
+  
+    }catch(error){
+      console.log('Error updating inventory item: ', error);
+    }
+  };
+  
+  const formatDate = (dateString) => {
+    return format(new Date(dateString), 'yyyy-MM-dd hh:mm a'); 
   };
 
   return (
@@ -82,9 +126,7 @@ export const InventoryAdmin = () =>{
               <th>Item Name</th>
               <th>Initial Stock</th>
               <th>Price</th>
-              <th>Borrowable</th>
               <th>Borrowed</th>
-              <th>Returned</th>
               <th>Available Stock</th>
               <th>Status</th>
               <th>Last Updated</th>
@@ -94,17 +136,18 @@ export const InventoryAdmin = () =>{
           <tbody>
             {inventoryItems.map((inventory) =>(
               <tr key={inventory.id}>
-                <td>{inventory.itemName}</td>
-                <td>{inventory.initialStock}</td>
-                <td>₱{inventory.price.toFixed(2)}</td>
-                <td>{inventory.borrowable}</td>
+                <td>{inventory.item_name}</td>
+                <td>{inventory.initial_stock}</td>
+                <td>₱{parseInt(inventory.price).toFixed(2)}</td>
                 <td>{inventory.borrowed}</td>
-                <td>{inventory.returned}</td>
-                <td>{inventory.availableStock}</td>
-                <td  style={{color: inventory.status === 'Available' ? '#007bff' : ''}}>
+                <td>{inventory.available_stock}</td>
+                <td  style={{color: inventory.status === 'Available' ? '#007bff' : '#9E1616'}}>
                   {inventory.status}
                 </td>
-                <td>{inventory.lastUpdated}</td>
+                <td>
+                <div>{format(new Date(inventory.updated_at), 'yyyy-MM-dd')}</div>
+                <div>{format(new Date(inventory.updated_at), 'hh:mm a')}</div>
+                </td>
                 <td>
                   <button className="InventoryAdmin__edit" onClick={() => handleEditClick(inventory)}>
                     <MdOutlineEdit/>
@@ -132,17 +175,9 @@ export const InventoryAdmin = () =>{
                 Total Available Stock: 
                 <span
                 className="InventoryAdmin__available"  
-                style={{ color: getStockColor(inventory.availableStock) }}
+                style={{ color: getStockColor(inventory.available_stock) }}
                 >
-                  {inventory.availableStock}
-                </span>
-              </p>
-              <p>
-                Borrowable Stock: 
-                <span
-                className="InventoryAdmin__available"   
-                >
-                  {inventory.borrowable}
+                  {inventory.available_stock}
                 </span>
               </p>
 
@@ -159,9 +194,7 @@ export const InventoryAdmin = () =>{
         inventoryItemName = {inventory.itemName}
         inventoryInitialStock = {inventory.initialStock}
         inventoryPrice = {inventory.price}
-        inventoryBorrowable = {inventory.borrowable}
-        inventoryBorrowed = {inventory.borrowed}
-        inventoryReturned = {inventory.returned}
+        inventoryBorrowed = {inventory.borrowed} 
         inventoryAvailableStock = {inventory.availableStock}
         inventoryStatus = {inventory.status}
         inventoryLastUpdated = {inventory.lastUpdated}
@@ -169,7 +202,6 @@ export const InventoryAdmin = () =>{
         onItemNameChange={handleItemNameChange}
         onInitialStockChange ={handleInitialStockChange}
         onPriceChange = {handlePriceChange}
-        onBorrowableChange = {handleBorrowableChange}
       />
     </>
   );

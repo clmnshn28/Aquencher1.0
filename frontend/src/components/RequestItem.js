@@ -7,18 +7,18 @@ import { FaPhoneAlt } from "react-icons/fa";
 import * as images from 'assets/images';
 
 export default function RequestItem({id, name, address, slimQuantity, roundQuantity, requestType, status,contact, date, time, image, onAccept, onDecline}){
-    
+    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     return(
         <div className="RequestsItem__item">
             <div className="RequestsItem__request-details">
                 <div className={`RequestsItem__request-type ${requestType.toLowerCase()}`}>
                     <img 
                     src={
-                        requestType === 'Refill' ? images.refillIconOpen :
-                        requestType === 'Borrow' ? images.borrowIconRed : images.returnIconGreen 
+                        requestType === 'refill' ? images.refillIconOpen :
+                        requestType === 'borrow' ? images.borrowIconRed : images.returnIconGreen 
                     } 
                     alt={`${requestType} Icon`} />
-                    <span>{requestType}</span>
+                    <span>{capitalize(requestType)}</span>
                 </div>  
                 <div className="RequestsItem__date-time">
                     <span>{date}</span>
@@ -56,7 +56,7 @@ export default function RequestItem({id, name, address, slimQuantity, roundQuant
                 </div>
             </div>
             <div className="RequestItem__status">
-                {status === false ? (
+                {status !== 'completed' ? (
                     <>
                         <button className="RequestItem__status-button RequestItem__decline" onClick={()=>onDecline(id)} >
                             &#10005;
