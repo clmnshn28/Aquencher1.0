@@ -1,20 +1,17 @@
 import "assets/css/admin"
-import React, { useState } from 'react';
-import { MdOutlineDelete, MdOutlineEdit } from "react-icons/md";
+import React, { useState, useEffect } from 'react';
+import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
+import axios from 'axios';
+import {API_URL} from 'constants';
+import { format } from 'date-fns';
 
 import * as images from 'assets/images';
 import { CreateAnnouncementModal, DeleteAnnouncementModal,EditAnnouncementModal } from "./modals";
 
 export const AnnouncementAdmin = () =>{
 
-  const [announcements, setAnnouncements] = useState([
-    { id: 1, title: 'Water Quality Inspection', summary: 'Reminder: Water quality inspection scheduled for next week.' },
-    { id: 2, title: 'Maintenance Downtime', summary: 'Planned maintenance on water refilling machines this Friday.' },
-    { id: 3, title: 'New Water Delivery Service', summary: 'We are introducing a new water delivery service starting next month.' },
-    { id: 4, title: 'Employee Training Session', summary: 'Mandatory training session on safety protocols for all staff.' },
-    { id: 5, title: 'Customer Feedback', summary: 'Encouraging all customers to fill out the feedback form after their next refill.' }
-  ]);
+  const [announcements, setAnnouncements] = useState([]);
 
   const [createAnnouncement, setCreateAnnouncement] = useState(false);
   const [editAnnouncement, setEditAnnouncement] = useState(false);
@@ -24,28 +21,38 @@ export const AnnouncementAdmin = () =>{
   const [selectedTitle, setSelectedTitle] = useState('');
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
 
+  useEffect(()=>{
+    fetchAnnouncement();
+  },[])
+
+  const fetchAnnouncement = async () =>{
+    try{
+      const response = await axios.get(API_URL + '/api/admin/announcement',{
+        headers: {
+          'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      const announcementWithUpdatedDateTime = response.data.data
+      .map((announcement) => {
+        const updatedAt = new Date(announcement.updated_at);
+        const formattedDate = format(updatedAt, 'yyyy-MM-dd');
+        const formattedTime = format(updatedAt, 'hh:mm a');
+
+        return {
+          ...announcement,
+          date: formattedDate, 
+          time: formattedTime, 
+          updatedAt
+        };
+      }).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+      setAnnouncements( announcementWithUpdatedDateTime);
+    }catch(error){
+      console.error('Error fetching announcements:', error);
+    }
+  };
+
   const handleTitleChange = (e) => setAnnouncement(prevState => ({ ...prevState, title: e.target.value }));
   const handleSummaryChange = (e) => setAnnouncement(prevState => ({ ...prevState, summary: e.target.value }));
-
-
-  // delete announcement
-  const handleDeleteClick = (title) => {
-    setSelectedTitle(title);
-    setDeleteAnnouncement(true);
-  };
-
-  const handleDeleteConfirm = () =>{
-    setDeleteAnnouncement(false);
-    setAnnouncements(announcements.filter(a => a.title !== selectedTitle));
-
-  };
-
-  // edit announcement
-  const handleEditClick = (announcement) => {
-    setSelectedAnnouncement(announcement);
-    setAnnouncement({ title: announcement.title, summary: announcement.summary });
-    setEditAnnouncement(true);
-  };
 
 
   // submit and cancel announcement
@@ -55,25 +62,74 @@ export const AnnouncementAdmin = () =>{
     setEditAnnouncement(false);
   };
 
-  const AnnounceSubmit = (event) =>{
+  // create announcement
+  const CreateAnnounceSubmit = async (event) =>{
     event.preventDefault();
-    if (editAnnouncement) {
-      // update existing announcement
-      setAnnouncements(announcements.map(a =>
-        a.id === selectedAnnouncement.id
-          ? { ...a, ...announcement }
-          : a
-      ));
-    } else {
-      // create new announcement
-      setAnnouncements([ {
-        id: announcements.length + 1,
-        ...announcement
-      },
-       ...announcements
-    ]);
+      try{
+        await axios.put(API_URL + '/api/admin/announcement',{
+          title: announcement.title,
+          content: announcement.summary,
+        },{
+          headers: {
+            'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+
+        AnnounceCancel();
+        fetchAnnouncement();
+      }catch(error){
+        console.error('Error Create Announcement: ',error);
+      }
+ 
+  };
+
+  
+  // edit announcement
+  const handleEditClick = (announcement) => {
+    setSelectedAnnouncement(announcement);
+    setAnnouncement({ title: announcement.title, summary: announcement.content });
+    setEditAnnouncement(true);
+  };
+
+  const UpdateAnnounceSubmit = async (event) =>{
+    event.preventDefault();
+      try{
+        await axios.put(`${API_URL}/api/admin/announcement/${selectedAnnouncement.id}`,{
+          title: announcement.title,
+          content: announcement.summary,
+        },{
+          headers: {
+            'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        setSelectedAnnouncement(null);
+      AnnounceCancel();
+      fetchAnnouncement();
+      }catch(error){
+        console.error('Error Create Announcement: ',error);
+      }
+  };
+
+  // delete announcement
+  const handleDeleteClick = (announcement) => {
+    setSelectedAnnouncement(announcement); 
+    setSelectedTitle(announcement.title);
+    setDeleteAnnouncement(true);
+  };
+
+  const handleDeleteConfirm = async () =>{
+    try {
+      await axios.delete(`${API_URL}/api/admin/announcement/${selectedAnnouncement.id}`, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      
+      setAnnouncements(announcements.filter(a => a.id !== selectedAnnouncement.id));
+      setDeleteAnnouncement(false);
+    } catch (error) {
+      console.error('Error deleting announcement:', error);
     }
-    AnnounceCancel();
   };
 
   return (
@@ -87,7 +143,7 @@ export const AnnouncementAdmin = () =>{
           <thead  className="AnnouncementAdmin__table-header">
             <tr>
               <th>Date/Time</th>
-              <th>Announcement</th>
+              <th>{announcements.length > 1 ? 'Announcements' : 'Announcement'}</th>
               <th></th>
             </tr>
           </thead>
@@ -96,18 +152,18 @@ export const AnnouncementAdmin = () =>{
               <tr>
                 <td colSpan="3">
                   <div className="AnnouncementAdmin__no-announcements">
-                    No announcements available.
+                    No announcements
                   </div>
                 </td>
               </tr>
             ) : (
               announcements.map((announcement) =>  (
-                <tr key={announcement.id}>
-                  <td>9:00 AM<br />2024-01-02</td>
+                <tr key={announcement.id} >
+                  <td>{announcement.time}<br />{announcement.date}</td>
                   <td>
                     <h3 className="AnnouncementAdmin__title">{announcement.title}</h3>
                     <p className="AnnouncementAdmin__summary">
-                    {announcement.summary}
+                    {announcement.content}
                     </p>
                   </td>
                   <td>
@@ -115,7 +171,7 @@ export const AnnouncementAdmin = () =>{
                       <button className="AnnouncementAdmin__edit" onClick={() => handleEditClick(announcement)}>
                         <MdOutlineEdit/>
                       </button>
-                      <button className="AnnouncementAdmin__delete" onClick={()=> handleDeleteClick(announcement.title)}>
+                      <button className="AnnouncementAdmin__delete" onClick={()=> handleDeleteClick(announcement)}>
                         <RiDeleteBin6Fill/>
                       </button>
                     </div>
@@ -129,7 +185,7 @@ export const AnnouncementAdmin = () =>{
       <CreateAnnouncementModal
         isOpen ={createAnnouncement}
         onClose ={AnnounceCancel}
-        onConfirm ={AnnounceSubmit}
+        onConfirm ={CreateAnnounceSubmit}
         announcementTitle ={announcement.title}
         announcementSummary ={announcement.summary}
         onTitleChange={handleTitleChange}
@@ -139,7 +195,7 @@ export const AnnouncementAdmin = () =>{
       <EditAnnouncementModal
         isOpen={editAnnouncement}
         onClose={AnnounceCancel}
-        onConfirm={AnnounceSubmit}
+        onConfirm={UpdateAnnounceSubmit}
         announcementTitle={announcement.title}
         announcementSummary={announcement.summary}
         onTitleChange={handleTitleChange}

@@ -161,9 +161,10 @@ export const QueueAdmin = () =>{
     };
 
     const handleAccept = async (requestDetails) => {
+
         try{
 
-            const { gallon_delivery_id, request_type, refill_id, borrow_id, returned_id, slimQuantity, roundQuantity, gallon_delivery_status } = requestDetails;
+            const { gallon_delivery_id, customer_id, request_type, refill_id, borrow_id, returned_id, slimQuantity, roundQuantity, gallon_delivery_status } = requestDetails;
 
             const returnedData = [
                 { gallon_id: 1, quantity: slimQuantity, available_stock: products.find(p => p.id === 1)?.available_stock || 0 },
@@ -177,6 +178,7 @@ export const QueueAdmin = () =>{
                 borrow_id: borrow_id,
                 returned_id: returned_id, 
                 data: returnedData,
+                customer_id: customer_id,
             },{
                 headers:{
                 'Authorization' : `Bearer ${localStorage.getItem('token')}`,
@@ -196,8 +198,14 @@ export const QueueAdmin = () =>{
     };
 
     const handleExportToPDF = () => {
+        if (queues.length === 0) {
+            alert("No data available to export.");
+            return;
+        }
+
         const doc = new jsPDF();
         const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase(); 
+        const imgData = images.loginLogo;
         
         const sortByAddress = (requests) => {
             return requests.sort((a, b) => {
@@ -208,9 +216,9 @@ export const QueueAdmin = () =>{
         };
 
         const createTable = (title, requests, startY) => {
-            doc.setFont("Helvetica", "bold").setFontSize(12);
+            doc.setFont("Helvetica", "bold").setFontSize(13);
             doc.setTextColor(0, 105, 217);
-            doc.text(title, doc.internal.pageSize.getWidth() / 2, startY - 4, { align: "center" });
+            doc.text(title, doc.internal.pageSize.getWidth() / 2, startY -4, { align: "center" });
             doc.autoTable({
                 startY,
                 head: [['Name', 'Address', 'Contact', 'Slim Quantity', 'Round Quantity', 'Request Type', 'Status', 'Date/Time']],
@@ -227,9 +235,11 @@ export const QueueAdmin = () =>{
                 theme: 'striped',
                 styles: {
                     cellPadding: 3,
-                    fontSize: 9,
+                    fontSize: 10,
                     halign: 'center',
                     valign: 'middle',
+                    lineColor: [154, 154, 154], 
+                    lineWidth: 0.1, 
                 },
                 headStyles: {
                     fillColor: [0, 105, 217],
@@ -239,21 +249,55 @@ export const QueueAdmin = () =>{
             }); 
         };
 
-        // Add Title
-        doc.setTextColor(0, 105, 217);
-        doc.setFont("Helvetica", "bold").setFontSize(15);
-        doc.text('Gallon Delivery Requests', doc.internal.pageSize.getWidth() / 2, 15, { align: "center" });
+        const getCurrentDateTime = () => {
+            const now = new Date();
+            return format(now, 'MM-dd-yyyy hh:mm a');
+        };
+    
+        const formattedDateTime = getCurrentDateTime();
+        // Date time
+        doc.setFontSize(9);
+        doc.setFont("Helvetica", "normal");
+        doc.setTextColor(195, 195, 195);
+        const dateTimeX = doc.internal.pageSize.getWidth() - 5; 
+        doc.text(`Report Generated On: ${formattedDateTime}`, dateTimeX, 5, { align: 'right' });
+    
+        doc.addImage(imgData, 'PNG', 20, 3, 30, 23);
 
+        // Report Header
+        doc.setFont("Helvetica", "bold").setFontSize(20);
+        doc.setTextColor(0, 105, 217);
+        doc.text("Gallon Delivery Requests", doc.internal.pageSize.getWidth() / 2, 18, { align: "center" });
+
+        // Type of Report
+        doc.setFontSize(9);
+        const reportTypeY = 15;
+        const reportTypeText = "In Progress Requests Report"; 
+
+        doc.setFont("Helvetica", "bold");
+        const reportTypeLabelX = doc.internal.pageSize.getWidth() - 21; 
+        const reportTypeValueX = doc.internal.pageSize.getWidth() - 10; 
+
+        doc.text("Report Type:", reportTypeLabelX, reportTypeY, { align: "right" });
+        doc.setFont("Helvetica", "normal");
+        doc.text(reportTypeText, reportTypeValueX, reportTypeY + 5, { align: "right" });
+  
         const sortedPickupRequests = sortByAddress(filteredPickupRequests);
         const sortedDeliverRequests = sortByAddress(filteredDeliverRequests);
 
-        createTable('Pickup Requests', sortedPickupRequests, 26);
-
+        createTable('Pickup Requests', sortedPickupRequests, 30);
         //(Add New Page)
         doc.addPage();
         createTable('Deliver Requests', sortedDeliverRequests, 20);
-        
-        doc.save('gallon_delivery_requests.pdf');
+
+        const pageCount = doc.internal.getNumberOfPages(); // Get total pages
+        for (let i = 1; i <= pageCount; i++) { // Start from the second page
+            doc.setPage(i); // Set the current page
+            doc.setFontSize(11);
+            doc.setFont("Helvetica", "bold");
+            doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - 18, doc.internal.pageSize.getHeight() - 13, { align: "right" });
+        }
+        doc.save(`Gallon_Delivery_Requests_${formattedDateTime}.pdf`);
     };
 
     return(

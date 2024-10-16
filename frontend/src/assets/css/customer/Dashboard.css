@@ -97,7 +97,7 @@
     flex-direction: column;
     align-items: center;
     max-width: 400px;
-    flex-grow: 0;
+    flex: 1.5;
 }
   
 .Dashboard__returned-section h4{
@@ -177,9 +177,13 @@
     background: #D9EDFF;
 }
 
+.Dashboard__new-indicator.Dashboard__unread-new{
+    display: none;
+}
   
 .Dashboard__announcement-text{
     display: flex;
+    align-items: center;
     justify-content: space-between;
     font-size: 13px;
 }
@@ -188,10 +192,26 @@
     font-weight: 600;
 }
 
-.Dashboard__announcement-text span:nth-child(2){
+.Dashboard__indicator-section span:nth-child(2){
     font-size: 10px;
 }
 
+.Dashboard__indicator-section{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.Dashboard__new-indicator{
+    display: flex;
+    align-items: center;
+    font-size: 9px;
+    background-color: rgba(0, 121, 220,0.7);
+    padding: 3px 10px;
+    border-radius: 510px;
+    color: #fff;
+    font-weight: 600;
+}
 
 .Dashboard__announcement-description{
     margin: 0;
@@ -296,6 +316,20 @@
     background-color: #fff;
     padding: 30px 70px 50px;
     border-radius: 0 0 15px 15px;
+}
+
+.AnnouncementViewModal__announce-sub-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 10px 0 45px;
+}
+
+.AnnouncementViewModal__date-modal{
+    font-size: 13px;
+    font-weight: 500;
+    color: #676767;
+    font-style: italic;
 }
 
 .AnnouncementViewModal__greeting{
@@ -452,7 +486,24 @@
         font-size: 11px;
     }
 
+    .Dashboard__announcement-text span:nth-child(1){
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;  
+        width: 12.2em;
+    }
+
+    .Dashboard__indicator-section{
+        gap: 5px;
+        justify-content: end;
+        width: 10.3em;
+    }
     
+    .Dashboard__new-indicator{
+        font-size: 8px;
+        padding: 2px 8px;
+    }
+
     /* each announcement */
     .Dashboard__announcement-item{
         padding: 10px 15px;
@@ -478,6 +529,7 @@
         padding: 10px 15px;
         color: #a7a6a6;
         height: 60px;
+        font-size: 12px;
     }
 
 
@@ -541,41 +593,57 @@
     /* header */
     .AnnouncementViewModal__header{
         margin: 10px 0 5px;
-        font-size: 15px;
+        padding: 0 10px;
+        font-size: 13px;
     }
 
     
     .AnnouncementViewModal__announcement-section{
         padding: 10px 25px 30px;
     }
-
+    
+    .AnnouncementViewModal__announce-sub-header{
+        display: flex;
+        align-items: start;
+        flex-direction: column;
+        margin: 10px 0 25px;
+    }
+    
+    .AnnouncementViewModal__date-modal{
+        font-size: 9px;
+        color: #888888;
+    }
+    
     .AnnouncementViewModal__greeting{
-        font-size: 12px;
+        font-size: 10px;
     }
 
     .AnnouncementViewModal__summary {
         margin: 10px 5px 25px;
         line-height: 1.5; 
-        font-size: 12px;
+        font-size: 11px;
     }
 
     /* footer */
     .AnnouncementViewModal__footer{
         margin-top: 0;
-        font-size: 11px;
+        font-size: 10px;
     }
 
     .AnnouncementViewModal__footer-name {
         font-weight: bold;
         margin: 0;
+        font-size: 11px;
     }
     .AnnouncementViewModal__footer-role{
         margin: 0;
         font-style: italic;
+        font-size: 10px;
     }
 
     .AnnouncementViewModal__footer-company {
         margin: 0;
+        font-size: 9px;
     }
 
 

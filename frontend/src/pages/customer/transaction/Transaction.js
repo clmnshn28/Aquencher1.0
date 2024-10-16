@@ -1,20 +1,86 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import 'assets/css/customer';
+import axios from 'axios';
+import {API_URL} from 'constants';
+import { format } from 'date-fns';
 
 import DropdownFilter from 'components/DropdownFilter';
 
 
 export const Transaction = () =>{
-    const transactionLogs = [
-        {id: 1, requestType: 'Refill', slimQuantity: 3, roundQuantity: 3, price: (3 + 3) * 25, status: 'Pending', date: '2024-09-29', time: '9:00 AM' },
-        {id: 2, requestType: 'Return', slimQuantity: 0, roundQuantity: 3, price: (0 + 3) * 25, status: 'In Progress', date: '2024-09-29', time: '9:00 AM'},
-        {id: 3, requestType: 'Borrow', slimQuantity: 3, roundQuantity: 3, price: (3 + 3) * 25, status: 'Completed', date: '2024-01-15', time: '02:20 PM' },
-        {id: 4, requestType: 'Refill', slimQuantity: 3, roundQuantity: 0, price: (3 + 0) * 25, status: 'Cancelled', date: '2024-01-20', time: '09:00 AM' },
-    ];
     
+    const [transactionLogs, setTransactionLogs] = useState([]);
     const [activeDropdown, setActiveDropdown] = useState(null);
-    const [filteredTransactions, setFilteredTransactions] = useState(transactionLogs);
+    const [filteredTransactions, setFilteredTransactions] = useState([]);
     
+    useEffect(()=>{
+        fetchTransactionRequest();
+    },[])
+    
+    const fetchTransactionRequest = async () =>{
+        try{
+        const response = await axios.get(API_URL + '/api/customer/transactions',{
+            headers: {
+            'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            },
+        });
+        const inventoryResponse = await axios.get(API_URL + '/api/products',{
+            headers: {
+            'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            },
+        });
+        const products = inventoryResponse.data.data;
+        const slimProduct = products.find(product => product.id === 1);
+        const roundProduct = products.find(product => product.id === 2);
+
+
+        const requestsWithUpdatedDateTime = response.data.data
+        .map((request) => {
+            const updatedAt = new Date(request.updated_at);
+            const formattedDate = format(updatedAt, 'yyyy-MM-dd');
+            const formattedTime = format(updatedAt, 'hh:mm a');
+
+            let slimQuantity = 0;
+            let roundQuantity = 0;
+    
+            const quantitiesArray = request.quantities.split(', ');
+            quantitiesArray.forEach(quantity => {
+                // Extract key and value
+                const [key, value] = quantity.split(': ').map(str => str.trim());
+                // Assign values based on key
+                if (key === '1') slimQuantity = parseInt(value) || 0;
+                if (key === '2') roundQuantity = parseInt(value) || 0;
+            });
+
+            let status = request.gallon_delivery_status;
+            if (status === 'pickup' || status === 'deliver') {
+            status = 'in progress';
+            }
+            
+            const slimTotalPrice = slimQuantity * slimProduct.price;
+            const roundTotalPrice = roundQuantity * roundProduct.price;
+            const totalPrice = slimTotalPrice + roundTotalPrice;
+
+
+            return {
+            ...request,
+            date: formattedDate, 
+            time: formattedTime, 
+            slimQuantity,
+            roundQuantity,
+            totalPrice,
+            updatedAt,
+            status,
+            };
+
+        }).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+        setTransactionLogs(requestsWithUpdatedDateTime);
+        setFilteredTransactions(requestsWithUpdatedDateTime);
+        }catch(error){
+        console.error('Error fetching gallon delivery requests:', error);
+        }
+    };
+
     const getStatusColor = (value) =>{
         if(value === 'Pending') return '#F58E2F';
         if(value === 'In Progress') return '#0174CF';
@@ -73,6 +139,9 @@ export const Transaction = () =>{
         setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
     };
     
+    const capitalize = (str) => {
+        return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
+    }
 
     return(
         <>
@@ -106,10 +175,10 @@ export const Transaction = () =>{
                 isOpen={activeDropdown === 'status'}
                 toggleDropdown={()=> toggleDropdown('status')}
                 options={[
-                    {label: 'Completed', value: 'Completed'},
-                    {label: 'In Progress', value: 'In Progress'},
-                    {label: 'Pending', value: 'Pending'},
-                    {label: 'Cancelled', value: 'Cancelled'},
+                    {label: 'Completed', value: 'completed'},
+                    {label: 'In Progress', value: 'in progress'},
+                    {label: 'Pending', value: 'pending'},
+                    {label: 'Cancelled', value: 'cancelled'},
                 ]}
                 onOptionSelect={(value) => handleFilterChange('status', value)}
                 classExpand='DropdownFilter__expand'
@@ -137,7 +206,7 @@ export const Transaction = () =>{
                         <tr>
                             <td colSpan="5" style={{ textAlign: 'center' }}>
                                 <span className="Transaction__not-found">
-                                    No transactions available
+                                    No transactions 
                                 </span>
                             </td>
                         </tr>
@@ -151,20 +220,28 @@ export const Transaction = () =>{
                         </tr>
                         ) :
                         ( filteredTransactions.map((transaction) => (
-                            <tr key={transaction.id}>
+                            <tr key={transaction.gallon_delivery_id}>
                             <td>
                                 <div className='Transaction__date-time'>
                                     <span className="Transaction__date">{transaction.date}</span>
                                     <span className="Transaction__time">{transaction.time}</span>
                                 </div> 
                             </td>
-                            <td>{transaction.requestType}</td>
+                            <td>{capitalize(transaction.request_type)}</td>
                             <td>
-                                <span> Slim: {transaction.slimQuantity},</span>
-                                <span> Round: {transaction.roundQuantity}</span>
+                                {transaction.slimQuantity > 0 && (
+                                    <span className={`quantity-label ${transaction.roundQuantity > 0 ? '' : 'padding-left-25'}`}>
+                                        Slim: {transaction.slimQuantity}{transaction.slimQuantity && transaction.roundQuantity > 0 ? ', ' : ''}
+                                    </span>
+                                )}
+                                {transaction.roundQuantity > 0 && (
+                                    <span  className={`quantity-label ${transaction.slimQuantity > 0 ? '' : 'padding-left-20'}`}>
+                                        Round: {transaction.roundQuantity}
+                                    </span>
+                                )} 
                             </td>
-                            <td>₱{transaction.price.toFixed(2)}</td>
-                            <td style={{color: getStatusColor(transaction.status)}}>{transaction.status}</td>
+                            <td>₱{transaction.totalPrice.toFixed(2)}</td>
+                            <td style={{color: getStatusColor(capitalize(transaction.status))}}>{capitalize(transaction.status)}</td>
                             </tr>
                         )))}
                     </tbody>

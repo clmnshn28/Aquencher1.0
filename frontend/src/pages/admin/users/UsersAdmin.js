@@ -10,6 +10,7 @@ import axios from 'axios';
 import {API_URL} from 'constants';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
+import { format } from 'date-fns';
 
 import * as images from 'assets/images';
 import {NewUserModal,DeactivationModal} from './modals'; 
@@ -21,7 +22,7 @@ export const UsersAdmin = () => {
     const [users, setUsers] = useState([]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
-    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState(users);
 
     const [isNewUserModalOpen, setIsNewUserModalOpen] = useState(false);
     const [isDeactivationModalOpen, setIsDeactivationModalOpen] = useState(false); 
@@ -41,7 +42,6 @@ export const UsersAdmin = () => {
             });
           
             setUsers(response.data.data);
-            setFilteredUsers(response.data.data);
         }catch(error){
             console.error('Error fetching users', error);
         }
@@ -173,10 +173,16 @@ export const UsersAdmin = () => {
     };
 
     const handleExportToPDF = () => {
+        if (filteredUsers.length === 0) {
+            alert("No data available to export.");
+            return;
+        }
+
         const doc = new jsPDF('landscape');
         const tableColumn = ["Full Name",'Username', "Email", "Contact",'Address', "Gallons", ];
         const tableRows = [];
-    
+        const imgData = images.loginLogo;
+
         filteredUsers.sort((a, b) => {
             const fnameA = a.fname.toLowerCase();
             const fnameB = b.fname.toLowerCase();
@@ -191,30 +197,70 @@ export const UsersAdmin = () => {
     
             tableRows.push([fullName, user.username, user.email, user.contact_number, address, gallons]);
         });
-    
-        if (tableRows.length > 0) {
-            doc.setFont("Helvetica", "bold").setFontSize(20); 
-            doc.setTextColor(0, 105, 217);
-            doc.text("Customer Management List", doc.internal.pageSize.getWidth() / 2, 16, { align: "center" });
-            doc.autoTable({
-                head: [tableColumn],
-                body: tableRows,
-                startY: 20,
-                theme: 'striped', 
-                styles: {
-                    cellPadding: 3, 
-                    fontSize: 11,   
-                },
-                headStyles: {
-                    fillColor: [0, 105, 217], 
-                    fontSize: 12, 
-                },
-            });
-        } else {
-            doc.text("No data available", 14, 16); 
-        }
 
-        doc.save("Customer_Management_List.pdf");
+            const getCurrentDateTime = () => {
+                const now = new Date();
+                return format(now, 'MM-dd-yyyy hh:mm a');
+            };
+        
+            const formattedDateTime = getCurrentDateTime();
+            // Date time
+            doc.setFontSize(9);
+            doc.setFont("Helvetica", "normal");
+            doc.setTextColor(195, 195, 195);
+            const dateTimeX = doc.internal.pageSize.getWidth() - 5; 
+            doc.text(`Report Generated On: ${formattedDateTime}`, dateTimeX, 5, { align: 'right' });
+        
+            doc.addImage(imgData, 'PNG', 30, 3, 30, 23);
+    
+            // Report Header
+            doc.setFont("Helvetica", "bold").setFontSize(20);
+            doc.setTextColor(0, 105, 217);
+            doc.text("Customer Management List", doc.internal.pageSize.getWidth() / 2, 18, { align: "center" });
+    
+            // Type of Report
+            doc.setFontSize(10);
+            const reportTypeY = 15;
+            const reportTypeText = "Full Customer Report"; 
+
+            doc.setFont("Helvetica", "bold");
+            const reportTypeLabelX = doc.internal.pageSize.getWidth() - 26; 
+            const reportTypeValueX = doc.internal.pageSize.getWidth() - 20; 
+
+            doc.text("Report Type:", reportTypeLabelX, reportTypeY, { align: "right" });
+            doc.setFont("Helvetica", "normal");
+            doc.text(reportTypeText, reportTypeValueX, reportTypeY + 5, { align: "right" });
+
+            // Add table
+            if (tableRows.length > 0) {
+                doc.autoTable({
+                    head: [tableColumn],
+                    body: tableRows,
+                    startY: 28,
+                    theme: 'striped',
+                    styles: {
+                        cellPadding: 3,
+                        fontSize: 11,
+                        lineColor: [154, 154, 154], 
+                        lineWidth: 0.1, 
+                    },
+                    headStyles: {
+                        fillColor: [0, 105, 217],
+                        fontSize: 12,
+                    },
+                });
+    
+                const pageCount = doc.internal.getNumberOfPages(); // Get total pages
+                for (let i = 1; i <= pageCount; i++) { // Start from the second page
+                    doc.setPage(i); // Set the current page
+                    doc.setFontSize(11);
+                    doc.setFont("Helvetica", "bold");
+                    doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - 18, doc.internal.pageSize.getHeight() - 13, { align: "right" });
+                }
+            } else {
+                doc.text("No data available", 14, 16);
+            }
+            doc.save(`Customer_Management_List_${formattedDateTime}.pdf`);
     };
 
     return(
@@ -321,6 +367,7 @@ export const UsersAdmin = () => {
                                                         <img src={images.returnRound} alt="Round Gallon" />
                                                         <span>{round}</span>
                                                     </div>
+                                                    {slim === 0 && round === 0 && <span className="no-gallons-message">-</span>}
                                                 </>
                                             ) : (
                                                 <span className="no-gallons-message">-</span>

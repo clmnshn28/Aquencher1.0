@@ -4,29 +4,58 @@ import { format } from 'date-fns';
 import { RiMegaphoneLine } from "react-icons/ri";
 import { Line } from "react-chartjs-2";
 import 'chart.js/auto';
+import axios from 'axios';
+import {API_URL} from 'constants';
+import { useAuth } from "context/AuthContext";
 
 import * as images from 'assets/images';
 import { GallonInfo } from "components/GallonInfo";
 import { AnnouncementViewModal } from "./modals/AnnouncementViewModal";
 
 export const Dashboard = () =>{
-    const [announcements, setAnnouncements] = useState([
-        { id: 1, title: 'Water Quality Inspection', summary: 'Reminder: Water quality inspection scheduled for next week.', date: new Date('2024-09-27T09:00:00'), read: false },
-        { id: 2, title: 'Maintenance Downtime', summary: 'Planned maintenance on water refilling machines this Friday.', date: new Date('2024-09-10T14:00:00'), read: true },
-        { id: 3, title: 'New Water Delivery Service', summary: 'We are introducing a new water delivery service starting next month.', date: new Date('2024-09-01T10:30:00'), read: true },
-        { id: 4, title: 'Employee Training Session', summary: 'Mandatory training session on safety protocols for all staff.', date: new Date('2024-08-20T13:00:00'), read: true },
-        { id: 5, title: 'Customer Feedback', summary: 'Encouraging all customers to fill out the feedback form after their next refill.', date: new Date('2024-08-15T11:00:00'), read: true },
-    ]);
+    const { user } = useAuth(); 
+
+    const [announcements, setAnnouncements] = useState([]);
     const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
     const [isAnnouncementModalOpen, setIsAnnouncementModalOpen] = useState(false);
 
+    useEffect(()=>{
+        fetchAnnouncement();
+    },[])
+    
+    const fetchAnnouncement = async () =>{
+        try{
+          const response = await axios.get(API_URL + '/api/customer/announcement',{
+            headers: {
+              'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            },
+          });
+          const announcementWithUpdatedDateTime = response.data.data
+          .map((announcement) => {
+            const updatedAt = new Date(announcement.updated_at);
+            const hasBeenRead = announcement.read_status.some(read => read.customer_id === user.id && read.is_read === 1);
+
+            return {
+              ...announcement,
+              date: updatedAt,
+              updatedAt,    
+              read: hasBeenRead,
+            };
+          }).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+          setAnnouncements( announcementWithUpdatedDateTime);
+        }catch(error){
+          console.error('Error fetching announcements:', error);
+        }
+    };
+
+    
 
     const currentDate = new Date();
     const currentDateStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
 
     // Split announcements into recent and earlier based on date
-    const recentAnnouncements = announcements.filter(announcement => announcement.date >= currentDateStart);
-    const earlierAnnouncements = announcements.filter(announcement => announcement.date < currentDateStart);
+    const recentAnnouncements = announcements.filter(announcement => announcement.updatedAt >= currentDateStart);
+    const earlierAnnouncements = announcements.filter(announcement => announcement.updatedAt < currentDateStart);
 
     const [currentTimeDashboard, setCurrentTimeDashboard] = useState('');
     const [currentDateDashboard, setCurrentDateDashboard] = useState('');
@@ -91,13 +120,23 @@ export const Dashboard = () =>{
         },
     }
 
-    const handleAnnouncementClick = (announcement) => {
-        const updatedAnnouncements = announcements.map((a) =>
-            a.id === announcement.id ? { ...a, read: true } : a
-        );
-        setAnnouncements(updatedAnnouncements);
-        setSelectedAnnouncement(announcement);
-        setIsAnnouncementModalOpen(true);
+    const handleAnnouncementClick = async (announcement) => {
+        try {
+            await axios.post(API_URL + `/api/customer/announcement/${announcement.id}/read`, {}, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+
+            const updatedAnnouncements = announcements.map((a) =>
+                a.id === announcement.id ? { ...a, read: true } : a
+            );
+            setAnnouncements(updatedAnnouncements);
+            setSelectedAnnouncement(announcement);
+            setIsAnnouncementModalOpen(true);
+        } catch (error) {
+            console.error('Error marking announcement as read:', error);
+        }
     };
 
     const closeModal = () => {
@@ -153,10 +192,13 @@ export const Dashboard = () =>{
                                     >
                                         <div className="Dashboard__announcement-text">
                                             <span>{announcement.title}</span>
-                                            <span>{format(announcement.date, 'MMM dd, hh:mm a')}</span>
+                                            <div className="Dashboard__indicator-section">
+                                                <span className={`Dashboard__new-indicator ${announcement.read ? 'Dashboard__unread-new' : ''}`}>New</span>
+                                                <span>{format(announcement.updatedAt, 'MMM dd, hh:mm a')}</span>
+                                            </div>
                                         </div>
                                         <p className="Dashboard__announcement-description">
-                                            {announcement.summary}
+                                            {announcement.content}
                                         </p>
                                     </div>
                                 ))}
@@ -174,10 +216,13 @@ export const Dashboard = () =>{
                                         >
                                         <div className="Dashboard__announcement-text">
                                             <span>{announcement.title}</span>
-                                            <span>{format(announcement.date, 'MMM dd, hh:mm a')}</span>
+                                            <div className="Dashboard__indicator-section">
+                                                <span className={`Dashboard__new-indicator ${announcement.read ? 'Dashboard__unread-new' : ''}`}>New</span>
+                                                <span>{format(announcement.updatedAt, 'MMM dd, hh:mm a')}</span>
+                                            </div>
                                         </div>
                                         <p className="Dashboard__announcement-description">
-                                            {announcement.summary}
+                                            {announcement.content}
                                         </p>
                                     </div>
                                 ))}
