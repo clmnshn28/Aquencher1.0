@@ -85,6 +85,17 @@
     width: 20%;
 }
 
+.Transaction__table th:nth-child(3){
+    padding-left: 20px;
+}
+
+.padding-left-20 {
+    padding-left: 20px;
+}
+
+.padding-left-25 {
+    padding-left: 27px;
+}
 
 .Transaction__date-time{
     display: flex;
@@ -178,9 +189,19 @@
 
     .Transaction__table td:nth-child(3){
         display: flex;
-        flex-direction: column;
+        height: 30px;
+        align-items: center;
+        flex-wrap: wrap;
     }
 
+    .padding-left-20 {
+        padding-left: 0;
+    }
+    
+    .padding-left-25 {
+        padding-left: 0;
+    }
+    
     .Transaction__date-time{
         display: block;
     }

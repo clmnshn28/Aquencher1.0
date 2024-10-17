@@ -24,7 +24,7 @@ export const RejectedAdmin = () =>{
   
       const fetchGallonsRequest = async () =>{
           try{
-            const response = await axios.get(API_URL + '/api/gallon-delivery/rejected',{
+            const response = await axios.get(API_URL + '/api/gallon-delivery/cancelled',{
               headers: {
                 'Authorization' : `Bearer ${localStorage.getItem('token')}`,
               },

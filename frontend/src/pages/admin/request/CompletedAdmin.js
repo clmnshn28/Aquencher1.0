@@ -138,10 +138,16 @@ export const CompletedAdmin = () =>{
     }
     
     const handleExportToPDF = () => {
+        if (requests.length === 0) {
+            alert("No data available to export.");
+            return;
+        }
+
         const doc = new jsPDF('landscape');
         const tableColumn = ["Full Name", "Address", "Slim Gallons", "Round Gallons", "Request Type", "Status", "Date/Time"];
         const tableRows = [];
         const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+        const imgData = images.loginLogo;
 
         filteredRequests.forEach((request) => {
             const fullName = `${request.fname} ${request.lname}`;
@@ -159,30 +165,71 @@ export const CompletedAdmin = () =>{
             tableRows.push(rowData);
         });
 
+        const getCurrentDateTime = () => {
+            const now = new Date();
+            return format(now, 'MM-dd-yyyy hh:mm a');
+        };
+    
+        const formattedDateTime = getCurrentDateTime();
+        // Date time
+        doc.setFontSize(9);
+        doc.setFont("Helvetica", "normal");
+        doc.setTextColor(195, 195, 195);
+        const dateTimeX = doc.internal.pageSize.getWidth() - 5; 
+        doc.text(`Report Generated On: ${formattedDateTime}`, dateTimeX, 5, { align: 'right' });
+
+        doc.addImage(imgData, 'PNG', 30, 3, 30, 23);
+    
+        // Report Header
+        doc.setFont("Helvetica", "bold").setFontSize(20);
+        doc.setTextColor(0, 105, 217);
+        doc.text("Gallon Delivery Requests", doc.internal.pageSize.getWidth() / 2, 18, { align: "center" });
+
+        // Type of Report
+        doc.setFontSize(10);
+        const reportTypeY = 15;
+        const reportTypeText = "Completed Requests Report"; 
+
+        doc.setFont("Helvetica", "bold");
+        const reportTypeLabelX = doc.internal.pageSize.getWidth() - 28; 
+        const reportTypeValueX = doc.internal.pageSize.getWidth() - 20; 
+
+        doc.text("Report Type:", reportTypeLabelX, reportTypeY, { align: "right" });
+        doc.setFont("Helvetica", "normal");
+        doc.text(reportTypeText, reportTypeValueX, reportTypeY + 5, { align: "right" });
+
         if (tableRows.length > 0) {
-            doc.setFont("Helvetica", "bold").setFontSize(20);
-            doc.setTextColor(0, 105, 217);
-            doc.text("Completed Gallon Delivery Requests", doc.internal.pageSize.getWidth() / 2, 16, { align: "center" });
             doc.autoTable({
                 head: [tableColumn],
                 body: tableRows,
-                startY: 20,
+                startY: 25,
                 theme: 'striped',
                 styles: {
                     cellPadding: 3,
                     fontSize: 10,
                     halign: 'center', 
-                    valign: 'middle', 
+                    valign: 'middle',
+                    lineColor: [154, 154, 154], 
+                    lineWidth: 0.1,  
                 },
                 headStyles: {
                     fillColor: [0, 105, 217],
                     fontSize: 11,
                 },
+                margin: { bottom: 16 },
             });
+
+            const pageCount = doc.internal.getNumberOfPages(); // Get total pages
+            for (let i = 1; i <= pageCount; i++) { // Start from the second page
+                doc.setPage(i); // Set the current page
+                doc.setFontSize(11);
+                doc.setFont("Helvetica", "bold");
+                doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - 18, doc.internal.pageSize.getHeight() - 13, { align: "right" });
+            }
         } else {
             doc.text("No data available", 14, 16);
         }
-        doc.save("Completed_Gallon_Delivery_Requests.pdf");
+        doc.save(`Completed_Gallon_Delivery_Requests_${formattedDateTime}.pdf`);
     };  
 
     return(

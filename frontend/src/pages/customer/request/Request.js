@@ -209,7 +209,11 @@ const fetchBorrowedGallons = async () => {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         });
-        setBorrowedGallons(response.data.data);
+        const totalBorrowed = response.data.data.reduce((total, item) => {
+            return total + item.borrow_details.reduce((sum, detail) => sum + detail.quantity, 0);
+        }, 0);
+
+        setBorrowedGallons(totalBorrowed);
     } catch (error) {
         console.error('Error fetching borrowed gallons:', error.response?.data || error.message);
     }
