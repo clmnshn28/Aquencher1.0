@@ -36,6 +36,7 @@ export const ConcernItem = ({fname, lname,requestType, subject, message, time, i
                 <span className="ConcernAdmin__message">{message}</span>
             </div>
             <div className="ConcernAdmin__time">
+            <span className={`Dashboard__new-indicator ${isNew ? '' : 'Dashboard__unread-new'}`}>New</span>
                 {formatTimeDisplay(time)}
             </div>
         </div>

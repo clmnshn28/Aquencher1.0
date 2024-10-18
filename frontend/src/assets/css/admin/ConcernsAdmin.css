@@ -122,11 +122,14 @@
 
 /* time */
 .ConcernAdmin__time{
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 15px;
   font-size: 13px;
   font-weight: 500;
   flex: 1;
   padding-right: 20px;
-  text-align: end;
 }
 
 
@@ -238,7 +241,7 @@
 }
 
 .ConcernAdmin__attachment-list img{
-  width: 25%;
+  width: 15%;
   border-radius: 15px;
 }
 
@@ -319,7 +322,19 @@
   margin-bottom: 10px;
 }
 
+.ConcernAdmin__reply-info-section{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .ConcernAdmin__reply-info img{
+  width: 43px;
+  border-radius: 50%;
+}
+
+
+.ConcernAdmin__reply-info-section img{
   width: 43px;
   border-radius: 50%;
 }
