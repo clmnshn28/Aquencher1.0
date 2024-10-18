@@ -2,6 +2,8 @@ import React,{useState, useEffect} from "react";
 import { BiSolidMessage } from "react-icons/bi";
 import { IoImagesSharp, IoArrowBackCircle } from "react-icons/io5";
 import 'assets/css/modals';
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 import Modal from "components/Modal";
 import TextField from "components/TextField";
@@ -22,15 +24,16 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
     }, []);
 
     const options = [
-        { value: 'refill', title: 'Refill'},
-        { value: 'borrow', title: 'Borrow'},
-        { value: 'return', title: 'Return'},
+        { value: 'Refill', title: 'Refill'},
+        { value: 'Borrow', title: 'Borrow'},
+        { value: 'Return', title: 'Return'},
     ];
     const [type, setType] = useState('');
     const [subject, setSubject] = useState('');
     const [summary, setSummary] = useState('');
     const [isExpanded, setIsExpanded] = useState(false);
     const [imageFiles, setImageFiles] = useState([]); 
+    const [imageError, setImageError] = useState('');
 
     const handleCancelShare = () => {
         setSubject('');
@@ -41,19 +44,36 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
         onClose();
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (!type) {
             alert("Please select a type for your concern."); // You can replace this with a more elegant solution if needed
-            return; // Prevent form submission
+            return;
         }
-        const imageUrls = imageFiles.map(image => image.url);
-        onConfirm({ subject, type, summary, image: imageUrls });
-        setSubject('');
-        setType('');
-        setSummary('');
-        setIsExpanded(false);
-        setImageFiles([]);
+
+        const formData = new FormData();
+        formData.append('subject', subject);
+        formData.append('concern_type', type);
+        formData.append('content', summary);
+
+        // Append images to the FormData
+        imageFiles.forEach((image) => {
+            formData.append('images[]', image.file); 
+        });
+
+        try{
+            await axios.post(API_URL + '/api/customer/concern',formData,{
+            headers: {
+              'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'multipart/form-data',
+            },
+        });
+
+        onConfirm();
+        handleCancelShare();
+        }catch(error){
+            console.error('Error fetching concerns:', error.response ? error.response.data : error.message);
+        }
     };
 
     const handleDropdownChange = (selectedValue) => {
@@ -61,16 +81,28 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
         setIsExpanded(true); 
     };
   
+    
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
-        const validImages = files.map(file => ({
-            url: URL.createObjectURL(file),
-            name: file.name,
-            size: (file.size / 1024).toFixed(2) + ' KB'
-        }));
-    
-        setImageFiles(prevImages => [...prevImages, ...validImages]); // Add valid images
-    };
+        const validImages = [];
+        const errors = []; 
+
+        files.forEach((file) => {
+            // Check if file size exceeds 2048 KB (2 MB)
+            if (file.size > 2048 * 1024) {
+                errors.push(`${file.name} must not be exceed 2048 kilobytes(2 MB).`);
+            } else {
+                validImages.push({
+                    file,
+                    name: file.name,
+                    size: (file.size / 1024).toFixed(2) + ' KB'
+                });
+            }
+        });
+
+        setImageFiles((prevImages) => [...prevImages, ...validImages]); 
+        setImageError(errors); 
+};
 
 
     if(!isOpen) return null;
@@ -139,6 +171,7 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
                                 id="file-input"
                                 multiple // Allow multiple files to be selected
                             />
+                            {imageError && <span className="NewConcernModal__image-error">{imageError}</span>}
                         </div>
                     </div>
                     <div className="NewConcern__reply-actions">

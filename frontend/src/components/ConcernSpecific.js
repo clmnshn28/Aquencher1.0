@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { IoArrowBackCircle } from 'react-icons/io5';
 import { AiFillMessage } from 'react-icons/ai';
@@ -6,14 +6,35 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import * as images from 'assets/images'; 
 import Modal from './Modal';
 import TextArea from './TextArea';
-
+import {API_URL} from 'constants';
+import axios from 'axios';
 
 export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [isReplying, setIsReplying] = useState(false); 
     const [currentImage, setCurrentImage] = useState('');
     const [replyContent, setReplyContent] = useState('');  
-    const [replies, setReplies] = useState([]); 
+    const [replies, setReplies] = useState([]);
+
+    useEffect(()=>{
+        fetchReplies(); 
+    },[]);
+
+    const fetchReplies = async () => {
+        try {
+            const response = await axios.get(`${API_URL}/api/concern/${selectedConcern.id}/replies`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            
+            const sortedReplies = response.data.data.replies.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            setReplies(sortedReplies);
+        } catch (error) {
+            console.error('Error fetching replies:', error);
+        }
+    };
+
 
     const handleReplyChange = (e) => {
         setReplyContent(e.target.value);  
@@ -33,25 +54,24 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) 
         setReplyContent('');
     }
 
-    const handleSendClick = (e) => {
+    const handleSendClick = async (e) => {
         e.preventDefault();
-        const now = new Date();
+        
+        try {
+             await axios.post(`${API_URL}/api/concern/${selectedConcern.id}/reply`, {
+                content: replyContent
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
 
-        const formattedTime = format(now, 'h:mm a'); 
-        const timeAgo = formatDistanceToNow(now, { addSuffix: true }); 
-        const formattedTimeAgo = timeAgo.replace(/^about\s/, ''); 
-        const formattedDay = format(now, 'EEE');
-        const formattedDate = format(now, 'MMM d, yyyy'); 
-    
-        const timeDifference = Date.now() - now.getTime();
-
-        const formattedReplyTime = timeDifference < 86400000 
-        ? `${formattedTime} (${formattedTimeAgo})` 
-        : `${formattedDay}, ${formattedDate}, ${formattedTime} (${formattedTimeAgo})`;
-
-        setReplies([{ content: replyContent, time: formattedReplyTime }, ...replies]);
-        setIsReplying(false);
-        setReplyContent(''); 
+            fetchReplies(); 
+            setIsReplying(false);
+            setReplyContent('');
+        } catch (error) {
+            console.error('Error while sending the reply:', error);
+        }
     };
 
     const formatTimeDisplay = (time) => {
@@ -79,24 +99,24 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) 
                     <IoArrowBackCircle className="ConcernAdmin__back-icon" onClick={handleBackClick} />
                     <img 
                         src={
-                            selectedConcern.requestType === 'Refill' ? images.refillIconOpen :
-                            selectedConcern.requestType === 'Borrow' ? images.borrowIconRed : images.returnIconGreen 
+                            selectedConcern.concern_type === 'Refill' ? images.refillIconOpen :
+                            selectedConcern.concern_type === 'Borrow' ? images.borrowIconRed : images.returnIconGreen 
                         } 
                         alt="" />
-                    <span>Concern: {selectedConcern.requestType} - <i style={{color: '#9c9c9c'}}>"{selectedConcern.subject}"</i></span>
+                    <span>Concern: {selectedConcern.concern_type} - <i style={{color: '#9c9c9c'}}>"{selectedConcern.subject}"</i></span>
                 </div>
 
                 <div className="ConcernAdmin__specific-details">
                     <div className="ConcernAdmin__customer-info">
                         <img 
-                            src={images.defaultAvatar} 
+                            src={selectedConcern.customer.image ? `${API_URL}/storage/images/${selectedConcern.customer.image}` : images.defaultAvatar}
                             alt="Customer Avatar" 
                         />
                         <div className="ConcernAdmin__info">
                             <span className="ConcernAdmin__customer-name">
-                            {selectedConcern.fname} {selectedConcern.lname}
+                            {selectedConcern.customer.fname} {selectedConcern.customer.lname}
                             <span className="ConcernAdmin__email">
-                                &lt;{selectedConcern.email || 'customer email'}&gt;
+                                &lt;{selectedConcern.customer.email || 'customer email'}&gt;
                             </span>
                             </span>
                             <span className="ConcernAdmin__to-admin">to admin</span>
@@ -106,18 +126,18 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) 
                 </div>
 
                 <div className="ConcernAdmin__specific-content">
-                    {selectedConcern.message}
-                    {selectedConcern.attachments && selectedConcern.attachments.length > 0 && (
+                    {selectedConcern.content}
+                    {selectedConcern.images && selectedConcern.images.length > 0 && (
                     <div className="ConcernAdmin__attachments">
                         <h4>Attachments:</h4>
                         <div className="ConcernAdmin__attachment-list">
-                        {selectedConcern.attachments.map((attachment, index) => (
+                        {JSON.parse(selectedConcern.images).map((attachment, index) => (
                             <img 
                             key={index} 
-                            src={attachment} 
+                            src={`${API_URL}/storage/images/${attachment}`} 
                             alt={`Attachment ${index + 1}`} 
                             className="ConcernAdmin__attachment-image" 
-                            onClick={() => handleImageClick(attachment)}
+                            onClick={() => handleImageClick(`${API_URL}/storage/images/${attachment}`)}
                             />
                         ))}
                         </div>
@@ -151,13 +171,13 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) 
             <form onSubmit={handleSendClick} className="ConcernAdmin__reply-box">
                 <MdOutlineKeyboardBackspace onClick={handleCancelReply} className="ConcernAdmin__reply-back-btn"/>
                 <div className="ConcernAdmin__reply-info">
-                    <img src={images.defaultAvatar} alt="User Avatar" />
+                    <img src={selectedConcern.admin.image ? `${API_URL}/storage/images/${selectedConcern.admin.image}` : images.defaultAvatar} alt="User Avatar" />
                     <div className="ConcernAdmin__info">
                         <span className="ConcernAdmin__reply-name">
-                        {selectedConcern.fname} {selectedConcern.lname}
+                        {selectedConcern.admin.fname} {selectedConcern.admin.lname}
                         </span>
                         <span className="ConcernAdmin__reply-email">
-                            &lt;{selectedConcern.email || 'customer email'}&gt;
+                            &lt;{selectedConcern.admin.email || 'customer email'}&gt;
                         </span>
                     </div>
                 </div>
@@ -177,24 +197,26 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) 
             </form>
         )}
         {/* display the send of reply of admin */}
-        {replies.length > 0 && (
+        {replies && replies.length > 0 && (
             <>
                 {replies.map((reply, index) => (
                     <div  key={index}className="ConcernAdmin__reply-box">
                         <div className="ConcernAdmin__reply-item">
                             <div className="ConcernAdmin__reply-info">
-                                <img src={images.defaultAvatar} alt="User Avatar" />
-                                <div className="ConcernAdmin__info">
-                                    <span className="ConcernAdmin__reply-name">
-                                        Celmin Shane Quizon
-                                        <span className='ConcernAdmin__reply-admin'>(Admin)</span>
-                                    </span>
-                                    <span className="ConcernAdmin__reply-email">
-                                        &lt;celminshanequizon@gmail.com&gt;
-                                    </span>
+                                <div className="ConcernAdmin__reply-info-section"> 
+                                    <img src={selectedConcern.admin.image ? `${API_URL}/storage/images/${selectedConcern.admin.image}` : images.defaultAvatar} alt="User Avatar" />
+                                    <div className="ConcernAdmin__info">
+                                        <span className="ConcernAdmin__reply-name">
+                                            {selectedConcern.admin.fname} {selectedConcern.admin.lname}
+                                            <span className='ConcernAdmin__reply-admin'>(Admin)</span>
+                                        </span>
+                                        <span className="ConcernAdmin__reply-email">
+                                            &lt;{selectedConcern.admin.email || 'customer email'}&gt;
+                                        </span>
+                                    </div>
                                 </div>
-                                <span className="ConcernAdmin__reply-time">{reply.time}</span>
-                            </div>
+                                <span className="ConcernAdmin__reply-time">{formatTimeDisplay(reply.created_at)}</span>
+                            </div>      
                             <div className="ConcernAdmin__reply-message">{reply.content}</div>
                         </div>
                     </div>

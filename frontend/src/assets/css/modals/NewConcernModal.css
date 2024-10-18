@@ -178,9 +178,13 @@
 /* error */
 .NewConcernModal__image-error{
     position: absolute;
-    bottom: -10px;
-    font-size: 14px;
+    bottom: -7px;
+    left: 50%; 
+    transform: translateX(-50%); 
+    font-size: 13px;
     color: red;
+    text-align: center;
+    white-space: nowrap; 
 }
 
 
@@ -356,6 +360,16 @@
         font-size: 13px;
     }
 
+    .NewConcernModal__image-error{
+        position: absolute;
+        bottom: -7px;
+        left: 50%; 
+        transform: translateX(-50%); 
+        font-size: 9px;
+        color: red;
+        text-align: center;
+        white-space: nowrap; 
+    }
     
 
     /* submitted */

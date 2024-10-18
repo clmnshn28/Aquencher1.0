@@ -1,31 +1,69 @@
-import React,{useState} from "react";
+import React,{useState, useEffect} from "react";
 import { BiSolidMessage } from "react-icons/bi";
 import 'assets/css/customer';
+import axios from 'axios';
+import {API_URL} from 'constants';
 
-import * as images from 'assets/images';
 import { ConcernItem } from "components/ConcernItem";
 import { ConcernSpecific } from 'components/ConcernSpecific'; 
 import { NewConcernModal, SubmittedModal } from "./modals";
 
 export const Concern = () =>{
-    const [concerns, setConcerns] = useState([
-        { id: 1, fname: 'Francis Harvey', lname: 'Soriano', email: 'francissoriano@gmail.com', requestType: 'Refill', subject: 'Leaking Gallon Issue', message: 'I am reaching out regarding a refill request. Unfortunately, the gallon I received is leaking.', time: new Date('2024-09-25T20:20'), isNew: true, attachments: [images.pickSlim, images.pickRound] },
-        { id: 2, fname: 'Francis Harvey', lname: 'Soriano', email: 'francissoriano@gmail.com', requestType: 'Borrow', subject: 'Unconfirmed Gallon Request', message: 'My request for a new gallon has not been confirmed yet. Please provide an update.', time: new Date('2024-09-25T12:12'), isNew: true, attachments: [] },
-        { id: 3, fname: 'Francis Harvey', lname: 'Soriano', email: 'francissoriano@gmail.com', requestType: 'Refill', subject: 'Delayed Gallon Delivery', message: 'The gallons were not delivered on the promised date. Please assist.', time: new Date('2024-09-21T12:12'), isNew: true, attachments: [] },
-        { id: 4, fname: 'Francis Harvey', lname: 'Soriano', email: 'francissoriano@gmail.com', requestType: 'Refill', subject: 'Delayed Gallon Delivery', message: 'I am reaching out regarding a refill request. Unfortunately, the gallon I received is leaking.', time: new Date('2024-08-21T12:16'), isNew: false, attachments: [] },
-        { id: 5, fname: 'Francis Harvey', lname: 'Soriano', email: 'francissoriano@gmail.com', requestType: 'Refill', subject: 'Water Quality Concern', message: 'The water quality this time seems different. Kindly check if it meets the standard.', time: new Date('2024-08-19T10:32'), isNew: false, attachments: [] },
-        { id: 6, fname: 'Francis Harvey', lname: 'Soriano', email: 'francissoriano@gmail.com', requestType: 'Refill', subject: 'Special Delivery Time Request', message: 'I would like to request a special delivery time for my next order.', time: new Date('2024-07-11T12:14'), isNew: false, attachments: [] }
-    ]);
+    const [concerns, setConcerns] = useState([]);
     const [selectedConcern, setSelectedConcern] = useState(null); 
     const [isSharing, setIsSharing] = useState(false); 
     const [isSubmitted, setIsSubmitted] = useState(false); 
 
+    useEffect(()=>{
+        fetchConcern();
+    },[])
+
+    const fetchConcern = async () =>{
+        try{
+          const response = await axios.get(API_URL + '/api/customer/concern',{
+            headers: {
+              'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            },
+        });
+
+        const { data } = response.data; 
+        const customerDetails = {
+            id: data.id,
+            fname: data.fname,
+            lname: data.lname,
+            email: data.email,
+            image: data.image,
+        };
+
+
+        const concernWithUpdatedDateTime = data.concerns.map((concern) => {
+            const updatedAt = new Date(concern.updated_at);
+
+            const adminDetails = {
+                id: concern.admin.id,
+                fname: concern.admin.fname,
+                lname: concern.admin.lname,
+                email: concern.admin.email,
+                image: concern.admin.image,
+              };
+
+            console.log('THIS SHIT:', adminDetails )
+            
+            return {
+              ...concern,
+              time: updatedAt,
+              admin: adminDetails,
+              customer: customerDetails, 
+            };
+          }).sort((a, b) => b.time - a.time);
+          setConcerns( concernWithUpdatedDateTime);
+        }catch(error){
+          console.error('Error fetching concerns:', error);
+        }
+    };
+
+
     const handleConcernClick = (concern) => {
-        // mark the clicked concern as "not new"
-        const updatedConcerns = concerns.map((c) => 
-          c.id === concern.id ? { ...c, isNew: false } : c
-        );
-        setConcerns(updatedConcerns);
         setSelectedConcern(concern);  
     };
 
@@ -34,24 +72,10 @@ export const Concern = () =>{
     };
 
     // for the share your concern button
-    const handleConfirmShare = (newConcern) => {
-        setConcerns([
-            {
-                id: concerns.length + 1,
-                fname: 'Francis Harvey', 
-                lname: 'Soriano',
-                email: 'francissoriano@gmail.com', 
-                requestType: newConcern.type === 'refill' ? 'Refill' : newConcern.type === 'borrow' ? 'Borrow' : 'Return', // Map type to requestType
-                subject: newConcern.subject,
-                message: newConcern.summary,
-                time: new Date(), 
-                isNew: true,
-                attachments: newConcern.image.length > 0 ? newConcern.image : []
-            },
-            ...concerns
-        ]);
+    const handleConfirmShare = () => {
         setIsSharing(false);
         setIsSubmitted(true); 
+        fetchConcern();
     };
 
 
@@ -77,11 +101,10 @@ export const Concern = () =>{
                         concerns.map((concern) => (
                             <ConcernItem
                                 key={concern.id}
-                                requestType={concern.requestType}
+                                requestType={concern.concern_type}
                                 subject={concern.subject}
-                                message={concern.message}
+                                message={concern.content}
                                 time={concern.time}
-                                isNew={concern.isNew}
                                 onClick={() => handleConcernClick(concern)}
                             />
                         ))
