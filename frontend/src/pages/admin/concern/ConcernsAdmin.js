@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { IoFilterSharp} from 'react-icons/io5';
 import "assets/css/admin"
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 import * as images from 'assets/images';
 import SearchBar from 'components/SearchBar';
@@ -11,19 +13,56 @@ import { ConcernSpecific } from 'components/ConcernSpecific';
 
 export const ConcernsAdmin = () =>{
   
-  const [concerns, setConcerns] = useState([
-    { id: 1, fname: 'Karen Joyce', lname: 'Joson', email: 'karenjoycejoson@gmail.com', requestType: 'Refill', subject: 'Leaking Gallon Issue', message: 'I am reaching out regarding a refill request. Unfortunately, the gallon I received is leaking.', time: new Date('2024-09-25T20:20'), isNew: true, attachments: [images.pickSlim, images.pickRound] },
-    { id: 2, fname: 'Francis Harvey', lname: 'Soriano', email: 'francissoriano@gmail.com', requestType: 'Borrow', subject: 'Unconfirmed Gallon Request', message: 'My request for a new gallon has not been confirmed yet. Please provide an update.', time: new Date('2024-09-25T12:12'), isNew: true, attachments: [] },
-    { id: 4, fname: 'Miguel Angelo', lname: 'Barruga', email: 'miguelbarruga@gmail.com', requestType: 'Refill', subject: 'Delayed Gallon Delivery', message: 'The gallons were not delivered on the promised date. Please assist.', time: new Date('2024-09-21T12:12'), isNew: true, attachments: [] },
-    { id: 5, fname: 'Mark David', lname: 'Basinillo', email: 'markbasinillo@gmail.com', requestType: 'Refill', subject: 'Delayed Gallon Delivery', message: 'I am reaching out regarding a refill request. Unfortunately, the gallon I received is leaking.', time: new Date('2024-08-21T12:16'), isNew: false, attachments: [] },
-    { id: 6, fname: 'Andrea Joy', lname: 'Dela Torre', email: 'andredelatorre@gmail.com', requestType: 'Refill', subject: 'Water Quality Concern', message: 'The water quality this time seems different. Kindly check if it meets the standard.', time: new Date('2024-08-19T10:32'), isNew: false, attachments: [] },
-    { id: 7, fname: 'Neil Carlo', lname: 'Zapanta', email: 'neilzapanta@gmail.com', requestType: 'Refill', subject: 'Special Delivery Time Request', message: 'I would like to request a special delivery time for my next order.', time: new Date('2024-07-11T12:14'), isNew: false, attachments: [] }
-  ]);
+  const [concerns, setConcerns] = useState([]);
 
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredConcerns, setFilteredConcerns] = useState(concerns);
   const [selectedConcern, setSelectedConcern] = useState(null); 
+
+  useEffect(()=>{
+    fetchConcern();
+  },[]);
+
+  const fetchConcern = async () =>{
+    try{
+      const response = await axios.get(API_URL + '/api/admin/concern',{
+        headers: {
+          'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+        },
+    });
+
+    const concernWithUpdatedDateTime = response.data.data.map((concern) => {
+        const updatedAt = new Date(concern.updated_at);
+        const customerDetails = {
+          id: concern.customer.id,
+          fname: concern.customer.fname,
+          lname: concern.customer.lname,
+          email: concern.customer.email,
+          image: concern.customer.image,
+      };
+      const adminDetails = {
+          id: concern.admin.id,
+          fname: concern.admin.fname,
+          lname: concern.admin.lname,
+          email: concern.admin.email,
+          image: concern.admin.image,
+      };
+
+        return {
+          ...concern,
+          time: updatedAt,
+          customer: customerDetails, 
+          admin: adminDetails,
+          isNew: concern.is_read === 0,
+        };
+      }).sort((a, b) => b.time - a.time);
+      setConcerns( concernWithUpdatedDateTime);
+    }catch(error){
+      console.error('Error fetching concerns:', error);
+    }
+};
+
 
   const [filters, setFilters] = useState({
     concernType: '',
@@ -41,7 +80,7 @@ export const ConcernsAdmin = () =>{
   const handleSearch = () => {
     if (searchQuery !== '') {
         const results = concerns.filter((concern) => {
-            const fullName = `${concern.fname} ${concern.lname}`.toLowerCase();
+            const fullName = `${concern.customer.fname} ${concern.customer.lname}`.toLowerCase();
         
             // Search by name
             return (
@@ -68,7 +107,7 @@ const handleFilterChange = (name, value) => {
       // Automatically filter requests based on the updated filters
       const results = concerns.filter((concern) => {
         return (
-          (updatedFilters.concernType === '' || concern.requestType === updatedFilters.concernType)
+          (updatedFilters.concernType === '' || concern.concern_type === updatedFilters.concernType)
         );
       });
       
@@ -82,13 +121,22 @@ const handleFilterChange = (name, value) => {
       setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
 
-  const handleConcernClick = (concern) => {
-    // mark the clicked concern as "not new"
-    const updatedConcerns = concerns.map((c) => 
-      c.id === concern.id ? { ...c, isNew: false } : c
-    );
-    setConcerns(updatedConcerns);
-    setSelectedConcern(concern);  // Set the clicked concern
+  const handleConcernClick = async (concern) => {
+    try {
+      await axios.put(`${API_URL}/api/admin/concern/${concern.id}/read`, {}, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+  
+      const updatedConcerns = concerns.map((c) => 
+        c.id === concern.id ? { ...c, isNew: false } : c
+      );
+      setConcerns(updatedConcerns);
+      setSelectedConcern(concern);  // Set the clicked concern
+    } catch (error) {
+      console.error('Error marking concern as read:', error);
+    }
   };
 
   const handleBackClick = () => {
@@ -139,11 +187,11 @@ const handleFilterChange = (name, value) => {
               filteredConcerns.map((concern) => (
                 <ConcernItem
                   key={concern.id}
-                  fname={concern.fname}
-                  lname={concern.lname}
-                  requestType={concern.requestType}
+                  fname={concern.customer.fname}
+                  lname={concern.customer.lname}
+                  requestType={concern.concern_type}
                   subject={concern.subject}
-                  message={concern.message}
+                  message={concern.content}
                   time={concern.time}
                   isNew={concern.isNew}
                   isAdmin={true}

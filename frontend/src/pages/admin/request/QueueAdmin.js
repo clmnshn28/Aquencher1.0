@@ -49,7 +49,7 @@ export const QueueAdmin = () =>{
                 'Authorization': `Bearer ${localStorage.getItem('token')}` 
                 }
               });
-              console.log("PROD: ", responseProduct.data.data)
+             
               setProducts(responseProduct.data.data); 
     
             const combinedRequests = [...pickupResponse.data.data, ...deliverResponse.data.data];
