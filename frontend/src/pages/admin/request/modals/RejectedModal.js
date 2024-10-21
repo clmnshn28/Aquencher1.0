@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import 'assets/css/modals';
+import {API_URL} from 'constants';
 
 import * as images from 'assets/images';
 import Modal from "components/Modal";
@@ -30,7 +31,7 @@ export const RejectedModal = ({isOpen, onClose, onConfirm, rejectedDetails}) =>{
 
                 <div className='RejectedModal__user-section'>
                     <img 
-                        src={rejectedDetails.image || images.defaultAvatar} 
+                        src={rejectedDetails.image ? `${API_URL}/storage/images/${rejectedDetails.image}` : images.defaultAvatar} 
                         alt={`${rejectedDetails.fname}'s Avatar`}
                         className="RejectedModal__user-avatar"
                     />

@@ -12,7 +12,8 @@ export const DashboardAdmin = () => {
   const [currentDate, setCurrentDate] = useState('');
   
   useEffect(() => {
-
+    fetchProducts();
+    fetchDashboardData();
     updateTimeAndDate();
     const intervalId = setInterval(updateTimeAndDate, 1000); // update every second
 
@@ -30,11 +31,18 @@ export const DashboardAdmin = () => {
 
   const [availableStock, setAvailableStock] = useState({ slim: 0, round: 0 });
   const [borrowedQuantity, setBorrowedQuantity] = useState({ slim: 0, round: 0 });
-  const [monthlyBorrowed, setMonthlyBorrowed] = useState(Array(12).fill(0));
+  const [doughnutData, setDoughnutData] = useState({
+    labels: ['Slim Gallons', 'Round Gallons'],
+    datasets: [{ data: [0, 0], backgroundColor: ['#014377', '#1BABE9'], hoverBackgroundColor: ['#014377', '#1BABE9'] }],
+  });
+  const [lineData, setLineData] = useState({
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    datasets: [
+      { label: 'Refilled Gallons', data: Array(12).fill(0), fill: false, backgroundColor: '#0071CA', borderColor: '#0071CA' },
+      { label: 'Borrowed Gallons', data: Array(12).fill(0), fill: false, backgroundColor: '#A4D3FF', borderColor: '#A4D3FF' },
+    ],
+  });
 
-  useEffect(()=>{
-    fetchProducts();
-  },[]);
 
   const fetchProducts = async () =>{
       try{
@@ -57,50 +65,52 @@ export const DashboardAdmin = () => {
             slim: blueSlim ? blueSlim.borrowed : 0, 
             round: roundGallon ? roundGallon.borrowed : 0
           });
-
-          const totalBorrowed =  blueSlim.borrowed  + roundGallon.borrowed;
-          const currentMonth = new Date().getMonth();
-          setMonthlyBorrowed(prev => {
-            const newMonthlyBorrowed = [...prev]; 
-            newMonthlyBorrowed[currentMonth] = totalBorrowed; 
-            return newMonthlyBorrowed; 
-        });
           
-
       }catch(error){
           console.error('Error fetching users', error);
       }
   }; 
 
-  const doughnutData = {
-    labels: ['Slim Gallons', 'Round Gallons'],
-    datasets: [
-      {
-        data: [5, 5], // changes in this part
-        backgroundColor: ['#014377', '#1BABE9'],
-        hoverBackgroundColor: ['#014377', '#1BABE9'],
-      },
-    ],
-  };
+  const fetchDashboardData = async () => {
+    try {
+      const response = await axios.get(API_URL + '/api/admin/dashboard-data', {
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+      });
+      const { returnedGallons, refilledGallons, borrowedGallons } = response.data.data;
+      
+      // Update doughnut chart data
+      setDoughnutData(prevState => ({
+        ...prevState,
+        datasets: [{
+          ...prevState.datasets[0],
+          data: [
+            returnedGallons.find(item => item.type === 'Slim')?.total || 0,
+            returnedGallons.find(item => item.type === 'Round')?.total || 0
+          ]
+        }]
+      }));
 
-  const lineData = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    datasets: [
-      {
-        label: 'Refilled Gallons',
-        data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],// changes in this part
-        fill: false,
-        backgroundColor: '#0071CA',
-        borderColor: '#0071CA',
-      },
-      {
-        label: 'Borrowed Gallons',
-        data: monthlyBorrowed, // changes in this part
-        fill: false,
-        backgroundColor: '#A4D3FF',
-        borderColor: '#A4D3FF',
-      },
-    ],
+      // Update line chart data
+      setLineData(prevState => ({
+        ...prevState,
+        datasets: [
+          {
+            ...prevState.datasets[0],
+            data: prevState.labels.map((_, index) => 
+              refilledGallons.find(item => item.month === index + 1)?.total || 0
+            )
+          },
+          {
+            ...prevState.datasets[1],
+            data: prevState.labels.map((_, index) => 
+              borrowedGallons.find(item => item.month === index + 1)?.total || 0
+            )
+          }
+        ]
+      }));
+    } catch(error) {
+      console.error('Error fetching dashboard data', error);
+    }
   };
 
   const lineOptions = {
