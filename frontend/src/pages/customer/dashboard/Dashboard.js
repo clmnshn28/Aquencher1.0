@@ -18,9 +18,30 @@ export const Dashboard = () =>{
     const [announcements, setAnnouncements] = useState([]);
     const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
     const [isAnnouncementModalOpen, setIsAnnouncementModalOpen] = useState(false);
+    const [gallonTotals, setGallonTotals] = useState({ refilled: 0, borrowed: 0, returned: 0 });
+    const [lineData, setLineData] = useState({
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [
+            {
+                label: 'Slim Gallons',
+                data: Array(12).fill(0),
+                fill: false,
+                backgroundColor: '#0071CA',
+                borderColor: '#0071CA',
+            },
+            {
+                label: 'Round Gallons',
+                data: Array(12).fill(0),
+                fill: false,
+                backgroundColor: '#A4D3FF',
+                borderColor: '#A4D3FF',
+            },
+        ],
+    });
 
     useEffect(()=>{
         fetchAnnouncement();
+        fetchDashboardData(); 
     },[])
     
     const fetchAnnouncement = async () =>{
@@ -48,7 +69,40 @@ export const Dashboard = () =>{
         }
     };
 
-    
+    const fetchDashboardData = async () => {
+        try {
+            const response = await axios.get(API_URL + '/api/customer/dashboard-data', {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+            const { gallonTotals, refilledGallonsByMonth } = response.data.data;
+
+            setGallonTotals(gallonTotals);
+
+            const slimGallons = Array(12).fill(0);
+            const roundGallons = Array(12).fill(0);
+            refilledGallonsByMonth.forEach(item => {
+                const monthIndex = item.month - 1; 
+                if (item.shop_gallon_id === 1) {
+                    slimGallons[monthIndex] += parseInt(item.total, 10); // Add to slim gallons
+                } else if (item.shop_gallon_id === 2) {
+                    roundGallons[monthIndex] += parseInt(item.total, 10); // Add to round gallons
+                }
+            });
+
+            setLineData(prevData => ({
+                ...prevData,
+                datasets: [
+                    { ...prevData.datasets[0], data: slimGallons },
+                    { ...prevData.datasets[1], data: roundGallons },
+                ],
+            }));
+       
+        } catch (error) {
+            console.error('Error fetching dashboard data:', error);
+        }
+    };
 
     const currentDate = new Date();
     const currentDateStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
@@ -75,26 +129,6 @@ export const Dashboard = () =>{
   
         setCurrentTimeDashboard(now.toLocaleTimeString('en-US', timeOptions));
         setCurrentDateDashboard(now.toLocaleDateString('en-US', dateOptions));
-    };
-
-    const lineData = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        datasets: [
-        {
-            label: 'Slim Gallons',
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],// changes in this part
-            fill: false,
-            backgroundColor: '#0071CA',
-            borderColor: '#0071CA',
-        },
-        {
-            label: 'Round Gallons',
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], // changes in this part
-            fill: false,
-            backgroundColor: '#A4D3FF',
-            borderColor: '#A4D3FF',
-        },
-        ],
     };
 
     const lineOptions = {
@@ -149,7 +183,7 @@ export const Dashboard = () =>{
         <>
             <div className="Dashboard__first-content">
                 <h2 className="Dashboard__welcome">
-                    Welcome Back to Po’s Purified  Drinking Water <br/>& Refilling Hub, <span style={{ fontWeight: 'bold' }}>Francis Harvey</span>
+                    Welcome Back to Po’s Purified  Drinking Water <br/>& Refilling Hub, <span style={{ fontWeight: 'bold' }}>{user.fname}</span>
                 </h2>
                 <div className="Dashboard__time-date">
                     <h3 className="Dashboard__time-text">{currentTimeDashboard}</h3>
@@ -159,17 +193,17 @@ export const Dashboard = () =>{
                    <GallonInfo
                         image={images.refillIcon}
                         label='Refilled Gallons'
-                        value={0}
+                        value={gallonTotals.refilled}
                    />
                     <GallonInfo
                         image={images.borrowIcon}
                         label='Borrowed Gallons'
-                        value={0}
+                        value={gallonTotals.borrowed}
                    />
                     <GallonInfo
                         image={images.returnIcon}
                         label='Returned Gallons'
-                        value={0}
+                        value={gallonTotals.returned}
                    />
                 </div>
             </div>

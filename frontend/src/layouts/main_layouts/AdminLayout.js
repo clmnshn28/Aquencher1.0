@@ -13,12 +13,7 @@ export const AdminLayout = () => {
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [notificationsVisible, setNotificationsVisible] = useState(false);
-  const [notifications, setNotifications] = useState([
-    { subject: 'Request for Customer Account Deactivation', description: 'Karen Joyce Joson has requested the deletion of account.', time: '10 minutes ago', isNew: true },
-    { subject: 'Borrow Request', description: 'Karen Joyce Joson requested to borrow 3 gallons of Po\'s Purified Blue Slim Gallon with Faucet Refill (20L/5gal)', time: '12 minutes ago', isNew: true },
-    { subject: 'Borrow Request', description: 'John Smith requested to borrow 2 gallons of Po\'s Purified Dispenser Bottle Refill 18.9L', time: '12 minutes ago', isNew: false },
-    { subject: 'System Update', description: 'System will be offline temporarily. Update is scheduled for tomorrow at 10:00 AM. Please plan your tasks accordingly.', time: '12 minutes ago', isNew: false },
-  ]);
+  const [notifications, setNotifications] = useState([]);
   const [subAccountSidebarVisible, setSubAccountSidebarVisible] = useState(false);
   const [highlightedAccountTab, setHighlightedAccountTab] = useState('');
   const [lastOpenedDropdown, setLastOpenedDropdown] = useState(null);
@@ -50,12 +45,6 @@ export const AdminLayout = () => {
 
   const toggleNotifications = () => {
     setNotificationsVisible(!notificationsVisible);
-  };
-
-  const handleNotificationClick = (index) => {
-    setNotifications(notifications.map((notification, i) => 
-      i === index ? { ...notification, isNew: false } : notification
-    ));
   };
 
   const handleSeeAllClick = () => {
@@ -96,7 +85,8 @@ export const AdminLayout = () => {
 
   useEffect(() => {
     const currentPath = location.pathname;
-
+    fetchUserData();
+    fetchNotifications();
     if (currentPath.includes('dashboard')) {
       setHighlightedTab('dashboard');
     } else if (currentPath.includes('notifications')) {
@@ -123,9 +113,6 @@ export const AdminLayout = () => {
   const [user, setUser] = useState({});
   const [profilePic, setProfilePic] = useState(images.defaultAvatar); 
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
 
   const fetchUserData = async () => {
     try {
@@ -144,6 +131,55 @@ export const AdminLayout = () => {
     }
   };
 
+  const fetchNotifications = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/api/admin/notifications`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}` 
+            }
+        });
+        const sortedNotifications = response.data.data.sort((a, b) => {
+            return new Date(b.updated_at) - new Date(a.updated_at);
+        });
+
+        const limitedNotifications = sortedNotifications.slice(0, 4);
+
+        setNotifications(limitedNotifications);
+    } catch (error) {
+        console.error('Error fetching notifications:', error);
+    }
+};
+
+
+
+const handleNotificationClick = (notification) => {
+  
+  const notificationIds = notification.batch_id.map(n => n.id);
+
+  const notificationData = {
+    notification_ids: notificationIds,
+  };
+
+  axios.post(`${API_URL}/api/admin/notifications/read`, notificationData, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  })
+  .then(() => {
+    setNotifications(notifications.map(n => {
+      if (n.batch_id === notification.batch_id) {
+        return { ...n, is_read: true };
+      }
+      return n;
+    }));
+  })
+  .catch(error => {
+    console.error(`There was an error marking notifications as read!`, error);
+  });
+}
+
+
+
   const handleSignOut = () => {
     signOut(navigate);
   };
@@ -156,23 +192,43 @@ export const AdminLayout = () => {
       <div className="admin-profile">
         <div className="notif-container">
           <img className="Notification" src={images.notificationClose} alt="Notification"  onClick={toggleNotifications}  />
+          {notifications.some(notification => !notification.is_read) && <div className="Layout_blue-circle"></div>}
           {notificationsVisible && (
           <div className="notifications-view">
             <div className="notifications-header">
               <p className="notification-title-header">Notifications</p>
               <Link to="notifications" className="see-all-button"  onClick={handleSeeAllClick}>See all</Link>
             </div>
-            <p className="notification-earlier-header">Earlier</p>
-            {notifications.map((notification, index) => (
-              <div key={index} className="notification-border-bottom">
-                <div className={`notification-details-header ${notification.isNew ? 'new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
-                  <p className="notification-subject-header">{notification.subject}</p>
-                  <p className="notification-description-header">{notification.description}</p>
-                  <p className="notification-time-header">{notification.time}</p>
-                  {notification.isNew && <div className="blue-circle"></div>}
-                </div>
-              </div>
-            ))}
+            {notifications.length === 0 ? (
+              <p className="no-notifications-message">No notifications available.</p>
+            ) : (
+              <>
+                <p className="notification-earlier-header">Earlier</p>
+                {notifications.map((notification, index) => (
+                  <div key={index} className="notification-border-bottom">
+                    <div className={`notification-details-header  ${notification.is_read ? '' : 'new-notification'}`} onClick={() => handleNotificationClick(notification)}>
+                      <p className="notification-subject-header ">{notification.subject}</p>
+                      <p className="notification-description-header ">{notification.description}</p>
+                      <p className="notification-click-all">
+                        Click here to{' '}
+                        {notification.type === 'Refill' ? (
+                          <Link to="/admin/requests/all-requests" className="link-no-underline">view all refill requests</Link>
+                        ) : notification.type === 'Borrow' ? (
+                          <Link to="/admin/requests/all-requests" className="link-no-underline">view all borrow requests</Link>
+                        ) : notification.type === 'Return' ? (
+                          <Link to="/admin/requests/all-requests" className="link-no-underline">view all return requests</Link>
+                        ) :  notification.type === 'Concern' ? (
+                          <Link to="/admin/concerns" className="link-no-underline">view all customer concerns</Link>
+                        ) : null}
+                        .
+                      </p>
+                      <p className="notification-time-header ">{notification.time}</p>
+                      {notification.is_read ? '' : <div className="blue-circle"></div>}
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
           </div>
           )}
         </div>

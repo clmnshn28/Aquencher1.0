@@ -72,7 +72,7 @@
 @media only screen and (max-width: 767px) {
 
     .Notification__container{
-        padding: 1px 30px;
+        padding: 10px 20px 15px;
     }
 
     .Notification__title{
@@ -89,7 +89,7 @@
     }
 
     .Notification__details {
-        padding: 10px 50px 5px;
+        padding: 10px 20px 5px;
         margin-bottom: 3px;
     }
 
@@ -108,6 +108,11 @@
 
     .Notification__time{
         font-size: 8px;
+    }
+
+    .no-notifications-message{
+        margin-top: 30px;
+        font-size: 12px;
     }
 
 }

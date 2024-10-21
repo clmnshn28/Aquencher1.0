@@ -7,6 +7,7 @@ import { TbLogout, TbLogs } from "react-icons/tb";
 import { RxGear } from "react-icons/rx";
 import axios from 'axios';
 import {API_URL} from 'constants';
+import { formatDistanceToNow, parseISO } from 'date-fns';
 
 export const CustomerLayout = () =>{
   const navigate = useNavigate();
@@ -15,12 +16,7 @@ export const CustomerLayout = () =>{
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [notificationsVisible, setNotificationsVisible] = useState(false);
-  const [notifications, setNotifications] = useState([
-    { subject: 'Request for Customer Account Deactivation', description: 'Karen Joyce Joson has requested the deletion of account.', time: '10 minutes ago', isNew: true },
-    { subject: 'Borrow Request', description: 'Karen Joyce Joson requested to borrow 3 gallons of Po\'s Purified Blue Slim Gallon with Faucet Refill (20L/5gal)', time: '12 minutes ago', isNew: true },
-    { subject: 'Borrow Request', description: 'John Smith requested to borrow 2 gallons of Po\'s Purified Dispenser Bottle Refill 18.9L', time: '12 minutes ago', isNew: false },
-    { subject: 'System Update', description: 'System will be offline temporarily. Update is scheduled for tomorrow at 10:00 AM. Please plan your tasks accordingly.', time: '12 minutes ago', isNew: false },
-  ]);
+  const [notifications, setNotifications] = useState([]);
   const [subAccountSidebarVisible, setSubAccountSidebarVisible] = useState(false);
   const [highlightedAccountTab, setHighlightedAccountTab] = useState('');
   const [lastOpenedDropdown, setLastOpenedDropdown] = useState(null);
@@ -63,11 +59,6 @@ export const CustomerLayout = () =>{
     setNotificationsVisible(!notificationsVisible);
   };
 
-  const handleNotificationClick = (index) => {
-    setNotifications(notifications.map((notification, i) => 
-      i === index ? { ...notification, isNew: false } : notification
-    ));
-  };
 
   const handleSeeAllClick = () => {
     setNotificationsVisible(false);
@@ -97,7 +88,9 @@ export const CustomerLayout = () =>{
 
   useEffect(() => {
     const currentPath = location.pathname;
-
+    fetchUserData();
+    fetchNotifications();
+    
     if (currentPath.includes('dashboard')) {
       setHighlightedTab('dashboard');
     } else if (currentPath.includes('notifications')) {
@@ -140,9 +133,7 @@ export const CustomerLayout = () =>{
   const [user, setUser] = useState({});
   const [profilePic, setProfilePic] = useState(images.defaultAvatar); 
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+
 
   const fetchUserData = async () => {
     try {
@@ -161,12 +152,59 @@ export const CustomerLayout = () =>{
     }
   };
 
+  const fetchNotifications = async () => {
+    try {
+        const response = await axios.get(`${API_URL}/api/customer/notifications`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}` 
+            }
+        });
+        const sortedNotifications = response.data.data.sort((a, b) => {
+            return new Date(b.updated_at) - new Date(a.updated_at);
+        });
+
+      
+        const limitedNotifications = sortedNotifications.slice(0, 4);
+
+        setNotifications(limitedNotifications);
+    } catch (error) {
+        console.error('Error fetching notifications:', error);
+    }
+  };
+
+  const handleNotificationClick = async (notification) => {
+    setNotifications(notifications.map((n) =>
+        n.id === notification.id ? { ...n, is_read: true } : n
+    ));
+
+    try {
+        await axios.put(`${API_URL}/api/customer/notifications/${notification.id}/read`, null, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}` 
+            }
+        });
+    } catch (error) {
+        console.error('Error marking notification as read:', error);
+        setNotifications(notifications.map((n) =>
+            n.id === notification.id ? { ...n, is_read: false } : n
+        ));
+    }
+  };
+
+  const formatTimeAgo = (time) => {
+    return formatDistanceToNow(parseISO(time), { addSuffix: true });
+  };
+
   const handleSignOut = () => {
     signOut(navigate);
   };
 
   return(
     <div className={`CustomerLayout__dashboard-container ${sidebarMinimized ? 'CustomerLayout__sidebar-minimized' : ''}`}>
+      <div 
+        className={`CustomerLayout__sidebar-overlay ${sidebarOpenMobile ? 'open' : ''}`} 
+        onClick={toggleSidebarMobile}
+      ></div>
       <div className="CustomerLayout__dashboard-header">
         <div className="CustomerLayout__logo-section">
           <button className="CustomerLayout__hamburger-icon"onClick={toggleSidebarMobile}>
@@ -177,23 +215,30 @@ export const CustomerLayout = () =>{
         <div className="CustomerLayout__admin-profile">
           <div className="CustomerLayout__notif-container">
             <img className="CustomerLayout__Notification" src={images.notificationClose} alt="Notification"  onClick={toggleNotifications}  />
+            {notifications.some(notification => !notification.is_read) && <div className="Layout_blue-circle"></div>}
             {notificationsVisible && (
               <div className="CustomerLayout__notifications-view">
                 <div className="CustomerLayout__notifications-header">
                   <p className="CustomerLayout__notification-title-header">Notifications</p>
                   <Link to="notifications" className="CustomerLayout__see-all-button" onClick={handleSeeAllClick}>See all</Link>
                 </div>
-                <p className="CustomerLayout__notification-earlier-header">Earlier</p>
-                {notifications.map((notification, index) => (
-                  <div key={index} className="Notification__border-bottom">
-                    <div className={`CustomerLayout__notification-details-header ${notification.isNew ? 'CustomerLayout__new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
-                      <p className="CustomerLayout__notification-subject-header">{notification.subject}</p>
-                      <p className="CustomerLayout__notification-description-header">{notification.description}</p>
-                      <p className="CustomerLayout__notification-time-header">{notification.time}</p>
-                      {notification.isNew && <div className="CustomerLayout__blue-circle"></div>}
-                    </div>
-                  </div>
-                ))}
+                {notifications.length === 0 ? (
+                  <p className="no-notifications-message">No notifications available.</p>
+                ) : (
+                    <>
+                    <p className="CustomerLayout__notification-earlier-header">Earlier</p>
+                    {notifications.map((notification, index) => (
+                      <div key={index} className="Notification__border-bottom">
+                        <div className={`CustomerLayout__notification-details-header ${notification.is_read ? '' : 'CustomerLayout__new-notification'}`} onClick={() => handleNotificationClick(notification)}>
+                          <p className="CustomerLayout__notification-subject-header">{notification.subject}</p>
+                          <p className="CustomerLayout__notification-description-header">{notification.description}</p>
+                          <p className="CustomerLayout__notification-time-header">{formatTimeAgo(notification.updated_at)}</p>
+                          {notification.is_read ? '' : <div className="CustomerLayout__blue-circle"></div>}
+                        </div>
+                      </div>
+                    ))}
+                    </>
+                )}
               </div>
             )}
           </div>
@@ -294,14 +339,6 @@ export const CustomerLayout = () =>{
               <div className={`CustomerLayout__task-container  ${highlightedTab === 'account'? 'CustomerLayout__sub-highlighted' : ''} `}>
                 <RxGear  className={`CustomerLayout__sub-sidebaricon ${highlightedTab === 'account'? 'CustomerLayout__sub-highlighted' : ''} `}/>
                 <span className="CustomerLayout__sidebar-text account-settings-text">Account Settings</span>
-              </div>
-            </li>
-          </Link>
-          <Link to="activity-logs" className='CustomerLayout__link-sub-sidebar'>
-            <li className={`CustomerLayout__sub-sidebar ${highlightedTab === 'logs'? 'CustomerLayout__selected' : ''}`}>
-              <div className={`CustomerLayout__task-container  ${highlightedTab === 'logs'? 'CustomerLayout__sub-highlighted' : ''} `}>
-                <TbLogs  className={`CustomerLayout__sub-sidebaricon ${highlightedTab === 'logs'? 'CustomerLayout__sub-highlighted' : ''} `}/>
-                <span className="CustomerLayout__sidebar-text account-settings-text">Activity Logs</span>
               </div>
             </li>
           </Link>

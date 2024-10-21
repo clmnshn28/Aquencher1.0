@@ -40,7 +40,7 @@
             'Authorization': `Bearer ${localStorage.getItem('token')}` 
             }
           });
-          console.log("PROD: ", responseProduct.data.data)
+          
           setProducts(responseProduct.data.data); 
 
           const requestsWithUpdatedDateTime = response.data.data

@@ -1,20 +1,54 @@
 import "assets/css/admin"
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; 
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 export const NotificationAdmin = () => {
 
-  const [notifications, setNotifications] = useState([
-    { subject: 'Request for Customer Account Deactivation', description: 'Karen Joyce Joson has requested the deletion of account.', time: '10 minutes ago', isNew: true },
-    { subject: 'Borrow Request', description: 'Karen Joyce Joson requested to borrow 3 gallons of Po\'s Purified Blue Slim Gallon with Faucet Refill (20L/5gal)', time: '12 minutes ago', isNew: true },
-    { subject: 'Borrow Request', description: 'John Smith requested to borrow 2 gallons of Po\'s Purified Dispenser Bottle Refill 18.9L', time: '12 minutes ago', isNew: false },
-    { subject: 'System Update', description: 'System will be offline temporarily. Update is scheduled for tomorrow at 10:00 AM. Please plan your tasks accordingly.', time: '12 minutes ago', isNew: false },
-  ]);
+  const [notifications, setNotifications] = useState([]);
 
-  const handleNotificationClick = (index) => {
-    setNotifications(notifications.map((notification, i) => 
-      i === index ? { ...notification, isNew: false } : notification
-    ));
+  useEffect(() => {
+  
+    axios.get(`${API_URL}/api/admin/notifications`,{
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(response => {
+        setNotifications(response.data.data);
+      })
+      .catch(error => {
+        console.error("There was an error fetching the notifications!", error);
+      });
+  }, []);
+
+
+  const handleNotificationClick = (notification) => {
+  
+    const notificationIds = notification.batch_id.map(n => n.id);
+
+    const notificationData = {
+      notification_ids: notificationIds,
+    };
+
+    axios.post(`${API_URL}/api/admin/notifications/read`, notificationData, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    .then(() => {
+      setNotifications(notifications.map(n => {
+        if (n.batch_id === notification.batch_id) {
+          return { ...n, is_read: true };
+        }
+        return n;
+      }));
+    })
+    .catch(error => {
+      console.error(`There was an error marking notifications as read!`, error);
+    });
+   
   };
 
   return (
@@ -22,17 +56,36 @@ export const NotificationAdmin = () => {
     <div>
       <div className="notification-container">
         <h2 className="notification-title">Notifications</h2>
-        <h3 className="notification-earlier">Earlier</h3>
-        {notifications.map((notification, index) => (
-          <div key={index} className="notification-border-bottom">
-            <div className={`notification-details ${notification.isNew ? 'new-notification' : ''}`} onClick={() => handleNotificationClick(index)}>
-              <p className="notification-subject">{notification.subject}</p>
-              <p className="notification-description">{notification.description}</p>
-              <p className="notification-time">{notification.time}</p>
-              {notification.isNew && <div className="blue-circle"></div>}
-            </div>
-          </div>
-        ))}
+        {notifications.length === 0 ? (
+          <p className="no-notifications-message">No notifications available.</p>
+        ) : (
+          <>
+            <h3 className="notification-earlier">Earlier</h3>
+            {notifications.map((notification, index) => (
+              <div key={index} className="notification-border-bottom">
+                <div className={`notification-details ${notification.is_read ? '' : 'new-notification'}`} onClick={() => handleNotificationClick(notification)}>
+                  <p className="notification-subject">{notification.subject}</p>
+                  <p className="notification-description">{notification.description}</p>
+                  <p className="notification-click-all">
+                    Click here to{' '}
+                    {notification.type === 'Refill' ? (
+                      <Link to="/admin/requests/all-requests" className="link-no-underline">view all refill requests</Link>
+                    ) : notification.type === 'Borrow' ? (
+                      <Link to="/admin/requests/all-requests" className="link-no-underline">view all borrow requests</Link>
+                    ) : notification.type === 'Return' ? (
+                      <Link to="/admin/requests/all-requests" className="link-no-underline">view all return requests</Link>
+                    ) :  notification.type === 'Concern' ? (
+                      <Link to="/admin/concerns" className="link-no-underline">view all customer concerns</Link>
+                    ) : null}
+                    .
+                  </p>
+                  <p className="notification-time">{notification.time}</p>
+                  {notification.is_read ? '' : <div className="blue-circle"></div>}
+                </div>
+              </div>
+            ))}
+          </>
+        )}
       </div>
     </div>
   );
