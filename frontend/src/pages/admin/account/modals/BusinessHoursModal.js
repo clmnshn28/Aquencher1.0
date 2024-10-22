@@ -16,10 +16,7 @@ export const BusinessHoursModal = ({isOpen, onClose, onConfirm, businessHours, s
     // toggle open or closed
     const handleToggleOpen = (index) => {
         const newHours = [...businessHours];
-        newHours[index].open = !newHours[index].open;   // Toggle the open/closed state
-        if (newHours[index].open && newHours[index].timeSlots.length === 0) {  // if opening the day and no time slots exist, create a default time slot
-            newHours[index].timeSlots.push({ start:{ hour: 12, minute: 0, period: 'AM' }, end: { hour: 12, minute: 0, period: 'PM' } });
-        }
+        newHours[index].open = !newHours[index].open;  
         setBusinessHours(newHours);
     };
     
@@ -86,7 +83,7 @@ export const BusinessHoursModal = ({isOpen, onClose, onConfirm, businessHours, s
                                                     format='12-hour'
                                                 />
 
-                                                {slotIndex > 0 ? (
+                                                {/* {slotIndex > 0 ? (
                                                     <button
                                                         className="BusinessHoursModal__remove-slot"
                                                         onClick={() => handleRemoveTimeSlot(dayIndex, slotIndex)}
@@ -101,7 +98,7 @@ export const BusinessHoursModal = ({isOpen, onClose, onConfirm, businessHours, s
                                                     >
                                                         <MdAdd className="BusinessHoursModal__icon-add" />
                                                     </button>
-                                                )}
+                                                )} */}
                                                 
                                             </div>                            
                                         ))}

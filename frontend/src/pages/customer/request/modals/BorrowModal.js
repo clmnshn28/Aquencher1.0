@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import 'assets/css/customer';
 import Modal from "components/Modal";
 import * as images from 'assets/images';
+import axios from 'axios';
+import {API_URL} from 'constants';
 
 export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
     
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+    const [borrowLimits, setBorrowLimits] = useState({ 1: 0, 2: 0 });  
 
     useEffect(() => {
         const updateIsMobile = () => {
@@ -16,13 +19,33 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
         return () => window.removeEventListener("resize", updateIsMobile);
     }, []);
     
-    const perPersonLimit = 5;
+    useEffect(() => {
+        if (isOpen) {
+            fetchBorrowLimits(); 
+        }
+    }, [isOpen]);
+
+    const fetchBorrowLimits = async () => {
+        try {
+            const response = await axios.get(API_URL +'/api/customer/borrow-limits',{
+                headers:{
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            }); 
+            const { slim_gallons, round_gallons } = response.data.data[0];
+            setBorrowLimits({ 1: slim_gallons, 2: round_gallons });
+        } catch (error) {
+            console.error("Error fetching borrow limits:", error);
+        }
+    };
+    
+    const getLimitForItem = (id) => borrowLimits[id] || 0;
 
     // incrementing and decrementing quantity
     const handleIncrement = (id) => {
         setItems((prevItems) =>
             prevItems.map((item) =>
-                item.id === id && item.quantity < perPersonLimit && item.quantity <= item.availableStock 
+                item.id === id && item.quantity < getLimitForItem(id) && item.quantity <= item.availableStock 
                     ? { ...item, quantity: item.quantity + 1 } 
                     : item
             )
@@ -42,7 +65,7 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
     const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
     const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
     const isSubmitDisabled = totalPrice === 0 || items.some(
-        item => item.quantity > 0 && (item.quantity >= perPersonLimit || item.quantity > item.availableStock)
+        item => item.quantity > 0 && (item.quantity >= getLimitForItem(item.id) || item.quantity > item.availableStock)
     );
     
 
@@ -73,10 +96,10 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
                             <button
                                 className="BorrowModal__quantity-btn"
                                 onClick={() => handleIncrement(item.id)}
-                                disabled={item.quantity >= perPersonLimit || item.quantity > item.availableStock}
+                                disabled={item.quantity >= getLimitForItem(item.id) || item.quantity > item.availableStock}
                             >+</button>
                         </div>
-                        {item.quantity >= perPersonLimit ? (
+                        {item.quantity >= getLimitForItem(item.id) ? (
                             <div className="BorrowModal__limit">Borrowing limit exceeded.</div>
                         ) : item.quantity > item.availableStock ? (
                             <div className="BorrowModal__limit">Currently out of stock.</div>
