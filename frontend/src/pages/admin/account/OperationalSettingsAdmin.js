@@ -1,100 +1,137 @@
-    import React, {useState} from "react";
+    import React, {useState, useEffect} from "react";
     import 'assets/css/admin';
+    import axios from 'axios';
+    import {API_URL} from 'constants';
 
     import { OperationalSection } from "components/OperationalSection";
-    import { BusinessHoursModal } from "./modals/BusinessHoursModal";
-    import { PickupDeliveryTimeModal } from "./modals/PickupDeliveryTimeModal";
+    // import { BusinessHoursModal } from "./modals/BusinessHoursModal";
     import { BorrowLimitModal } from "./modals/BorrowLimitModal";
 
 
     export const OperationalSettingsAdmin = () =>{
 
         // <===== BUSINESS HOURS =======>  
-        const [businessHours, setBusinessHours] = useState( [
-            { day: "Sunday", open: false, timeSlots: [] },
-            { day: "Monday", open: false, timeSlots: [] },
-            { day: "Tuesday", open: false, timeSlots: [] },
-            { day: "Wednesday", open: false, timeSlots: [] },
-            { day: "Thursday", open: false, timeSlots: [] },
-            { day: "Friday", open: false, timeSlots: [] },
-            { day: "Saturday", open: false, timeSlots: [] }
-        ]);
+        // const [businessHours, setBusinessHours] = useState([]);
 
-        const [isBusinessHoursModalOpen, setIsBusinessHoursModalOpen] = useState(false);
-        const [tempBusinessHours, setTempBusinessHours] = useState(businessHours);
+        // const [isBusinessHoursModalOpen, setIsBusinessHoursModalOpen] = useState(false);
+        // const [tempBusinessHours, setTempBusinessHours] = useState([]);
 
-        // Open Business Hours Modal and store the current values in temporary state
-        const openBusinessHoursModal = () => {
-            setIsBusinessHoursModalOpen(true);
-            const deepCopy = businessHours.map(day => ({
-                ...day, // shallow copy of each day object
-                timeSlots: [...day.timeSlots] // shallow copy of timeSlots array 
-            }));
-            setTempBusinessHours(deepCopy); 
-        };
+        useEffect(()=>{
+            // axios.get(`${API_URL}/api/admin/business-hours`,{
+            //     headers:{
+            //         'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            //     },
+            // })
+            // .then((response) => {
 
-        // Handle Cancel: reset temp values
-        const closeBusinessHoursModal = () => {
-            setIsBusinessHoursModalOpen(false);
-            const deepCopy = businessHours.map(day => ({
-                ...day,
-                timeSlots: [...day.timeSlots]
-            }));
-            setTempBusinessHours(deepCopy); // Reset temp state 
-        };
+            //     const formattedData = response.data.data.map(day => ({
+            //         day: day.day,
+            //         open: Boolean(day.is_open),
+            //         timeSlots: day.time_slots.map(slot => ({
+            //             id: slot.id,
+            //             start: formatTime(slot.start),
+            //             end: formatTime(slot.end),
+            //         }))
+            //     }));
+            //     setBusinessHours(formattedData);
+            //     setTempBusinessHours(formattedData);
+            // })
+            // .catch((error) => {
+            //     console.error('Failed to fetch business hours:', error);
+            // });
 
-        // Handle confirm business hours
-        const ConfirmBusinessHoursModal = () => {
-            setIsBusinessHoursModalOpen(false);
-            setBusinessHours(tempBusinessHours); // Save temp to actual state
-        };
+            // Fetch Borrow Limits
+            axios.get(`${API_URL}/api/admin/borrow-limits`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+            .then((response) => {
+                const { slim_gallons, round_gallons } = response.data.data[0];
+                setSlimGallons(slim_gallons ); // Ensure default value
+                setRoundGallons(round_gallons);
+            })
+            .catch((error) => {
+                console.error('Failed to fetch borrow limits:', error);
+            });
+        },[]);
+
+        // const formatTime = (timeString) => {
+        //     let [hour, minute] = timeString.split(':');
+        //     hour = parseInt(hour);
+        //     const period = hour >= 12 ? 'PM' : 'AM';
+        //     hour = hour % 12 || 12; // Convert 0:00 or 12:00 hours to 12-hour format
+        //     return {
+        //         hour: hour,
+        //         minute: parseInt(minute),
+        //         period: period,
+        //     };
+        // };
+
+        // // Open Business Hours Modal and store the current values in temporary state
+        // const openBusinessHoursModal = () => {
+        //     setIsBusinessHoursModalOpen(true);
+        //     const deepCopy = businessHours.map(day => ({
+        //         ...day,
+        //         timeSlots: [...day.timeSlots] // shallow copy of timeSlots array 
+        //     }));
+        //     setTempBusinessHours(deepCopy); 
+        // };
+
+        // // Handle Cancel: reset temp values
+        // const closeBusinessHoursModal = () => {
+        //     setIsBusinessHoursModalOpen(false);
+        //     const deepCopy = businessHours.map(day => ({
+        //         ...day,
+        //         timeSlots: [...day.timeSlots]
+        //     }));
+        //     setTempBusinessHours(deepCopy); // Reset temp state 
+        // };
 
 
+        // const convertTo24Hour = (time) => {
+        //     let hour = time.hour;
+        //     if (time.period === 'PM' && hour < 12) hour += 12;
+        //     if (time.period === 'AM' && hour === 12) hour = 0; // Handle 12 AM case
+        //     return `${String(hour).padStart(2, '0')}:${String(time.minute).padStart(2, '0')}`;
+        // };
 
+        // // Handle confirm business hours
+        // const ConfirmBusinessHoursModal = () => {
+        //     const updatedHours = tempBusinessHours.map(day => ({
+        //         day: day.day,
+        //         is_open: day.open,
+        //         time_slots: day.timeSlots.map(slot => ({
+        //             id: slot.id,
+        //             start: convertTo24Hour(slot.start),
+        //             end: convertTo24Hour(slot.end),
+        //         })),
+        //     }));
 
-        // <===== PICKUP & DELIVERY =======>
-        const [isPickupDeliverModalOpen, setIsPickupDeliverModalOpen] = useState(false);
-        const [pickupTime, setPickupTime] = useState({ minute: 0, second: 0 });
-        const [deliveryTime, setDeliveryTime] = useState({ minute: 0, second: 0 });
+        //     console.log('this: ', updatedHours);
 
-        const [tempPickupTime, setTempPickupTime] = useState(pickupTime);
-        const [tempDeliveryTime, setTempDeliveryTime] = useState(deliveryTime);
-
-
-        // Open Pickup & Delivery Time Modal and store the current values in temporary state
-        const openPickupDeliveryTimeModal = () => {
-            setIsPickupDeliverModalOpen(true);
-            setTempPickupTime(pickupTime);
-            setTempDeliveryTime(deliveryTime);
-        };
-
-        const closePickupDeliverModal = () =>{
-            setIsPickupDeliverModalOpen(false);
-            setTempPickupTime(pickupTime);
-            setTempDeliveryTime(deliveryTime);
-        };
-
-        // Handle confirm pickup deliver time
-        const ConfirmPickupDeliverModal = () => {
-            setIsPickupDeliverModalOpen(false);
-            setPickupTime(tempPickupTime);
-            setDeliveryTime(tempDeliveryTime);
-        };
-
-
-        // Format Time Helper Function
-        const formatTime = (time) => {
-            const minutes = String(time.minute).padStart(2, '0');
-            const seconds = String(time.second).padStart(2, '0');
-            return `${minutes}:${seconds} m`;
-        };
+        //     axios.post(`${API_URL}/api/admin/business-hours`,
+        //         { data: updatedHours}, {
+        //         headers: {
+        //             'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        //         },
+        //     })
+        //     .then(response => {
+        //         console.log('Business hours updated:', response.data);
+        //     })
+        //     .catch(error => {
+        //         console.error('Failed to update business hours:', error);
+        //     });
+        //     setBusinessHours(tempBusinessHours);
+        //     setIsBusinessHoursModalOpen(false);
+        // };
 
 
         // <===== BORROW LIMITS =======>
         const [isBorrowLimitsModalOpen, setIsBorrowLimitsModalOpen] = useState(false);
 
-        const [slimGallons, setSlimGallons] = useState(0);
-        const [roundGallons, setRoundGallons] = useState(0);
+        const [slimGallons, setSlimGallons] = useState(null);
+        const [roundGallons, setRoundGallons] = useState(null);
     
         const [tempSlimGallons, setTempSlimGallons] = useState(slimGallons);
         const [tempRoundGallons, setTempRoundGallons] = useState(roundGallons);
@@ -115,9 +152,23 @@
 
         // Handle Confirm: save temp values to main state
         const ConfirmBorrowLimitsModal = () => {
+            axios.post(`${API_URL}/api/admin/borrow-limits`, {
+                slimGallons: tempSlimGallons,
+                roundGallons: tempRoundGallons,
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+            .then(response => {
+                setSlimGallons(tempSlimGallons);
+                setRoundGallons(tempRoundGallons);
+                console.log('Borrow limits updated:', response.data);
+            })
+            .catch(error => {
+                console.error('Failed to update borrow limits:', error);
+            });
             setIsBorrowLimitsModalOpen(false);
-            setSlimGallons(tempSlimGallons);
-            setRoundGallons(tempRoundGallons);
         };
 
         
@@ -130,10 +181,9 @@
                         Configure key business functions such as pickup and delivery, borrowing limits, and operating hours
                     </p>
                 </div>
-
+{/* 
                 <OperationalSection
                     title='Business Hours'
-               
                     onEditClick={openBusinessHoursModal} 
                     content={
                         <>
@@ -159,25 +209,7 @@
                             ))}
                         </> 
                     }
-                />
-                
-                <OperationalSection
-                    title='Pickup and Delivery Time'
-                    onEditClick={openPickupDeliveryTimeModal} 
-                    content={
-                        <>
-                            <p className="OperationalSettingsAdmin__label">
-                                Estimated Pickup Time
-                                <span className="OperationalSettingsAdmin__delivery-value">{formatTime(pickupTime)}</span>
-                            </p>
-                            <p className="OperationalSettingsAdmin__label">
-                                Estimated Delivery Time 
-                                <span className="OperationalSettingsAdmin__delivery-value">{formatTime(deliveryTime)}</span>
-                            </p>
-                        </>
-                    }
-                    
-                />
+                /> */}
 
                 <OperationalSection
                     title='Borrow Limits Per Customer'
@@ -196,23 +228,15 @@
                     }
                 />
                 
-                <BusinessHoursModal
+                {/* <BusinessHoursModal
                     isOpen={isBusinessHoursModalOpen}
                     onClose={closeBusinessHoursModal}
                     onConfirm={ConfirmBusinessHoursModal}
                     businessHours={tempBusinessHours}
                     setBusinessHours={setTempBusinessHours}
-                />
+                /> */}
 
-                <PickupDeliveryTimeModal
-                    isOpen={isPickupDeliverModalOpen}
-                    onClose={closePickupDeliverModal}
-                    onConfirm={ConfirmPickupDeliverModal}
-                    pickupTime={tempPickupTime}
-                    deliveryTime={tempDeliveryTime}
-                    setPickupTime={setTempPickupTime}
-                    setDeliveryTime={setTempDeliveryTime}
-                />
+     
 
                 <BorrowLimitModal
                     isOpen={isBorrowLimitsModalOpen}

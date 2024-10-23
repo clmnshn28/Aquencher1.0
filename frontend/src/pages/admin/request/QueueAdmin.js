@@ -12,6 +12,7 @@ import * as images from 'assets/images';
 import DropdownFilter from 'components/DropdownFilter';
 import QueueItem from "components/QueueItem";
 import SearchBar from "components/SearchBar";
+import { RejectedModal } from './modals';
 
 export const QueueAdmin = () =>{
 
@@ -25,6 +26,8 @@ export const QueueAdmin = () =>{
     const [filteredPickupRequests, setFilteredPickupRequests] = useState([]);
     const [filteredDeliverRequests, setFilteredDeliverRequests] = useState([]);
     const [products, setProducts] = useState([]);
+    const [isRejectedModalOpen, setIsRejectedModalOpen] = useState(false);
+    const [rejectedQueueDetails, setRejectedQueueDetails] = useState(null);
 
     useEffect(()=>{
         fetchGallonsRequest();
@@ -191,6 +194,45 @@ export const QueueAdmin = () =>{
         }
     };
 
+    // function to decline/rejected button and open modal
+    const handleDecline = (queueDetails) =>{
+        setRejectedQueueDetails(queueDetails);
+        setIsRejectedModalOpen(true);
+    };
+  
+    // function to confirm reject
+    const confirmRejected = async (rejectionReason) => {
+          try{
+            await axios.put(`${API_URL}/api/gallon-delivery/${rejectedQueueDetails.gallon_delivery_id}/decline`,{
+              reason: rejectionReason,
+              refill_id: rejectedQueueDetails.refill_id,
+              borrow_id: rejectedQueueDetails.borrow_id,
+              returned_id: rejectedQueueDetails.returned_id,
+              gallon_type: rejectedQueueDetails.request_type,
+            },{
+                headers:{
+                  'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+                },
+            });
+
+            if (rejectedQueueDetails.gallon_delivery_status === 'pickup') {
+                setFilteredPickupRequests(prevFiltered => 
+                    prevFiltered.filter(request => request.gallon_delivery_id !== rejectedQueueDetails.gallon_delivery_id)
+                );
+            } else if (rejectedQueueDetails.gallon_delivery_status === 'deliver') {
+                setFilteredDeliverRequests(prevFiltered => 
+                    prevFiltered.filter(request => request.gallon_delivery_id !== rejectedQueueDetails.gallon_delivery_id)
+                );
+            }
+            console.log('Request Rejected');
+          }catch(error){
+            console.log('Error rejecting the request: ', error);
+          }finally{
+            setIsRejectedModalOpen(false);
+            setRejectedQueueDetails(null); 
+          }
+  
+    };
 
     const formatAddress = (queue) => {
         const { house_number, street, barangay} = queue;
@@ -382,6 +424,7 @@ export const QueueAdmin = () =>{
                                 date={queue.date}
                                 time={queue.time}
                                 image={queue.image ? `${API_URL}/storage/images/${queue.image}` : images.defaultAvatar}
+                                onDecline={() => handleDecline(queue)}
                                 onAccept={()=> handleAccept(queue)}
                             />
                         ))
@@ -410,6 +453,7 @@ export const QueueAdmin = () =>{
                                 date={queue.date}
                                 time={queue.time}
                                 image={queue.image ? `${API_URL}/storage/images/${queue.image}` : images.defaultAvatar}
+                                onDecline={() => handleDecline(queue)}
                                 onAccept={()=> handleAccept(queue)}
                             />
                         ))
@@ -417,6 +461,13 @@ export const QueueAdmin = () =>{
                     
                 </div>
             </div>
+
+            <RejectedModal
+                isOpen={isRejectedModalOpen}
+                onClose={() => setIsRejectedModalOpen(false)}
+                onConfirm={confirmRejected}
+                rejectedDetails={rejectedQueueDetails}
+            />
         </>
     );
 };

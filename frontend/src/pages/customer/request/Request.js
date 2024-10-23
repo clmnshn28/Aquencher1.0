@@ -53,7 +53,7 @@ export const Request = () =>{
                 }
             });
             const fetchedProducts = response.data.data;
-            console.log(fetchedProducts);
+          
             const updatedItems = fetchedProducts.map((product) => ({
                 id: product.id,
                 name: product.item_name, 
