@@ -5,7 +5,7 @@ import * as images from 'assets/images';
 export default function AccountInfoSection({title, infoItems, onEditClick}){
   
   const getDisplayValue = (label, value) => {
-    if (['House number', 'Street', 'Barangay'].includes(label) && !value) {
+    if (['House number', 'Street', 'Barangay', 'Contact No.'].includes(label) && !value) {
       return '-';
     }
     return label === 'Username' ? `@${value}` : value;

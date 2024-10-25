@@ -48,7 +48,7 @@ export const Dashboard = () =>{
         try{
           const response = await axios.get(API_URL + '/api/customer/announcement',{
             headers: {
-              'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+              'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
             },
           });
           const announcementWithUpdatedDateTime = response.data.data
@@ -73,7 +73,7 @@ export const Dashboard = () =>{
         try {
             const response = await axios.get(API_URL + '/api/customer/dashboard-data', {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 },
             });
             const { gallonTotals, refilledGallonsByMonth } = response.data.data;
@@ -158,7 +158,7 @@ export const Dashboard = () =>{
         try {
             await axios.post(API_URL + `/api/customer/announcement/${announcement.id}/read`, {}, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 },
             });
 

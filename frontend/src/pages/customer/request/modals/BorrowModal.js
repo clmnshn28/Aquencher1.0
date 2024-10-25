@@ -29,7 +29,7 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
         try {
             const response = await axios.get(API_URL +'/api/customer/borrow-limits',{
                 headers:{
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
                 }
             }); 
             const { slim_gallons, round_gallons } = response.data.data[0];

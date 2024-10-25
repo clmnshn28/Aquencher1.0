@@ -37,19 +37,19 @@ export const QueueAdmin = () =>{
         try{
             const pickupResponse = await axios.get(`${API_URL}/api/gallon-delivery/pickup`, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 },
             });
     
             const deliverResponse = await axios.get(`${API_URL}/api/gallon-delivery/deliver`, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 },
             });
          
             const responseProduct = await axios.get(API_URL +'/api/admin/products', {
                 headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
                 }
               });
              
@@ -184,7 +184,7 @@ export const QueueAdmin = () =>{
                 customer_id: customer_id,
             },{
                 headers:{
-                'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+                'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 },
             });
             fetchGallonsRequest(); 
@@ -211,7 +211,7 @@ export const QueueAdmin = () =>{
               gallon_type: rejectedQueueDetails.request_type,
             },{
                 headers:{
-                  'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+                  'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 },
             });
 

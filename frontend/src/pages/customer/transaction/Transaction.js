@@ -21,12 +21,12 @@ export const Transaction = () =>{
         try{
         const response = await axios.get(API_URL + '/api/customer/transactions',{
             headers: {
-            'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
             },
         });
         const inventoryResponse = await axios.get(API_URL + '/api/products',{
             headers: {
-            'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
             },
         });
         const products = inventoryResponse.data.data;

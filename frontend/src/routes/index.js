@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PrivateRoute from './PrivateRoute';
 
 import { LandingPage } from 'pages/landing';
-import {CustomerSignIn, AdminSignIn, SignUp} from 'pages/auth';
+import {CustomerSignIn, AdminSignIn, SignUp, ForgotPasswordEmail, ForgotPasswordOtp, ForgotPasswordNewPassword} from 'pages/auth';
 import {AdminLayout, CustomerLayout} from 'layouts/main_layouts';
 
 import {DashboardAdmin} from 'pages/admin/dashboard';
@@ -30,6 +30,10 @@ const MainRoutes = () =>{
         <Route path="/customer/sign-in" element={<CustomerSignIn />} /> 
         <Route path="/admin/sign-in" element={<AdminSignIn />} />      
         <Route path="/customer/sign-up" element={<SignUp />} />
+        
+        <Route path="/forgot-password" element={<ForgotPasswordEmail />} /> 
+        <Route path="/forgot-password/otp" element={<ForgotPasswordOtp />} />
+        <Route path="/forgot-password/new-password" element={<ForgotPasswordNewPassword />} />
         
         <Route path='/admin/' element={
           <PrivateRoute role="admin">

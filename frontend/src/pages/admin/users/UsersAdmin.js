@@ -37,7 +37,7 @@ export const UsersAdmin = () => {
         try{
             const response = await axios.get(API_URL +'/api/customers', {
                 headers: {
-                  'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                  'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
                 }
             });
           
@@ -144,7 +144,7 @@ export const UsersAdmin = () => {
         try {
             await axios.put(`${API_URL}/api/customers/${userId}/deactivate`, { title, description }, {
                 headers: {
-                  'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                  'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
                 }
             });
             setFilteredUsers((prev) => prev.filter(u => u.id !== selectedUser.id));

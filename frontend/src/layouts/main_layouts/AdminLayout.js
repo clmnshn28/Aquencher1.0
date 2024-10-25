@@ -118,7 +118,7 @@ export const AdminLayout = () => {
     try {
       const response = await axios.get(API_URL + '/api/user/display', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming you store the token in localStorage
+          'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` // Assuming you store the token in localStorage
         }
       });
       const userData = response.data.data;
@@ -135,7 +135,7 @@ export const AdminLayout = () => {
     try {
         const response = await axios.get(`${API_URL}/api/admin/notifications`, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}` 
+                Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
             }
         });
         const sortedNotifications = response.data.data.sort((a, b) => {
@@ -162,7 +162,7 @@ const handleNotificationClick = (notification) => {
 
   axios.post(`${API_URL}/api/admin/notifications/read`, notificationData, {
     headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
+      'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
     }
   })
   .then(() => {

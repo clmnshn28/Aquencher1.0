@@ -4,15 +4,20 @@ import * as images from 'assets/images';
 import { useAuth } from 'context/AuthContext';
 
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const AdminSignIn = () =>{
     const navigate = useNavigate();
-    const { user, signIn, error } = useAuth();
+    const { user, signIn, error, clearError } = useAuth();
 
     // for label of input field 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [rememberMe, setRememberMe] = useState(false);
+
+    const handleRememberMeChange = (e) => {
+      setRememberMe(e.target.checked);
+    };
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
@@ -32,7 +37,7 @@ export const AdminSignIn = () =>{
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        await signIn(username, password, '/api/login/admin');
+        await signIn(username, password, '/api/login/admin', rememberMe);
     };
 
     useEffect(() => {
@@ -40,6 +45,10 @@ export const AdminSignIn = () =>{
             navigate('/admin/dashboard');
         }
     }, [ user, navigate ]);
+
+    const handleLinkClick = () => {
+        clearError();
+      };
 
     return(
         <div className="AdminSignIn__wrapper" style={{ backgroundImage: `url(${images.backgroundFeatures})` }}>
@@ -74,9 +83,11 @@ export const AdminSignIn = () =>{
                     </div>
                     <div className="AdminSignIn__form-footer">
                         <label>
-                        <input type="checkbox" /> Remember me
+                        <input type="checkbox" checked={rememberMe} onChange={handleRememberMeChange}/> Remember me
                         </label>
-                        <a className="AdminSignIn__forgot" href="#">Forgot password?</a>
+                        <Link className="AdminSignIn__forgot"  to="/forgot-password" onClick={handleLinkClick}>
+                            Forgot password?
+                        </Link>
                     </div>
                     <button className='AdminSignIn__Button' type="submit">Login</button>
                     </form>

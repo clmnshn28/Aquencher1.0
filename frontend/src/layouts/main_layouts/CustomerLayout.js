@@ -139,7 +139,7 @@ export const CustomerLayout = () =>{
     try {
       const response = await axios.get(API_URL + '/api/user/display', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming you store the token in localStorage
+          'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` // Assuming you store the token in localStorage
         }
       });
       const userData = response.data.data;
@@ -156,7 +156,7 @@ export const CustomerLayout = () =>{
     try {
         const response = await axios.get(`${API_URL}/api/customer/notifications`, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}` 
+                Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
             }
         });
         const sortedNotifications = response.data.data.sort((a, b) => {
@@ -180,7 +180,7 @@ export const CustomerLayout = () =>{
     try {
         await axios.put(`${API_URL}/api/customer/notifications/${notification.id}/read`, null, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}` 
+                Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
             }
         });
     } catch (error) {

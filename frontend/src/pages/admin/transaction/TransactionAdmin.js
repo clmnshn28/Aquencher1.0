@@ -27,7 +27,7 @@ export const TransactionAdmin = () => {
       try{
         const response = await axios.get(API_URL + '/api/gallon-delivery',{
           headers: {
-            'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
           },
         });
 

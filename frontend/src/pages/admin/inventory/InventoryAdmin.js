@@ -26,7 +26,7 @@ export const InventoryAdmin = () =>{
     try{
       const response = await axios.get(API_URL + '/api/admin/products',{
         headers: {
-          'Authorization' : `Bearer ${localStorage.getItem('token')}`
+          'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
         }
       });
       const updatedItems = response.data.data.map(item => ({
@@ -89,7 +89,7 @@ export const InventoryAdmin = () =>{
         status: updatedStatus,
         },{
           headers:{
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
           },
       });
 

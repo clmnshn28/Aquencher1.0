@@ -19,7 +19,7 @@
         useEffect(()=>{
             // axios.get(`${API_URL}/api/admin/business-hours`,{
             //     headers:{
-            //         'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            //         'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
             //     },
             // })
             // .then((response) => {
@@ -43,7 +43,7 @@
             // Fetch Borrow Limits
             axios.get(`${API_URL}/api/admin/borrow-limits`, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 },
             })
             .then((response) => {
@@ -113,7 +113,7 @@
         //     axios.post(`${API_URL}/api/admin/business-hours`,
         //         { data: updatedHours}, {
         //         headers: {
-        //             'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        //             'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
         //         },
         //     })
         //     .then(response => {
@@ -157,7 +157,7 @@
                 roundGallons: tempRoundGallons,
             }, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 },
             })
             .then(response => {

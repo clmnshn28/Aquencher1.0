@@ -12,7 +12,7 @@ export const NotificationAdmin = () => {
   
     axios.get(`${API_URL}/api/admin/notifications`,{
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
       }
     })
       .then(response => {
@@ -34,7 +34,7 @@ export const NotificationAdmin = () => {
 
     axios.post(`${API_URL}/api/admin/notifications/read`, notificationData, {
       headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
+        'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
       }
     })
     .then(() => {

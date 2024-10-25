@@ -35,7 +35,7 @@ export const DeactivatedAccountsAdmin = () =>{
         try{
             const response = await axios.get(`${API_URL}/api/customers/soft-deleted`, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
                 }
             });
             setUsers(response.data.data);
@@ -115,7 +115,7 @@ export const DeactivatedAccountsAdmin = () =>{
     try {
         await axios.post(API_URL +`/api/customers/${userId}/reactivate`,null,  {
             headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}` 
+              'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
             }
         }); 
          // Update the user in the filteredUsers state to reflect reactivation

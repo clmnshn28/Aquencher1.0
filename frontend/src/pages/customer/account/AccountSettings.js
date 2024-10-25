@@ -21,7 +21,7 @@ export const AccountSettings = () =>{
       try {
         const response = await axios.get(API_URL + '/api/user/display', {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming you store the token in localStorage
+            'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` // Assuming you store the token in localStorage
           }
         });
         const userData = response.data.data;
@@ -124,7 +124,7 @@ export const AccountSettings = () =>{
             try {
             await axios.post(`${API_URL}/api/user/update-image`, formData, {
                 headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 'Content-Type': 'multipart/form-data', 
                 },
             });
@@ -158,7 +158,7 @@ export const AccountSettings = () =>{
 
         await axios.put(`${API_URL}/api/user/update`, updatedData, {
             headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
             'Content-Type': 'application/json',
             }
         });

@@ -67,7 +67,7 @@ export const ChangePassword = () =>{
                 confirm_new_password: confirmNewPassword
             }, {
                 headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
                 }
             });
         

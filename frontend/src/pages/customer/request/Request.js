@@ -42,14 +42,13 @@ export const Request = () =>{
     useEffect(()=>{
         fetchProducts();
         fetchBorrowedGallons();
-        checkUserAddress();
     },[]);
 
     const fetchProducts = async () =>{
         try{
             const response = await axios.get(API_URL +'/api/products', {
                 headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}` 
+                'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
                 }
             });
             const fetchedProducts = response.data.data;
@@ -73,7 +72,7 @@ export const Request = () =>{
         try {
             const response = await axios.get(`${API_URL}/api/user/address/check`, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
                 }
             });
             return response.data; 
@@ -119,7 +118,7 @@ export const Request = () =>{
                     data: refillData 
                     }, {
                         headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                            'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                         },
                 });
 
@@ -176,7 +175,7 @@ const confirmBorrow = async () =>{
                     data: borrowData 
                     }, {
                         headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                            'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                         },
                 });
 
@@ -206,7 +205,7 @@ const fetchBorrowedGallons = async () => {
     try {
         const response = await axios.get(`${API_URL}/api/borrowed-gallons`, {
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
             }
         });
         const totalBorrowed = response.data.data.reduce((total, item) => {
@@ -248,7 +247,7 @@ const confirmReturn = async () =>{
                     data: returnedData 
                     }, {
                         headers: {
-                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                            'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                         },
                 });
 

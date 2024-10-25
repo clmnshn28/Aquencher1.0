@@ -5,6 +5,7 @@ import * as images from 'assets/images';
 import PasswordRequirements from 'components/PasswordRequirements';
 import axios from 'axios';
 import {API_URL} from 'constants';
+import { TermsAndCondition } from './modals';
 
 export const SignUp = () =>{
   const navigate = useNavigate(); 
@@ -20,6 +21,10 @@ export const SignUp = () =>{
   const [error, setError] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [emailError, setEmailError] = useState('');
+
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  const [isTermsChecked, setIsTermsChecked] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -39,10 +44,27 @@ export const SignUp = () =>{
   };
 
 
+  const handleCloseModal = () => {
+    setShowTermsModal(false);
+    setIsTermsChecked(false); // Uncheck the sign-up form checkbox when modal closes
+  };
+
+  const handleTermsChecked = (checked) => {
+    setIsTermsChecked(checked); // Update the sign-up checkbox based on the modal checkbox
+    setShowTermsModal(false); // Close modal smoothly
+  };  
+
+  const handleCheckboxClick = (e) => {
+    e.preventDefault(); // Prevent the checkbox from being directly checked
+    setShowTermsModal(true); // Open the modal
+  };
+
+
   // checking if password match and met the requirement
   const handleSubmit =  async (e) => {
     e.preventDefault();
-    
+    setLoading(true);
+
     if (!isPasswordRequirementMet('Be 8-100 characters long') ||
       !isPasswordRequirementMet('Contain at least one uppercase and one lowercase letter') ||
       !isPasswordRequirementMet('Contain at least one number or special character')) {
@@ -58,7 +80,7 @@ export const SignUp = () =>{
     const camelCaseLname = toCamelCase(lname);  
 
     try {
-      const response = await axios.post(`${API_URL}/api/register`, {
+      await axios.post(`${API_URL}/api/register`, {
         fname: camelCaseFname,
         lname: camelCaseLname,
         email,
@@ -67,7 +89,8 @@ export const SignUp = () =>{
         c_password: confirmPassword,  
       });
   
-      console.log('Account created successfully', response.data);
+      alert('Account created! Please check your email to verify your account.');
+      navigate('/customer/sign-in');
       // Clear the form fields and error message
       setFname('');
       setLname('');
@@ -78,8 +101,7 @@ export const SignUp = () =>{
       setError('');
       setEmailError('');
       setUsernameError('');
-       navigate('/customer/sign-in');
-
+      
     } catch (error) {
       if (error.response && error.response.data) {
         // Check if validation errors are present
@@ -97,6 +119,8 @@ export const SignUp = () =>{
           return; 
         }
       }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -188,15 +212,28 @@ export const SignUp = () =>{
             </div>
           
             <div className="form-footer">
-              <label>
-                <input type="checkbox" required/> I agree to  <a className="agreement" href="#"> Terms of Service and Privacy Policy</a>
+              <label   onClick={handleCheckboxClick} >
+                <input 
+                  type="checkbox" 
+                  required
+                  checked={isTermsChecked} 
+                /> 
+                I agree to  <a className="agreement" onClick={()=> setShowTermsModal(true)}> Terms of Service and Privacy Policy</a>
               </label>
             </div>
-            <button className='signupButton' type="submit">Create Account</button>
+            <button className='signupButton' type="submit" disabled={loading}>
+              {loading ? 'Creating Account...' : 'Create Account'}
+            </button>
           </form>
           <p className="signin-text">Already have an account?  <Link to="/customer/sign-in">Sign In</Link></p>
         </div>
       </div>
+   
+        <TermsAndCondition 
+          isOpen = {showTermsModal}
+          onClose={handleCloseModal} 
+          onTermsChecked={handleTermsChecked} 
+        />
     </div>
   );
 

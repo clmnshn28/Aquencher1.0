@@ -11,7 +11,7 @@ export const AddressPromptModal = ({isOpen, onClose}) =>{
         <Modal>
             <div className="AddressPromptModal__content">
                 <PiSealWarning className="AddressPromptModal__icon"/>
-                <p className="AddressPromptModal__message">Please provide your address to proceed with your request.</p>
+                <p className="AddressPromptModal__message">Please provide your contact number and address to proceed with your request.</p>
                 <div className="AddressPromptModal__actions">
                    <button className="AddressPromptModal__cancel" onClick={onClose}>
                         Close
