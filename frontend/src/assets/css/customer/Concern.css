@@ -12,6 +12,7 @@
   
 .Concern__header-text{
     padding-left: 15px;
+    margin-bottom: 15px;
 }
   
 
@@ -20,6 +21,7 @@
     padding-left: 15px;
     color: #626262;
     font-size: 13px;
+    width: 45em;
 }
 
 
@@ -84,6 +86,8 @@
     .Concern__description{
         padding-left: 5px;
         font-size: 9px;
+        width: 100%;
+        text-align: justify;
     }
 
     

@@ -27,7 +27,7 @@ export const UsersEditAdmin = () =>{
     try {
       const response = await axios.get(`${API_URL}/api/customers/${userId}`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}` 
+          'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
         }
     });
       const customerData = response.data.data;
@@ -127,7 +127,7 @@ export const UsersEditAdmin = () =>{
     try {
         await axios.put(`${API_URL}/api/customers/${userId}/reset-password`, { password: newPassword, c_password: newConfirmPassword  }, {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}` 
+            'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
           }
       });
         alert('Password reset successfully!');
@@ -196,7 +196,7 @@ export const UsersEditAdmin = () =>{
       };
       await axios.put(`${API_URL}/api/customers/${userId}`, updatedData, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}` 
+          'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
         }
       });
       fetchUserData();

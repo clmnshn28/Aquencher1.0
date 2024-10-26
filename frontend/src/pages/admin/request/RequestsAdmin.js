@@ -31,13 +31,13 @@
         try{
           const response = await axios.get(API_URL + '/api/gallon-delivery/pending',{
             headers: {
-              'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+              'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
             },
           });
 
           const responseProduct = await axios.get(API_URL +'/api/admin/products', {
             headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}` 
+            'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
             }
           });
           
@@ -177,7 +177,7 @@
             gallon_type: rejectedRequestDetails.request_type,
           },{
               headers:{
-                'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+                'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
               },
           });
         setFilteredRequests((prevFiltered) => 
@@ -222,7 +222,7 @@
             data: borrowData,
           },{
               headers:{
-                'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+                'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
               },
           });
           setFilteredRequests((prevFiltered) => 

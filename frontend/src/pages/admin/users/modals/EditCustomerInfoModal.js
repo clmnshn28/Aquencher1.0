@@ -88,7 +88,7 @@ export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , 
             currentUsername // Add current user's username
           }, {
             headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}` 
+              'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
             }
         });
       }

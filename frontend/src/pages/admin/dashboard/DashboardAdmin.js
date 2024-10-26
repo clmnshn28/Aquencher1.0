@@ -48,7 +48,7 @@ export const DashboardAdmin = () => {
       try{
           const response = await axios.get(API_URL +'/api/admin/products', {
               headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}` 
+              'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
               }
           });
 
@@ -74,7 +74,7 @@ export const DashboardAdmin = () => {
   const fetchDashboardData = async () => {
     try {
       const response = await axios.get(API_URL + '/api/admin/dashboard-data', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` }
       });
       const { returnedGallons, refilledGallons, borrowedGallons } = response.data.data;
       

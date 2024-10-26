@@ -29,7 +29,7 @@ export const CompletedAdmin = () =>{
         try{
         const response = await axios.get(API_URL + '/api/gallon-delivery/completed',{
             headers: {
-            'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
             },
         });
         const requestsWithUpdatedDateTime = response.data.data

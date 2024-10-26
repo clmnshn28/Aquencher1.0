@@ -29,7 +29,7 @@ export const AnnouncementAdmin = () =>{
     try{
       const response = await axios.get(API_URL + '/api/admin/announcement',{
         headers: {
-          'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+          'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
         },
       });
       const announcementWithUpdatedDateTime = response.data.data
@@ -71,7 +71,7 @@ export const AnnouncementAdmin = () =>{
           content: announcement.summary,
         },{
           headers: {
-            'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
           },
         });
 
@@ -99,7 +99,7 @@ export const AnnouncementAdmin = () =>{
           content: announcement.summary,
         },{
           headers: {
-            'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+            'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
           },
         });
         setSelectedAnnouncement(null);
@@ -121,7 +121,7 @@ export const AnnouncementAdmin = () =>{
     try {
       await axios.delete(`${API_URL}/api/admin/announcement/${selectedAnnouncement.id}`, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
         },
       });
       

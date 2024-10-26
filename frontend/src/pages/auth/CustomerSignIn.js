@@ -37,7 +37,7 @@ export const CustomerSignIn = () =>{
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await signIn(username, password, '/api/login/customer');
+    await signIn(username, password, '/api/login/customer', rememberMe);
   
   };
 
@@ -86,7 +86,9 @@ export const CustomerSignIn = () =>{
                 <label>
                   <input type="checkbox" checked={rememberMe} onChange={handleRememberMeChange} /> Remember me
                 </label>
-                <a className="CustomerSignIn__forgot" href="#">Forgot password?</a>
+                <Link className="CustomerSignIn__forgot" to="/forgot-password" onClick={handleLinkClick}>
+                  Forgot password?
+                </Link>
               </div>
               <button className='CustomerSignIn__btn' type="submit">Login</button>
             </form>

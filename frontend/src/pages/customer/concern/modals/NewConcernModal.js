@@ -64,7 +64,7 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
         try{
             await axios.post(API_URL + '/api/customer/concern',formData,{
             headers: {
-              'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+              'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
               'Content-Type': 'multipart/form-data',
             },
         });

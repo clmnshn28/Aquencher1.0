@@ -22,7 +22,7 @@ export const Concern = () =>{
         try{
           const response = await axios.get(API_URL + '/api/customer/concern',{
             headers: {
-              'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+              'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
             },
         });
 
@@ -84,7 +84,8 @@ export const Concern = () =>{
             <div className="Concern__header">
                 <h2 className="Concern__header-text">Customer Concerns</h2>
                 <p className="Concern__description">
-                    Configure key business functions such as pickup and delivery, borrowing limits, and operating hours
+                    If you have any comments, concerns, or if you need help with your requests, let us know.
+                    We're committed to assisting you and delivering quality service!
                 </p>
                 {!selectedConcern && !isSharing && (
                     <button className="Concern__share-btn" onClick={()=> setIsSharing(true)} >

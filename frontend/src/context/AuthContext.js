@@ -8,25 +8,22 @@ const AuthContext = createContext();
 
 // Provide the AuthContext to your app
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const storedUser = localStorage.getItem('user');
-    return storedUser ? JSON.parse(storedUser) : null;
-  });
+  
+  const storedUser = JSON.parse(localStorage.getItem('user') || sessionStorage.getItem('user'));
+  const storedToken = localStorage.getItem('token') || sessionStorage.getItem('token');
+  const storedUserRole = localStorage.getItem('userRole') || sessionStorage.getItem('userRole');
 
-  const [ isAuthenticated, setIsAuthenticated ] = useState(() => {
-    return !!localStorage.getItem('token');
-  });
+  const [user, setUser] = useState(storedUser);
+  const [ isAuthenticated, setIsAuthenticated ] = useState(storedToken);
+  const [ userRole, setUserRole ] = useState(storedUserRole);
 
-  const [ userRole, setUserRole ] = useState(() => {
-    return localStorage.getItem('userRole');
-  }); 
   const [error, setError] = useState(''); 
   const clearError = () => {
     setError(null);
   };
 
   // Mock sign-in function
-  const signIn = async (username, password, endpoint) => {
+  const signIn = async (username, password, endpoint, rememberMe) => {
     // Replace with actual authentication logic
     axios.post(API_URL + endpoint, {
       username:username, password:password
@@ -37,15 +34,16 @@ export const AuthProvider = ({ children }) => {
         setUser(response.data.data);
 
         // Save user data and token to localStorage 
-        localStorage.setItem('user', JSON.stringify(response.data.data));
-        localStorage.setItem('token', response.data.data.token);
-        localStorage.setItem('userRole', response.data.data.role);
+        const storage = rememberMe ? localStorage : sessionStorage;
+        storage.setItem('user', JSON.stringify(response.data.data));
+        storage.setItem('token', response.data.data.token);
+        storage.setItem('userRole', response.data.data.role);
         setError('');
       }   
     }).catch(error => {
       console.log(error.response)
       if (error.response && error.response.data) {
-        setError('Invalid username or password.');
+        setError(error.response.data.message || 'Invalid username or password.');
       } else {
         setError('An error occurred while logging in. Please try again.');
       }
@@ -73,9 +71,8 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       setUserRole(null); 
       setIsAuthenticated(false);
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
-      localStorage.removeItem('userRole');
+      localStorage.clear();
+      sessionStorage.clear();
     } catch (error) {
       console.log('Error during logout:', error.response);
     }

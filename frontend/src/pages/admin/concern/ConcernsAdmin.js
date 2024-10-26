@@ -28,7 +28,7 @@ export const ConcernsAdmin = () =>{
     try{
       const response = await axios.get(API_URL + '/api/admin/concern',{
         headers: {
-          'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+          'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
         },
     });
 
@@ -125,7 +125,7 @@ const handleFilterChange = (name, value) => {
     try {
       await axios.put(`${API_URL}/api/admin/concern/${concern.id}/read`, {}, {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
         },
       });
   
