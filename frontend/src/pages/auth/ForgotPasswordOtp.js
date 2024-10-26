@@ -12,7 +12,7 @@ export const ForgotPasswordOtp = () => {
     
     const [code, setCode] = useState('');
     const [error, setError] = useState('');
-    const [timer, setTimer] = useState(59); // Timer for resending code
+    const [timer, setTimer] = useState(180); // Timer for resending code
     const navigate = useNavigate();
     const [isResending, setIsResending] = useState(false);
 
@@ -85,7 +85,9 @@ export const ForgotPasswordOtp = () => {
             <p className="ForgotPassword__minute-send">
                 It may take up to a minute for you to receive this code.
                 {timer > 0 ? (
-                    <span className="ForgotPassword__resend-time"> Resend code in 0:{timer < 10 ? `0${timer}` : timer}</span>
+                    <span className="ForgotPassword__resend-time"> 
+                        Resend code in {Math.floor(timer / 60)}:{timer % 60 < 10 ? `0${timer % 60}` : timer % 60}
+                    </span>
                 ) : (
                     <button type="button" className="ForgotPassword__resend-btn" onClick={handleResendCode} disabled={isResending}>
                         Resend code
