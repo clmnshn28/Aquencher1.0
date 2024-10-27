@@ -27,7 +27,7 @@ export const BorrowLimitModal = ({isOpen, onClose, onConfirm, slimGallons, round
                                 type='text' 
                                 isRequired
                                 required 
-                                autocomplete='off'
+                                autoComplete='off'
                                 isInline={true}
                                 
                             />
@@ -43,7 +43,7 @@ export const BorrowLimitModal = ({isOpen, onClose, onConfirm, slimGallons, round
                                 type='text' 
                                 isRequired
                                 required 
-                                autocomplete='off'
+                                autoComplete='off'
                                 isInline={true}
                             
                             />

@@ -23,7 +23,7 @@ export const ReturnModal = ({isOpen, onClose, onConfirm,  items, setItems}) => {
         if (isOpen) {
             axios.get(`${API_URL}/api/borrowed-gallons`, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
                 }
             })
                 .then(response => {
