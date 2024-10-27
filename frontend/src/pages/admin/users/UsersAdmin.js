@@ -156,6 +156,10 @@ export const UsersAdmin = () => {
     const calculateTotalGallons = (gallons) => {
         const totals = { slim: 0, round: 0 };
         
+        if (!gallons) {
+            return totals;
+        }
+
         gallons.forEach(gallon => {
        
             gallon.borrow_details.forEach(inactive => {
@@ -357,7 +361,7 @@ export const UsersAdmin = () => {
                                     </td>
                                     <td>
                                         <div className="UserAdmin__quantities">
-                                            {user.inactive_gallons.length > 0 ? (
+                                            {user.inactive_gallons && user.inactive_gallons.length > 0 ? (
                                                 <>
                                                     <div className={`UserAdmin__quantity-item ${slim === 0 ? 'hidden' : ''}`}>
                                                         <img src={images.returnSlim} alt="Slim Gallon" />
