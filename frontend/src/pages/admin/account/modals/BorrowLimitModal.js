@@ -5,7 +5,7 @@ import ButtonGroup from "components/ButtonGroup";
 import TextField from "components/TextField";
 import * as images from 'assets/images';
 
-export const BorrowLimitModal = ({isOpen, onClose, onConfirm, slimGallons, roundGallons, setSlimGallons, setRoundGallons }) =>{
+export const BorrowLimitModal = ({isOpen, onClose, onConfirm, slimGallons, roundGallons, setSlimGallons, setRoundGallons, acceptDisabled}) =>{
 
 
     if(!isOpen) return null;
@@ -54,6 +54,7 @@ export const BorrowLimitModal = ({isOpen, onClose, onConfirm, slimGallons, round
                     onCancel={onClose}
                     saveText='Save Changes'
                     saveButtonColor='#0174CF'
+                    disabled={acceptDisabled} 
                 />
             </form>
         </Modal>

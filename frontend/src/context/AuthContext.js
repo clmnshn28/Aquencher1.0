@@ -17,6 +17,12 @@ export const AuthProvider = ({ children }) => {
   const [ isAuthenticated, setIsAuthenticated ] = useState(storedToken);
   const [ userRole, setUserRole ] = useState(storedUserRole);
 
+  const [authUserObj, setAuthUserObj] = useState({
+    user: {},
+    notifications: [],
+    products: [],
+  });
+
   const [error, setError] = useState(''); 
   const clearError = () => {
     setError(null);
@@ -79,7 +85,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, userRole, signIn, signOut , error, clearError}}>
+    <AuthContext.Provider value={{ user, isAuthenticated, userRole, signIn, signOut , error, clearError, authUserObj, setAuthUserObj}}>
       {children}
     </AuthContext.Provider>
   );

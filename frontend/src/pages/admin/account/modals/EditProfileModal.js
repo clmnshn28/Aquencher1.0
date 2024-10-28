@@ -15,25 +15,34 @@ export const EditProfileModal = ({isOpen, onClose, onConfirm, defaultAvatar }) =
     // for uploading image
     const handleFileChange = (e) => {
     const file = e.target.files[0];
+    const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    
     // Check if file exists
     if (file) {
-        const validTypes = ['image/png', 'image/jpeg', 'image/jpg'];
-        if (validTypes.includes(file.type)) {
-            setImageError('');
-    
-            // Update the file object for submission
-            const reader = new FileReader();
-            reader.onloadend = () => {
+         // Validate file type
+         if (!validTypes.includes(file.type)) {
+            setImageError('Please upload a valid image file (PNG, JPG, JPEG)');
+            setAvatar({ file: null, preview: null });
+            return;
+        }
+
+        // Validate file size (limit to 2MB)
+        if (file.size > 2048 * 1024) {
+            setImageError(`${file.name} must not exceed 2048 kilobytes (2 MB).`);
+            setAvatar({ file: null, preview: null });
+            return;
+        }
+
+        // Clear error and update the file object for submission
+        setImageError('');
+        const reader = new FileReader();
+        reader.onloadend = () => {
             setAvatar({
                 file: file, // The File object
                 preview: reader.result // Data URL for preview
             });
-            };
-            reader.readAsDataURL(file); // Read the file as a data URL
-        } else {
-            setAvatar({ file: null, preview: null });
-            setImageError('Please upload a valid image file (PNG, JPG, JPEG)');
-        }
+        };
+        reader.readAsDataURL(file); // Read the file as a data URL
         } else {
         setImageError('Please select a file.');
         }

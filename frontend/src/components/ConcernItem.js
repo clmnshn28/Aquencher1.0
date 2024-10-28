@@ -3,7 +3,7 @@ import 'assets/css/admin';
 
 import * as images from 'assets/images';
 
-export const ConcernItem = ({fname, lname,requestType, subject, message, time, isNew, isAdmin, onClick}) =>{
+export const ConcernItem = ({fname, lname,requestType, subject, message, time, isNew, isAdmin, onClick, acceptDisabled}) =>{
     
     const formatTimeDisplay = (time) => {
         const now = new Date();
@@ -19,8 +19,14 @@ export const ConcernItem = ({fname, lname,requestType, subject, message, time, i
         }
     };
 
+    const handleItemClick = () => {
+        if (!acceptDisabled) {
+          onClick();
+        }
+      };
+
     return(
-        <div className={`ConcernAdmin__item ${isNew ? 'ConcernAdmin__new-message' : ''}`}  onClick={onClick}>
+        <div className={`ConcernAdmin__item ${isNew ? 'ConcernAdmin__new-message' : ''}`}  onClick={handleItemClick}>
             {isAdmin && (
                 <div className="ConcernAdmin__name">
                     {fname} {lname}

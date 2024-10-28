@@ -1,5 +1,5 @@
 import "assets/css/admin"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import { FaPhoneAlt, FaUserEdit, FaFilePdf} from "react-icons/fa";
@@ -28,9 +28,13 @@ export const UsersAdmin = () => {
     const [isDeactivationModalOpen, setIsDeactivationModalOpen] = useState(false); 
     const [filters, setFilters] = useState({status: ''});
     const [selectedUser, setSelectedUser] = useState(null);
+    const initialFetchDone = useRef(false);
 
     useEffect(()=>{
-        fetchUsers();
+        if (!initialFetchDone.current) {
+            fetchUsers();
+            initialFetchDone.current = true;
+        }
     },[]);
 
     const fetchUsers = async () =>{
@@ -198,8 +202,9 @@ export const UsersAdmin = () => {
             const fullName = `${user.fname} ${user.lname}`;
             const address = user.house_number && user.street ? `${user.house_number} ${user.street}, ${user.barangay}` : '-'; 
             const gallons = `Slim: ${slim}, Round: ${round}`;
-    
-            tableRows.push([fullName, user.username, user.email, user.contact_number, address, gallons]);
+            const contact = user.contact_number ? user.contact_number : '-';
+
+            tableRows.push([fullName, user.username, user.email, contact, address, gallons]);
         });
 
             const getCurrentDateTime = () => {
@@ -350,12 +355,12 @@ export const UsersAdmin = () => {
                                                 <PiMapPinAreaDuotone className="UserAdmin__address-icon" />
                                                 {user.house_number && user.street ? 
                                                     `${user.house_number} ${user.street}, ${user.barangay}` : 
-                                                    user.barangay
+                                                    <span className="no-gallons-message">-</span>
                                                 }
                                             </p>
                                             <p className="UserAdmin__phone">
                                                 <FaPhoneAlt />
-                                                {user.contact_number}
+                                                {user.contact_number ? user.contact_number :  <span className="no-gallons-message">-</span>}
                                             </p>
                                         </div>
                                     </td>

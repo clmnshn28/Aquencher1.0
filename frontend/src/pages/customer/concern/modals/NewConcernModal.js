@@ -34,6 +34,7 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
     const [isExpanded, setIsExpanded] = useState(false);
     const [imageFiles, setImageFiles] = useState([]); 
     const [imageError, setImageError] = useState('');
+    const [isAccepting, setIsAccepting] = useState(false);
 
     const handleCancelShare = () => {
         setSubject('');
@@ -46,6 +47,8 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsAccepting(true); 
+
         if (!type) {
             alert("Please select a type for your concern."); // You can replace this with a more elegant solution if needed
             return;
@@ -73,6 +76,8 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
         handleCancelShare();
         }catch(error){
             console.error('Error fetching concerns:', error.response ? error.response.data : error.message);
+        }finally {
+            setIsAccepting(false);
         }
     };
 
@@ -175,7 +180,7 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
                         </div>
                     </div>
                     <div className="NewConcern__reply-actions">
-                        <button type='submit' className="NewConcern__send-button">
+                        <button type='submit' className="NewConcern__send-button" disabled={isAccepting}>
                             <BiSolidMessage className="NewConcern__share-icon" />
                             Send
                         </button>

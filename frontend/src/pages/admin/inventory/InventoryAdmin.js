@@ -1,5 +1,5 @@
 import "assets/css/admin"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import { MdOutlineEdit } from "react-icons/md";
 import { format } from 'date-fns';
 import axios from 'axios';
@@ -17,9 +17,14 @@ export const InventoryAdmin = () =>{
   const [inventory, setInventory] = useState({
     itemName: '', initialStock: '', price: '',
   });
+  const [isAccepting, setIsAccepting] = useState(false);
+  const initialFetchDone = useRef(false);
 
   useEffect(()=>{
-    fetchInventory();
+    if (!initialFetchDone.current) {
+      fetchInventory();
+      initialFetchDone.current = true;
+    }
   },[]);
 
   const fetchInventory  = async () =>{
@@ -75,7 +80,7 @@ export const InventoryAdmin = () =>{
   // confirm Edit Inventory
   const handleInventorySubmit = async (e) =>{
     e.preventDefault();
-
+    setIsAccepting(true); 
     try{
 
       const newAvailableStock = inventory.initialStock - (selectedInventory.borrowed || 0);
@@ -106,7 +111,10 @@ export const InventoryAdmin = () =>{
   
     }catch(error){
       console.log('Error updating inventory item: ', error);
+    }finally {
+      setIsAccepting(false);
     }
+
   };
   
   const formatDate = (dateString) => {
@@ -202,6 +210,7 @@ export const InventoryAdmin = () =>{
         onItemNameChange={handleItemNameChange}
         onInitialStockChange ={handleInitialStockChange}
         onPriceChange = {handlePriceChange}
+        acceptDisabled={isAccepting}
       />
     </>
   );

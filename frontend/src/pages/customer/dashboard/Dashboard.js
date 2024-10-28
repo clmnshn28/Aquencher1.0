@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef } from "react";
 import 'assets/css/customer';
 import { format } from 'date-fns';
 import { RiMegaphoneLine } from "react-icons/ri";
@@ -13,7 +13,7 @@ import { GallonInfo } from "components/GallonInfo";
 import { AnnouncementViewModal } from "./modals/AnnouncementViewModal";
 
 export const Dashboard = () =>{
-    const { user } = useAuth(); 
+    const { user, authUserObj, setAuthUserObj } = useAuth(); 
 
     const [announcements, setAnnouncements] = useState([]);
     const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
@@ -39,9 +39,13 @@ export const Dashboard = () =>{
         ],
     });
 
+    const initialFetchDone = useRef(false);
     useEffect(()=>{
-        fetchAnnouncement();
-        fetchDashboardData(); 
+        if (!initialFetchDone.current) {
+            fetchAnnouncement();
+            fetchDashboardData(); 
+            initialFetchDone.current = true;
+        }
     },[])
     
     const fetchAnnouncement = async () =>{

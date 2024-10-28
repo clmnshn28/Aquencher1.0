@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef } from "react";
 import "assets/css/customer";
 import axios from 'axios';
 import {API_URL} from 'constants';
@@ -7,9 +7,13 @@ import { formatDistanceToNow, parseISO } from 'date-fns';
 export const Notification = () =>{
 
     const [notifications, setNotifications] = useState([]);
+    const initialFetchDone = useRef(false);
 
     useEffect(() => {
-        fetchNotifications();
+        if (!initialFetchDone.current) {
+            fetchNotifications();
+            initialFetchDone.current = true;
+        }
     }, []);
 
     const fetchNotifications = async () => {

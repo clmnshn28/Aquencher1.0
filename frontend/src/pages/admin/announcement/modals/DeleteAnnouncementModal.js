@@ -4,7 +4,7 @@ import Modal from "components/Modal";
 import ButtonGroup from "components/ButtonGroup";
 import { RiErrorWarningLine } from "react-icons/ri";
 
-export const DeleteAnnouncementModal = ({isOpen, onClose, onConfirm, title}) =>{
+export const DeleteAnnouncementModal = ({isOpen, onClose, onConfirm, title, acceptDisabled }) =>{
 
     if(!isOpen) return null;
 
@@ -27,6 +27,7 @@ export const DeleteAnnouncementModal = ({isOpen, onClose, onConfirm, title}) =>{
                         onCancel={onClose}
                         saveText="Delete"
                         saveButtonColor="#9E1616" 
+                        disabled={acceptDisabled} 
                     />
                 </div>
             </div>

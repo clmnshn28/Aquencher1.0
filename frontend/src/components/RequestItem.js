@@ -6,7 +6,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 
 import * as images from 'assets/images';
 
-export default function RequestItem({id, name, address, slimQuantity, roundQuantity, requestType, status,contact, date, time, image, onAccept, onDecline}){
+export default function RequestItem({id, name, address, slimQuantity, roundQuantity, requestType, status,contact, date, time, image, onAccept, onDecline, acceptDisabled }){
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     return(
         <div className="RequestsItem__item">
@@ -61,7 +61,7 @@ export default function RequestItem({id, name, address, slimQuantity, roundQuant
                         <button className="RequestItem__status-button RequestItem__decline" onClick={()=>onDecline(id)} >
                             &#10005;
                         </button>
-                        <button className="RequestItem__status-button RequestItem__accept" onClick={()=>onAccept(id)}>
+                        <button className="RequestItem__status-button RequestItem__accept" onClick={()=>onAccept(id)} disabled={acceptDisabled}>
                             &#10004;
                         </button>
                     </>

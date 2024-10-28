@@ -24,6 +24,7 @@ export const EditAccountInfoModal = ({isOpen, onClose, onConfirm , infoItems , t
   const [contactError, setContactError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [usernameError, setUsernameError] = useState('');
+  const [isAccepting, setIsAccepting] = useState(false);
 
   useEffect(() => {
     // Update formData when infoItems changes
@@ -75,7 +76,8 @@ export const EditAccountInfoModal = ({isOpen, onClose, onConfirm , infoItems , t
 
     const handleSubmitEdit = async (e) =>{
       e.preventDefault();
-      
+      setIsAccepting(true);
+
       if (contactError || emailError) {
         return; 
       }
@@ -116,7 +118,10 @@ export const EditAccountInfoModal = ({isOpen, onClose, onConfirm , infoItems , t
         } else {
             console.error('Error validating user:', error);
         }
+      }finally {
+        setIsAccepting(false);
       }
+ 
     };
 
     if(!isOpen) return null;
@@ -150,6 +155,7 @@ export const EditAccountInfoModal = ({isOpen, onClose, onConfirm , infoItems , t
             onCancel={handleCloseEdit}
             saveButtonColor='#0174CF'
             saveText='Save Changes'
+            disabled={isAccepting} 
         /> 
       </form>
     );

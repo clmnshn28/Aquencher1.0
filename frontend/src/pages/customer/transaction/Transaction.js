@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React,{useState, useEffect, useRef } from "react";
 import 'assets/css/customer';
 import axios from 'axios';
 import {API_URL} from 'constants';
@@ -12,9 +12,13 @@ export const Transaction = () =>{
     const [transactionLogs, setTransactionLogs] = useState([]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
-    
+    const initialFetchDone = useRef(false);
+
     useEffect(()=>{
-        fetchTransactionRequest();
+        if (!initialFetchDone.current) {
+            fetchTransactionRequest();
+            initialFetchDone.current = true;
+        }
     },[])
     
     const fetchTransactionRequest = async () =>{

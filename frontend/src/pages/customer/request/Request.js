@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef } from "react";
 import "assets/css/customer";
 import * as images from 'assets/images';
 import axios from 'axios';
 import {API_URL} from 'constants';
+import { useAuth } from "context/AuthContext";
 
 import { RefillModal, BorrowModal, ReturnModal, ConfirmationModal, AddressPromptModal} from "./modals";
 
@@ -26,6 +27,7 @@ const RequestBox = ({ icon, selectedIcon, title, description, onClick, isSelecte
 );
 
 export const Request = () =>{
+    const { authUserObj, setAuthUserObj } = useAuth(); 
 
     const [isRefillModalOpen, setIsRefillModalOpen] = useState(false);
     const [isBorrowModalOpen, setIsBorrowModalOpen] = useState(false);
@@ -38,10 +40,14 @@ export const Request = () =>{
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false); 
     const [isAddressPromptOpen, setIsAddressPromptOpen] = useState(false);
+    const initialFetchDone = useRef(false);
 
     useEffect(()=>{
-        fetchProducts();
-        fetchBorrowedGallons();
+        if (!initialFetchDone.current) {
+            if (authUserObj.products.length === 0) fetchProducts();
+            fetchBorrowedGallons();
+            initialFetchDone.current = true;
+        }
     },[]);
 
     const fetchProducts = async () =>{
@@ -60,6 +66,11 @@ export const Request = () =>{
                 quantity: 0, 
                 availableStock: product.available_stock,
                 image: product.id === 1 ? images.pickSlim : images.pickRound,
+            }));
+
+            setAuthUserObj(prevState => ({
+                ...prevState,
+                products: fetchedProducts
             }));
 
             setItems(updatedItems);

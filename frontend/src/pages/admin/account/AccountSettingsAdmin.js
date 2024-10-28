@@ -1,5 +1,5 @@
 import "assets/css/admin"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {API_URL} from 'constants';
@@ -13,9 +13,13 @@ export const AccountSettingsAdmin = () =>{
 
   const [personalInfoItems, setPersonalInfoItems] = useState([]);
   const [addressInfoItems, setAddressInfoItems] = useState([]);
+  const initialFetchDone = useRef(false);
 
   useEffect(() => {
-    fetchUserData();
+    if (!initialFetchDone.current) {
+      fetchUserData();
+      initialFetchDone.current = true;
+    }
   }, []);
 
   const fetchUserData = async () => {
@@ -130,7 +134,7 @@ export const AccountSettingsAdmin = () =>{
           },
         });
 
-        fetchUserData();
+       
       } catch (error) {
         console.error('Error updating profile picture:', error.response?.data || error.message);
       }
@@ -162,7 +166,7 @@ export const AccountSettingsAdmin = () =>{
           'Content-Type': 'application/json',
         }
       });
-      fetchUserData();
+      
     } catch (error) {
       console.error('Error updating user data:', error.response?.data || error.message);
     }

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import {FaFilePdf} from "react-icons/fa";
@@ -20,9 +20,13 @@ export const CompletedAdmin = () =>{
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredRequests, setFilteredRequests] = useState([]);
+    const initialFetchDone = useRef(false);
 
     useEffect(()=>{
-        fetchGallonsRequest();
+        if (!initialFetchDone.current) {
+            fetchGallonsRequest();
+            initialFetchDone.current = true;
+        }
       },[])
   
     const fetchGallonsRequest = async () =>{

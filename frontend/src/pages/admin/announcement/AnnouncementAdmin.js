@@ -1,5 +1,5 @@
 import "assets/css/admin"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import { MdOutlineEdit } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import axios from 'axios';
@@ -20,9 +20,14 @@ export const AnnouncementAdmin = () =>{
   const [announcement, setAnnouncement] = useState({ title: '', summary: '' });
   const [selectedTitle, setSelectedTitle] = useState('');
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
+  const [isAccepting, setIsAccepting] = useState(false);
+  const initialFetchDone = useRef(false);
 
   useEffect(()=>{
-    fetchAnnouncement();
+    if (!initialFetchDone.current) {
+      fetchAnnouncement();
+      initialFetchDone.current = true;
+    }
   },[])
 
   const fetchAnnouncement = async () =>{
@@ -65,6 +70,8 @@ export const AnnouncementAdmin = () =>{
   // create announcement
   const CreateAnnounceSubmit = async (event) =>{
     event.preventDefault();
+    setIsAccepting(true); 
+
       try{
         await axios.put(API_URL + '/api/admin/announcement',{
           title: announcement.title,
@@ -79,6 +86,8 @@ export const AnnouncementAdmin = () =>{
         fetchAnnouncement();
       }catch(error){
         console.error('Error Create Announcement: ',error);
+      }finally {
+        setIsAccepting(false);
       }
  
   };
@@ -93,6 +102,7 @@ export const AnnouncementAdmin = () =>{
 
   const UpdateAnnounceSubmit = async (event) =>{
     event.preventDefault();
+    setIsAccepting(true); 
       try{
         await axios.put(`${API_URL}/api/admin/announcement/${selectedAnnouncement.id}`,{
           title: announcement.title,
@@ -107,6 +117,8 @@ export const AnnouncementAdmin = () =>{
       fetchAnnouncement();
       }catch(error){
         console.error('Error Create Announcement: ',error);
+      }finally {
+        setIsAccepting(false);
       }
   };
 
@@ -118,6 +130,7 @@ export const AnnouncementAdmin = () =>{
   };
 
   const handleDeleteConfirm = async () =>{
+    setIsAccepting(true); 
     try {
       await axios.delete(`${API_URL}/api/admin/announcement/${selectedAnnouncement.id}`, {
         headers: {
@@ -129,6 +142,8 @@ export const AnnouncementAdmin = () =>{
       setDeleteAnnouncement(false);
     } catch (error) {
       console.error('Error deleting announcement:', error);
+    }finally {
+      setIsAccepting(false);
     }
   };
 
@@ -190,6 +205,7 @@ export const AnnouncementAdmin = () =>{
         announcementSummary ={announcement.summary}
         onTitleChange={handleTitleChange}
         onSummaryChange={handleSummaryChange}
+        acceptDisabled={isAccepting}
       />
 
       <EditAnnouncementModal
@@ -200,6 +216,7 @@ export const AnnouncementAdmin = () =>{
         announcementSummary={announcement.summary}
         onTitleChange={handleTitleChange}
         onSummaryChange={handleSummaryChange}
+        acceptDisabled={isAccepting}
       />
 
       <DeleteAnnouncementModal
@@ -207,6 +224,7 @@ export const AnnouncementAdmin = () =>{
         onClose={() => setDeleteAnnouncement(false)}
         onConfirm={handleDeleteConfirm}
         title={selectedTitle}
+        acceptDisabled={isAccepting}
       />
     </>
   );

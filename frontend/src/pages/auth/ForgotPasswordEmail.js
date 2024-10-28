@@ -18,7 +18,7 @@ export const ForgotPasswordEmail = () => {
     };
 
     const handleBackClick = () => {
-        navigate(-1); 
+        navigate('/customer/sign-in'); 
     };
     const handleSubmit = async (e) => {
         e.preventDefault();

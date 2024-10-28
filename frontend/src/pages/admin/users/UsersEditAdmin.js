@@ -1,5 +1,5 @@
 import "assets/css/admin"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef} from 'react';
 import {  useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import {API_URL} from 'constants';
@@ -19,8 +19,13 @@ export const UsersEditAdmin = () =>{
   const [addressInfoItems, setAddressInfoItems] = useState([]);
   const [avatarUrl, setAvatarUrl] = useState(images.defaultAvatar); // Initialize with default avatar
 
+  const initialFetchDone = useRef(false);
+
   useEffect(() => {
-    fetchUserData();
+    if (!initialFetchDone.current) {
+      fetchUserData();
+      initialFetchDone.current = true;
+    }
   }, [userId]); 
   
   const fetchUserData = async () => {
@@ -179,7 +184,8 @@ export const UsersEditAdmin = () =>{
     setEditInfoModal(false);
   };
 
-  const handleSubmitUpdate = async (updatedInfo) => {
+  const handleSubmitUpdate = async (updatedInfo) => { 
+
     try {
       const updatedData = {
         fname: toCamelCase(updatedInfo.find(item => item.label === 'Firstname')?.value ||  personalInfoItems.find(item => item.label === 'Firstname').value),
@@ -203,6 +209,7 @@ export const UsersEditAdmin = () =>{
     } catch (error) {
       console.error('Error updating user data:', error.response?.data || error.message);
     }
+ 
   };
 
 

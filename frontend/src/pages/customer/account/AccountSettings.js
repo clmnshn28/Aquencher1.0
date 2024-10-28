@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef } from "react";
 import { Link } from 'react-router-dom';
 import 'assets/css/admin';
 import axios from 'axios';
@@ -12,9 +12,13 @@ export const AccountSettings = () =>{
     
     const [personalInfoItems, setPersonalInfoItems] = useState([]);
     const [addressInfoItems, setAddressInfoItems] = useState([]);
-  
+    const initialFetchDone = useRef(false);
+
     useEffect(() => {
-      fetchUserData();
+        if (!initialFetchDone.current) {
+            fetchUserData();
+            initialFetchDone.current = true;
+        }
     }, []);
   
     const fetchUserData = async () => {
