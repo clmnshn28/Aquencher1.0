@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import { IoFilterSharp} from 'react-icons/io5';
 import "assets/css/admin"
 import axios from 'axios';
 import {API_URL} from 'constants';
 
-import * as images from 'assets/images';
 import SearchBar from 'components/SearchBar';
 import DropdownFilter from 'components/DropdownFilter';
 import { ConcernItem } from 'components/ConcernItem';
@@ -19,9 +18,14 @@ export const ConcernsAdmin = () =>{
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredConcerns, setFilteredConcerns] = useState(concerns);
   const [selectedConcern, setSelectedConcern] = useState(null); 
+  const [isAccepting, setIsAccepting] = useState(false);
+  const initialFetchDone = useRef(false);
 
   useEffect(()=>{
-    fetchConcern();
+    if (!initialFetchDone.current) {  
+      fetchConcern();
+      initialFetchDone.current = true;
+    }
   },[]);
 
   const fetchConcern = async () =>{
@@ -122,6 +126,7 @@ const handleFilterChange = (name, value) => {
   };
 
   const handleConcernClick = async (concern) => {
+    setIsAccepting(true);
     try {
       await axios.put(`${API_URL}/api/admin/concern/${concern.id}/read`, {}, {
         headers: {
@@ -136,6 +141,8 @@ const handleFilterChange = (name, value) => {
       setSelectedConcern(concern);  // Set the clicked concern
     } catch (error) {
       console.error('Error marking concern as read:', error);
+    }finally {
+      setIsAccepting(false);
     }
   };
 
@@ -196,6 +203,7 @@ const handleFilterChange = (name, value) => {
                   isNew={concern.isNew}
                   isAdmin={true}
                   onClick={() => handleConcernClick(concern)}
+                  acceptDisabled={isAccepting}
                 />
               ))
             )}

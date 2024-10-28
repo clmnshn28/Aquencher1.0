@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from "react";
+import React,{useState, useEffect, useRef } from "react";
 import { BiSolidMessage } from "react-icons/bi";
 import 'assets/css/customer';
 import axios from 'axios';
@@ -13,9 +13,13 @@ export const Concern = () =>{
     const [selectedConcern, setSelectedConcern] = useState(null); 
     const [isSharing, setIsSharing] = useState(false); 
     const [isSubmitted, setIsSubmitted] = useState(false); 
+    const initialFetchDone = useRef(false);
 
     useEffect(()=>{
-        fetchConcern();
+        if (!initialFetchDone.current) {
+            fetchConcern();
+            initialFetchDone.current = true;
+        }
     },[])
 
     const fetchConcern = async () =>{
@@ -47,7 +51,6 @@ export const Concern = () =>{
                 image: concern.admin.image,
               };
 
-            console.log('THIS SHIT:', adminDetails )
             
             return {
               ...concern,

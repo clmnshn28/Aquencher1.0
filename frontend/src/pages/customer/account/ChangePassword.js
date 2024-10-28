@@ -14,7 +14,8 @@ export const ChangePassword = () =>{
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
     const [error, setError] = useState('');
     const [currentError, setCurrentError] = useState('');
-
+    const [isAccepting, setIsAccepting] = useState(false);
+    
     const handleCurrentPasswordChange = (e) =>{
         setCurrentPassword(e.target.value);
     };
@@ -47,6 +48,7 @@ export const ChangePassword = () =>{
     // checking if password match and met the requirement
     const changePasswordSubmit = async (e) => {
         e.preventDefault();
+        setIsAccepting(true);
         
         if (!isPasswordRequirementMet('Be 8-100 characters long') ||
         !isPasswordRequirementMet('Contain at least one uppercase and one lowercase letter') ||
@@ -83,6 +85,8 @@ export const ChangePassword = () =>{
             } else {
                 setError('An error occurred');
             }
+        }finally {
+            setIsAccepting(false);
         }
     };
     
@@ -110,7 +114,7 @@ export const ChangePassword = () =>{
                     <div className="change-password-requirements">
                         <PasswordRequirements newPassword={newPassword} />
                     </div>
-                    <button className="ChangePasswordAdmin__pass-btn" type="submit">Change Password</button>
+                    <button className="ChangePasswordAdmin__pass-btn" type="submit" disabled={isAccepting}>Change Password</button>
                 </form>
             </div>
         

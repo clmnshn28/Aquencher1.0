@@ -1,5 +1,5 @@
 import "assets/css/admin"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import { Link } from 'react-router-dom'; 
 import axios from 'axios';
 import {API_URL} from 'constants';
@@ -7,10 +7,17 @@ import {API_URL} from 'constants';
 export const NotificationAdmin = () => {
 
   const [notifications, setNotifications] = useState([]);
+  const initialFetchDone = useRef(false);
 
   useEffect(() => {
+    if (!initialFetchDone.current) {
+      fetchNotificationData();
+      initialFetchDone.current = true;
+    }
+  }, []);
   
-    axios.get(`${API_URL}/api/admin/notifications`,{
+  const fetchNotificationData = async () => {
+     await axios.get(`${API_URL}/api/admin/notifications`,{
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
       }
@@ -21,7 +28,8 @@ export const NotificationAdmin = () => {
       .catch(error => {
         console.error("There was an error fetching the notifications!", error);
       });
-  }, []);
+
+  }
 
 
   const handleNotificationClick = (notification) => {

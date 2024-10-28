@@ -9,7 +9,7 @@ export const EditInventoryModal = ({
     isOpen, onClose, onConfirm,
     onItemNameChange, onInitialStockChange, onPriceChange,
     inventoryItemName, inventoryInitialStock, inventoryPrice, inventoryBorrowed,
-    inventoryAvailableStock, inventoryStatus, inventoryLastUpdated}) =>{
+    inventoryAvailableStock, inventoryStatus, inventoryLastUpdated, acceptDisabled }) =>{
 
     
     if(!isOpen) return null;
@@ -34,6 +34,7 @@ export const EditInventoryModal = ({
                             onCancel={onClose}
                             saveText='Save Changes'
                             saveButtonColor='#0174CF'
+                            disabled={acceptDisabled} 
                         />     
                     </form> 
                 </div>

@@ -3,7 +3,7 @@ import 'assets/css/modals';
 import Modal from 'components/Modal';
 import ButtonGroup from 'components/ButtonGroup';
 
-export const ReactivationModal = ({ isOpen, onClose, onConfirm, userId, fName, lName}) => {
+export const ReactivationModal = ({ isOpen, onClose, onConfirm, userId, fName, lName, acceptDisabled }) => {
 
   const handleConfirm = () => {
     onConfirm(userId, fName, lName);
@@ -35,6 +35,7 @@ export const ReactivationModal = ({ isOpen, onClose, onConfirm, userId, fName, l
             onSave={handleConfirm}
             saveText='Reactivate'
             saveButtonColor='#0174CF'
+            disabled={acceptDisabled} 
           />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import { ImLoop } from "react-icons/im";
@@ -21,14 +21,17 @@ export const DeactivatedAccountsAdmin = () =>{
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);
-
+    const [isAccepting, setIsAccepting] = useState(false);
     const [filters, setFilters] = useState({
         reason: '',
     });
-
+    const initialFetchDone = useRef(false);
 
     useEffect(()=>{
+        if (!initialFetchDone.current) {
           fetchUsers();
+          initialFetchDone.current = true;
+        }
     },[]);
 
     const fetchUsers = async () =>{
@@ -112,6 +115,7 @@ export const DeactivatedAccountsAdmin = () =>{
 
    // Confirm reactivation
    const handleConfirmReactivation = async (userId) => {
+    setIsAccepting(true); 
     try {
         await axios.post(API_URL +`/api/customers/${userId}/reactivate`,null,  {
             headers: {
@@ -125,6 +129,7 @@ export const DeactivatedAccountsAdmin = () =>{
     } finally {
         setIsModalOpen(false);
         setSelectedUser(null);
+        setIsAccepting(false); 
     }
 };
 
@@ -223,6 +228,7 @@ export const DeactivatedAccountsAdmin = () =>{
                 userId={selectedUser.id}
                 fName={selectedUser.fname}
                 lName={selectedUser.lname}
+                acceptDisabled={isAccepting}
             />
             )}
         </>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef  } from 'react';
 import { IoFilterSharp } from 'react-icons/io5';
 import {FaFilePdf} from "react-icons/fa";
 import "assets/css/admin";
@@ -18,9 +18,13 @@ export const TransactionAdmin = () => {
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTransactions, setFilteredTransactions] = useState([]);
+  const initialFetchDone = useRef(false);
 
   useEffect(()=>{
-    fetchTransactionRequest();
+    if (!initialFetchDone.current) {
+      fetchTransactionRequest();
+      initialFetchDone.current = true;
+    }
   },[])
 
   const fetchTransactionRequest = async () =>{

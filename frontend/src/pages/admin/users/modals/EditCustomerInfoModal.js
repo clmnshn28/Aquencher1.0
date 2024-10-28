@@ -7,14 +7,15 @@ import axios from 'axios';
 import {API_URL} from 'constants';
 
 
-export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , title}) =>{
+export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , title, acceptDisabled }) =>{
 
     // Initialize formData with infoItems
   const [formData, setFormData] = useState(infoItems || []);
   const [contactError, setContactError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [usernameError, setUsernameError] = useState('');
-
+  const [isAccepting, setIsAccepting] = useState(false);
+  
   useEffect(() => {
     // Update formData when infoItems changes
     setFormData(infoItems || []);
@@ -65,7 +66,7 @@ export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , 
 
   const handleSubmitEdit = async (e) =>{
     e.preventDefault();
-    
+    setIsAccepting(true); 
     if (contactError || emailError) {
       return; 
     }
@@ -107,7 +108,10 @@ export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , 
       } else {
           console.error('Error validating user:', error);
       }
+    }finally {
+      setIsAccepting(false);
     }
+
   };
 
   if(!isOpen) return null;
@@ -142,6 +146,7 @@ export const EditCustomerInfoModal = ({isOpen, onClose, onConfirm , infoItems , 
                 onCancel={handleCloseEdit}
                 saveButtonColor='#0174CF'
                 saveText='Save Changes'
+                disabled={isAccepting} 
             /> 
         </form>
     </Modal>

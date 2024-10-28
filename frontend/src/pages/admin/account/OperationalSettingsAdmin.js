@@ -1,4 +1,4 @@
-    import React, {useState, useEffect} from "react";
+    import React, {useState, useEffect, useRef } from "react";
     import 'assets/css/admin';
     import axios from 'axios';
     import {API_URL} from 'constants';
@@ -15,6 +15,7 @@
 
         // const [isBusinessHoursModalOpen, setIsBusinessHoursModalOpen] = useState(false);
         // const [tempBusinessHours, setTempBusinessHours] = useState([]);
+        const initialFetchDone = useRef(false);
 
         useEffect(()=>{
             // axios.get(`${API_URL}/api/admin/business-hours`,{
@@ -41,7 +42,14 @@
             // });
 
             // Fetch Borrow Limits
-            axios.get(`${API_URL}/api/admin/borrow-limits`, {
+            if (!initialFetchDone.current) {
+                fetchBorrowLimitsData();
+                initialFetchDone.current = true;
+            }
+        },[]);
+
+        const fetchBorrowLimitsData = async () => {
+            await axios.get(`${API_URL}/api/admin/borrow-limits`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 },
@@ -54,7 +62,7 @@
             .catch((error) => {
                 console.error('Failed to fetch borrow limits:', error);
             });
-        },[]);
+        }
 
         // const formatTime = (timeString) => {
         //     let [hour, minute] = timeString.split(':');
@@ -135,6 +143,7 @@
     
         const [tempSlimGallons, setTempSlimGallons] = useState(slimGallons);
         const [tempRoundGallons, setTempRoundGallons] = useState(roundGallons);
+        const [isAccepting, setIsAccepting] = useState(false);
 
          // Open Borrow Limits Modal and store the current values in temporary state
         const openBorrowLimitsModal = () => {
@@ -152,6 +161,7 @@
 
         // Handle Confirm: save temp values to main state
         const ConfirmBorrowLimitsModal = () => {
+            setIsAccepting(true); 
             axios.post(`${API_URL}/api/admin/borrow-limits`, {
                 slimGallons: tempSlimGallons,
                 roundGallons: tempRoundGallons,
@@ -167,8 +177,11 @@
             })
             .catch(error => {
                 console.error('Failed to update borrow limits:', error);
+            })
+            .finally(() => {
+                setIsAccepting(false); 
+                setIsBorrowLimitsModalOpen(false); 
             });
-            setIsBorrowLimitsModalOpen(false);
         };
 
         
@@ -246,6 +259,7 @@
                     roundGallons={tempRoundGallons}       
                     setSlimGallons={setTempSlimGallons}   
                     setRoundGallons={setTempRoundGallons}
+                    acceptDisabled={isAccepting}
                 />
 
             </>

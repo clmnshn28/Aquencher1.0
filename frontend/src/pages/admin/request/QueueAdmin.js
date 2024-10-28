@@ -1,10 +1,12 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import {FaFilePdf} from "react-icons/fa";
 import 'assets/css/admin';
 import axios from 'axios';
 import {API_URL} from 'constants';
+import { useAuth } from "context/AuthContext";
+
 import { format } from 'date-fns';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -15,7 +17,8 @@ import SearchBar from "components/SearchBar";
 import { RejectedModal } from './modals';
 
 export const QueueAdmin = () =>{
-
+    const { authUserObj, setAuthUserObj } = useAuth(); 
+    
     const [queues, setQueues] = useState([]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -28,11 +31,39 @@ export const QueueAdmin = () =>{
     const [products, setProducts] = useState([]);
     const [isRejectedModalOpen, setIsRejectedModalOpen] = useState(false);
     const [rejectedQueueDetails, setRejectedQueueDetails] = useState(null);
+    const [isAccepting, setIsAccepting] = useState(false);
+    const initialFetchDone = useRef(false);
 
     useEffect(()=>{
-        fetchGallonsRequest();
+        if (!initialFetchDone.current) {
+            if (authUserObj.products.length === 0) fetchProduct();
+            fetchGallonsRequest();
+            initialFetchDone.current = true;
+        }
     },[])
+
+    const fetchProduct = async () =>{
+        try{
   
+        const responseProduct = await axios.get(API_URL +'/api/admin/products', {
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
+            }
+        });
+             
+        setProducts(responseProduct.data.data);
+
+        setAuthUserObj(prevState => ({
+            ...prevState,
+            products: responseProduct
+        }));
+  
+  
+        }catch(error){
+          console.error('Error fetching gallon delivery requests:', error);
+        }
+    };
+
     const fetchGallonsRequest = async () =>{
         try{
             const pickupResponse = await axios.get(`${API_URL}/api/gallon-delivery/pickup`, {
@@ -46,14 +77,6 @@ export const QueueAdmin = () =>{
                     'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 },
             });
-         
-            const responseProduct = await axios.get(API_URL +'/api/admin/products', {
-                headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
-                }
-              });
-             
-              setProducts(responseProduct.data.data); 
     
             const combinedRequests = [...pickupResponse.data.data, ...deliverResponse.data.data];
 
@@ -164,6 +187,7 @@ export const QueueAdmin = () =>{
     };
 
     const handleAccept = async (requestDetails) => {
+        setIsAccepting(true); 
 
         try{
 
@@ -191,6 +215,8 @@ export const QueueAdmin = () =>{
 
         }catch(error){
             console.error('Error rejecting the request: ', error);
+        }finally {
+            setIsAccepting(false);
         }
     };
 
@@ -426,6 +452,7 @@ export const QueueAdmin = () =>{
                                 image={queue.image ? `${API_URL}/storage/images/${queue.image}` : images.defaultAvatar}
                                 onDecline={() => handleDecline(queue)}
                                 onAccept={()=> handleAccept(queue)}
+                                acceptDisabled={isAccepting}
                             />
                         ))
                     )}
@@ -455,6 +482,7 @@ export const QueueAdmin = () =>{
                                 image={queue.image ? `${API_URL}/storage/images/${queue.image}` : images.defaultAvatar}
                                 onDecline={() => handleDecline(queue)}
                                 onAccept={()=> handleAccept(queue)}
+                                acceptDisabled={isAccepting}
                             />
                         ))
                     )}

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef } from 'react';
 import { format, formatDistanceToNow } from 'date-fns';
 import { IoArrowBackCircle } from 'react-icons/io5';
 import { AiFillMessage } from 'react-icons/ai';
@@ -15,16 +15,21 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) 
     const [currentImage, setCurrentImage] = useState('');
     const [replyContent, setReplyContent] = useState('');  
     const [replies, setReplies] = useState([]);
+    const [isAccepting, setIsAccepting] = useState(false);
+    const initialFetchDone = useRef(false);
 
     useEffect(()=>{
-        fetchReplies(); 
+        if (!initialFetchDone.current) {  
+            fetchReplies(); 
+            initialFetchDone.current = true;
+        }
     },[]);
 
     const fetchReplies = async () => {
         try {
             const response = await axios.get(`${API_URL}/api/concern/${selectedConcern.id}/replies`, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 }
             });
             
@@ -56,13 +61,13 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) 
 
     const handleSendClick = async (e) => {
         e.preventDefault();
-        
+        setIsAccepting(true);
         try {
              await axios.post(`${API_URL}/api/concern/${selectedConcern.id}/reply`, {
                 content: replyContent
             }, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
                 }
             });
 
@@ -71,6 +76,8 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) 
             setReplyContent('');
         } catch (error) {
             console.error('Error while sending the reply:', error);
+        }finally {
+            setIsAccepting(false);
         }
     };
 
@@ -190,7 +197,7 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) 
                     style={{ height: '80px', border: '1px solid #ccc'}}
                 />
                 <div className="ConcernAdmin__reply-actions">
-                    <button type='submit' className="ConcernAdmin__send-button">
+                    <button type='submit' className="ConcernAdmin__send-button" disabled={isAccepting}>
                         Send
                     </button>
                 </div>

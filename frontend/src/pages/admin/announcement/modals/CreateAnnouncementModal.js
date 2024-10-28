@@ -7,7 +7,7 @@ import TextArea from "components/TextArea";
 import ButtonGroup from "components/ButtonGroup";
 
 
-export const CreateAnnouncementModal = ({isOpen, onClose, onConfirm, announcementTitle, announcementSummary, onTitleChange, onSummaryChange}) => {
+export const CreateAnnouncementModal = ({isOpen, onClose, onConfirm, announcementTitle, announcementSummary, onTitleChange, onSummaryChange, acceptDisabled }) => {
 
 
     if(!isOpen) return null;
@@ -53,7 +53,7 @@ export const CreateAnnouncementModal = ({isOpen, onClose, onConfirm, announcemen
                                     onCancel={onClose}
                                     saveText="Publish"
                                     saveButtonColor="#0174CF" 
-                                
+                                    disabled={acceptDisabled} 
                                 />
                             </div>
                         </div>

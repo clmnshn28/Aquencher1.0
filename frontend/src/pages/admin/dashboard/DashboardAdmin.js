@@ -1,19 +1,26 @@
 import "assets/css/admin"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useRef} from 'react';
 import { Doughnut, Line } from "react-chartjs-2";
 import 'chart.js/auto';
 import axios from 'axios';
 import {API_URL} from 'constants';
 import * as images from 'assets/images';
 import { StockInfo } from "components/StockInfo";
+import { useAuth } from "context/AuthContext";
 
 export const DashboardAdmin = () => {
+  const { authUserObj, setAuthUserObj } = useAuth(); 
+
   const [currentTime, setCurrentTime] = useState('');
   const [currentDate, setCurrentDate] = useState('');
+  const initialFetchDone = useRef(false);
   
   useEffect(() => {
-    fetchProducts();
-    fetchDashboardData();
+    if (!initialFetchDone.current) {
+      if (authUserObj.products.length === 0) fetchProducts();
+      fetchDashboardData();
+      initialFetchDone.current = true;
+    }
     updateTimeAndDate();
     const intervalId = setInterval(updateTimeAndDate, 1000); // update every second
 
@@ -55,6 +62,11 @@ export const DashboardAdmin = () => {
           const products = response.data.data;
           const blueSlim = products.find(product => product.id === 1);
           const roundGallon = products.find(product => product.id === 2);
+
+          setAuthUserObj(prevState => ({
+            ...prevState,
+            products: products
+          }));
 
           setAvailableStock({
             slim: blueSlim ? blueSlim.available_stock : 0,

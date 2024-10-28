@@ -6,7 +6,7 @@ import { PiMapPinAreaDuotone } from "react-icons/pi";
 
 import * as images from 'assets/images';
 
-export default function QueueItem ({id, name, address, slimQuantity, roundQuantity, requestType, contact, date, time, image, onDecline, onAccept}){
+export default function QueueItem ({id, name, address, slimQuantity, roundQuantity, requestType, contact, date, time, image, onDecline, onAccept, acceptDisabled }){
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
     return(
@@ -61,7 +61,7 @@ export default function QueueItem ({id, name, address, slimQuantity, roundQuanti
                 <button className="RequestItem__status-button RequestItem__decline" onClick={()=>onDecline(id)} >
                     &#10005;
                 </button>
-                <button className="QueueItem__status-button QueueItem__accept" onClick={()=> onAccept(id)} >
+                <button className="QueueItem__status-button QueueItem__accept" onClick={()=> onAccept(id)} disabled={acceptDisabled} >
                     &#10004;
                 </button>
             </div>

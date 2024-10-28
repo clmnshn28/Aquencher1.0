@@ -1,5 +1,5 @@
 import "assets/css/admin";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from "context/AuthContext";
 import * as images from 'assets/images';
@@ -8,7 +8,7 @@ import {API_URL} from 'constants';
 
 export const AdminLayout = () => {
   const navigate = useNavigate();
-  const { signOut } = useAuth(); 
+  const { signOut, authUserObj, setAuthUserObj } = useAuth(); 
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -82,11 +82,17 @@ export const AdminLayout = () => {
 
   const location = useLocation();
   const [highlightedTab, setHighlightedTab] = useState('');
-
+  const initialFetchDone = useRef(false);
+  
   useEffect(() => {
     const currentPath = location.pathname;
-    fetchUserData();
-    fetchNotifications();
+
+    if (!initialFetchDone.current) {
+      if (Object.keys(authUserObj.user).length === 0) fetchUserData();
+      if (authUserObj.notifications.length === 0) fetchNotifications();
+      initialFetchDone.current = true;
+    }
+
     if (currentPath.includes('dashboard')) {
       setHighlightedTab('dashboard');
     } else if (currentPath.includes('notifications')) {
@@ -122,6 +128,13 @@ export const AdminLayout = () => {
         }
       });
       const userData = response.data.data;
+
+      setAuthUserObj(prevState => ({
+        ...prevState,
+        user: userData
+      }));
+      console.log(authUserObj);
+
       setUser(userData);
       setProfilePic(userData.image ? `${API_URL}/storage/images/${userData.image}` : images.defaultAvatar);
 
@@ -143,6 +156,12 @@ export const AdminLayout = () => {
         });
 
         const limitedNotifications = sortedNotifications.slice(0, 4);
+
+        setAuthUserObj(prevState => ({
+          ...prevState,
+          notifications: limitedNotifications
+        }));
+        console.log(authUserObj);
 
         setNotifications(limitedNotifications);
     } catch (error) {
