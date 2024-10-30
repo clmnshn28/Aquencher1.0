@@ -1,0 +1,87 @@
+
+.TransactionDetailsModal__content{
+    background: #fff;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 700px;
+}
+
+
+.TransactionDetailsModal__content h2{
+    background-color:#0174CF;
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+    border-radius: 8px 8px 0 0;
+}
+
+
+.TransactionDetailsModal__info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 30px 80px;
+    margin-left: 50px;
+}
+
+.TransactionDetailsModal__info-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.TransactionDetailsModal__label, .TransactionDetailsModal__value {
+    flex: 1;
+    padding: 5px 0;
+}
+
+.TransactionDetailsModal__label {
+    font-weight: 600;
+    color: #4e4e4e;
+}
+
+.TransactionDetailsModal__value {
+    text-align: left;
+    color: #555;
+}
+
+
+
+@media only screen and (max-width: 767px) {
+
+    .TransactionDetailsModal__content{
+        background: #fff;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 10px;
+    }
+
+    .TransactionDetailsModal__content h2{
+        padding: 5px;
+        font-size: 15px;
+    }
+
+
+    .TransactionDetailsModal__info-container {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        padding: 10px 20px;
+        margin-left: 0;
+    }
+
+    .TransactionDetailsModal__label {
+        font-weight: 600;
+        color: #4e4e4e;
+        font-size: 11px;
+    }
+    
+    .TransactionDetailsModal__value {
+        text-align: left;
+        color: #555;
+        font-size: 11px;
+    }
+    
+    
+}

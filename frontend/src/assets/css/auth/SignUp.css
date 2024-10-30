@@ -247,6 +247,17 @@ body {
   text-indent: 3em;
 }
 
+.terms-email{
+  font-size: 12px;
+  padding-left: 10px;
+}
+
+.terms-email-value{
+  font-style: italic;
+  font-weight: 500;
+  color: #222222;
+}
+
 /* Scrollbar customization */
 .terms-content::-webkit-scrollbar {
   width: 5px;
@@ -428,6 +439,13 @@ body {
   }
 
   
+  .terms-email{
+    font-size: 11px;
+  }
+  .terms-email-value{
+    font-size: 10px;
+  }
+
   .terms-modal-footer{
     padding: 20px 10px 5px;
     font-size: 11px;

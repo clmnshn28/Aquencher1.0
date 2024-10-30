@@ -5,6 +5,7 @@ import {API_URL} from 'constants';
 import { format } from 'date-fns';
 
 import DropdownFilter from 'components/DropdownFilter';
+import { TransactionDetailsModal } from "./modals/TransactionDetailsModal";
 
 
 export const Transaction = () =>{
@@ -13,6 +14,8 @@ export const Transaction = () =>{
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
     const initialFetchDone = useRef(false);
+    const [openTransactionModal, isOpenTransactionModal] = useState(false);
+    const [selectedTransaction, setSelectedTransaction] = useState(null);
 
     useEffect(()=>{
         if (!initialFetchDone.current) {
@@ -147,6 +150,17 @@ export const Transaction = () =>{
         return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
     }
 
+
+    const openModal = (transaction) => {
+        setSelectedTransaction(transaction);
+        isOpenTransactionModal(true);
+    };
+    
+    const closeModal = () => {
+        isOpenTransactionModal(false);
+        setSelectedTransaction(null);
+    };
+
     return(
         <>
             <div className="Transaction__header">
@@ -224,34 +238,39 @@ export const Transaction = () =>{
                         </tr>
                         ) :
                         ( filteredTransactions.map((transaction) => (
-                            <tr key={transaction.gallon_delivery_id}>
-                            <td>
-                                <div className='Transaction__date-time'>
-                                    <span className="Transaction__date">{transaction.date}</span>
-                                    <span className="Transaction__time">{transaction.time}</span>
-                                </div> 
-                            </td>
-                            <td>{capitalize(transaction.request_type)}</td>
-                            <td>
-                                {transaction.slimQuantity > 0 && (
-                                    <span className={`quantity-label ${transaction.roundQuantity > 0 ? '' : 'padding-left-25'}`}>
-                                        Slim: {transaction.slimQuantity}{transaction.slimQuantity && transaction.roundQuantity > 0 ? ', ' : ''}
-                                    </span>
-                                )}
-                                {transaction.roundQuantity > 0 && (
-                                    <span  className={`quantity-label ${transaction.slimQuantity > 0 ? '' : 'padding-left-20'}`}>
-                                        Round: {transaction.roundQuantity}
-                                    </span>
-                                )} 
-                            </td>
-                            <td>₱{transaction.totalPrice.toFixed(2)}</td>
-                            <td style={{color: getStatusColor(capitalize(transaction.status))}}>{capitalize(transaction.status)}</td>
+                            <tr key={transaction.gallon_delivery_id} onClick={()=> openModal(transaction)}>
+                                <td>
+                                    <div className='Transaction__date-time'>
+                                        <span className="Transaction__date">{transaction.date}</span>
+                                        <span className="Transaction__time">{transaction.time}</span>
+                                    </div> 
+                                </td>
+                                <td>{capitalize(transaction.request_type)}</td>
+                                <td>
+                                    {transaction.slimQuantity > 0 && (
+                                        <span className={`quantity-label ${transaction.roundQuantity > 0 ? '' : 'padding-left-25'}`}>
+                                            Slim: {transaction.slimQuantity}{transaction.slimQuantity && transaction.roundQuantity > 0 ? ', ' : ''}
+                                        </span>
+                                    )}
+                                    {transaction.roundQuantity > 0 && (
+                                        <span  className={`quantity-label ${transaction.slimQuantity > 0 ? '' : 'padding-left-20'}`}>
+                                            Round: {transaction.roundQuantity}
+                                        </span>
+                                    )} 
+                                </td>
+                                <td>₱{transaction.totalPrice.toFixed(2)}</td>
+                                <td style={{color: getStatusColor(capitalize(transaction.status))}}>{capitalize(transaction.status)}</td>
                             </tr>
                         )))}
                     </tbody>
                 </table>
             </div>
-
+            
+            <TransactionDetailsModal
+                isOpen={openTransactionModal}
+                onClose={closeModal}
+                transaction={selectedTransaction}
+            />
         </>
     );
 };

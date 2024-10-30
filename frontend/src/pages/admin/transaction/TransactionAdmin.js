@@ -10,6 +10,7 @@ import 'jspdf-autotable';
 import * as images from 'assets/images';
 import SearchBar from 'components/SearchBar';
 import DropdownFilter from 'components/DropdownFilter';
+import { TransactionDetailsModal } from "./modals/TransactionDetailsModal";
 
 
 export const TransactionAdmin = () => {
@@ -19,6 +20,8 @@ export const TransactionAdmin = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const initialFetchDone = useRef(false);
+  const [openTransactionModal, isOpenTransactionModal] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
 
   useEffect(()=>{
     if (!initialFetchDone.current) {
@@ -153,6 +156,16 @@ export const TransactionAdmin = () => {
   const capitalize = (str) => {
     return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
   }
+
+  const openModal = (transaction) => {
+    setSelectedTransaction(transaction);
+    isOpenTransactionModal(true);
+  };
+
+  const closeModal = () => {
+    isOpenTransactionModal(false);
+    setSelectedTransaction(null);
+  };
 
   const handleExportToPDF = () => {
     if (transactionLogs.length === 0) {
@@ -336,7 +349,7 @@ export const TransactionAdmin = () => {
               </tr>
             ) :
               ( filteredTransactions.map((transaction) => (
-                <tr key={transaction.gallon_delivery_id}>
+                <tr key={transaction.gallon_delivery_id} onClick={()=> openModal(transaction)}>
                   <td  style={{paddingLeft: '40px'}}>
                     <div className='TransactionAdmin__date-time'>
                       <span className="TransactionAdmin__date">{transaction.date}</span>
@@ -368,6 +381,11 @@ export const TransactionAdmin = () => {
           </tbody>
         </table>
       </div>
+      <TransactionDetailsModal
+          isOpen={openTransactionModal}
+          onClose={closeModal}
+          transaction={selectedTransaction}
+      />
     </>
   );
 };
