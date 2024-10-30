@@ -65,8 +65,8 @@
 
                         <h4>10. Contact Information</h4>
                         <p>If you have any questions about these Terms, please contact us at:</p>
-                        <p>Email: [Your Contact Email]</p>
-                        <p>Phone: [Your Contact Number]</p>
+                        <div className="terms-email">Email: <span className="terms-email-value">aquencher374@gmail.com</span></div>
+                        <div  className="terms-email">Phone:  <span className="terms-email-value">0969-0060-510 / 0906-2351-619</span></div>
                     </div>
                     <div className="terms-modal-footer">
                         <label>
