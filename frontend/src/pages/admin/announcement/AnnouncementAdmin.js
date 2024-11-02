@@ -1,7 +1,8 @@
 import "assets/css/admin"
 import React, { useState, useEffect, useRef  } from 'react';
+import { useNavigate } from 'react-router-dom'; 
 import { MdOutlineEdit } from "react-icons/md";
-import { RiDeleteBin6Fill } from "react-icons/ri";
+import { IoArchive } from "react-icons/io5";
 import axios from 'axios';
 import {API_URL} from 'constants';
 import { format } from 'date-fns';
@@ -10,7 +11,7 @@ import * as images from 'assets/images';
 import { CreateAnnouncementModal, DeleteAnnouncementModal,EditAnnouncementModal } from "./modals";
 
 export const AnnouncementAdmin = () =>{
-
+  const navigate = useNavigate();
   const [announcements, setAnnouncements] = useState([]);
 
   const [createAnnouncement, setCreateAnnouncement] = useState(false);
@@ -129,7 +130,7 @@ export const AnnouncementAdmin = () =>{
     setDeleteAnnouncement(true);
   };
 
-  const handleDeleteConfirm = async () =>{
+  const handleArchiveClick  = async () =>{
     setIsAccepting(true); 
     try {
       await axios.delete(`${API_URL}/api/admin/announcement/${selectedAnnouncement.id}`, {
@@ -147,9 +148,16 @@ export const AnnouncementAdmin = () =>{
     }
   };
 
+  const handleArchiveNavigation = () => {
+    navigate('/admin/announcements/archive');
+  };
+
   return (
     <>
       <div className="AnnouncementAdmin__container">
+        <button className="AnnouncementAdmin__archive-button"  onClick={handleArchiveNavigation}>
+          <IoArchive className="AnnouncementAdmin__archive-icon" /> Archive
+        </button>
         <button className="AnnouncementAdmin__announcement-button"   onClick={() => setCreateAnnouncement(true)}>
           <img className="AnnouncementAdmin__announcement-icon" src={images.createAnnouncement} alt="Announcement Icon" />
           Create Announcement
@@ -187,7 +195,7 @@ export const AnnouncementAdmin = () =>{
                         <MdOutlineEdit/>
                       </button>
                       <button className="AnnouncementAdmin__delete" onClick={()=> handleDeleteClick(announcement)}>
-                        <RiDeleteBin6Fill/>
+                        <IoArchive />
                       </button>
                     </div>
                   </td>
@@ -222,7 +230,7 @@ export const AnnouncementAdmin = () =>{
       <DeleteAnnouncementModal
         isOpen={deleteAnnouncement}
         onClose={() => setDeleteAnnouncement(false)}
-        onConfirm={handleDeleteConfirm}
+        onConfirm={handleArchiveClick }
         title={selectedTitle}
         acceptDisabled={isAccepting}
       />

@@ -167,32 +167,6 @@ export const InventoryAdmin = () =>{
         </table>
       </div>
             
-      <div className="InventoryAdmin__summary">
-        {inventoryItems.map((inventory) =>(
-          <div className="InventoryAdmin__summary-item" key={inventory.id}>
-            <img
-              src={inventory.id === 1 ? images.returnSlim : images.returnRound}
-              alt={inventory.itemName}
-              className="InventoryAdmin__summary-icon"
-            />
-            <div className="InventoryAdmin__summary-item-text">
-              <p className="InventoryAdmin__summary-item-name">
-                {inventory.id === 1 ? "Slim Gallon" : "Round Gallon"}
-              </p>
-              <p>
-                Total Available Stock: 
-                <span
-                className="InventoryAdmin__available"  
-                style={{ color: getStockColor(inventory.available_stock) }}
-                >
-                  {inventory.available_stock}
-                </span>
-              </p>
-
-            </div>
-          </div>
-        ))}
-      </div>
 
       <EditInventoryModal
         isOpen={EditInventory}
