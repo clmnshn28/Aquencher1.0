@@ -132,6 +132,12 @@
   padding-right: 20px;
 }
 
+.ConcernAdmin__resolved-text{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #007bff;
+}
 
 /* specific concern */
 .ConcernAdmin__specific-container{

@@ -199,6 +199,18 @@ export const CustomerLayout = () =>{
                 Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
             }
         });
+
+        let route = '/customer/dashboard'; 
+        if (notification.subject.includes("Concern")) {
+            route = '/customer/concerns';
+        } else if (notification.subject.includes("Announcement")) {
+            route = '/customer/dashboard';
+        } else if (notification.subject.includes("Request")) {
+            route = '/customer/transaction';
+        }
+
+        navigate(route);
+
     } catch (error) {
         console.error('Error marking notification as read:', error);
         setNotifications(notifications.map((n) =>

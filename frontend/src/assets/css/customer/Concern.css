@@ -119,9 +119,22 @@
     /* each item */
     .ConcernAdmin__item{
         padding: 13px 5px;
+        position: relative;
     }
   
-
+    .ConcernAdmin__resolved-text{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: #007bff;
+        position: absolute;
+        right: -0.5%;
+        top: -0.5%;
+        padding: 1px 4px;
+        font-size: 9px;
+        border-radius: 0 0 0 5px;
+        background-color: rgba(118, 184, 255, 0.3);
+    }
 
     /* concern message */
     .ConcernAdmin__Message{

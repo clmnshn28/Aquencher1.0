@@ -13,7 +13,7 @@ import { GallonInfo } from "components/GallonInfo";
 import { AnnouncementViewModal } from "./modals/AnnouncementViewModal";
 
 export const Dashboard = () =>{
-    const { user, authUserObj, setAuthUserObj } = useAuth(); 
+    const { user} = useAuth(); 
 
     const [announcements, setAnnouncements] = useState([]);
     const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);

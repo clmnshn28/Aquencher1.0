@@ -42,7 +42,7 @@ export const Concern = () =>{
 
         const concernWithUpdatedDateTime = data.concerns.map((concern) => {
             const updatedAt = new Date(concern.updated_at);
-
+            const hasReply = concern.replies && concern.replies.length > 0; 
             const adminDetails = {
                 id: concern.admin.id,
                 fname: concern.admin.fname,
@@ -57,6 +57,7 @@ export const Concern = () =>{
               time: updatedAt,
               admin: adminDetails,
               customer: customerDetails, 
+              hasReply, 
             };
           }).sort((a, b) => b.time - a.time);
           setConcerns( concernWithUpdatedDateTime);
@@ -109,6 +110,7 @@ export const Concern = () =>{
                                 subject={concern.subject}
                                 message={concern.content}
                                 time={concern.time}
+                                hasReply={concern.hasReply} 
                                 onClick={() => handleConcernClick(concern)}
                             />
                         ))
