@@ -133,7 +133,6 @@ export const AdminLayout = () => {
         ...prevState,
         user: userData
       }));
-      console.log(authUserObj);
 
       setUser(userData);
       setProfilePic(userData.image ? `${API_URL}/storage/images/${userData.image}` : images.defaultAvatar);
@@ -161,7 +160,6 @@ export const AdminLayout = () => {
           ...prevState,
           notifications: limitedNotifications
         }));
-        console.log(authUserObj);
 
         setNotifications(limitedNotifications);
     } catch (error) {

@@ -38,6 +38,7 @@ export const ConcernsAdmin = () =>{
 
     const concernWithUpdatedDateTime = response.data.data.map((concern) => {
         const updatedAt = new Date(concern.updated_at);
+        const hasReply = concern.replies && concern.replies.length > 0; 
         const customerDetails = {
           id: concern.customer.id,
           fname: concern.customer.fname,
@@ -59,6 +60,7 @@ export const ConcernsAdmin = () =>{
           customer: customerDetails, 
           admin: adminDetails,
           isNew: concern.is_read === 0,
+          hasReply, 
         };
       }).sort((a, b) => b.time - a.time);
       setConcerns( concernWithUpdatedDateTime);
@@ -150,6 +152,13 @@ const handleFilterChange = (name, value) => {
     setSelectedConcern(null);  // Go back to the list view
   };
 
+  const markAsResolved = (concernId) => {
+    setConcerns((prevConcerns) =>
+      prevConcerns.map((concern) =>
+        concern.id === concernId ? { ...concern, hasReply: true } : concern
+      )
+    );
+  };
 
   return (
     <>
@@ -201,6 +210,7 @@ const handleFilterChange = (name, value) => {
                   message={concern.content}
                   time={concern.time}
                   isNew={concern.isNew}
+                  hasReply={concern.hasReply} 
                   isAdmin={true}
                   onClick={() => handleConcernClick(concern)}
                   acceptDisabled={isAccepting}
@@ -215,6 +225,7 @@ const handleFilterChange = (name, value) => {
             selectedConcern={selectedConcern}
             handleBackClick={handleBackClick}
             isAdmin={true}
+            markAsResolved={markAsResolved}
           />
         </>
       )}

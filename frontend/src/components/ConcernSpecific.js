@@ -9,7 +9,7 @@ import TextArea from './TextArea';
 import {API_URL} from 'constants';
 import axios from 'axios';
 
-export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) => {
+export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin, markAsResolved  }) => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [isReplying, setIsReplying] = useState(false); 
     const [currentImage, setCurrentImage] = useState('');
@@ -74,6 +74,8 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin  }) 
             fetchReplies(); 
             setIsReplying(false);
             setReplyContent('');
+            markAsResolved(selectedConcern.id);
+            
         } catch (error) {
             console.error('Error while sending the reply:', error);
         }finally {

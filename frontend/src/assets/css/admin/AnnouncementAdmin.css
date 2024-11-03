@@ -38,10 +38,36 @@
   background-color: #0056b3;
 }
 
+.AnnouncementAdmin__archive-button:active,
 .AnnouncementAdmin__announcement-button:active {
   opacity: 0.8;
 }
 
+/* Archive */
+.AnnouncementAdmin__archive-button{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  position: absolute;
+  top: -18px;
+  right: 22em; 
+  font-size: 16px;
+  font-weight: bold;
+  font-family: "poppins"; 
+  color: #0174CF;
+  background-color: #f0f0f0;
+  border: 2px solid rgba(169, 169, 169, 0.5);
+  padding: 5px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.AnnouncementAdmin__archive-icon{
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  min-width: 20px;
+}
 
 /* table */
 .AnnouncementAdmin__table{
@@ -134,15 +160,15 @@
 }
 
 .AnnouncementAdmin__edit{
-  background-color: #d5cece;
+  background-color: #ddd9d9;
   color: #444444;
-  border: 1.5px solid rgba(68, 68, 68, 0.5);
+  border: 1px solid rgba(94, 94, 94, 0.5);
 }
 
 .AnnouncementAdmin__delete{
-  background-color: rgb(239, 68, 68);
+  background-color:#0174CF;
   color: #fff;
-  border: 1.5px solid rgba(68, 68, 68, 0.5);
+  border: 1px solid rgba(63, 86, 164, 0.5);
 }
 
 
@@ -155,3 +181,33 @@
 } 
 
 
+/* ARCHIVE ANNOUNCEMENT CSS */
+.ArchiveAnnouncement__container{
+  background-color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.07);
+  margin: 50px 40px 0px 10px;
+  border-radius: 10px;
+  padding: 10px 30px 30px;
+  position: relative;
+}
+
+.ArchiveAnnouncement__header-container{
+  display: flex;
+  align-items: center;
+}
+
+.ArchiveAnnouncement__header-container h2{
+  color:#0174CF;
+  flex-grow: 1; 
+  text-align: center; 
+}
+
+.ArchiveAnnouncement__back-icon{
+  font-size: 50px;
+  color: #007bff;
+  transition: transform 0.3s ease;
+}
+
+.ArchiveAnnouncement__back-icon:hover{
+  transform: scale(1.07); 
+}

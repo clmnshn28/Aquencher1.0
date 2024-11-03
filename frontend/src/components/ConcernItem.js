@@ -1,9 +1,9 @@
 import React from "react";
 import 'assets/css/admin';
-
+import { FaRegCircleCheck } from "react-icons/fa6";
 import * as images from 'assets/images';
 
-export const ConcernItem = ({fname, lname,requestType, subject, message, time, isNew, isAdmin, onClick, acceptDisabled}) =>{
+export const ConcernItem = ({fname, lname,requestType, subject, message, time, isNew, isAdmin, onClick, acceptDisabled, hasReply}) =>{
     
     const formatTimeDisplay = (time) => {
         const now = new Date();
@@ -42,6 +42,7 @@ export const ConcernItem = ({fname, lname,requestType, subject, message, time, i
                 <span className="ConcernAdmin__message">{message}</span>
             </div>
             <div className="ConcernAdmin__time">
+            {hasReply && <span className="ConcernAdmin__resolved-text"> <FaRegCircleCheck />Resolved</span>}
             <span className={`Dashboard__new-indicator ${isNew ? '' : 'Dashboard__unread-new'}`}>New</span>
                 {formatTimeDisplay(time)}
             </div>
