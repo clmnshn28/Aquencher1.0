@@ -214,6 +214,8 @@ body {
 
 .image-dropdown{
   width: 43px;
+  height: 43px;
+  object-fit: cover;
   border-radius: 50px;
   margin-right: 10px;
   
