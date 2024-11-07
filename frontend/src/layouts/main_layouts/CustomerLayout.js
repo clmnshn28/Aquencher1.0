@@ -206,7 +206,7 @@ export const CustomerLayout = () =>{
         } else if (notification.subject.includes("Announcement")) {
             route = '/customer/dashboard';
         } else if (notification.subject.includes("Request")) {
-            route = '/customer/transaction';
+            route = '/customer/transactions';
         }
 
         navigate(route);

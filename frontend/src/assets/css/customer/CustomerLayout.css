@@ -140,6 +140,8 @@
   margin-right: 8px;
   border-radius: 50px;
   width: 43px;
+  height: 43px;
+  object-fit: cover;
 }
 
 .CustomerLayout__name{
@@ -197,6 +199,8 @@
 
 .CustomerLayout__image-dropdown{
   width: 43px;
+  height: 43px;
+  object-fit: cover;
   border-radius: 50px;
   margin-right: 10px;
   
