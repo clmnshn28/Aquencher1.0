@@ -6,6 +6,7 @@ import { IoArchive } from "react-icons/io5";
 import axios from 'axios';
 import {API_URL} from 'constants';
 import { format } from 'date-fns';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 import * as images from 'assets/images';
 import { CreateAnnouncementModal, DeleteAnnouncementModal,EditAnnouncementModal } from "./modals";
@@ -191,12 +192,32 @@ export const AnnouncementAdmin = () =>{
                   </td>
                   <td>
                     <div className="AnnouncementAdmin__actions">
-                      <button className="AnnouncementAdmin__edit" onClick={() => handleEditClick(announcement)}>
+                      <button 
+                      className="AnnouncementAdmin__edit" 
+                      onClick={() => handleEditClick(announcement)}
+                      data-tooltip-id="edit-tooltip"
+                      data-tooltip-content="Edit"
+                      >
                         <MdOutlineEdit/>
                       </button>
-                      <button className="AnnouncementAdmin__delete" onClick={()=> handleDeleteClick(announcement)}>
+                      <button 
+                      className="AnnouncementAdmin__delete" 
+                      onClick={()=> handleDeleteClick(announcement)}
+                      data-tooltip-id="archive-tooltip"
+                      data-tooltip-content="Archive"
+                      >
                         <IoArchive />
                       </button>
+                      <ReactTooltip
+                          id="edit-tooltip"
+                          place="top"
+                          className="custom-tooltip" 
+                      />
+                      <ReactTooltip
+                          id="archive-tooltip"
+                          place="top"
+                          className="custom-tooltip" 
+                      />
                     </div>
                   </td>
                 </tr>

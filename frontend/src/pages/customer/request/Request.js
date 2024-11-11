@@ -3,9 +3,9 @@ import "assets/css/customer";
 import * as images from 'assets/images';
 import axios from 'axios';
 import {API_URL} from 'constants';
-import { useAuth } from "context/AuthContext";
 
 import { RefillModal, BorrowModal, ReturnModal, ConfirmationModal, AddressPromptModal} from "./modals";
+import { SuccessModal } from "components/SuccessModal";
 
 const RequestBox = ({ icon, selectedIcon, title, description, onClick, isSelected, disabled, availableStock, borrowedGallons }) => (
     <div className={`Request__box ${isSelected ? 'Request__box-selected' : ''} 
@@ -27,7 +27,6 @@ const RequestBox = ({ icon, selectedIcon, title, description, onClick, isSelecte
 );
 
 export const Request = () =>{
-    const { authUserObj, setAuthUserObj } = useAuth(); 
 
     const [isRefillModalOpen, setIsRefillModalOpen] = useState(false);
     const [isBorrowModalOpen, setIsBorrowModalOpen] = useState(false);
@@ -40,11 +39,14 @@ export const Request = () =>{
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [isProcessing, setIsProcessing] = useState(false); 
     const [isAddressPromptOpen, setIsAddressPromptOpen] = useState(false);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const [successTitle, setSuccessTitle] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const initialFetchDone = useRef(false);
 
     useEffect(()=>{
         if (!initialFetchDone.current) {
-            if (authUserObj.products.length === 0) fetchProducts();
+             fetchProducts();
             fetchBorrowedGallons();
             initialFetchDone.current = true;
         }
@@ -68,10 +70,6 @@ export const Request = () =>{
                 image: product.id === 1 ? images.pickSlim : images.pickRound,
             }));
 
-            setAuthUserObj(prevState => ({
-                ...prevState,
-                products: fetchedProducts
-            }));
 
             setItems(updatedItems);
         }catch(error){
@@ -133,7 +131,10 @@ export const Request = () =>{
                         },
                 });
 
-                alert('Refill request successfully.')
+                setSuccessTitle('Refill Request Successful');
+                setSuccessMessage('Your refill request has been processed successfully.');
+                setIsSuccessModalOpen(true); 
+
                 setIsRefillModalOpen(false); // Close modal after refill
                 setIsConfirmationModalOpen(false); //close the confirm modal
                 setSelectedRequest(null);     // reset the selected request
@@ -190,7 +191,10 @@ const confirmBorrow = async () =>{
                         },
                 });
 
-                alert('Borrow request successfully.')
+                setSuccessTitle('Borrow Request Successful');
+                setSuccessMessage('Your borrow request has been processed successfully.');
+                setIsSuccessModalOpen(true); 
+
                 setIsBorrowModalOpen(false);
                 setIsConfirmationModalOpen(false);
                 setSelectedRequest(null);
@@ -262,7 +266,10 @@ const confirmReturn = async () =>{
                         },
                 });
 
-                alert('Return request successfully.')
+                setSuccessTitle('Return Request Successful');
+                setSuccessMessage('Your return request has been processed successfully.');
+                setIsSuccessModalOpen(true); 
+
                 setIsReturnModalOpen(false);
                 setIsConfirmationModalOpen(false); 
                 setSelectedRequest(null); 
@@ -283,6 +290,10 @@ const handleCloseReturnModal = () =>{
     setIsReturnModalOpen(false);
     setSelectedRequest(null);
 };
+
+    const handleCloseSuccessModal = () => {
+        setIsSuccessModalOpen(false); // Close SuccessModal
+    };
 
     const isModalOpen = isRefillModalOpen || isBorrowModalOpen || isReturnModalOpen ;
     const isBorrowDisabled = !items.some(item => item.availableStock > 0);
@@ -370,6 +381,13 @@ const handleCloseReturnModal = () =>{
             <AddressPromptModal
                 isOpen = {isAddressPromptOpen}
                 onClose = {()=> setIsAddressPromptOpen(false)}            
+            />
+
+            <SuccessModal
+                isOpen={isSuccessModalOpen}
+                onClose={handleCloseSuccessModal}
+                title={successTitle}
+                message={successMessage}
             />
 
         </>

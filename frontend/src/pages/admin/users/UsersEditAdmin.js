@@ -9,6 +9,7 @@ import AccountInfoSection from "components/AccountInfoSection";
 import PasswordRequirements from "components/PasswordRequirements";
 import TextField from "components/TextField";
 import ButtonGroup from "components/ButtonGroup";
+import { SuccessModal } from "components/SuccessModal";
 import { ResetPasswordConfirmationModal, EditCustomerInfoModal } from "./modals";
 
 
@@ -74,6 +75,7 @@ export const UsersEditAdmin = () =>{
   const [newConfirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const handleShowResetPassword = () =>{
     setShowResetPassword(true);
@@ -135,7 +137,7 @@ export const UsersEditAdmin = () =>{
             'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
           }
       });
-        alert('Password reset successfully!');
+        setIsSuccessModalOpen(true);
     } catch (error) {
         console.error('Error resetting password:', error.response?.data || error.message);
         setError('Failed to reset password. Please try again.');
@@ -278,6 +280,13 @@ export const UsersEditAdmin = () =>{
         onConfirm={confirmEditInfoModal}
         infoItems={currentInfo}
         title={modalTitle}
+      />
+
+      <SuccessModal
+        isOpen={isSuccessModalOpen}
+        onClose={() => setIsSuccessModalOpen(false)}
+        title="Password Change Successful"
+        message="The password has been changed successfully."
       />
     </>
   );

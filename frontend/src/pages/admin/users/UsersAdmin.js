@@ -11,6 +11,7 @@ import {API_URL} from 'constants';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 import * as images from 'assets/images';
 import {NewUserModal,DeactivationModal} from './modals'; 
@@ -390,15 +391,38 @@ export const UsersAdmin = () => {
                                     </td>
                                     <td>
                                         <div className="UserAdmin__actions">
-                                            <button className="UserAdmin__edit" onClick={() => handleEditClick(user.id)}>
+                                            <button 
+                                            className="UserAdmin__edit" 
+                                            onClick={() => handleEditClick(user.id)}
+                                            data-tooltip-id="edit-tooltip"
+                                            data-tooltip-content="Edit"
+                                            >
                                                 <FaUserEdit/>
                                             </button>
                                             {/* <button className="UserAdmin__view" onClick={() => handleViewDetailsClick(user)}>
                                                 <BsFillPersonLinesFill/>
                                             </button> */}
-                                            <button className="UserAdmin__delete" onClick={()=> handleDeactivationClick(user)}>
+                                            <button 
+                                            className="UserAdmin__delete" 
+                                            onClick={()=> handleDeactivationClick(user)}
+                                            data-tooltip-id="delete-tooltip"
+                                            data-tooltip-content="Deactivate"
+                                            >
                                                 <BsPersonFillSlash/>
                                             </button>
+
+                                            <ReactTooltip
+                                                id="edit-tooltip"
+                                                place="top"
+                                                className="custom-tooltip"
+                                                
+                                            />
+                                            <ReactTooltip
+                                                id="delete-tooltip"
+                                                place="top"
+                                                className="custom-tooltip"
+                                              
+                                            />
                                         </div>
                                     </td>
                                 </tr>
