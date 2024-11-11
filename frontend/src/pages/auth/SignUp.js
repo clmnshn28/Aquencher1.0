@@ -6,6 +6,7 @@ import PasswordRequirements from 'components/PasswordRequirements';
 import axios from 'axios';
 import {API_URL} from 'constants';
 import { TermsAndCondition } from './modals';
+import { SuccessModal } from 'components/SuccessModal';
 
 export const SignUp = () =>{
   const navigate = useNavigate(); 
@@ -25,6 +26,7 @@ export const SignUp = () =>{
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [isTermsChecked, setIsTermsChecked] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -89,8 +91,8 @@ export const SignUp = () =>{
         c_password: confirmPassword,  
       });
   
-      alert('Account created! Please check your email to verify your account.');
-      navigate('/customer/sign-in');
+      setShowSuccessModal(true); 
+
       // Clear the form fields and error message
       setFname('');
       setLname('');
@@ -136,6 +138,11 @@ export const SignUp = () =>{
       default:
         return false;
     }
+  };
+
+  const handleSuccessModalClose = () => {
+    setShowSuccessModal(false);
+    navigate('/customer/sign-in');
   };
 
   return (
@@ -233,6 +240,12 @@ export const SignUp = () =>{
           isOpen = {showTermsModal}
           onClose={handleCloseModal} 
           onTermsChecked={handleTermsChecked} 
+        />
+        <SuccessModal
+          isOpen={showSuccessModal}
+          onClose={handleSuccessModalClose}
+          title="Account Created"
+          message="Please check your email to verify your account."
         />
     </div>
   );

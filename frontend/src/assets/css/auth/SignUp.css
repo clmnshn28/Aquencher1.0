@@ -291,7 +291,15 @@ body {
   gap: 5px;
 }
 
-
+/* Success Modal */
+.SuccessModal__container{
+  background: #fff;
+  padding: 35px 30px 45px;
+  border-radius: 7px;
+  width: 450px;
+  max-width: 90%;
+  text-align: center;
+}
 
 @media only screen and (max-width: 767px)  {
    
@@ -458,5 +466,14 @@ body {
     align-items: center;
     gap: 5px;
   }
+
+
+
+  /* success modal */
+  .SuccessModal__container{ 
+    margin: 0 15px;
+    padding: 10px 30px 25px;
+  }
+  
 
 }

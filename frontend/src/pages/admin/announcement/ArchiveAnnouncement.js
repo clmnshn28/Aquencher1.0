@@ -6,6 +6,7 @@ import { IoArrowBackCircle } from "react-icons/io5";
 import axios from 'axios';
 import {API_URL} from 'constants';
 import { format } from 'date-fns';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
 import { ReactivateAnnouncementModal } from "./modals/ReactivateAnnouncementModal";
 
@@ -106,9 +107,19 @@ export const ArchiveAnnouncement = () =>{
                             </td>
                             <td>
                                 <div className="AnnouncementAdmin__actions">
-                                <button className="AnnouncementAdmin__delete" onClick={()=> handleUnarchiveClick(announcement)}>
-                                    <RiInboxUnarchiveFill />
-                                </button>
+                                    <button 
+                                    className="AnnouncementAdmin__delete" 
+                                    onClick={()=> handleUnarchiveClick(announcement)}
+                                    data-tooltip-id="archive-tooltip"
+                                    data-tooltip-content="Unarchive"
+                                    >
+                                        <RiInboxUnarchiveFill />
+                                    </button>
+                                    <ReactTooltip
+                                        id="archive-tooltip"
+                                        place="top"
+                                        className="custom-tooltip" 
+                                    />
                                 </div>
                             </td>
                             </tr>

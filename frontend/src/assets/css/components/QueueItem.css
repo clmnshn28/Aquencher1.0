@@ -84,6 +84,8 @@
 .QueueItem__customer-info img{
     border-radius: 50%;
     width: 43px;
+    height: 43px;
+    object-fit: cover;
 }
 
 .QueueItem__customer-info span{

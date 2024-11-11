@@ -359,3 +359,15 @@
   opacity: 0.8;
 }
 
+
+
+.custom-tooltip {
+  background-color: #e3e3e3 !important;
+  color: #696969 !important;
+  font-size: 11px !important;
+  padding: 4px 12px !important;
+  border-radius: 7px  !important;
+  font-weight: 500 !important;
+  opacity: 100% !important; 
+}
+

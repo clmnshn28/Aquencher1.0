@@ -41,7 +41,9 @@
 }
 
 .RejectedModal__user-avatar{
-    width: 65px;
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
     border-radius: 50%;
     
 }

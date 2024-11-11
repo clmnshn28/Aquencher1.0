@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import PasswordRequirements from "components/PasswordRequirements";
 import TextField from "components/TextField";
+import { SuccessModal } from "components/SuccessModal";
 import axios from 'axios';
 import {API_URL} from 'constants';
 
@@ -15,6 +16,7 @@ export const ChangePasswordAdmin = () =>{
   const [error, setError] = useState('');
   const [currentError, setCurrentError] = useState('');
   const [isAccepting, setIsAccepting] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
 
   const handleCurrentPasswordChange = (e) =>{
     setCurrentPassword(e.target.value);
@@ -73,7 +75,8 @@ export const ChangePasswordAdmin = () =>{
         }
       });
 
-      alert('Password changed successfully');
+      setIsSuccessModalOpen(true);
+
       setCurrentPassword('');
       setNewPassword('');
       setConfirmNewPassword('');
@@ -120,6 +123,13 @@ export const ChangePasswordAdmin = () =>{
           <button className="ChangePasswordAdmin__pass-btn" type="submit" disabled={isAccepting}>Change Password</button>
         </form>
       </div>
+
+      <SuccessModal
+          isOpen={isSuccessModalOpen}
+          onClose={() => setIsSuccessModalOpen(false)}
+          title="Password Change Successful"
+          message="Your password has been changed successfully."
+      />
     </div>
 
   );

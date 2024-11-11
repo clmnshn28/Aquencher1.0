@@ -102,6 +102,8 @@
 
 .ConcernAdmin__Message img{
   width: 25px;
+  height: 25px;
+  object-fit: cover;
 }
 
 .ConcernAdmin__subject{
@@ -198,6 +200,8 @@
 
 .ConcernAdmin__customer-info img{
   width: 45px;
+  height: 45px;
+  object-fit: cover;
   border-radius: 50%;
 }
 
@@ -336,12 +340,16 @@
 
 .ConcernAdmin__reply-info img{
   width: 43px;
+  height: 43px;
+  object-fit: cover;
   border-radius: 50%;
 }
 
 
 .ConcernAdmin__reply-info-section img{
   width: 43px;
+  height: 43px;
+  object-fit: cover;
   border-radius: 50%;
 }
 

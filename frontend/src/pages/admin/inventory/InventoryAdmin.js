@@ -4,8 +4,8 @@ import { MdOutlineEdit } from "react-icons/md";
 import { format } from 'date-fns';
 import axios from 'axios';
 import {API_URL} from 'constants';
+import { Tooltip as ReactTooltip } from 'react-tooltip';
 
-import * as images from 'assets/images';
 import { EditInventoryModal } from "./modals/EditInventoryModal";
 
 export const InventoryAdmin = () =>{
@@ -157,9 +157,19 @@ export const InventoryAdmin = () =>{
                 <div>{format(new Date(inventory.updated_at), 'hh:mm a')}</div>
                 </td>
                 <td>
-                  <button className="InventoryAdmin__edit" onClick={() => handleEditClick(inventory)}>
+                  <button className="InventoryAdmin__edit"
+                   onClick={() => handleEditClick(inventory)}
+                   data-tooltip-id="edit-tooltip"
+                   data-tooltip-content="Edit"
+                   >
                     <MdOutlineEdit/>
                   </button>
+                  <ReactTooltip
+                      id="edit-tooltip"
+                      place="top"
+                      className="custom-tooltip" 
+                  />
+                                            
                 </td>
               </tr>
             ))}
