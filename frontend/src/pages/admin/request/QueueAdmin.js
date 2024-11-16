@@ -17,7 +17,7 @@ import SearchBar from "components/SearchBar";
 import { RejectedModal } from './modals';
 
 export const QueueAdmin = () =>{
-    const { authUserObj, setAuthUserObj } = useAuth(); 
+    const { user, authUserObj, setAuthUserObj } = useAuth(); 
     
     const [queues, setQueues] = useState([]);
     const [activeDropdown, setActiveDropdown] = useState(null);
@@ -323,13 +323,7 @@ export const QueueAdmin = () =>{
         };
     
         const formattedDateTime = getCurrentDateTime();
-        // Date time
-        doc.setFontSize(9);
-        doc.setFont("Helvetica", "normal");
-        doc.setTextColor(195, 195, 195);
-        const dateTimeX = doc.internal.pageSize.getWidth() - 5; 
-        doc.text(`Report Generated On: ${formattedDateTime}`, dateTimeX, 5, { align: 'right' });
-    
+       
         doc.addImage(imgData, 'PNG', 20, 3, 30, 23);
 
         // Report Header
@@ -358,12 +352,24 @@ export const QueueAdmin = () =>{
         doc.addPage();
         createTable('Deliver Requests', sortedDeliverRequests, 20);
 
+        const marginLeft = 10;
+        const marginBottom = doc.internal.pageSize.getHeight() - 5; 
+        const addFooterText = () => {
+            doc.setFontSize(9);
+            doc.setFont("Helvetica", "normal");
+            doc.setTextColor(195, 195, 195);
+            doc.text(`Report Generated On: ${formattedDateTime}`, marginLeft, marginBottom - 8, { align: 'left' });
+            doc.text(`Reported By: ${user.fname} ${user.lname}`, marginLeft, marginBottom - 3, { align: 'left' });
+        };
+
         const pageCount = doc.internal.getNumberOfPages(); // Get total pages
         for (let i = 1; i <= pageCount; i++) { // Start from the second page
             doc.setPage(i); // Set the current page
+            addFooterText();
             doc.setFontSize(11);
+            doc.setTextColor(0, 105, 217);
             doc.setFont("Helvetica", "bold");
-            doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - 18, doc.internal.pageSize.getHeight() - 13, { align: "right" });
+            doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - 15, doc.internal.pageSize.getHeight() - 13, { align: "right" });
         }
         doc.save(`Gallon_Delivery_Requests_${formattedDateTime}.pdf`);
     };

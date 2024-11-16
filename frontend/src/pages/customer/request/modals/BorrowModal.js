@@ -45,7 +45,7 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
     const handleIncrement = (id) => {
         setItems((prevItems) =>
             prevItems.map((item) =>
-                item.id === id && item.quantity < getLimitForItem(id) && item.quantity <= item.availableStock 
+                item.id === id && item.quantity <= getLimitForItem(id) && item.quantity <= item.availableStock 
                     ? { ...item, quantity: item.quantity + 1 } 
                     : item
             )
@@ -65,7 +65,7 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
     const totalPrice = items.reduce((total, item) => total + item.price * item.quantity, 0);
     const totalQuantity = items.reduce((acc, item) => acc + item.quantity, 0);
     const isSubmitDisabled = totalPrice === 0 || items.some(
-        item => item.quantity > 0 && (item.quantity >= getLimitForItem(item.id) || item.quantity > item.availableStock)
+        item => item.quantity > 0 && (item.quantity > getLimitForItem(item.id) || item.quantity > item.availableStock)
     );
     
 
@@ -96,10 +96,10 @@ export const BorrowModal = ({isOpen, onClose, onConfirm, items, setItems}) =>{
                             <button
                                 className="BorrowModal__quantity-btn"
                                 onClick={() => handleIncrement(item.id)}
-                                disabled={item.quantity >= getLimitForItem(item.id) || item.quantity > item.availableStock}
+                                disabled={item.quantity > getLimitForItem(item.id) || item.quantity > item.availableStock}
                             >+</button>
                         </div>
-                        {item.quantity >= getLimitForItem(item.id) ? (
+                        {item.quantity > getLimitForItem(item.id) ? (
                             <div className="BorrowModal__limit">Borrowing limit exceeded.</div>
                         ) : item.quantity > item.availableStock ? (
                             <div className="BorrowModal__limit">Currently out of stock.</div>

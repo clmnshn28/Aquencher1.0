@@ -12,6 +12,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { format } from 'date-fns';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
+import { useAuth } from "context/AuthContext";
 
 import * as images from 'assets/images';
 import {NewUserModal,DeactivationModal} from './modals'; 
@@ -19,6 +20,7 @@ import SearchBar from "components/SearchBar";
 import DropdownFilter from "components/DropdownFilter";
 
 export const UsersAdmin = () => {
+    const {user } = useAuth(); 
 
     const [users, setUsers] = useState([]);
     const [activeDropdown, setActiveDropdown] = useState(null);
@@ -214,13 +216,7 @@ export const UsersAdmin = () => {
             };
         
             const formattedDateTime = getCurrentDateTime();
-            // Date time
-            doc.setFontSize(9);
-            doc.setFont("Helvetica", "normal");
-            doc.setTextColor(195, 195, 195);
-            const dateTimeX = doc.internal.pageSize.getWidth() - 5; 
-            doc.text(`Report Generated On: ${formattedDateTime}`, dateTimeX, 5, { align: 'right' });
-        
+   
             doc.addImage(imgData, 'PNG', 30, 3, 30, 23);
     
             // Report Header
@@ -260,10 +256,22 @@ export const UsersAdmin = () => {
                     },
                 });
     
+                const marginLeft = 15;
+                const marginBottom = doc.internal.pageSize.getHeight() - 5; 
+                const addFooterText = () => {
+                    doc.setFontSize(9);
+                    doc.setFont("Helvetica", "normal");
+                    doc.setTextColor(195, 195, 195);
+                    doc.text(`Report Generated On: ${formattedDateTime}`, marginLeft, marginBottom - 8, { align: 'left' });
+                    doc.text(`Reported By: ${user.fname} ${user.lname}`, marginLeft, marginBottom - 3, { align: 'left' });
+                };
+
                 const pageCount = doc.internal.getNumberOfPages(); // Get total pages
                 for (let i = 1; i <= pageCount; i++) { // Start from the second page
                     doc.setPage(i); // Set the current page
+                    addFooterText();
                     doc.setFontSize(11);
+                    doc.setTextColor(0, 105, 217);
                     doc.setFont("Helvetica", "bold");
                     doc.text(`Page ${i}`, doc.internal.pageSize.getWidth() - 18, doc.internal.pageSize.getHeight() - 13, { align: "right" });
                 }
