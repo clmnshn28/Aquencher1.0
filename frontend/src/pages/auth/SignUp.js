@@ -5,8 +5,7 @@ import * as images from 'assets/images';
 import PasswordRequirements from 'components/PasswordRequirements';
 import axios from 'axios';
 import {API_URL} from 'constants';
-import { TermsAndCondition } from './modals';
-import { SuccessModal } from 'components/SuccessModal';
+import { TermsAndCondition, SuccessModal } from './modals';
 
 export const SignUp = () =>{
   const navigate = useNavigate(); 

@@ -5,7 +5,6 @@
   import axios from 'axios';
   import {API_URL} from 'constants';
   import { format } from 'date-fns';
-  import { useAuth } from "context/AuthContext";
 
   import * as images from 'assets/images';
   import DropdownFilter from 'components/DropdownFilter';
@@ -14,7 +13,6 @@
   import { RejectedModal, InsufficientModal } from './modals';
  
   export const RequestsAdmin = () =>{
-    const { authUserObj, setAuthUserObj } = useAuth(); 
 
     const [requests, setRequests] = useState([]);
     const [activeDropdown, setActiveDropdown] = useState(null);
@@ -29,7 +27,7 @@
 
     useEffect(()=>{
       if (!initialFetchDone.current) {
-        if (authUserObj.products.length === 0) fetchProduct();
+        fetchProduct();
         fetchGallonsRequest();
         initialFetchDone.current = true;
       }
@@ -43,10 +41,6 @@
           'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` 
           }
         });
-        setAuthUserObj(prevState => ({
-          ...prevState,
-          products: responseProduct
-        }));
 
         setProducts(responseProduct.data.data); 
 

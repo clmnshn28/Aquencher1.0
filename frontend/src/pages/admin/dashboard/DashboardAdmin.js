@@ -6,10 +6,8 @@ import axios from 'axios';
 import {API_URL} from 'constants';
 import * as images from 'assets/images';
 import { StockInfo } from "components/StockInfo";
-import { useAuth } from "context/AuthContext";
 
 export const DashboardAdmin = () => {
-  const { authUserObj, setAuthUserObj } = useAuth(); 
 
   const [currentTime, setCurrentTime] = useState('');
   const [currentDate, setCurrentDate] = useState('');
@@ -17,7 +15,7 @@ export const DashboardAdmin = () => {
   
   useEffect(() => {
     if (!initialFetchDone.current) {
-      if (authUserObj.products.length === 0) fetchProducts();
+      fetchProducts();
       fetchDashboardData();
       initialFetchDone.current = true;
     }
@@ -63,10 +61,6 @@ export const DashboardAdmin = () => {
           const blueSlim = products.find(product => product.id === 1);
           const roundGallon = products.find(product => product.id === 2);
 
-          setAuthUserObj(prevState => ({
-            ...prevState,
-            products: products
-          }));
 
           setAvailableStock({
             slim: blueSlim ? blueSlim.available_stock : 0,
