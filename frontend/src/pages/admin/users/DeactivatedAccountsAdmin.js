@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from "react";
 import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import { ImLoop } from "react-icons/im";
+import { IoIosArrowRoundBack, IoIosArrowRoundForward  } from "react-icons/io";
 import 'assets/css/admin';
 import axios from 'axios';
 import {API_URL} from 'constants';
@@ -26,6 +27,8 @@ export const DeactivatedAccountsAdmin = () =>{
         reason: '',
     });
     const initialFetchDone = useRef(false);
+    const ITEMS_PER_PAGE = 20;
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(()=>{
         if (!initialFetchDone.current) {
@@ -48,6 +51,17 @@ export const DeactivatedAccountsAdmin = () =>{
         }
     }; 
     
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const paginatedUsers = filteredUsers.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+
+    const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
 
      // clear
      const handleClearFilters = () => {
@@ -184,12 +198,12 @@ export const DeactivatedAccountsAdmin = () =>{
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredUsers.length === 0 ? (
+                        {paginatedUsers.length === 0 ? (
                             <tr>
                                 <td colSpan={8} style={{textAlign: 'center', color: 'rgba(67, 65, 65, 0.5)'}}> No Deactivated Accounts</td>
                             </tr>
                         ) : (
-                            filteredUsers.map((user) =>{
+                            paginatedUsers.map((user) =>{
                                 const deactivationInfo = user.deactivation_info ? JSON.parse(user.deactivation_info) : {};
                                 return (
                                     <tr key={user.id}>
@@ -219,6 +233,27 @@ export const DeactivatedAccountsAdmin = () =>{
                         )}
                     </tbody>
                 </table>
+                {filteredUsers.length > ITEMS_PER_PAGE && (
+                    <div className="Transaction__pagination">
+                        <button 
+                            className="pagination-arrow" 
+                            disabled={currentPage === 1} 
+                            onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                            <IoIosArrowRoundBack  className="pagination-arrow-icon"/>
+                        </button>
+                        <span className="pagination-number">
+                            {currentPage} of {totalPages}
+                        </span>
+                        <button 
+                            className="pagination-arrow" 
+                            disabled={currentPage === totalPages} 
+                            onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                        <IoIosArrowRoundForward className="pagination-arrow-icon"/>
+                        </button>
+                    </div>
+                )}
             </div>
             {selectedUser && (
             <ReactivationModal

@@ -9,6 +9,7 @@ import Modal from "components/Modal";
 import TextField from "components/TextField";
 import CustomDropdown from "components/CustomDropdown";
 import TextArea from "components/TextArea";
+import { TypeConcernModal } from "./TypeConcernModal";
 
 export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
 
@@ -35,6 +36,7 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
     const [imageFiles, setImageFiles] = useState([]); 
     const [imageError, setImageError] = useState('');
     const [isAccepting, setIsAccepting] = useState(false);
+    const [isTypeConcernModalOpen, setIsTypeConcernModalOpen] = useState(false);
 
     const handleCancelShare = () => {
         setSubject('');
@@ -50,7 +52,8 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
         setIsAccepting(true); 
 
         if (!type) {
-            alert("Please select a type for your concern."); // You can replace this with a more elegant solution if needed
+           setIsTypeConcernModalOpen(true);
+            setIsAccepting(false);
             return;
         }
 
@@ -192,13 +195,23 @@ export const NewConcernModal = ({isOpen, onClose, onConfirm}) =>{
             </form>   
         </div>
     );
-    return isMobile ? (
-        <div className="NewConcernModal__not-modal">
-            {content}
-        </div>
-    ) : (
-        <Modal>
-            {content}
-        </Modal>
+    return (
+        <>
+            {isMobile ? (
+                <div className="NewConcernModal__not-modal">
+                    {content}
+                </div>
+            ) : (
+                <Modal>
+                    {content}
+                </Modal>
+            )}
+
+            {/* TypeConcernModal (Replaces Alert) */}
+            <TypeConcernModal
+                isOpen={isTypeConcernModalOpen}
+                onClose={() => setIsTypeConcernModalOpen(false)}
+            />
+        </>
     );
 };

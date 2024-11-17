@@ -4,8 +4,11 @@ import axios from 'axios';
 import {API_URL} from 'constants';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
+import Pusher from 'pusher-js';
+import { useAuth } from "context/AuthContext";
 
 export const Notification = () =>{
+    const { user } = useAuth(); 
 
     const [notifications, setNotifications] = useState([]);
     const initialFetchDone = useRef(false);
@@ -16,6 +19,30 @@ export const Notification = () =>{
             fetchNotifications();
             initialFetchDone.current = true;
         }
+
+        // Initialize Pusher
+        const pusher = new Pusher('2943d7a33567caa26551', {
+            cluster: 'ap3',
+            encrypted: true,
+            auth: {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
+                },
+              },
+        });
+
+        // Subscribe to the notification channel
+        const channel = pusher.subscribe(`customer.${user.id}.notifications`);
+
+        // Listen for the 'new-notification' event
+        channel.bind('my-event', (data) => {
+            setNotifications((prevNotifications) => [data.notification, ...prevNotifications]);
+        });
+
+        return () => {
+            // Unsubscribe from the channel when the component unmounts
+            pusher.unsubscribe(`customer.${user.id}.notifications`);
+        };
     }, []);
 
     const fetchNotifications = async () => {

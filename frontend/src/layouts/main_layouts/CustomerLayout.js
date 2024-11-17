@@ -8,10 +8,11 @@ import { RxGear } from "react-icons/rx";
 import axios from 'axios';
 import {API_URL} from 'constants';
 import { formatDistanceToNow, parseISO } from 'date-fns';
+import Pusher from 'pusher-js';
 
 export const CustomerLayout = () =>{
   const navigate = useNavigate();
-  const { signOut, authUserObj, setAuthUserObj  } = useAuth(); 
+  const { signOut, authUserObj, setAuthUserObj, user  } = useAuth(); 
   
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -57,6 +58,7 @@ export const CustomerLayout = () =>{
 
   const toggleNotifications = () => {
     setNotificationsVisible(!notificationsVisible);
+    fetchNotifications();
   };
 
 
@@ -86,6 +88,35 @@ export const CustomerLayout = () =>{
   const location = useLocation();
   const [highlightedTab, setHighlightedTab] = useState('');
   const initialFetchDone = useRef(false);
+
+  
+  useEffect(()=>{
+
+    // Initialize Pusher
+    const pusher = new Pusher('2943d7a33567caa26551', {
+      cluster: 'ap3',
+      encrypted: true,
+      auth: {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
+        },
+      },
+    });
+
+    // Subscribe to the notification channel
+    const channel = pusher.subscribe(`customer.${user.id}.notifications`);
+
+    // Listen for the 'new-notification' event
+    channel.bind('my-event', (data) => {
+      setNotifications((prevNotifications) => [data.notification, ...prevNotifications]);
+    });
+
+    return () => {
+      // Unsubscribe from the channel when the component unmounts
+      pusher.unsubscribe(`customer.${user.id}.notifications`);
+    };
+  },[]);
+
 
   useEffect(() => {
     const currentPath = location.pathname;
@@ -135,7 +166,7 @@ export const CustomerLayout = () =>{
   }, [sidebarOpenMobile]);
 
 // for user fetch and picture
-  const [user, setUser] = useState({});
+  const [users, setUser] = useState({});
   const [profilePic, setProfilePic] = useState(images.defaultAvatar); 
 
 
@@ -174,15 +205,13 @@ export const CustomerLayout = () =>{
             return new Date(b.updated_at) - new Date(a.updated_at);
         });
 
-      
-        const limitedNotifications = sortedNotifications.slice(0, 4);
 
         setAuthUserObj(prevState => ({
           ...prevState,
-          notifications: limitedNotifications
+          notifications: sortedNotifications
         }));
 
-        setNotifications(limitedNotifications);
+        setNotifications(sortedNotifications);
     } catch (error) {
         console.error('Error fetching notifications:', error);
     }
@@ -210,7 +239,7 @@ export const CustomerLayout = () =>{
         }
 
         navigate(route);
-
+        setNotificationsVisible(false);
     } catch (error) {
         console.error('Error marking notification as read:', error);
         setNotifications(notifications.map((n) =>
@@ -245,41 +274,48 @@ export const CustomerLayout = () =>{
             <img className="CustomerLayout__Notification" src={images.notificationClose} alt="Notification"  onClick={toggleNotifications}  />
             {notifications.some(notification => !notification.is_read) && <div className="Layout_blue-circle"></div>}
             {notificationsVisible && (
-              <div className="CustomerLayout__notifications-view">
-                <div className="CustomerLayout__notifications-header">
-                  <p className="CustomerLayout__notification-title-header">Notifications</p>
-                  <Link to="notifications" className="CustomerLayout__see-all-button" onClick={handleSeeAllClick}>See all</Link>
-                </div>
-                {notifications.length === 0 ? (
-                  <p className="no-notifications-message">No notifications available.</p>
-                ) : (
-                    <>
-                    <p className="CustomerLayout__notification-earlier-header">Earlier</p>
-                    {notifications.map((notification, index) => (
-                      <div key={index} className="Notification__border-bottom">
-                        <div className={`CustomerLayout__notification-details-header ${notification.is_read ? '' : 'CustomerLayout__new-notification'}`} onClick={() => handleNotificationClick(notification)}>
-                          <p className="CustomerLayout__notification-subject-header">{notification.subject}</p>
-                          <p className="CustomerLayout__notification-description-header">{notification.description}</p>
-                          <p className="CustomerLayout__notification-time-header">{formatTimeAgo(notification.updated_at)}</p>
-                          {notification.is_read ? '' : <div className="CustomerLayout__blue-circle"></div>}
+              <>
+                <div className={`CustomerLayout__notif-backdrop ${notificationsVisible ? 'visible' : ''}`} ></div>
+              
+                <div className="CustomerLayout__notifications-view">
+                  <div className="CustomerLayout__notifications-header">
+                    <p className="CustomerLayout__notification-title-header">Notifications</p>
+                    <Link to="notifications" className="CustomerLayout__see-all-button" onClick={handleSeeAllClick}>See all</Link>
+                  </div>
+                  {notifications.length === 0 ? (
+                    <p className="no-notifications-message">No notifications available.</p>
+                  ) : (
+                      <>
+                      <p className="CustomerLayout__notification-earlier-header">Earlier</p>
+                      {notifications.map((notification, index) => (
+                        <div key={index} className="Notification__border-bottom">
+                          <div className={`CustomerLayout__notification-details-header ${notification.is_read ? '' : 'CustomerLayout__new-notification'}`} onClick={() => handleNotificationClick(notification)}>
+                            <p className="CustomerLayout__notification-subject-header">{notification.subject}</p>
+                            <p className="CustomerLayout__notification-description-header">{notification.description}</p>
+                            <p className="CustomerLayout__notification-time-header">{formatTimeAgo(notification.updated_at)}</p>
+                            {notification.is_read ? '' : <div className="CustomerLayout__blue-circle"></div>}
+                          </div>
                         </div>
-                      </div>
-                    ))}
-                    </>
-                )}
-              </div>
+                      ))}
+                      </>
+                  )}
+                </div>
+              </>
             )}
           </div>
 
           <div className="CustomerLayout__user-profile-container" onClick={toggleDropdown}>
             <img className="CustomerLayout__profile" src={profilePic} alt="Profile" />
-            <span className="CustomerLayout__name">{user.fname}</span>
+            <span className="CustomerLayout__name">{users.fname}</span>
             <img className="CustomerLayout__dropArrow" src={images.dropArrow} alt="drop Arrow" />
             {dropdownVisible && (
+              <>
+                <div className={`CustomerLayout__notif-backdrop ${dropdownVisible ? 'visible' : ''}`} ></div>
+              
                 <div  className="CustomerLayout__profile-dropdown">
                   <Link className="CustomerLayout__link">
                     <img className="CustomerLayout__image-dropdown" src={profilePic} alt="Account Profile" />
-                    <span className="CustomerLayout__profile-name">{user.fname}</span>
+                    <span className="CustomerLayout__profile-name">{users.fname}</span>
                   </Link>
                   <Link to="account-settings/my-profile" onClick={handleAccountSettingsClick} >
                     <img className="CustomerLayout__setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
@@ -290,6 +326,7 @@ export const CustomerLayout = () =>{
                     Logout
                   </Link>
                 </div>
+              </>
               )}
           </div>
 

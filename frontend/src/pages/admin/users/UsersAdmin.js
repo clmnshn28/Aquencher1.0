@@ -5,6 +5,7 @@ import { IoFilterSharp } from 'react-icons/io5';
 import { FaPhoneAlt, FaUserEdit, FaFilePdf} from "react-icons/fa";
 import { BsPersonFillSlash } from "react-icons/bs";
 import { PiMapPinAreaDuotone } from "react-icons/pi";
+import { IoIosArrowRoundBack, IoIosArrowRoundForward  } from "react-icons/io";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {API_URL} from 'constants';
@@ -32,6 +33,8 @@ export const UsersAdmin = () => {
     const [filters, setFilters] = useState({status: ''});
     const [selectedUser, setSelectedUser] = useState(null);
     const initialFetchDone = useRef(false);
+    const ITEMS_PER_PAGE = 20;
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(()=>{
         if (!initialFetchDone.current) {
@@ -53,6 +56,17 @@ export const UsersAdmin = () => {
             console.error('Error fetching users', error);
         }
     }; 
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const paginatedUsers = filteredUsers.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+
+    const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
     
     // clear
     const handleClearFilters = () => {
@@ -339,14 +353,14 @@ export const UsersAdmin = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredUsers.length === 0 ? (
+                        {paginatedUsers.length === 0 ? (
                             <tr>
                                 <td colSpan="8" style={{textAlign: 'center', color: 'rgba(67, 65, 65, 0.5)'}}>
                                     No users found
                                 </td>
                             </tr>
                         ):(
-                            filteredUsers.map((user) =>{
+                            paginatedUsers.map((user) =>{
                                 const { slim, round } = calculateTotalGallons(user.inactive_gallons);
                            
                                 return (
@@ -438,6 +452,27 @@ export const UsersAdmin = () => {
                         )}
                     </tbody>
                 </table>
+                {filteredUsers.length > ITEMS_PER_PAGE && (
+                    <div className="Transaction__pagination">
+                        <button 
+                            className="pagination-arrow" 
+                            disabled={currentPage === 1} 
+                            onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                            <IoIosArrowRoundBack  className="pagination-arrow-icon"/>
+                        </button>
+                        <span className="pagination-number">
+                            {currentPage} of {totalPages}
+                        </span>
+                        <button 
+                            className="pagination-arrow" 
+                            disabled={currentPage === totalPages} 
+                            onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                        <IoIosArrowRoundForward className="pagination-arrow-icon"/>
+                        </button>
+                    </div>
+                )}
             </div>
             {/* NewUserModal component */}
             <NewUserModal

@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { IoFilterSharp } from 'react-icons/io5';
 import {FaFilePdf} from "react-icons/fa";
+import { IoIosArrowRoundBack, IoIosArrowRoundForward  } from "react-icons/io";
 import 'assets/css/admin';
 import axios from 'axios';
 import {API_URL} from 'constants';
@@ -23,6 +24,8 @@ export const CompletedAdmin = () =>{
     const [searchQuery, setSearchQuery] = useState("");
     const [filteredRequests, setFilteredRequests] = useState([]);
     const initialFetchDone = useRef(false);
+    const ITEMS_PER_PAGE = 10;
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(()=>{
         if (!initialFetchDone.current) {
@@ -73,6 +76,18 @@ export const CompletedAdmin = () =>{
         }
     };
   
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const paginatedCompletedRequests = filteredRequests.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+
+    const totalPages = Math.ceil(filteredRequests.length / ITEMS_PER_PAGE);
+
+
     const [filters, setFilters] = useState({
         requestType: '',
         gallonType: '',
@@ -303,12 +318,12 @@ export const CompletedAdmin = () =>{
             </div>
 
             <div className="CompletedAdmin__container">
-                {filteredRequests.length === 0 ? (
+                {paginatedCompletedRequests.length === 0 ? (
                     <div className="RequestsAdmin__not-found">
                         <span>No completed requests </span>
                     </div>
                 ) : (
-                    filteredRequests.map((request) =>(
+                    paginatedCompletedRequests.map((request) =>(
                         <RequestItem
                             key={request.gallon_delivery_id}
                             name={`${request.fname} ${request.lname}`}
@@ -325,6 +340,28 @@ export const CompletedAdmin = () =>{
                     ))
                 )}
             </div>
+
+            {filteredRequests.length > ITEMS_PER_PAGE && (
+                <div className="Transaction__pagination">
+                    <button 
+                        className="pagination-arrow" 
+                        disabled={currentPage === 1} 
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                        <IoIosArrowRoundBack  className="pagination-arrow-icon"/>
+                    </button>
+                    <span className="pagination-number">
+                        {currentPage} of {totalPages}
+                    </span>
+                    <button 
+                        className="pagination-arrow" 
+                        disabled={currentPage === totalPages} 
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                    <IoIosArrowRoundForward className="pagination-arrow-icon"/>
+                    </button>
+                </div>
+            )}
 
 
         </>

@@ -116,7 +116,45 @@
 }
 
 
+/* pagination */
+.Transaction__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
 
+.pagination-arrow {
+    background-color: #d4eaff;
+    border: 2px solid #1c99ff;
+    padding: 3px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pagination-arrow-icon{
+    width: 25px;
+    height: 25px;
+    min-width: 25px;
+    min-height: 25px;
+    color: #0174CF;
+}
+
+.pagination-arrow:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.pagination-number {
+    font-size: 16px;
+    font-weight: bold;
+    color: #0174CF;
+}
 
 
 
@@ -213,5 +251,45 @@
         display: block;
     }
   
+    .RequestsAdmin__clear-filters-button{
+        font-size: 9px;
+
+    }
+
     
+    /* pagination */
+    .Transaction__pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin: 10px 0;
+    }
+
+    .pagination-arrow {
+        background-color: #d4eaff;
+        border: 2px solid #1c99ff;
+        padding: 1px 8px;
+        cursor: pointer;
+        border-radius: 4px;
+        color: #333;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pagination-arrow-icon{
+        width: 18px;
+        height: 18px;
+        min-width: 18px;
+        min-height: 18px;
+        color: #0174CF;
+    }
+
+
+    .pagination-number {
+        font-size: 13px;
+        font-weight: bold;
+        color: #0174CF;
+    }
 }

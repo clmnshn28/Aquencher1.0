@@ -214,7 +214,7 @@ export const Dashboard = () =>{
         
             <div className="Dashboard__second-content">
                 <div className="Dashboard__returned-section">
-                    <h4> 
+                    <h4 onClick={()=> fetchAnnouncement()}> 
                         <RiMegaphoneLine className="Dashboard__announcement-icon" />
                         Admin Announcements
                     </h4>

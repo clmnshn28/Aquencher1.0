@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef  } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { RiInboxUnarchiveFill } from "react-icons/ri";
 import { IoArrowBackCircle } from "react-icons/io5";
+import { IoIosArrowRoundBack, IoIosArrowRoundForward  } from "react-icons/io";
 import axios from 'axios';
 import {API_URL} from 'constants';
 import { format } from 'date-fns';
@@ -17,6 +18,20 @@ export const ArchiveAnnouncement = () =>{
     const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
     const [isAccepting, setIsAccepting] = useState(false);
     const initialFetchDone = useRef(false);
+    const ITEMS_PER_PAGE = 10;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const paginatedAnnouncement = archivedAnnouncements.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+
+    const totalPages = Math.ceil(archivedAnnouncements.length / ITEMS_PER_PAGE);
+
 
     useEffect(() => {
         if (!initialFetchDone.current) {
@@ -87,7 +102,7 @@ export const ArchiveAnnouncement = () =>{
                         </tr>
                     </thead>
                     <tbody>
-                        {archivedAnnouncements.length === 0 ? (
+                        {paginatedAnnouncement.length === 0 ? (
                         <tr>
                             <td colSpan="3">
                             <div className="AnnouncementAdmin__no-announcements">
@@ -96,7 +111,7 @@ export const ArchiveAnnouncement = () =>{
                             </td>
                         </tr>
                         ) : (
-                            archivedAnnouncements.map((announcement) =>  (
+                            paginatedAnnouncement.map((announcement) =>  (
                             <tr key={announcement.id} >
                             <td>{announcement.time}<br />{announcement.date}</td>
                             <td>
@@ -127,6 +142,27 @@ export const ArchiveAnnouncement = () =>{
                         )}
                     </tbody>
                 </table>
+                {archivedAnnouncements.length > ITEMS_PER_PAGE && (
+                    <div className="Transaction__pagination">
+                        <button 
+                            className="pagination-arrow" 
+                            disabled={currentPage === 1} 
+                            onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                            <IoIosArrowRoundBack  className="pagination-arrow-icon"/>
+                        </button>
+                        <span className="pagination-number">
+                            {currentPage} of {totalPages}
+                        </span>
+                        <button 
+                            className="pagination-arrow" 
+                            disabled={currentPage === totalPages} 
+                            onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                        <IoIosArrowRoundForward className="pagination-arrow-icon"/>
+                        </button>
+                    </div>
+                )}
             </div>
 
             <ReactivateAnnouncementModal

@@ -368,6 +368,14 @@
   padding: 4px 12px !important;
   border-radius: 7px  !important;
   font-weight: 500 !important;
-  opacity: 100% !important; 
+  opacity: 0; 
+  transform: translateY(3px);
+  transition: opacity 0.3s ease, transform 0.3s ease; 
+  pointer-events: none;
 }
 
+.custom-tooltip.show {
+  opacity: 1; 
+  transform: translateY(0); 
+  pointer-events: auto; 
+}
