@@ -76,11 +76,33 @@ body {
   top: 75%;
   right: 13px;
   width: 350px;
+  height: 550px;
   background-color: #fff;
   border-radius: 5px;
   border: 1px solid #ccc;
   padding: 15px;
   z-index: 1000;
+  overflow-y: auto;
+}
+
+/* Scrollbar customization */
+.notifications-view::-webkit-scrollbar {
+  width: 7px;
+}
+
+.notifications-view::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.notifications-view::-webkit-scrollbar-thumb {
+  background: #cdcdcd;
+  border-radius: 10px;
+}
+
+.notifications-view::-webkit-scrollbar-thumb:hover {
+  background: #a7a6a6;
+  cursor: pointer;
 }
 
 .notification-title-header{

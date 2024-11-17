@@ -12,7 +12,7 @@ import * as images from 'assets/images';
 import SearchBar from 'components/SearchBar';
 import DropdownFilter from 'components/DropdownFilter';
 import { TransactionDetailsModal } from "./modals/TransactionDetailsModal";
-
+import { IoIosArrowRoundBack, IoIosArrowRoundForward  } from "react-icons/io";
 
 export const TransactionAdmin = () => {
   const {user } = useAuth(); 
@@ -24,6 +24,8 @@ export const TransactionAdmin = () => {
   const initialFetchDone = useRef(false);
   const [openTransactionModal, isOpenTransactionModal] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const ITEMS_PER_PAGE = 15;
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(()=>{
     if (!initialFetchDone.current) {
@@ -86,6 +88,18 @@ export const TransactionAdmin = () => {
     if (value === 'Completed') return '#169D00';
     return '#898988';
   }
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const paginatedTransactions = filteredTransactions.slice(
+      (currentPage - 1) * ITEMS_PER_PAGE,
+      currentPage * ITEMS_PER_PAGE
+  );
+
+  const totalPages = Math.ceil(filteredTransactions.length / ITEMS_PER_PAGE);
+
 
   const [filters, setFilters] = useState({
     requestType: '',
@@ -346,7 +360,7 @@ export const TransactionAdmin = () => {
             </tr>
           </thead>
           <tbody>
-          {filteredTransactions.length === 0 ? (
+          {paginatedTransactions.length === 0 ? (
               <tr>
                 <td colSpan="5" style={{ textAlign: 'center' }}>
                   <span className="TransactionAdmin__not-found">
@@ -355,7 +369,7 @@ export const TransactionAdmin = () => {
                 </td>
               </tr>
             ) :
-              ( filteredTransactions.map((transaction) => (
+              ( paginatedTransactions.map((transaction) => (
                 <tr key={transaction.gallon_delivery_id} onClick={()=> openModal(transaction)}>
                   <td  style={{paddingLeft: '40px'}}>
                     <div className='TransactionAdmin__date-time'>
@@ -387,6 +401,28 @@ export const TransactionAdmin = () => {
               )))}
           </tbody>
         </table>
+        {filteredTransactions.length > ITEMS_PER_PAGE && (
+          <div className="Transaction__pagination">
+              <button 
+                  className="pagination-arrow" 
+                  disabled={currentPage === 1} 
+                  onClick={() => handlePageChange(currentPage - 1)}
+              >
+                  <IoIosArrowRoundBack  className="pagination-arrow-icon"/>
+              </button>
+              <span className="pagination-number">
+                  {currentPage} of {totalPages}
+              </span>
+              <button 
+                  className="pagination-arrow" 
+                  disabled={currentPage === totalPages} 
+                  onClick={() => handlePageChange(currentPage + 1)}
+              >
+              <IoIosArrowRoundForward className="pagination-arrow-icon"/>
+              </button>
+          </div>
+        )}
+
       </div>
       <TransactionDetailsModal
           isOpen={openTransactionModal}

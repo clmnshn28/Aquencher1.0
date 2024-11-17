@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef  } from 'react';
 import { Link } from 'react-router-dom'; 
 import axios from 'axios';
 import {API_URL} from 'constants';
+import Pusher from 'pusher-js';
 
 export const NotificationAdmin = () => {
 
@@ -14,6 +15,30 @@ export const NotificationAdmin = () => {
       fetchNotificationData();
       initialFetchDone.current = true;
     }
+
+    // Initialize Pusher
+    const pusher = new Pusher('2943d7a33567caa26551', {
+      cluster: 'ap3',
+      encrypted: true,
+      auth: {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
+        },
+      },
+    });
+
+    // Subscribe to the notification channel
+    const channel = pusher.subscribe('admin-notifications');
+
+    // Listen for the 'new-notification' event
+    channel.bind('my-event', () => {
+      fetchNotificationData();
+    });
+
+    return () => {
+      // Unsubscribe from the channel when the component unmounts
+      pusher.unsubscribe('admin-notifications');
+    };
   }, []);
   
   const fetchNotificationData = async () => {

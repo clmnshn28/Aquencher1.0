@@ -44,7 +44,7 @@ export const ConcernItem = ({fname, lname,requestType, subject, message, time, i
             <div className="ConcernAdmin__time">
             {hasReply && <span className="ConcernAdmin__resolved-text"> <FaRegCircleCheck />Resolved</span>}
             <span className={`Dashboard__new-indicator ${isNew ? '' : 'Dashboard__unread-new'}`}>New</span>
-                {formatTimeDisplay(time)}
+                <span className="ConcernAdmin__time-number">{formatTimeDisplay(time)}</span>
             </div>
         </div>
     );

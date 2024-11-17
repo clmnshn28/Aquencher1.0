@@ -207,6 +207,7 @@
 
 .SubmittedModal__message{
     font-size: 15px;
+    font-weight: 500;
     line-height: 1.7;
     color: #7b7b7b;
 }

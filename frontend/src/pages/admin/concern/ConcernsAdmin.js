@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef  } from 'react';
 import { IoFilterSharp} from 'react-icons/io5';
+import { IoIosArrowRoundBack, IoIosArrowRoundForward  } from "react-icons/io";
 import "assets/css/admin"
 import axios from 'axios';
 import {API_URL} from 'constants';
@@ -20,6 +21,8 @@ export const ConcernsAdmin = () =>{
   const [selectedConcern, setSelectedConcern] = useState(null); 
   const [isAccepting, setIsAccepting] = useState(false);
   const initialFetchDone = useRef(false);
+  const ITEMS_PER_PAGE = 10;
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(()=>{
     if (!initialFetchDone.current) {  
@@ -37,7 +40,7 @@ export const ConcernsAdmin = () =>{
     });
 
     const concernWithUpdatedDateTime = response.data.data.map((concern) => {
-        const updatedAt = new Date(concern.updated_at);
+        const updatedAt = new Date(concern.created_at);
         const hasReply = concern.replies && concern.replies.length > 0; 
         const customerDetails = {
           id: concern.customer.id,
@@ -68,6 +71,17 @@ export const ConcernsAdmin = () =>{
       console.error('Error fetching concerns:', error);
     }
 };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const paginatedConcerns = filteredConcerns.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  const totalPages = Math.ceil(filteredConcerns.length / ITEMS_PER_PAGE);
 
 
   const [filters, setFilters] = useState({
@@ -193,14 +207,14 @@ const handleFilterChange = (name, value) => {
           </div>
 
           <div className="ConcernAdmin__container">
-            {filteredConcerns.length === 0 ? (
+            {paginatedConcerns.length === 0 ? (
               searchQuery || filters.concernType ? (
                 <div className="ConcernAdmin__item-not-found">No concerns found</div>
               ) : (
                 <div className="ConcernAdmin__item-available">No concerns available</div>
               )
             ) : (
-              filteredConcerns.map((concern) => (
+              paginatedConcerns.map((concern) => (
                 <ConcernItem
                   key={concern.id}
                   fname={concern.customer.fname}
@@ -218,6 +232,27 @@ const handleFilterChange = (name, value) => {
               ))
             )}
           </div>
+          {filteredConcerns.length > ITEMS_PER_PAGE && (
+            <div className="Transaction__pagination">
+                <button 
+                    className="pagination-arrow" 
+                    disabled={currentPage === 1} 
+                    onClick={() => handlePageChange(currentPage - 1)}
+                >
+                    <IoIosArrowRoundBack  className="pagination-arrow-icon"/>
+                </button>
+                <span className="pagination-number">
+                    {currentPage} of {totalPages}
+                </span>
+                <button 
+                    className="pagination-arrow" 
+                    disabled={currentPage === totalPages} 
+                    onClick={() => handlePageChange(currentPage + 1)}
+                >
+                <IoIosArrowRoundForward className="pagination-arrow-icon"/>
+                </button>
+            </div>
+          )}
         </>
       ) : (
         <>

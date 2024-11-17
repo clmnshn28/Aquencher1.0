@@ -3,19 +3,22 @@ import 'assets/css/customer';
 import axios from 'axios';
 import {API_URL} from 'constants';
 import { format } from 'date-fns';
+import { IoIosArrowRoundBack, IoIosArrowRoundForward  } from "react-icons/io";
 
 import DropdownFilter from 'components/DropdownFilter';
 import { TransactionDetailsModal } from "./modals/TransactionDetailsModal";
 
 
 export const Transaction = () =>{
-    
+
     const [transactionLogs, setTransactionLogs] = useState([]);
     const [activeDropdown, setActiveDropdown] = useState(null);
     const [filteredTransactions, setFilteredTransactions] = useState([]);
     const initialFetchDone = useRef(false);
     const [openTransactionModal, isOpenTransactionModal] = useState(false);
     const [selectedTransaction, setSelectedTransaction] = useState(null);
+    const ITEMS_PER_PAGE = 10;
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(()=>{
         if (!initialFetchDone.current) {
@@ -95,6 +98,18 @@ export const Transaction = () =>{
         return '#898988';
     }
     
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const paginatedTransactions = filteredTransactions.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+
+    const totalPages = Math.ceil(filteredTransactions.length / ITEMS_PER_PAGE);
+
+
     const [filters, setFilters] = useState({
         requestType: '',
         gallonType: '',
@@ -228,7 +243,7 @@ export const Transaction = () =>{
                                 </span>
                             </td>
                         </tr>
-                    ) : filteredTransactions.length === 0 ? (
+                    ) : paginatedTransactions.length === 0 ? (
                         <tr>
                             <td colSpan="5" style={{ textAlign: 'center' }}>
                             <span className="Transaction__not-found">
@@ -237,7 +252,7 @@ export const Transaction = () =>{
                             </td>
                         </tr>
                         ) :
-                        ( filteredTransactions.map((transaction) => (
+                        ( paginatedTransactions.map((transaction) => (
                             <tr key={transaction.gallon_delivery_id} onClick={()=> openModal(transaction)}>
                                 <td>
                                     <div className='Transaction__date-time'>
@@ -264,6 +279,27 @@ export const Transaction = () =>{
                         )))}
                     </tbody>
                 </table>
+                {filteredTransactions.length > ITEMS_PER_PAGE && (
+                    <div className="Transaction__pagination">
+                        <button 
+                            className="pagination-arrow" 
+                            disabled={currentPage === 1} 
+                            onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                            <IoIosArrowRoundBack  className="pagination-arrow-icon"/>
+                        </button>
+                        <span className="pagination-number">
+                            {currentPage} of {totalPages}
+                        </span>
+                        <button 
+                            className="pagination-arrow" 
+                            disabled={currentPage === totalPages} 
+                            onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                        <IoIosArrowRoundForward className="pagination-arrow-icon"/>
+                        </button>
+                    </div>
+                )}
             </div>
             
             <TransactionDetailsModal

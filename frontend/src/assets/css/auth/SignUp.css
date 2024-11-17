@@ -304,6 +304,7 @@ body {
 .SubmittedModal__messages{
   font-size: 15px;
   line-height: 1.7;
+  font-weight: 500;
   color: #7b7b7b;
   margin: 0 0 30px;
 }

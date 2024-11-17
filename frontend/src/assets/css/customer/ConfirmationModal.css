@@ -227,7 +227,8 @@
 
 
     .AddressPromptModal__cancel{
-        padding: 7px 25px;
+        padding: 6px 24px;
+        margin-top: 10px;
         font-size: 12px;
     }
 

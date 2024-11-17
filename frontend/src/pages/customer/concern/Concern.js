@@ -1,5 +1,6 @@
 import React,{useState, useEffect, useRef } from "react";
 import { BiSolidMessage } from "react-icons/bi";
+import { IoIosArrowRoundBack, IoIosArrowRoundForward  } from "react-icons/io";
 import 'assets/css/customer';
 import axios from 'axios';
 import {API_URL} from 'constants';
@@ -14,6 +15,8 @@ export const Concern = () =>{
     const [isSharing, setIsSharing] = useState(false); 
     const [isSubmitted, setIsSubmitted] = useState(false); 
     const initialFetchDone = useRef(false);
+    const ITEMS_PER_PAGE = 10;
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(()=>{
         if (!initialFetchDone.current) {
@@ -41,7 +44,7 @@ export const Concern = () =>{
 
 
         const concernWithUpdatedDateTime = data.concerns.map((concern) => {
-            const updatedAt = new Date(concern.updated_at);
+            const updatedAt = new Date(concern.created_at);
             const hasReply = concern.replies && concern.replies.length > 0; 
             const adminDetails = {
                 id: concern.admin.id,
@@ -65,6 +68,17 @@ export const Concern = () =>{
           console.error('Error fetching concerns:', error);
         }
     };
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+    const paginatedConcerns = concerns.slice(
+        (currentPage - 1) * ITEMS_PER_PAGE,
+        currentPage * ITEMS_PER_PAGE
+    );
+
+    const totalPages = Math.ceil(concerns.length / ITEMS_PER_PAGE);
 
 
     const handleConcernClick = (concern) => {
@@ -99,11 +113,12 @@ export const Concern = () =>{
                 )}
             </div>
             {!selectedConcern && !isSharing  ? (
+                <>
                 <div className="Concern__container">
-                    {concerns.length === 0 ? (
+                    {paginatedConcerns.length === 0 ? (
                         <div className="ConcernAdmin__item-available">No concerns available</div>
                     ) : (
-                        concerns.map((concern) => (
+                        paginatedConcerns.map((concern) => (
                             <ConcernItem
                                 key={concern.id}
                                 requestType={concern.concern_type}
@@ -116,6 +131,28 @@ export const Concern = () =>{
                         ))
                     )}
                 </div>
+                {concerns.length > ITEMS_PER_PAGE && (
+                    <div className="Transaction__pagination">
+                        <button 
+                            className="pagination-arrow" 
+                            disabled={currentPage === 1} 
+                            onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                            <IoIosArrowRoundBack  className="pagination-arrow-icon"/>
+                        </button>
+                        <span className="pagination-number">
+                            {currentPage} of {totalPages}
+                        </span>
+                        <button 
+                            className="pagination-arrow" 
+                            disabled={currentPage === totalPages} 
+                            onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                        <IoIosArrowRoundForward className="pagination-arrow-icon"/>
+                        </button>
+                    </div>
+                )}
+                </>
             ) : (
                 selectedConcern ? (
                     <ConcernSpecific 

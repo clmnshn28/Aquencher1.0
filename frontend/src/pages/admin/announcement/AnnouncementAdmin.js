@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef  } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import { MdOutlineEdit } from "react-icons/md";
 import { IoArchive } from "react-icons/io5";
+import { IoIosArrowRoundBack, IoIosArrowRoundForward  } from "react-icons/io";
 import axios from 'axios';
 import {API_URL} from 'constants';
 import { format } from 'date-fns';
@@ -24,6 +25,19 @@ export const AnnouncementAdmin = () =>{
   const [selectedAnnouncement, setSelectedAnnouncement] = useState(null);
   const [isAccepting, setIsAccepting] = useState(false);
   const initialFetchDone = useRef(false);
+  const ITEMS_PER_PAGE = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const paginatedAnnouncement = announcements.slice(
+      (currentPage - 1) * ITEMS_PER_PAGE,
+      currentPage * ITEMS_PER_PAGE
+  );
+
+  const totalPages = Math.ceil(announcements.length / ITEMS_PER_PAGE);
 
   useEffect(()=>{
     if (!initialFetchDone.current) {
@@ -172,7 +186,7 @@ export const AnnouncementAdmin = () =>{
             </tr>
           </thead>
           <tbody>
-            {announcements.length === 0 ? (
+            {paginatedAnnouncement.length === 0 ? (
               <tr>
                 <td colSpan="3">
                   <div className="AnnouncementAdmin__no-announcements">
@@ -181,7 +195,7 @@ export const AnnouncementAdmin = () =>{
                 </td>
               </tr>
             ) : (
-              announcements.map((announcement) =>  (
+              paginatedAnnouncement.map((announcement) =>  (
                 <tr key={announcement.id} >
                   <td>{announcement.time}<br />{announcement.date}</td>
                   <td>
@@ -225,6 +239,27 @@ export const AnnouncementAdmin = () =>{
             )}
           </tbody>
         </table>
+        {announcements.length > ITEMS_PER_PAGE && (
+            <div className="Transaction__pagination">
+                <button 
+                    className="pagination-arrow" 
+                    disabled={currentPage === 1} 
+                    onClick={() => handlePageChange(currentPage - 1)}
+                >
+                    <IoIosArrowRoundBack  className="pagination-arrow-icon"/>
+                </button>
+                <span className="pagination-number">
+                    {currentPage} of {totalPages}
+                </span>
+                <button 
+                    className="pagination-arrow" 
+                    disabled={currentPage === totalPages} 
+                    onClick={() => handlePageChange(currentPage + 1)}
+                >
+                <IoIosArrowRoundForward className="pagination-arrow-icon"/>
+                </button>
+            </div>
+        )}
       </div>
       <CreateAnnouncementModal
         isOpen ={createAnnouncement}

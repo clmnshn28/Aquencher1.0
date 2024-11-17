@@ -101,9 +101,9 @@
 }
 
 .ConcernAdmin__Message img{
-  width: 25px;
-  height: 25px;
-  object-fit: cover;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
 }
 
 .ConcernAdmin__subject{
@@ -139,6 +139,11 @@
   align-items: center;
   gap: 5px;
   color: #007bff;
+}
+
+.ConcernAdmin__time-number{
+  width: 60px;
+  text-align: end;
 }
 
 /* specific concern */

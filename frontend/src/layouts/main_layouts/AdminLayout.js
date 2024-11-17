@@ -5,10 +5,11 @@ import { useAuth } from "context/AuthContext";
 import * as images from 'assets/images';
 import axios from 'axios';
 import {API_URL} from 'constants';
+import Pusher from 'pusher-js';
 
 export const AdminLayout = () => {
   const navigate = useNavigate();
-  const { signOut, authUserObj, setAuthUserObj } = useAuth(); 
+  const { signOut, authUserObj, setAuthUserObj, user } = useAuth(); 
 
   const [sidebarMinimized, setSidebarMinimized] = useState(false);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -83,7 +84,34 @@ export const AdminLayout = () => {
   const location = useLocation();
   const [highlightedTab, setHighlightedTab] = useState('');
   const initialFetchDone = useRef(false);
-  
+
+  useEffect(()=>{
+
+    // Initialize Pusher
+    const pusher = new Pusher('2943d7a33567caa26551', {
+      cluster: 'ap3',
+      encrypted: true,
+      auth: {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
+        },
+      },
+    });
+
+    // Subscribe to the notification channel
+    const channel = pusher.subscribe('admin-notifications');
+
+    // Listen for the 'new-notification' event
+    channel.bind('my-event', () => {
+      fetchNotifications();
+    });
+
+    return () => {
+      // Unsubscribe from the channel when the component unmounts
+      pusher.unsubscribe('admin-notifications');
+    };
+  },[]);
+
   useEffect(() => {
     const currentPath = location.pathname;
 
@@ -116,7 +144,7 @@ export const AdminLayout = () => {
     }
   }, [location]);
 
-  const [user, setUser] = useState({});
+  const [users, setUser] = useState({});
   const [profilePic, setProfilePic] = useState(images.defaultAvatar); 
 
 
@@ -154,14 +182,12 @@ export const AdminLayout = () => {
             return new Date(b.updated_at) - new Date(a.updated_at);
         });
 
-        const limitedNotifications = sortedNotifications.slice(0, 4);
-
         setAuthUserObj(prevState => ({
           ...prevState,
-          notifications: limitedNotifications
+          notifications: sortedNotifications
         }));
 
-        setNotifications(limitedNotifications);
+        setNotifications(sortedNotifications);
     } catch (error) {
         console.error('Error fetching notifications:', error);
     }
@@ -211,54 +237,61 @@ const handleNotificationClick = (notification) => {
           <img className="Notification" src={images.notificationClose} alt="Notification"  onClick={toggleNotifications}  />
           {notifications.some(notification => !notification.is_read) && <div className="Layout_blue-circle"></div>}
           {notificationsVisible && (
-          <div className="notifications-view">
-            <div className="notifications-header">
-              <p className="notification-title-header">Notifications</p>
-              <Link to="notifications" className="see-all-button"  onClick={handleSeeAllClick}>See all</Link>
-            </div>
-            {notifications.length === 0 ? (
-              <p className="no-notifications-message">No notifications available.</p>
-            ) : (
-              <>
-                <p className="notification-earlier-header">Earlier</p>
-                {notifications.map((notification, index) => (
-                  <div key={index} className="notification-border-bottom">
-                    <div className={`notification-details-header  ${notification.is_read ? '' : 'new-notification'}`} onClick={() => handleNotificationClick(notification)}>
-                      <p className="notification-subject-header ">{notification.subject}</p>
-                      <p className="notification-description-header ">{notification.description}</p>
-                      <p className="notification-click-all">
-                        Click here to{' '}
-                        {notification.type === 'Refill' ? (
-                          <Link to="/admin/requests/all-requests" className="link-no-underline">view all refill requests</Link>
-                        ) : notification.type === 'Borrow' ? (
-                          <Link to="/admin/requests/all-requests" className="link-no-underline">view all borrow requests</Link>
-                        ) : notification.type === 'Return' ? (
-                          <Link to="/admin/requests/all-requests" className="link-no-underline">view all return requests</Link>
-                        ) :  notification.type === 'Concern' ? (
-                          <Link to="/admin/concerns" className="link-no-underline">view all customer concerns</Link>
-                        ) : null}
-                        .
-                      </p>
-                      <p className="notification-time-header ">{notification.time}</p>
-                      {notification.is_read ? '' : <div className="blue-circle"></div>}
-                    </div>
-                  </div>
-                ))}
-              </>
-            )}
-          </div>
+            <>
+              <div className={`CustomerLayout__notif-backdrop ${notificationsVisible ? 'visible' : ''}`} ></div>
+              
+              <div className="notifications-view">
+                <div className="notifications-header">
+                  <p className="notification-title-header">Notifications</p>
+                  <Link to="notifications" className="see-all-button"  onClick={handleSeeAllClick}>See all</Link>
+                </div>
+                {notifications.length === 0 ? (
+                  <p className="no-notifications-message">No notifications available.</p>
+                ) : (
+                  <>
+                    <p className="notification-earlier-header">Earlier</p>
+                    {notifications.map((notification, index) => (
+                      <div key={index} className="notification-border-bottom">
+                        <div className={`notification-details-header  ${notification.is_read ? '' : 'new-notification'}`} onClick={() => handleNotificationClick(notification)}>
+                          <p className="notification-subject-header ">{notification.subject}</p>
+                          <p className="notification-description-header ">{notification.description}</p>
+                          <p className="notification-click-all">
+                            Click here to{' '}
+                            {notification.type === 'Refill' ? (
+                              <Link to="/admin/requests/all-requests" className="link-no-underline" onClick={() => setNotificationsVisible(false)}>view all refill requests</Link>
+                            ) : notification.type === 'Borrow' ? (
+                              <Link to="/admin/requests/all-requests" className="link-no-underline" onClick={() => setNotificationsVisible(false)}>view all borrow requests</Link>
+                            ) : notification.type === 'Return' ? (
+                              <Link to="/admin/requests/all-requests" className="link-no-underline" onClick={() => setNotificationsVisible(false)}>view all return requests</Link>
+                            ) :  notification.type === 'Concern' ? (
+                              <Link to="/admin/concerns" className="link-no-underline" onClick={() => setNotificationsVisible(false)}>view all customer concerns</Link>
+                            ) : null}
+                            .
+                          </p>
+                          <p className="notification-time-header ">{notification.time}</p>
+                          {notification.is_read ? '' : <div className="blue-circle"></div>}
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
+            </>
           )}
         </div>
         <div className="user-profile-container" onClick={toggleDropdown}>
           <img className="profile" src={profilePic} alt="Profile" />
-          <span className="name">{user.fname}</span>
+          <span className="name">{users.fname}</span>
           <img className="dropArrow" src={images.dropArrow} alt="drop Arrow" />
         </div>
         {dropdownVisible && (
+          <>
+            <div className={`CustomerLayout__notif-backdrop ${dropdownVisible ? 'visible' : ''}`} ></div>
+              
             <div  className="profile-dropdown">
               <Link className="link">
                 <img className="image-dropdown" src={profilePic} alt="Account Profile" />
-                <span className="profile-name">{user.fname}</span>
+                <span className="profile-name">{users.fname}</span>
               </Link>
               <Link to="account-settings/my-profile" onClick={handleAccountSettingsClick}>
                 <img className="setting-dropdown" src={images.accountSettingDropdown} alt="Account Settings" />
@@ -269,6 +302,7 @@ const handleNotificationClick = (notification) => {
                 Logout
               </Link>
             </div>
+          </>
           )}
       </div>
     </div>

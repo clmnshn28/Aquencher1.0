@@ -496,12 +496,19 @@
     .Dashboard__indicator-section{
         gap: 5px;
         justify-content: end;
-        width: 10.3em;
     }
     
+    .Dashboard__indicator-section span:nth-child(2){
+        font-size: 0.84em;
+    }
+
     .Dashboard__new-indicator{
-        font-size: 8px;
+        font-size: 0.69em;
         padding: 2px 8px;
+        max-width: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     /* each announcement */
