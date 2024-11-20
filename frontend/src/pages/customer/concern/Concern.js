@@ -100,7 +100,7 @@ export const Concern = () =>{
     return(
         <>
             <div className="Concern__header">
-                <h2 className="Concern__header-text">Customer Concerns</h2>
+                <h2 className="Concern__header-text" onClick={()=>fetchConcern()}>Customer Concerns</h2>
                 <p className="Concern__description">
                     If you have any comments, concerns, or if you need help with your requests, let us know.
                     We're committed to assisting you and delivering quality service!

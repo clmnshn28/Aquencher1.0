@@ -135,7 +135,8 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin, mar
                 </div>
 
                 <div className="ConcernAdmin__specific-content">
-                    {selectedConcern.content}
+                    <span style={{ whiteSpace: 'pre-wrap' }}>{selectedConcern.content}</span>
+                    
                     {selectedConcern.images && selectedConcern.images.length > 0 && (
                     <div className="ConcernAdmin__attachments">
                         <h4>Attachments:</h4>
@@ -226,7 +227,9 @@ export const ConcernSpecific = ({ selectedConcern, handleBackClick, isAdmin, mar
                                 </div>
                                 <span className="ConcernAdmin__reply-time">{formatTimeDisplay(reply.created_at)}</span>
                             </div>      
-                            <div className="ConcernAdmin__reply-message">{reply.content}</div>
+                            <div className="ConcernAdmin__reply-message">
+                                <span style={{ whiteSpace: 'pre-wrap' }}> {reply.content}</span>
+                            </div>
                         </div>
                     </div>
                 ))}

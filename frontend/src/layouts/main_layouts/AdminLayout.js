@@ -46,6 +46,7 @@ export const AdminLayout = () => {
 
   const toggleNotifications = () => {
     setNotificationsVisible(!notificationsVisible);
+    fetchNotifications();
   };
 
   const handleSeeAllClick = () => {
@@ -179,7 +180,7 @@ export const AdminLayout = () => {
             }
         });
         const sortedNotifications = response.data.data.sort((a, b) => {
-            return new Date(b.updated_at) - new Date(a.updated_at);
+            return new Date(b.created_at) - new Date(a.created_at);
         });
 
         setAuthUserObj(prevState => ({

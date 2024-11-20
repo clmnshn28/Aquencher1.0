@@ -24,7 +24,7 @@ export const AnnouncementViewModal = ({isOpen, onClose, announcement}) =>{
                     </div>
                     
                     <p className="AnnouncementViewModal__summary">
-                        {announcement.content}
+                        <span style={{ whiteSpace: 'pre-wrap' }}>{announcement.content}</span>
                     </p>
 
                     <div className="AnnouncementViewModal__footer">
