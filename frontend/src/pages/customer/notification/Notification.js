@@ -53,7 +53,7 @@ export const Notification = () =>{
                 }
             });
             const sortedNotifications = response.data.data.sort((a, b) => {
-                return new Date(b.updated_at) - new Date(a.updated_at);
+                return new Date(b.created_at) - new Date(a.created_at);
             });
 
             setNotifications(sortedNotifications);
@@ -114,7 +114,7 @@ export const Notification = () =>{
                             <div className={`Notification__details ${notification.is_read ? '' : 'Notification__new-notification'}`} onClick={() => handleNotificationClick(notification)} >
                                 <p className="Notification__subject">{notification.subject}</p>
                                 <p className="Notification__description">{notification.description}</p>
-                                <p className="Notification__time">{formatTimeAgo(notification.updated_at)}</p>
+                                <p className="Notification__time">{formatTimeAgo(notification.created_at)}</p>
                                 {notification.is_read ? '' : <div className="Notification__blue-circle"/>}
                             </div>
                         </div>

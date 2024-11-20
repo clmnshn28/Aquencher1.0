@@ -273,7 +273,7 @@ export const Transaction = () =>{
                                         </span>
                                     )} 
                                 </td>
-                                <td>₱{transaction.totalPrice.toFixed(2)}</td>
+                                <td>{transaction.request_type === 'return' ? <span className="Transaction__no-message">-</span> : `₱${transaction.totalPrice.toFixed(2)}`}</td>
                                 <td style={{color: getStatusColor(capitalize(transaction.status))}}>{capitalize(transaction.status)}</td>
                             </tr>
                         )))}

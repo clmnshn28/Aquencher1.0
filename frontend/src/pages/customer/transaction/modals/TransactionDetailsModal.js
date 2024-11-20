@@ -55,7 +55,7 @@ export const TransactionDetailsModal = ({isOpen, onClose, transaction}) =>{
                     </div>
                     <div className="TransactionDetailsModal__info-row">
                         <span className="TransactionDetailsModal__label">Total Amount:</span>
-                        <span className="TransactionDetailsModal__value">₱{transaction.totalPrice.toFixed(2)}</span>
+                        <span className="TransactionDetailsModal__value">{transaction.request_type === 'return' ? <span className="Transaction__no-message">-</span> : `₱${transaction.totalPrice.toFixed(2)}`}</span>
                     </div>
                     <div className="TransactionDetailsModal__info-row">
                         <span className="TransactionDetailsModal__label">Status:</span>

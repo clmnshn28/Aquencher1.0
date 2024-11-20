@@ -177,7 +177,7 @@ const handleFilterChange = (name, value) => {
   return (
     <>
       <div className="ConcernAdmin__header">
-        <h2 className="ConcernAdmin__header-text">Customer Concerns</h2>
+        <h2 className="ConcernAdmin__header-text" onClick={()=>fetchConcern()}>Customer Concerns</h2>
       </div>
       {!selectedConcern ? (
         <>

@@ -108,6 +108,11 @@
     max-width: 90px;
 }
   
+.Transaction__no-message{
+    color: #cecece;
+    margin-left: 15px;
+    font-size: 16px;
+}
   
 /* not found */
 .Transaction__not-found{
@@ -255,7 +260,13 @@
         font-size: 9px;
 
     }
+    
 
+    .Transaction__no-message{
+        color: #cecece;
+        margin-left: 10px;
+        font-size: 13px;
+    }
     
     /* pagination */
     .Transaction__pagination {

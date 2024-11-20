@@ -202,7 +202,7 @@ export const CustomerLayout = () =>{
             }
         });
         const sortedNotifications = response.data.data.sort((a, b) => {
-            return new Date(b.updated_at) - new Date(a.updated_at);
+            return new Date(b.created_at) - new Date(a.created_at);
         });
 
 
@@ -292,7 +292,7 @@ export const CustomerLayout = () =>{
                           <div className={`CustomerLayout__notification-details-header ${notification.is_read ? '' : 'CustomerLayout__new-notification'}`} onClick={() => handleNotificationClick(notification)}>
                             <p className="CustomerLayout__notification-subject-header">{notification.subject}</p>
                             <p className="CustomerLayout__notification-description-header">{notification.description}</p>
-                            <p className="CustomerLayout__notification-time-header">{formatTimeAgo(notification.updated_at)}</p>
+                            <p className="CustomerLayout__notification-time-header">{formatTimeAgo(notification.created_at)}</p>
                             {notification.is_read ? '' : <div className="CustomerLayout__blue-circle"></div>}
                           </div>
                         </div>
