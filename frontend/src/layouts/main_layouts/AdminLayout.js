@@ -2,6 +2,7 @@ import "assets/css/admin";
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from "context/AuthContext";
+import { BsGraphUpArrow } from "react-icons/bs";
 import * as images from 'assets/images';
 import axios from 'axios';
 import {API_URL} from 'constants';
@@ -132,6 +133,8 @@ export const AdminLayout = () => {
       setHighlightedTab('requests');
     } else if (currentPath.includes('transactions')) {
       setHighlightedTab('transactions');
+    } else if (currentPath.includes('sales')) {
+      setHighlightedTab('sales');
     } else if (currentPath.includes('inventory')) {
       setHighlightedTab('inventory');
     } else if (currentPath.includes('announcements')) {
@@ -352,6 +355,15 @@ const handleNotificationClick = (notification) => {
             src={highlightedTab === 'transactions'? images.transactionIconOpen : images.transactionIconClose} 
             alt="Transactions" />
             <span className="sidebar-text">Transactions</span>
+          </li>
+        </Link>
+        <Link to="sales" className={`link-sidebar ${highlightedTab === 'sales'? 'highlighted' : ''}`}>
+          <li>
+            {/* <img className="sidebaricon" 
+            src={highlightedTab === 'sales'? images.transactionIconOpen : images.transactionIconClose} 
+            alt="Sales" /> */}
+            <BsGraphUpArrow  className={`sidebaricon ${highlightedTab === 'sales' ? 'highlighted-blue' : ''}`}  />
+            <span className="sidebar-text">Sales</span>
           </li>
         </Link>
         <Link to="inventory" className={`link-sidebar ${highlightedTab === 'inventory'? 'highlighted' : ''}`}>

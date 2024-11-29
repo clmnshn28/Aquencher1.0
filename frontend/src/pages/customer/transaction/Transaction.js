@@ -253,7 +253,7 @@ export const Transaction = () =>{
                         </tr>
                         ) :
                         ( paginatedTransactions.map((transaction) => (
-                            <tr key={transaction.gallon_delivery_id} onClick={()=> openModal(transaction)}>
+                            <tr key={transaction.gallon_delivery_id} onClick={()=> openModal(transaction)} className="Transaction__table-row">
                                 <td>
                                     <div className='Transaction__date-time'>
                                         <span className="Transaction__date">{transaction.date}</span>

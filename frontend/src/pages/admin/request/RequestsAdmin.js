@@ -1,6 +1,7 @@
   import React, { useState, useEffect, useRef  } from 'react';
   import { Link } from 'react-router-dom';
   import { IoFilterSharp } from 'react-icons/io5';
+  import { BiQrScan } from "react-icons/bi";
   import 'assets/css/admin';
   import axios from 'axios';
   import {API_URL} from 'constants';
@@ -10,7 +11,7 @@
   import DropdownFilter from 'components/DropdownFilter';
   import RequestItem from 'components/RequestItem';
   import SearchBar from 'components/SearchBar';
-  import { RejectedModal, InsufficientModal } from './modals';
+  import { RejectedModal, InsufficientModal, QRScannerModal, RequestScannerModal, ConfirmationModal } from './modals';
  
   export const RequestsAdmin = () =>{
 
@@ -20,10 +21,16 @@
     const [filteredRequests, setFilteredRequests] = useState([]);
     const [isRejectedModalOpen, setIsRejectedModalOpen] = useState(false);
     const [rejectedRequestDetails, setRejectedRequestDetails] = useState(null);
+    const [isAcceptModalOpen, setIsAcceptModalOpen] = useState(false);
+    const [acceptRequestDetails, setAcceptRequestDetails] = useState(null);
     const [products, setProducts] = useState([]);
     const [isBorrowInsufficient, setIsBorrowInsufficient] = useState(false);
     const [isAccepting, setIsAccepting] = useState(false);
     const initialFetchDone = useRef(false);
+
+    const [isQRScannerOpen, setIsQRScannerOpen] = useState(false);
+    const [isRequestDetailsOpen, setIsRequestDetailsOpen] = useState(false);
+    const [scannedData, setScannedData] = useState(null);
 
     useEffect(()=>{
       if (!initialFetchDone.current) {
@@ -208,54 +215,74 @@
     };
 
 
-    // function accept button
-    const handleAccept = async (requestDetails) =>{
-      setIsAccepting(true); 
-
-        try{
-          const { gallon_delivery_id, request_type, borrow_id, refill_id, returned_id, slimQuantity, roundQuantity } = requestDetails;
-
-          const borrowData = [
-            { gallon_id: 1, quantity: slimQuantity, available_stock: products.find(p => p.id === 1)?.available_stock || 0 },
-            { gallon_id: 2, quantity: roundQuantity, available_stock: products.find(p => p.id === 2)?.available_stock || 0 }
-          ].filter(item => item.quantity > 0);
-
-          if (request_type === 'borrow') {
-            const insufficientStock = borrowData.some(item => item.quantity > item.available_stock);
-      
-            if (insufficientStock) {
-              setIsBorrowInsufficient(true);
-              setIsAccepting(false);
-              return; // Stop execution if stock is insufficient
-            }
-          }
-
-          await axios.put(`${API_URL}/api/gallon-delivery/${gallon_delivery_id}/queueing`, {
-            gallon_type: request_type,
-            refill_id: refill_id,
-            borrow_id: borrow_id,
-            returned_id: returned_id,
-            data: borrowData,
-          },{
-              headers:{
-                'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
-              },
-          });
-          setFilteredRequests((prevFiltered) => 
-            prevFiltered.filter(request => request.gallon_delivery_id !== gallon_delivery_id)
-        );
-        }catch(error){
-            console.error('Error rejecting the request: ', error);
-        } finally {
-          setIsAccepting(false);
-        }
-
+    // function confirmation accept button
+    const handleAccept = (requestDetails) => {
+      setAcceptRequestDetails(requestDetails); // Store the request details
+      setIsAcceptModalOpen(true); // Open the modal
     };
+
+     // function accept button
+    const confirmAccept = async () => {
+      setIsAccepting(true); 
+    
+      try {
+        const { gallon_delivery_id, request_type, borrow_id, refill_id, returned_id, slimQuantity, roundQuantity } = acceptRequestDetails;
+    
+        const borrowData = [
+          { gallon_id: 1, quantity: slimQuantity, available_stock: products.find(p => p.id === 1)?.available_stock || 0 },
+          { gallon_id: 2, quantity: roundQuantity, available_stock: products.find(p => p.id === 2)?.available_stock || 0 }
+        ].filter(item => item.quantity > 0);
+    
+        if (request_type === 'borrow') {
+          const insufficientStock = borrowData.some(item => item.quantity > item.available_stock);
+    
+          if (insufficientStock) {
+            setIsBorrowInsufficient(true);
+            setIsAccepting(false);
+            return;
+          }
+        }
+    
+        await axios.put(`${API_URL}/api/gallon-delivery/${gallon_delivery_id}/queueing`, {
+          gallon_type: request_type,
+          refill_id,
+          borrow_id,
+          returned_id,
+          data: borrowData,
+        }, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
+          },
+        });
+    
+        setFilteredRequests(prev => prev.filter(request => request.gallon_delivery_id !== gallon_delivery_id));
+       
+      } catch (error) {
+        console.error('Error accepting the request:', error);
+      } finally {
+        setIsAccepting(false);
+        setIsAcceptModalOpen(false); // Close the modal
+        setAcceptRequestDetails(null); // Reset details
+      }
+    };
+    
 
     const formatAddress = (request) => {
       const { house_number, street, barangay} = request;
       return `${house_number} ${street}, ${barangay}`;
     };
+
+    const handleQRCodeScan = (parsedData) => {
+      console.log('Scanned QR Code Data:', parsedData);  
+      setScannedData(parsedData); 
+      setIsQRScannerOpen(false); 
+      setIsRequestDetailsOpen(true); 
+    };
+
+    const handleRequestConfirmation = () => {
+      setIsRequestDetailsOpen(false); 
+    };
+
 
     return (
 
@@ -277,6 +304,7 @@
         </div>
 
         <div className="RequestsAdmin__filter-container">
+          <div className="UsersAdmin__controls-filter">
           <SearchBar
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
@@ -309,8 +337,16 @@
               CLEAR
             </button>
           )}
-
-          
+          </div>
+          <div className="UsersAdmin__controls-actions"> 
+              <button
+              className="RequestsAdmin__scan-button"
+              onClick={() => setIsQRScannerOpen(true)}
+            >
+              <BiQrScan className="RequestsAdmin__scan-icon"/>
+              Scan QR Code
+            </button>
+          </div>
         </div>
 
         <div className="RequestsAdmin__container">
@@ -332,7 +368,7 @@
                   image={request.image ? `${API_URL}/storage/images/${request.image}` : images.defaultAvatar}
                   onDecline={() => handleDecline(request)}
                   onAccept={() => handleAccept(request)}
-                  acceptDisabled={isAccepting}
+               
                 />
               ))
             ) : (
@@ -358,7 +394,7 @@
                   image={request.image ? `${API_URL}/storage/images/${request.image}` : images.defaultAvatar}
                   onDecline={() => handleDecline(request)}
                   onAccept={() => handleAccept(request)}
-                  acceptDisabled={isAccepting}
+               
                 />
               ))
             ) : (
@@ -384,7 +420,7 @@
                   image={request.image ? `${API_URL}/storage/images/${request.image}` : images.defaultAvatar}
                   onDecline={() => handleDecline(request)}
                   onAccept={() => handleAccept(request)}
-                  acceptDisabled={isAccepting}
+               
                 />
               ))
             ) : (
@@ -403,6 +439,28 @@
           isOpen = {isBorrowInsufficient}
           onClose = {()=> setIsBorrowInsufficient(false)}       
         />
+
+        <ConfirmationModal
+          isOpen={isAcceptModalOpen}
+          onClose={()=> setIsAcceptModalOpen(false)}
+          onConfirm={confirmAccept}
+          isProcessing={isAccepting} 
+          requestDetails={acceptRequestDetails}
+        />
+
+        <QRScannerModal
+          isOpen = {isQRScannerOpen}
+          onClose={() => setIsQRScannerOpen(false)}
+          onConfirm={handleQRCodeScan} 
+        />
+
+        <RequestScannerModal
+          isOpen = {isRequestDetailsOpen}
+          onClose = {() => setIsRequestDetailsOpen(false)}
+          onConfirm={handleRequestConfirmation}
+          userDetails={scannedData}
+        />
+        
       </>
 
     );

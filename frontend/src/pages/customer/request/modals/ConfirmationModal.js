@@ -1,21 +1,20 @@
-import React,{useState} from "react";
+import React from "react";
 import 'assets/css/customer';
 import Modal from "components/Modal";
 import ButtonGroup from "components/ButtonGroup";
-import TextArea from "components/TextArea";
 
 export const ConfirmationModal = ({isOpen, onClose, onConfirm, image, title, message, isProcessing}) =>{
 
-    const [note, setNote] = useState('');
+    // const [note, setNote] = useState('');
 
     const handleCancel = () => {
-        setNote(''); 
+        // setNote(''); 
         onClose(); 
     };
     
     const handleConfirm = () =>{
         onConfirm();
-        setNote('');
+        // setNote('');
     };
 
     if (!isOpen) return null;

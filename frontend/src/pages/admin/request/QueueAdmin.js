@@ -14,7 +14,7 @@ import * as images from 'assets/images';
 import DropdownFilter from 'components/DropdownFilter';
 import QueueItem from "components/QueueItem";
 import SearchBar from "components/SearchBar";
-import { RejectedModal } from './modals';
+import { RejectedModal, ConfirmationModal } from './modals';
 
 export const QueueAdmin = () =>{
     const { user, authUserObj, setAuthUserObj } = useAuth(); 
@@ -31,6 +31,8 @@ export const QueueAdmin = () =>{
     const [products, setProducts] = useState([]);
     const [isRejectedModalOpen, setIsRejectedModalOpen] = useState(false);
     const [rejectedQueueDetails, setRejectedQueueDetails] = useState(null);
+    const [isAcceptModalOpen, setIsAcceptModalOpen] = useState(false);
+    const [selectedQueueDetails, setSelectedQueueDetails] = useState(null);
     const [isAccepting, setIsAccepting] = useState(false);
     const initialFetchDone = useRef(false);
 
@@ -186,12 +188,18 @@ export const QueueAdmin = () =>{
         setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
     };
 
-    const handleAccept = async (requestDetails) => {
+
+    const handleAccept = (requestDetails) => {
+        setSelectedQueueDetails(requestDetails); // Store the request details
+        setIsAcceptModalOpen(true); // Open the modal
+    };
+
+    const confirmAccept = async () => {
         setIsAccepting(true); 
 
         try{
 
-            const { gallon_delivery_id, customer_id, request_type, refill_id, borrow_id, returned_id, slimQuantity, roundQuantity, gallon_delivery_status } = requestDetails;
+            const { gallon_delivery_id, customer_id, request_type, refill_id, borrow_id, returned_id, slimQuantity, roundQuantity, gallon_delivery_status } = selectedQueueDetails;
 
             const returnedData = [
                 { gallon_id: 1, quantity: slimQuantity, available_stock: products.find(p => p.id === 1)?.available_stock || 0 },
@@ -217,6 +225,8 @@ export const QueueAdmin = () =>{
             console.error('Error rejecting the request: ', error);
         }finally {
             setIsAccepting(false);
+            setIsAcceptModalOpen(false); // Close the modal
+            setSelectedQueueDetails(null); // Reset details
         }
     };
 
@@ -266,7 +276,7 @@ export const QueueAdmin = () =>{
     };
 
     const handleExportToPDF = () => {
-        if (queues.length === 0) {
+        if (filteredPickupRequests.length === 0 && filteredPickupRequests.length === 0) {
             alert("No data available to export.");
             return;
         }
@@ -323,35 +333,40 @@ export const QueueAdmin = () =>{
         };
     
         const formattedDateTime = getCurrentDateTime();
-       
-        doc.addImage(imgData, 'PNG', 20, 3, 30, 23);
+        
+        const addHeaderText = () => {
+            
+            doc.addImage(imgData, 'PNG', 20, 3, 30, 23);
 
-        // Report Header
-        doc.setFont("Helvetica", "bold").setFontSize(20);
-        doc.setTextColor(0, 105, 217);
-        doc.text("Gallon Delivery Requests", doc.internal.pageSize.getWidth() / 2, 18, { align: "center" });
+            // Report Header
+            doc.setFont("Helvetica", "bold").setFontSize(20);
+            doc.setTextColor(0, 105, 217);
+            doc.text("Gallon Delivery Requests", doc.internal.pageSize.getWidth() / 2, 18, { align: "center" });
 
-        // Type of Report
-        doc.setFontSize(9);
-        const reportTypeY = 15;
-        const reportTypeText = "In Progress Requests Report"; 
+            // Type of Report
+            doc.setFontSize(9);
+            const reportTypeY = 15;
+            const reportTypeText = "In Progress Requests Report"; 
 
-        doc.setFont("Helvetica", "bold");
-        const reportTypeLabelX = doc.internal.pageSize.getWidth() - 21; 
-        const reportTypeValueX = doc.internal.pageSize.getWidth() - 10; 
+            doc.setFont("Helvetica", "bold");
+            const reportTypeLabelX = doc.internal.pageSize.getWidth() - 21; 
+            const reportTypeValueX = doc.internal.pageSize.getWidth() - 10; 
 
-        doc.text("Report Type:", reportTypeLabelX, reportTypeY, { align: "right" });
-        doc.setFont("Helvetica", "normal");
-        doc.text(reportTypeText, reportTypeValueX, reportTypeY + 5, { align: "right" });
-  
+            doc.text("Report Type:", reportTypeLabelX, reportTypeY, { align: "right" });
+            doc.setFont("Helvetica", "normal");
+            doc.text(reportTypeText, reportTypeValueX, reportTypeY + 5, { align: "right" });
+            
+        }
+
         const sortedPickupRequests = sortByAddress(filteredPickupRequests);
         const sortedDeliverRequests = sortByAddress(filteredDeliverRequests);
-
         createTable('Pickup Requests', sortedPickupRequests, 30);
-        //(Add New Page)
-        doc.addPage();
-        createTable('Deliver Requests', sortedDeliverRequests, 20);
-
+        // //(Add New Page)
+         doc.addPage();
+        // createTable('Deliver Requests', sortedDeliverRequests, 20);
+        // const secondTableStartY = doc.lastAutoTable.finalY + 50; // Adding some margin between the tables
+        createTable('Deliver Requests', sortedDeliverRequests, 30);
+       
         const marginLeft = 10;
         const marginBottom = doc.internal.pageSize.getHeight() - 5; 
         const addFooterText = () => {
@@ -365,6 +380,7 @@ export const QueueAdmin = () =>{
         const pageCount = doc.internal.getNumberOfPages(); // Get total pages
         for (let i = 1; i <= pageCount; i++) { // Start from the second page
             doc.setPage(i); // Set the current page
+            addHeaderText();
             addFooterText();
             doc.setFontSize(11);
             doc.setTextColor(0, 105, 217);
@@ -458,7 +474,6 @@ export const QueueAdmin = () =>{
                                 image={queue.image ? `${API_URL}/storage/images/${queue.image}` : images.defaultAvatar}
                                 onDecline={() => handleDecline(queue)}
                                 onAccept={()=> handleAccept(queue)}
-                                acceptDisabled={isAccepting}
                             />
                         ))
                     )}
@@ -488,7 +503,6 @@ export const QueueAdmin = () =>{
                                 image={queue.image ? `${API_URL}/storage/images/${queue.image}` : images.defaultAvatar}
                                 onDecline={() => handleDecline(queue)}
                                 onAccept={()=> handleAccept(queue)}
-                                acceptDisabled={isAccepting}
                             />
                         ))
                     )}
@@ -501,6 +515,14 @@ export const QueueAdmin = () =>{
                 onClose={() => setIsRejectedModalOpen(false)}
                 onConfirm={confirmRejected}
                 rejectedDetails={rejectedQueueDetails}
+            />
+
+            <ConfirmationModal
+                isOpen={isAcceptModalOpen}
+                onClose={()=> setIsAcceptModalOpen(false)}
+                onConfirm={confirmAccept}
+                isProcessing={isAccepting} 
+                requestDetails={selectedQueueDetails}
             />
         </>
     );

@@ -1,0 +1,44 @@
+
+.SalesRecordAdmin__table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #FFFFFF;
+    margin-left: 10px;
+    font-weight: 500;
+    font-size: 14px;
+}
+  
+.SalesRecordAdmin__table-header{
+    background-color: #0174CF;
+    color: white;
+}
+  
+.SalesRecordAdmin__table th,
+.SalesRecordAdmin__table td {
+    padding: 13px 10px;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+}
+  
+.SalesRecordAdmin__table th:first-child{
+    width: 20%;
+    padding-left: 60px;
+}
+
+.SalesRecordAdmin__table td:first-child{
+    width: 20%;
+    font-weight: 400;
+    padding-left: 40px;
+}
+
+.SalesRecordAdmin__table th:nth-child(1),
+.SalesRecordAdmin__table td:nth-child(1){
+    text-align: left;
+    width: 13%;
+  
+}
+
+.SalesRecordAdmin__table th:nth-child(2),
+.SalesRecordAdmin__table td:nth-child(2){
+    text-align: left;
+}

@@ -67,10 +67,11 @@
 
 /* filter content */
 .RequestsAdmin__filter-container{
-  margin: 0 0 10px 10px;
+  margin: 0 40px 10px 10px;
   padding: 5px ;
   color: #007bff;
   display: flex;
+  justify-content: space-between;
   align-items: center;
   gap: 15px;
 }
@@ -123,6 +124,229 @@
 }
 
 
+.RequestsAdmin__scan-button{
+  background-color: #0174CF;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  font-family: 'poppins';
+  padding: 10px 25px;
+  border-radius: 5px;
+  border: none;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+.RequestsAdmin__scan-button:hover{
+  background-color: #0068bd;
+}
+
+.RequestsAdmin__scan-button:active{
+  opacity:0.8;
+}
+
+.RequestsAdmin__scan-icon{
+  width: 20px;
+  height: 20px;
+}
+
+
+/* QR Code */
+.QRScannerModal__content {
+  background: #fff;
+  padding: 30px 50px;
+  border-radius: 5px;
+  width: 600px;
+  max-width: 90%;
+  position: relative;
+}
+
+.QRScannerModal__close {
+  position: absolute;
+  top: 25px;
+  right: 27px;
+  background: none;
+  border: none;
+  font-size:28px;
+  cursor: pointer;
+}
+
+.QRScannerModal__content h2 {
+  text-align: center;
+  margin: 0;
+  color: #0174CF;
+}
+
+.QRScannerModal__scanner{
+  margin-top: 20px;
+}
+
+.QRScannerModal__scanner video {
+  transform: scaleX(-1);
+}
+
+.QRScannerModal__scanner-camera{
+  width: 100%;
+  border-radius: 20px;
+  border: 5px solid #0174CF;
+}
+
+.QRScannerModal__error{
+  text-align: center;
+  font-weight: 600;
+  color: #cf0101;
+  margin: 10px 0 0;
+}
+
+
+/* RequestScannerModal */
+.RequestScannerModal__details{
+  border: 1px solid #ADAFB0;
+  border-radius: 10px;
+  padding: 20px 50px 30px ;
+  margin: 10px 0 20px;
+}
+
+.RequestScannerModal__requestType-info strong,
+.RequestScannerModal__gallon-list strong,
+.RequestScannerModal__user-info strong{
+  color: #007bff;
+}
+
+.RequestScannerModal__user-info p{
+  display: flex;
+}
+
+.RequestScannerModal__user-info strong{
+  flex: 0.35;
+}
+
+.RequestScannerModal__user-info span{
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Gallon type */
+.RequestScannerModal__item-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10PX;
+  border-radius: 7px;
+  padding: 0 20px;
+  background-color: rgba(233, 246, 250, 0.8);
+}
+
+.RequestScannerModal__item-info:last-child {
+  margin-bottom: 0px;
+}
+
+.RequestScannerModal__requestType-info{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.RequestScannerModal__requestType-width{
+  width: 60%;
+}
+
+.RequestScannerModal__item-image{
+  width: 5em;
+  margin-right: 12px;
+}
+
+.RequestScannerModal__item-name{
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.RequestScannerModal__item-name h3{
+  font-size: 13px;
+  color: #626262;
+  white-space: pre-line;
+  margin: 8px 0px 0px;
+}
+
+.RequestScannerModal__item-name p{
+  margin: 3px 0px 5px;
+  font-size: 12px;
+  color: #626262;
+}
+
+/* quantity */
+.RequestScannerModal__item-quantity {
+  margin: 10px 0px 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.RequestScannerModal__item-limit{
+  color: #c10808;
+  font-size: 10px;
+  font-weight: 500;
+  margin: 0 0px 5px;
+}
+
+.quantity-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 10px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.5s;
+  border-radius: 4px;
+}
+
+.quantity-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.RequestScannerModal__item-quantity span {
+  font-size: 18px;
+  font-weight: bold;
+  width: 25px;
+  margin: 0 10px;
+  text-align: center;
+}
 
 
 
+/* total */
+
+.RequestScannerModal__total-container {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 5px;
+  margin: 15px 15px 0;
+  font-size: 15px; 
+}
+
+.RequestScannerModal__total-container p{
+  margin: 0;
+}
+
+.RequestScannerModal__total{
+  font-size: 17px;    
+  font-weight: bold;
+  color: #525252;
+}

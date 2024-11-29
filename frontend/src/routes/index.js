@@ -10,6 +10,7 @@ import {NotificationAdmin} from 'pages/admin/notification';
 import {UsersAdmin, DeactivatedAccountsAdmin, DeactivationRequestAdmin, UsersEditAdmin, UsersViewAdmin} from 'pages/admin/users';
 import {RequestsAdmin, QueueAdmin, CompletedAdmin, RejectedAdmin} from 'pages/admin/request';
 import {TransactionAdmin} from 'pages/admin/transaction';
+import {SalesRecordAdmin} from 'pages/admin/sales';
 import {InventoryAdmin} from 'pages/admin/inventory';
 import {AnnouncementAdmin, ArchiveAnnouncement} from 'pages/admin/announcement';
 import {ConcernsAdmin} from 'pages/admin/concern';
@@ -56,6 +57,7 @@ const MainRoutes = () =>{
             <Route path='rejected-requests' element={<RejectedAdmin/>}/>
           </Route>
           <Route path='transactions' element={<TransactionAdmin/>}/>
+          <Route path='sales' element={<SalesRecordAdmin/>}/>
           <Route path='inventory' element={<InventoryAdmin/>}/>
           <Route path="announcements" element={<AnnouncementAdmin />}/>
           <Route path="announcements/archive" element={<ArchiveAnnouncement />} /> 

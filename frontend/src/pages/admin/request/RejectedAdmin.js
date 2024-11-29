@@ -175,6 +175,7 @@ export const RejectedAdmin = () =>{
             </div>
 
             <div className="RequestsAdmin__filter-container">
+                <div className="UsersAdmin__controls-filter">
                 <SearchBar
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
@@ -208,6 +209,7 @@ export const RejectedAdmin = () =>{
                     CLEAR
                 </button>
                 )}
+                </div>
             </div>
 
             <div className="CompletedAdmin__container">
