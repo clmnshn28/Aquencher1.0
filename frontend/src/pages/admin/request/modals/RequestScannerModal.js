@@ -250,7 +250,7 @@ export const RequestScannerModal = ({isOpen, onClose, onConfirm, userDetails }) 
                                             {requestType === 'return' ? (
                                                 'Return Gallon'
                                             ) : (
-                                                `₱${gallon.price.toFixed(2)}/${requestType === 'refill' ? 'Refill' : requestType === 'borrow' ? 'Borrow' : ''}Gallon`
+                                                `₱${gallon.price.toFixed(2)}/${requestType === 'refill' ? 'Refill ' : requestType === 'borrow' ? 'Borrow ' : ''}Gallon`
                                             )}
                                         </p>
                                         {requestType === 'borrow' && (
