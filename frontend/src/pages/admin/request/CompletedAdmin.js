@@ -159,7 +159,7 @@ export const CompletedAdmin = () =>{
     }
     
     const handleExportToPDF = () => {
-        if (requests.length === 0) {
+        if (filteredRequests.length === 0) {
             alert("No data available to export.");
             return;
         }
@@ -193,25 +193,28 @@ export const CompletedAdmin = () =>{
     
         const formattedDateTime = getCurrentDateTime();
 
-        doc.addImage(imgData, 'PNG', 30, 3, 30, 23);
-    
-        // Report Header
-        doc.setFont("Helvetica", "bold").setFontSize(20);
-        doc.setTextColor(0, 105, 217);
-        doc.text("Gallon Delivery Requests", doc.internal.pageSize.getWidth() / 2, 18, { align: "center" });
+        const addHeaderText = () => {
+            doc.addImage(imgData, 'PNG', 30, 3, 30, 23);
+        
+            // Report Header
+            doc.setFont("Helvetica", "bold").setFontSize(20);
+            doc.setTextColor(0, 105, 217);
+            doc.text("Gallon Delivery Requests", doc.internal.pageSize.getWidth() / 2, 18, { align: "center" });
 
-        // Type of Report
-        doc.setFontSize(10);
-        const reportTypeY = 15;
-        const reportTypeText = "Completed Requests Report"; 
+            // Type of Report
+            doc.setFontSize(10);
+            const reportTypeY = 15;
+            const reportTypeText = "Completed Requests Report"; 
 
-        doc.setFont("Helvetica", "bold");
-        const reportTypeLabelX = doc.internal.pageSize.getWidth() - 28; 
-        const reportTypeValueX = doc.internal.pageSize.getWidth() - 20; 
+            doc.setFont("Helvetica", "bold");
+            const reportTypeLabelX = doc.internal.pageSize.getWidth() - 28; 
+            const reportTypeValueX = doc.internal.pageSize.getWidth() - 20; 
 
-        doc.text("Report Type:", reportTypeLabelX, reportTypeY, { align: "right" });
-        doc.setFont("Helvetica", "normal");
-        doc.text(reportTypeText, reportTypeValueX, reportTypeY + 5, { align: "right" });
+            doc.text("Report Type:", reportTypeLabelX, reportTypeY, { align: "right" });
+            doc.setFont("Helvetica", "normal");
+            doc.text(reportTypeText, reportTypeValueX, reportTypeY + 5, { align: "right" });
+
+        }
 
         if (tableRows.length > 0) {
             doc.autoTable({
@@ -247,6 +250,7 @@ export const CompletedAdmin = () =>{
             const pageCount = doc.internal.getNumberOfPages(); // Get total pages
             for (let i = 1; i <= pageCount; i++) { // Start from the second page
                 doc.setPage(i); // Set the current page
+                addHeaderText();
                 addFooterText();
                 doc.setFontSize(11);
                 doc.setTextColor(0, 105, 217);

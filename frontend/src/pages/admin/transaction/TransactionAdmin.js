@@ -12,7 +12,10 @@ import * as images from 'assets/images';
 import SearchBar from 'components/SearchBar';
 import DropdownFilter from 'components/DropdownFilter';
 import { TransactionDetailsModal } from "./modals/TransactionDetailsModal";
+import { MdOutlineArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { IoIosArrowRoundBack, IoIosArrowRoundForward  } from "react-icons/io";
+import DatePicker from "react-datepicker"; // Import DatePicker component
+import "react-datepicker/dist/react-datepicker.css";
 
 export const TransactionAdmin = () => {
   const {user } = useAuth(); 
@@ -26,6 +29,10 @@ export const TransactionAdmin = () => {
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const ITEMS_PER_PAGE = 15;
   const [currentPage, setCurrentPage] = useState(1);
+
+  const [showDatePicker, setShowDatePicker] = useState(false); 
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   useEffect(()=>{
     if (!initialFetchDone.current) {
@@ -42,8 +49,18 @@ export const TransactionAdmin = () => {
           },
         });
 
+        const inventoryResponse = await axios.get(API_URL + '/api/admin/products',{
+          headers: {
+          'Authorization' : `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`,
+          },
+        });
+        const products = inventoryResponse.data.data;
+        const slimProduct = products.find(product => product.id === 1);
+        const roundProduct = products.find(product => product.id === 2);
+
         const requestsWithUpdatedDateTime = response.data.data
         .map((request) => {
+          const createdAt = new Date(request.created_at);
           const updatedAt = new Date(request.updated_at);
           const formattedDate = format(updatedAt, 'yyyy-MM-dd');
           const formattedTime = format(updatedAt, 'hh:mm a');
@@ -65,13 +82,19 @@ export const TransactionAdmin = () => {
             status = 'in progress';
           }
 
+          const slimTotalPrice = slimQuantity * slimProduct.price;
+          const roundTotalPrice = roundQuantity * roundProduct.price;
+          const totalPrice = slimTotalPrice + roundTotalPrice;
+
           return {
             ...request,
             date: formattedDate, 
             time: formattedTime, 
             slimQuantity,
             roundQuantity,
+            totalPrice,
             updatedAt,
+            createdAt,
             status,
           };
         }).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
@@ -117,14 +140,20 @@ export const TransactionAdmin = () => {
     setSearchQuery('');
     setFilteredTransactions(transactionLogs); // Reset
     setActiveDropdown(null); 
+    setStartDate(null);
+    setEndDate(null);
+    setShowDatePicker(false);
   };
 
   // search filter
   const handleSearch = () =>{
     if(searchQuery !== ''){
-      const result = transactionLogs.filter((transaction) =>
-        transaction.fullName.toLocaleLowerCase().includes(searchQuery.toLocaleLowerCase())
+      const result = transactionLogs.filter((transaction) =>{
+        const fullName = `${transaction.fname} ${transaction.lname}`.toLowerCase();
+        return (
+          fullName.includes(searchQuery.toLowerCase())  
       );
+    });
       setFilteredTransactions(result);
     }else {
       setFilteredTransactions(transactionLogs); // Reset when search is cleared
@@ -169,6 +198,26 @@ export const TransactionAdmin = () => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
 
+    // Filter transactions by date range
+    const handleDateFilterChange = () => {
+      let filtered = [...transactionLogs];
+      if (startDate) {
+        filtered = filtered.filter(transaction => new Date(transaction.updatedAt) >= new Date(startDate));
+      }
+      if (endDate) {
+        filtered = filtered.filter(transaction => new Date(transaction.updatedAt) <= new Date(endDate));
+      }
+      setFilteredTransactions(filtered);
+    };
+  
+    useEffect(() => {
+      handleDateFilterChange();
+    }, [startDate, endDate]);
+
+    const toggleDatePicker = () => {
+      setShowDatePicker(!showDatePicker); 
+    };
+
   const capitalize = (str) => {
     return str.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ');
   }
@@ -184,7 +233,7 @@ export const TransactionAdmin = () => {
   };
 
   const handleExportToPDF = () => {
-    if (transactionLogs.length === 0) {
+    if (filteredTransactions.length === 0) {
       alert("No data available to export.");
       return;
     }
@@ -203,11 +252,12 @@ export const TransactionAdmin = () => {
     const createTable = ( transactions, startY) => {
       doc.autoTable({
           startY,
-          head: [['Date/Time', 'Customer Name', 'Request Type', 'Gallon Type', 'Status']],
+          head: [['Date/Time', 'Customer Name', 'Request Type', 'Gallon Type', 'Price', 'Status']],
           body: transactions.map(transaction => {
             const dateTime = `${transaction.date}\n${transaction.time}`;
             const fullName = `${transaction.fname} ${transaction.lname}`;
             const gallonType = [];
+            const price = transaction.request_type === 'return' ? "-" : `${transaction.totalPrice}.00`;
             
             if (transaction.slimQuantity > 0) {
                 gallonType.push(`Slim: ${transaction.slimQuantity}`);
@@ -222,6 +272,7 @@ export const TransactionAdmin = () => {
                 fullName,
                 capitalize(transaction.request_type),
                 gallonType.join(', '),
+                price,
                 capitalize(transaction.status),
             ];
         }),
@@ -247,25 +298,27 @@ export const TransactionAdmin = () => {
 
     const formattedDateTime = getCurrentDateTime();
 
-    doc.addImage(imgData, 'PNG', 30, 3, 30, 23);
+    const addHeaderText = () => {
+      doc.addImage(imgData, 'PNG', 30, 3, 30, 23);
 
-    // Report Header
-    doc.setFont("Helvetica", "bold").setFontSize(20);
-    doc.setTextColor(0, 105, 217);
-    doc.text("Customer Transaction Details", doc.internal.pageSize.getWidth() / 2, 18, { align: "center" });
+      // Report Header
+      doc.setFont("Helvetica", "bold").setFontSize(20);
+      doc.setTextColor(0, 105, 217);
+      doc.text("Customer Transaction Details", doc.internal.pageSize.getWidth() / 2, 18, { align: "center" });
 
-    // Type of Report
-    doc.setFontSize(10);
-    const reportTypeY = 15;
-    const reportTypeText = "Transaction Activity Report"; 
+      // Type of Report
+      doc.setFontSize(10);
+      const reportTypeY = 15;
+      const reportTypeText = "Transaction Activity Report"; 
 
-    doc.setFont("Helvetica", "bold");
-    const reportTypeLabelX = doc.internal.pageSize.getWidth() - 26; 
-    const reportTypeValueX = doc.internal.pageSize.getWidth() - 20; 
+      doc.setFont("Helvetica", "bold");
+      const reportTypeLabelX = doc.internal.pageSize.getWidth() - 26; 
+      const reportTypeValueX = doc.internal.pageSize.getWidth() - 20; 
 
-    doc.text("Report Type:", reportTypeLabelX, reportTypeY, { align: "right" });
-    doc.setFont("Helvetica", "normal");
-    doc.text(reportTypeText, reportTypeValueX, reportTypeY + 5, { align: "right" });
+      doc.text("Report Type:", reportTypeLabelX, reportTypeY, { align: "right" });
+      doc.setFont("Helvetica", "normal");
+      doc.text(reportTypeText, reportTypeValueX, reportTypeY + 5, { align: "right" });
+    }
 
     const sortedTransactions = sortByDate(filteredTransactions); 
     
@@ -284,6 +337,7 @@ export const TransactionAdmin = () => {
     const pageCount = doc.internal.getNumberOfPages(); // Get total pages
     for (let i = 1; i <= pageCount; i++) { // Start from the second page
         doc.setPage(i); // Set the current page
+        addHeaderText();
         addFooterText();
         doc.setFontSize(11);
         doc.setTextColor(0, 105, 217);
@@ -339,7 +393,33 @@ export const TransactionAdmin = () => {
            classExpand='DropdownFilter__expand'
           onOptionSelect={(value) => handleFilterChange('status', value)}
         />
-        {(searchQuery || filters.requestType || filters.gallonType || filters.status) && (
+        <div className="date-filter-container" onClick={toggleDatePicker}>
+            DATE
+            {showDatePicker ? (
+                <MdArrowDropUp className="DropdownFilter__dropdown-icon" />
+            ) : (
+                <MdOutlineArrowDropDown className="DropdownFilter__dropdown-icon" />
+            )}
+            {showDatePicker && (
+              <div className="date-filter-section" onClick={(e)=>e.stopPropagation() }>
+                <DatePicker
+                  selected={startDate}
+                  onChange={(date) => setStartDate(date)}
+                  placeholderText="Start Date"
+                  dateFormat="yyyy-MM-dd"
+                />
+                <DatePicker
+                  selected={endDate}
+                  onChange={(date) => setEndDate(date)}
+                  placeholderText="End Date"
+                  dateFormat="yyyy-MM-dd"
+                />
+              </div>
+            )}
+       
+        </div>
+      
+        {(searchQuery || filters.requestType || filters.gallonType || filters.status || startDate || endDate) && (
           <button className="RequestsAdmin__clear-filters-button" onClick={handleClearFilters}>
             CLEAR
           </button>
@@ -356,6 +436,7 @@ export const TransactionAdmin = () => {
               <th>Customer Name</th>
               <th>Request Type</th>
               <th>Gallon Type</th>
+              <th>Price</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -370,7 +451,7 @@ export const TransactionAdmin = () => {
               </tr>
             ) :
               ( paginatedTransactions.map((transaction) => (
-                <tr key={transaction.gallon_delivery_id} onClick={()=> openModal(transaction)}>
+                <tr key={transaction.gallon_delivery_id} onClick={()=> openModal(transaction)} className="Transaction__table-row">
                   <td  style={{paddingLeft: '40px'}}>
                     <div className='TransactionAdmin__date-time'>
                       <span className="TransactionAdmin__date">{transaction.date}</span>
@@ -396,6 +477,7 @@ export const TransactionAdmin = () => {
                       </span>
                     )} 
                   </td>
+                  <td>{transaction.request_type === 'return' ? <span className="Transaction__no-message">-</span> : `₱${transaction.totalPrice.toFixed(2)}`}</td>
                   <td style={{color: getStatusColor(capitalize(transaction.status))}}>{capitalize(transaction.status)}</td>
                 </tr>
               )))}

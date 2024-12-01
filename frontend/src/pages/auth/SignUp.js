@@ -70,10 +70,12 @@ export const SignUp = () =>{
       !isPasswordRequirementMet('Contain at least one uppercase and one lowercase letter') ||
       !isPasswordRequirementMet('Contain at least one number or special character')) {
       setError('Password does not meet the requirements');
+      setLoading(false);
       return;
     }
     if (password !== confirmPassword) {
       setError('Passwords do not match');
+      setLoading(false);
       return; 
     }
 

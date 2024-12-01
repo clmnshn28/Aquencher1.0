@@ -397,6 +397,10 @@ body {
   margin-left: 10px;
 }
 
+.highlighted-blue{
+  color: #0174CF;
+}
+
 .account-settings-icon{
   width: 20px;
 }

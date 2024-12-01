@@ -35,6 +35,127 @@
   position: relative;
 }
 
+/* QR content */
+.CustomerLayout__qr-container{
+  background-color: #f4faff;
+  margin-right: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  padding: 2px;
+  border: 2px solid #0174CF;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.CustomerLayout__qr-icon{
+  width: 25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+  color: #0174CF;
+}
+
+.CustomerLayout__qr-container:hover{
+  background-color: hsl(202, 100%, 91%);
+}
+
+.CustomerLayout__qr-container:active{
+  opacity: 0.8;
+}
+
+/* QR Modal */
+.CustomerQRModal__qr-content {
+  background: #fff;
+  border-radius: 10px;
+  width: 400px;
+  max-width: 90%;
+  position: relative;
+}
+
+.CustomerQRModal__qr-header{
+  background-color: #0174CF;
+  border-radius: 10px 10px 0 0;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  
+}
+
+.CustomerQRModal__qr-back{
+  width: 30px;
+  height: 30px;
+  min-height: 30px;
+  min-width: 30px;
+  color: #fff;
+}
+
+.CustomerQRModal__qr-header span{
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  flex: 0.95;
+  text-align: center;  
+}
+
+.CustomerQRModal__qr-code-container{
+  padding: 25px 25px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.CustomerQRModal__qr-code-name{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.CustomerQRModal__qr-code-name p{
+  margin: 5px 0 0;
+  font-weight: 600;
+
+}
+
+.AccountSettingsAdmin__acc-image{
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.CustomerQRModal__download-btn{
+  width: 85%;
+  font-weight: 600;
+  font-family: 'poppins';
+  font-size: 16px;
+  padding: 10px;
+  color: #fff;
+  background-color: #0174CF;
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin: 5px 0;
+}
+
+.CustomerQRModal__download-btn:active{
+  opacity: 0.8;
+}
+
+.CustomerQRModal__download-icon{
+  width: 25px;
+  height: 25px;
+  min-height: 25px;
+  min-width: 25px;
+}
+
+
+/* Notification content */
 .CustomerLayout__notif-container{
   position: relative;
   display: flex;
@@ -527,7 +648,7 @@
       width: 200px;
       height: 320px;
       padding: 10px;
-      right: -50px; /**/
+      right: -110px; /**/
   }
 
   /* Scrollbar customization */
@@ -571,6 +692,132 @@
     height: 8px;
   }
   
+  
+  /* QR content */
+  .CustomerLayout__qr-container{
+    background-color: #f4faff;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 2px;
+    border: 2px solid #0174CF;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .CustomerLayout__qr-icon{
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+    color: #0174CF;
+  }
+
+  .CustomerLayout__qr-container:hover{
+    background-color: hsl(202, 100%, 91%);
+  }
+
+  .CustomerLayout__qr-container:active{
+    opacity: 0.8;
+  }
+
+  /* QR Modal */
+  .CustomerQRModal__qr-content {
+    background: #fff;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 20px;
+    position: relative;
+  }
+
+  .CustomerQRModal__qr-header{
+    background-color: #0174CF;
+    border-radius: 10px 10px 0 0;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    
+  }
+
+  .CustomerQRModal__qr-back{
+    width: 20px;
+    height: 20px;
+    min-height: 20px;
+    min-width: 20px;
+    color: #fff;
+  }
+
+  .CustomerQRModal__qr-header span{
+    color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    flex: 0.95;
+    text-align: center;  
+  }
+
+  .CustomerQRModal__qr-code-container{
+    padding: 20px 25px 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .CustomerQRModal__qr-code-name{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+
+  .CustomerQRModal__qr-code-name p{
+    margin: 5px 0 0;
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  .AccountSettingsAdmin__acc-image{
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .AccountSettingsAdmin__qr-image{
+    width: 13em;
+  }
+
+  .CustomerQRModal__download-btn{
+    width: 90%;
+    font-weight: 600;
+    font-family: 'poppins';
+    font-size: 13px;
+    padding: 10px;
+    color: #fff;
+    background-color: #0174CF;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin: 5px 0;
+  }
+
+  .CustomerQRModal__download-btn:active{
+    opacity: 0.8;
+  }
+
+  .CustomerQRModal__download-icon{
+    width: 20px;
+    height: 20px;
+    min-height: 20px;
+    min-width: 20px;
+  }
+
+
   /* profile */
 
   

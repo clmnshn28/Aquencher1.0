@@ -1,10 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdOutlineArrowDropDown, MdArrowDropUp  } from "react-icons/md";
 import 'assets/css/components'; 
 
 export default function CustomDropdown ({ value, onChange, options, defaultText }) {
     const [isOpen, setIsOpen] = useState(false);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (!event.target.closest('.CustomDropdown')) {
+                setIsOpen(false);
+            }
+        };
+
+        // Add event listener when dropdown is open
+        if (isOpen) {
+            document.addEventListener('click', handleClickOutside);
+        } else {
+            document.removeEventListener('click', handleClickOutside);
+        }
+
+        // Cleanup on unmount or when dropdown is closed
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [isOpen]);
+
+    
     const handleSelect = (option) => {
         onChange(option.value);
         setIsOpen(false);

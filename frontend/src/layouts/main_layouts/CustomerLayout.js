@@ -5,10 +5,12 @@ import { useAuth } from "context/AuthContext";
 import * as images from 'assets/images';
 import { TbLogout, TbLogs } from "react-icons/tb";
 import { RxGear } from "react-icons/rx";
+import { MdOutlineQrCode2 } from "react-icons/md";
 import axios from 'axios';
 import {API_URL} from 'constants';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import Pusher from 'pusher-js';
+import { CustomerQRModal } from "./modals/CustomerQRModal";
 
 export const CustomerLayout = () =>{
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ export const CustomerLayout = () =>{
   const [subAccountSidebarVisible, setSubAccountSidebarVisible] = useState(false);
   const [highlightedAccountTab, setHighlightedAccountTab] = useState('');
   const [lastOpenedDropdown, setLastOpenedDropdown] = useState(null);
+  const [isOpenQrModal, setIsOpenQrModal] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarMinimized(!sidebarMinimized);
@@ -256,6 +259,11 @@ export const CustomerLayout = () =>{
     signOut(navigate);
   };
 
+  const handleQR = () =>{
+    fetchUserData();
+    setIsOpenQrModal(true);
+  };
+
   return(
     <div className={`CustomerLayout__dashboard-container ${sidebarMinimized ? 'CustomerLayout__sidebar-minimized' : ''}`}>
       <div 
@@ -270,6 +278,7 @@ export const CustomerLayout = () =>{
           <img className="CustomerLayout__Aquencher-Logo" src={images.loginLogo} alt="Aquencher Logo" />
         </div>
         <div className="CustomerLayout__admin-profile">
+          
           <div className="CustomerLayout__notif-container">
             <img className="CustomerLayout__Notification" src={images.notificationClose} alt="Notification"  onClick={toggleNotifications}  />
             {notifications.some(notification => !notification.is_read) && <div className="Layout_blue-circle"></div>}
@@ -303,7 +312,9 @@ export const CustomerLayout = () =>{
               </>
             )}
           </div>
-
+          <div className="CustomerLayout__qr-container" onClick={handleQR}>
+            <MdOutlineQrCode2 className="CustomerLayout__qr-icon"/>
+          </div>
           <div className="CustomerLayout__user-profile-container" onClick={toggleDropdown}>
             <img className="CustomerLayout__profile" src={profilePic} alt="Profile" />
             <span className="CustomerLayout__name">{users.fname}</span>
@@ -421,6 +432,12 @@ export const CustomerLayout = () =>{
       <Outlet/>
     </div>
     
-    </div>
+    <CustomerQRModal
+      isOpen={isOpenQrModal}
+      onClose={() => setIsOpenQrModal(false)}
+      userDetails = {users}
+    />
+  </div>
+
   );
 };

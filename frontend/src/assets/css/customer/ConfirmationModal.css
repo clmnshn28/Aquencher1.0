@@ -22,6 +22,12 @@
     width: 50px;
 }
 
+.ConfirmationModal__header-icon{
+    width: 30px;
+    height: 30px;
+    color: #0174CF;
+}
+
 .ConfirmationModal__header-container h2{
     color: #007bff;
     margin: 0;
@@ -148,6 +154,132 @@
     font-weight: 600;
     font-family: poppins;
     cursor: pointer;
+}
+
+
+
+/* Admin */
+/* user details */
+.AdminConfirmationModal__user-section{
+    background-color: rgba(191, 187, 187, 0.2);
+    border-radius: 3px;
+    margin: 0 30px 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 15px ;
+
+}
+
+.AdminConfirmationModal__user-avatar{
+    width: 80px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 50%;
+    
+}
+
+.AdminConfirmationModal__user-info{
+    border-left: 1px solid #626262;
+    padding-left: 15px;
+    width: 100%;
+}
+
+/* name */
+.AdminConfirmationModal__fullName{
+    font-weight: bold;
+    margin: 0;
+}
+
+
+
+
+/* request type */
+.AdminConfirmationModal__request-details {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+
+.AdminConfirmationModal__detail-label {
+    font-weight: 500;
+    font-size: 10px;
+    margin: 0;
+}
+
+/* request type icon*/
+.AdminConfirmationModal__request-type{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    padding: 0px 7px;
+    border-radius: 3px;
+}
+  
+.AdminConfirmationModal__request-type.refill{
+    background-color: #DDEBF8;
+    color: #007bff;
+    border: 1px solid #0370e4;
+}
+  
+.AdminConfirmationModal__request-type.borrow{
+    background-color: #FFCBCB;
+    color: #D70000;
+    border: 1px solid #d00303;
+}
+  
+.AdminConfirmationModal__request-type.return{
+    background-color: #DDF8F0;
+    color: #11B936;
+    border: 1px solid #0ea02e;
+}
+  
+.AdminConfirmationModal__request-type img{
+    width: 15px;
+}
+  
+.AdminConfirmationModal__request-type span{
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+
+
+/* quantity */
+.AdminConfirmationModal__quantity-details{
+    width: 100%;
+}
+
+.AdminConfirmationModal__quantity-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 110px;
+}
+
+
+.AdminConfirmationModal__quantity-label {
+    font-weight: 500;
+    font-size: 10px;
+}
+
+.AdminConfirmationModal__quantity-value {
+    font-weight: bold;
+    font-size: 13px;
+    color: #626262;
+}
+
+
+.AdminConfirmationModal__quantity-item.hidden {
+    display: none;
+}
+
+.AdminConfirmationModal__actions {
+    margin: 0 0 15px;
 }
 
 

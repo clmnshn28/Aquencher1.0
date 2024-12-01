@@ -231,25 +231,27 @@ export const UsersAdmin = () => {
         
             const formattedDateTime = getCurrentDateTime();
    
-            doc.addImage(imgData, 'PNG', 30, 3, 30, 23);
-    
-            // Report Header
-            doc.setFont("Helvetica", "bold").setFontSize(20);
-            doc.setTextColor(0, 105, 217);
-            doc.text("Customer Management List", doc.internal.pageSize.getWidth() / 2, 18, { align: "center" });
-    
-            // Type of Report
-            doc.setFontSize(10);
-            const reportTypeY = 15;
-            const reportTypeText = "Full Customer Report"; 
+            const addHeaderText = () => {
+                doc.addImage(imgData, 'PNG', 30, 3, 30, 23);
+        
+                // Report Header
+                doc.setFont("Helvetica", "bold").setFontSize(20);
+                doc.setTextColor(0, 105, 217);
+                doc.text("Customer Management List", doc.internal.pageSize.getWidth() / 2, 18, { align: "center" });
+        
+                // Type of Report
+                doc.setFontSize(10);
+                const reportTypeY = 15;
+                const reportTypeText = "Full Customer Report"; 
 
-            doc.setFont("Helvetica", "bold");
-            const reportTypeLabelX = doc.internal.pageSize.getWidth() - 26; 
-            const reportTypeValueX = doc.internal.pageSize.getWidth() - 20; 
+                doc.setFont("Helvetica", "bold");
+                const reportTypeLabelX = doc.internal.pageSize.getWidth() - 26; 
+                const reportTypeValueX = doc.internal.pageSize.getWidth() - 20; 
 
-            doc.text("Report Type:", reportTypeLabelX, reportTypeY, { align: "right" });
-            doc.setFont("Helvetica", "normal");
-            doc.text(reportTypeText, reportTypeValueX, reportTypeY + 5, { align: "right" });
+                doc.text("Report Type:", reportTypeLabelX, reportTypeY, { align: "right" });
+                doc.setFont("Helvetica", "normal");
+                doc.text(reportTypeText, reportTypeValueX, reportTypeY + 5, { align: "right" });
+            }
 
             // Add table
             if (tableRows.length > 0) {
@@ -283,6 +285,7 @@ export const UsersAdmin = () => {
                 const pageCount = doc.internal.getNumberOfPages(); // Get total pages
                 for (let i = 1; i <= pageCount; i++) { // Start from the second page
                     doc.setPage(i); // Set the current page
+                    addHeaderText();
                     addFooterText();
                     doc.setFontSize(11);
                     doc.setTextColor(0, 105, 217);
@@ -336,7 +339,7 @@ export const UsersAdmin = () => {
                         <FaFilePdf className="UsersAdmin__pdf-icon" /> Export to PDF
                     </button>
                     <button className="UsersAdmin__new-user-button" onClick={() => setIsNewUserModalOpen(true)}>
-                        + New User
+                        + New Customer
                     </button>
                 </div>
             </div>

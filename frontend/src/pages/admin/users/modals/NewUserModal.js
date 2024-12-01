@@ -234,7 +234,7 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
     <Modal>
       <div className="NewUserModal__content">
         <button className="NewUserModal__close" onClick={handleClose}>&times;</button>
-        <h2 className='NewUserModal__header'>New User</h2>
+        <h2 className='NewUserModal__header'>New Customer</h2>
         <form onSubmit={handleSubmit}  className="NewUserModal__form-container">
           <div className="NewUserModal__flex-container">
             <div className="NewUserModal__avatar-section">
@@ -284,7 +284,7 @@ export const NewUserModal = ({isOpen, onClose, onAddUser}) => {
               {usernameError && <span className="NewUserModal__username-error">{usernameError}</span>}
             </div>
           </div>
-          <button className='NewUserModal__add-user-btn' type="submit">Add User</button>
+          <button className='NewUserModal__add-user-btn' type="submit">Add Customer</button>
 
           <div className="NewUserModal__password-requirements">
            <PasswordRequirements newPassword={password}/>
