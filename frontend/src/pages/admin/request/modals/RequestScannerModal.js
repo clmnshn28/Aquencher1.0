@@ -200,7 +200,12 @@ export const RequestScannerModal = ({isOpen, onClose, onConfirm, userDetails }) 
         }
     };
     
-    const isSubmitDisabled = !requestType || !gallonTypes.some((item) => item.quantity > 0);
+    const isSubmitDisabled = !requestType || totalPrice === 0 || gallonTypes.some(item => {
+        if (requestType === 'borrow') {
+            return item.quantity > 0 && (item.quantity > getLimitForItem(item.id) || item.quantity > item.availableStock);
+        }
+        return false; // Other request types like 'refill' won't trigger this condition
+    });
 
     if(!isOpen) return null;
     
