@@ -229,7 +229,7 @@ export const RequestWalkInModal = ({isOpen, onClose, onConfirm }) =>{
                                         <div>
                                             <h3>{gallon.name}</h3>
                                             <p>
-                                                {`₱${gallon.price.toFixed(2)}/Gallon`}
+                                                {`₱${gallon.price.toFixed(2)}/Refill Gallon`}
                                             </p>
                                         </div>
                                     </div>
