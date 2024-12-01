@@ -124,6 +124,14 @@
 }
 
 
+
+
+
+
+
+
+
+/* QR Button */
 .RequestsAdmin__scan-button{
   background-color: #0174CF;
   color: white;
@@ -153,6 +161,33 @@
 .RequestsAdmin__scan-icon{
   width: 20px;
   height: 20px;
+}
+
+/* WalkIn Button */
+.RequestsAdmin__walkIn-button{
+  background-color: #279eff;
+  color: white;
+  font-weight: 600;
+  font-size: 15px;
+  font-family: 'poppins';
+  padding: 10px 25px;
+  border-radius: 5px;
+  border: none;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  cursor: pointer;
+  transition: background-color 1s;
+}
+
+.RequestsAdmin__walkIn-button:hover{
+  background-color: #1b98ff;
+}
+
+.RequestsAdmin__walkIn-button:active{
+  opacity:0.8;
 }
 
 
@@ -204,6 +239,15 @@
 }
 
 
+
+
+
+
+
+
+
+
+/* SCANNED CONTENT --REGISTERED */
 /* RequestScannerModal */
 .RequestScannerModal__details{
   border: 1px solid #ADAFB0;
@@ -349,4 +393,97 @@
   font-size: 17px;    
   font-weight: bold;
   color: #525252;
+}
+
+
+/* UNKNOWN REQUEST  */
+/* REQUEST */
+.RequestWalkInModal__content {
+  background: #fff;
+  padding: 30px 50px;
+  border-radius: 5px;
+  width: 1000px;
+  position: relative;
+}
+
+.RequestWalkInModal__content h2 {
+  text-align: center;
+  margin: 0;
+  color: #0174CF;
+}
+
+
+.RequestWalkInModal__details{
+  border: 1px solid #ADAFB0;
+  border-radius: 10px;
+  padding: 30px 35px;
+  margin: 10px 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  position: relative;
+}
+
+.RequestWalkInModal__details-1{
+  width: 53%;
+  position: relative;
+}
+
+.NewUserModal__contact-error {
+  position: absolute;
+  top: 74px; 
+  right: 5px; 
+  color: red;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.RequestWalkInModal__details-2{
+  width: 47%;
+}
+
+.RequestWalkInModal__requestType{
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.RequestWalkInModal__requestType strong{
+  color: #0174CF;
+}
+
+.RequestWalkInModal__gallonType{
+  margin: 7px 0 10px;
+}
+
+/* request type icon*/
+.RequestWalkInModal__gallonType-refill{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 9px;
+  border-radius: 3px;
+  background-color: #DDEBF8;
+  color: #007bff;
+  border: 1px solid #0370e4;
+}
+
+.RequestWalkInModal__gallonType-refill img{
+  width: 20px;
+}
+
+.RequestWalkInModal__gallonType-refill span{
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.RequestWalkInModal__line{
+  width: 0.1em;
+  background-color: #D9D9D9;
+  position: absolute;
+  top: 5%;
+  bottom: 5%;
+  left: 52.6%;
 }

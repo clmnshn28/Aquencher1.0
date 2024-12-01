@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import Modal from 'components/Modal';
 import ButtonGroup from 'components/ButtonGroup';
-import CustomDropdown from 'components/CustomDropdown'; 
-import axios from 'axios';
-import {API_URL} from 'constants';
+import CustomDropdown from 'components/CustomDropdown';
 import * as images from 'assets/images';
 
+import axios from 'axios';
+import {API_URL} from 'constants';
+import { TbRosetteDiscountCheckFilled } from "react-icons/tb";
 
 export const RequestScannerModal = ({isOpen, onClose, onConfirm, userDetails }) =>{
     
@@ -14,7 +15,8 @@ export const RequestScannerModal = ({isOpen, onClose, onConfirm, userDetails }) 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [borrowedGallons, setBorrowedGallons] = useState({ slim: 0, round: 0 });
     const [borrowLimits, setBorrowLimits] = useState({ 1: 0, 2: 0 });  
-
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    
     useEffect(() => {
         if (isOpen) {
             fetchProducts();  
@@ -194,6 +196,7 @@ export const RequestScannerModal = ({isOpen, onClose, onConfirm, userDetails }) 
             console.error('Error storing data', error);
         }finally {
             setIsSubmitting(false);
+            setShowConfirmation(false);
         }
     };
     
@@ -292,13 +295,32 @@ export const RequestScannerModal = ({isOpen, onClose, onConfirm, userDetails }) 
                 </div>
                 <ButtonGroup
                     onCancel={handleCancel}
-                    onSave={handleConfirm}
+                    onSave={() => setShowConfirmation(true)}
                     saveText= "Submit"
                     saveButtonColor="#0174CF"
-                    disabled={isSubmitting || isSubmitDisabled}
+                    disabled={isSubmitDisabled}
                 />
             </div>
-       
+            {showConfirmation && (
+                <Modal>
+                    <div className="ConfirmationModal__content">
+                        <div className="ConfirmationModal__header-container">
+                            <TbRosetteDiscountCheckFilled  className="ConfirmationModal__header-icon"/>
+                            <h2>Confirm Request</h2>
+                        </div>
+                        <p  className="ConfirmationModal__message">Note: This action cannot be undone once confirmed.</p>
+                        <div className="ConfirmationModal__actions">
+                            <ButtonGroup
+                                onCancel={() => setShowConfirmation(false)} 
+                                onSave={handleConfirm} 
+                                saveText="Confirm"
+                                saveButtonColor="#0174CF"
+                                disabled={isSubmitting}
+                            />
+                        </div>
+                    </div>
+                </Modal>
+            )}
         </Modal>
     );
 };

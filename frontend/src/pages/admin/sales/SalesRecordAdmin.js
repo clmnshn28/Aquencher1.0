@@ -109,7 +109,7 @@ export const SalesRecordAdmin = () =>{
                     return order.indexOf(a) - order.indexOf(b);
                 })
                 .join(', ')
-            }));
+            })).sort((a, b) => new Date(b.date) - new Date(a.date));
 
             setTransactionLogs(processedSales);
             setFilteredTransactions(processedSales);
@@ -565,9 +565,9 @@ export const SalesRecordAdmin = () =>{
                                 <td>{transaction.fullName}</td>
                                 <td>{transaction.requestType}</td>
                                 <td>{transaction.slimQuantity > 0 ? transaction.slimQuantity : <span className="SalesRecordAdmin__table-no-gallons">-</span>}</td>
-                                <td>{transaction.slimPrice > 0 ? `₱${transaction.slimPrice.toFixed(2)}`  : '-'}</td>
-                                <td>{transaction.roundQuantity > 0 ? transaction.roundQuantity : '-'}</td>
-                                <td>{transaction.roundPrice > 0 ? `₱${transaction.roundPrice.toFixed(2)}`  : '-'}</td>
+                                <td>{transaction.slimPrice > 0 ? `₱${transaction.slimPrice.toFixed(2)}`  :  <span className="SalesRecordAdmin__table-no-gallons">-</span>}</td>
+                                <td>{transaction.roundQuantity > 0 ? transaction.roundQuantity :  <span className="SalesRecordAdmin__table-no-gallons">-</span>}</td>
+                                <td>{transaction.roundPrice > 0 ? `₱${transaction.roundPrice.toFixed(2)}`  :  <span className="SalesRecordAdmin__table-no-gallons">-</span>}</td>
                                 <td>₱{transaction.totalSaleAmount.toFixed(2)}</td>
                             </tr>
                         )))}

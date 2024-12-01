@@ -2,6 +2,7 @@
   import { Link } from 'react-router-dom';
   import { IoFilterSharp } from 'react-icons/io5';
   import { BiQrScan } from "react-icons/bi";
+  import { FaWalking } from "react-icons/fa";
   import 'assets/css/admin';
   import axios from 'axios';
   import {API_URL} from 'constants';
@@ -11,7 +12,7 @@
   import DropdownFilter from 'components/DropdownFilter';
   import RequestItem from 'components/RequestItem';
   import SearchBar from 'components/SearchBar';
-  import { RejectedModal, InsufficientModal, QRScannerModal, RequestScannerModal, ConfirmationModal } from './modals';
+  import { RejectedModal, InsufficientModal, QRScannerModal, RequestScannerModal, RequestWalkInModal, ConfirmationModal } from './modals';
  
   export const RequestsAdmin = () =>{
 
@@ -31,6 +32,8 @@
     const [isQRScannerOpen, setIsQRScannerOpen] = useState(false);
     const [isRequestDetailsOpen, setIsRequestDetailsOpen] = useState(false);
     const [scannedData, setScannedData] = useState(null);
+
+    const [isRequestWalkInDetailsOpen, setIsRequestWalkInDetailsOpen] = useState(false);
 
     useEffect(()=>{
       if (!initialFetchDone.current) {
@@ -283,6 +286,9 @@
       setIsRequestDetailsOpen(false); 
     };
 
+    const handleAcceptWalkIn = () =>{
+      setIsRequestWalkInDetailsOpen(false);
+    }
 
     return (
 
@@ -339,6 +345,13 @@
           )}
           </div>
           <div className="UsersAdmin__controls-actions"> 
+              <button
+                className="RequestsAdmin__walkIn-button"
+                onClick={() => setIsRequestWalkInDetailsOpen(true)}
+              >
+                <FaWalking className="RequestsAdmin__scan-icon"/>
+                Walk-In
+              </button>
               <button
               className="RequestsAdmin__scan-button"
               onClick={() => setIsQRScannerOpen(true)}
@@ -459,6 +472,12 @@
           onClose = {() => setIsRequestDetailsOpen(false)}
           onConfirm={handleRequestConfirmation}
           userDetails={scannedData}
+        />
+
+        <RequestWalkInModal
+          isOpen={isRequestWalkInDetailsOpen}
+          onClose={()=>setIsRequestWalkInDetailsOpen(false)}
+          onConfirm={handleAcceptWalkIn}
         />
         
       </>
