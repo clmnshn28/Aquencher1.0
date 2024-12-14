@@ -140,7 +140,7 @@ export const Transaction = () =>{
           // Automatically filter requests based on the updated filters
           const results = transactionLogs.filter((transaction) => {
             return (
-              (updatedFilters.requestType === '' || transaction.requestType === updatedFilters.requestType) &&
+              (updatedFilters.requestType === '' || transaction.request_type === updatedFilters.requestType) &&
               (updatedFilters.gallonType === '' || 
                 (updatedFilters.gallonType === 'Slim' && transaction.slimQuantity > 0) || 
                 (updatedFilters.gallonType === 'Round' && transaction.roundQuantity > 0)
@@ -187,9 +187,9 @@ export const Transaction = () =>{
                 isOpen={activeDropdown === 'requestType'}
                 toggleDropdown={() => toggleDropdown('requestType')}
                 options={[
-                    { label: 'Refill', value: 'Refill' },
-                    { label: 'Return', value: 'Return' },
-                    { label: 'Borrow', value: 'Borrow' },
+                    { label: 'Refill', value: 'refill' },
+                    { label: 'Return', value: 'return' },
+                    { label: 'Borrow', value: 'borrow' },
                 ]}
                 onOptionSelect={(value) => handleFilterChange('requestType', value)}
                 />

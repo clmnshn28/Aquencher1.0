@@ -84,6 +84,7 @@ export const ForgotPasswordNewPassword = () => {
             <form onSubmit={handleSubmit} className="ForgotPassword__form-otp">
                 <div className="input-field">
                     <input
+                    //  id='input-new-password'
                     type="password"
                     value={password}
                     onChange={handlePasswordChange}
@@ -94,6 +95,7 @@ export const ForgotPasswordNewPassword = () => {
                 </div>
                 <div className="input-field">
                     <input
+                    // id='input-confirm-new-password'
                     type="password"
                     value={confirmPassword}
                     onChange={handleConfirmPasswordChange}

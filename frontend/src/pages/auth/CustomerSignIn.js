@@ -59,6 +59,7 @@ export const CustomerSignIn = () =>{
             <form onSubmit={handleSubmit} className='CustomerSignIn__form'>
               <div className="input-field">
                 <input
+                  // id='input-username'
                   type="text"
                   value={username}
                   onChange={handleUsernameChange}
@@ -69,6 +70,7 @@ export const CustomerSignIn = () =>{
               </div>
               <div className="input-field password-input">
                 <input
+                //  id='input-password'
                   type={showPassword ? 'text' : 'password'} // Conditionally show/hide password
                   value={password}
                   onChange={handlePasswordChange}

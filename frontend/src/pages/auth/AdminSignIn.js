@@ -58,6 +58,7 @@ export const AdminSignIn = () =>{
                     <form onSubmit={handleSubmit} className='AdminSignIn__form'>
                     <div className="AdminSignIn__input-field">
                         <input
+                        // id='input-admin-username'
                         type="text"
                         value={username}
                         onChange={handleUsernameChange}
@@ -68,6 +69,7 @@ export const AdminSignIn = () =>{
                     </div>
                     <div className="AdminSignIn__input-field password-input">
                         <input
+                        //  id='input-admin-password'
                         type={showPassword ? 'text' : 'password'} // Conditionally show/hide password
                         value={password}
                         onChange={handlePasswordChange}
