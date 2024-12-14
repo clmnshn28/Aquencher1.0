@@ -97,6 +97,7 @@ export const ForgotPasswordOtp = () => {
             <form onSubmit={handleSubmit} className="ForgotPassword__form-otp">
                 <div className="input-field">
                     <input
+                    //  id='input-otp'
                     type="text"
                     value={code}
                     onChange={handleCodeChange}

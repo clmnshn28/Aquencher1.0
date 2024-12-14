@@ -191,7 +191,8 @@
                 <div className="OperationalSettingsAdmin__container">
                     <h1 className="OperationalSettingsAdmin__header-text">Operational Settings</h1>
                     <p className="OperationalSettingsAdmin__description">
-                        Configure key business functions such as pickup and delivery, borrowing limits, and operating hours
+                        {/* Configure key business functions such as pickup and delivery, borrowing limits, and operating hours */}
+                        Configure borrowing limits and other key business functions to streamline operations.
                     </p>
                 </div>
 {/* 

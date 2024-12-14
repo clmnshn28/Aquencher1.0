@@ -46,6 +46,7 @@ export const ForgotPasswordEmail = () => {
             <form onSubmit={handleSubmit} className="ForgotPassword__form">
                 <div className="input-field">
                     <input
+                    //  id='input-email'
                     type="email"
                     value={email}
                     onChange={handleEmailChange}
